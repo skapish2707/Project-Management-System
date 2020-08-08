@@ -1,0 +1,35 @@
+html {
+  text-align: center;
+}
+
+body {
+  margin: 0;
+  font-family: "Recursive", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(242, 254, 255, 1) 0%,
+    rgba(200, 244, 250, 1) 46%,
+    rgba(127, 227, 247, 1) 100%
+  );
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+input {
+  font-family: "Recursive", sans-serif;
+}
+
+button {
+  font-family: "Recursive", sans-serif;
+}
+
+select {
+  font-family: "Recursive", sans-serif;
+}
