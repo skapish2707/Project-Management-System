@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./AdminContent.css";
+import LoggedNavbar from "../Navbar/LoggedNavbar";
 
 class AdminContent extends Component {
   constructor(props) {
@@ -53,9 +54,10 @@ class AdminContent extends Component {
   render() {
     return (
       <div>
+        <LoggedNavbar />
         <form onSubmit={this.submitHandler} className="admin-form">
           <div className="admin-title">
-            <label>Faculty and Students data</label>
+            <label>Create Project Class</label>
           </div>
           <label className="admin-label">HOD Email:</label>
           <br />
@@ -64,7 +66,7 @@ class AdminContent extends Component {
           <input
             type="email"
             name="hod"
-            placeholder="enter HOD email"
+            placeholder="HOD email"
             value={this.state.hod}
             onChange={this.hodHandler}
             required
@@ -77,7 +79,7 @@ class AdminContent extends Component {
           <input
             type="email"
             name="pic"
-            placeholder="enter PIC email"
+            placeholder="PIC email"
             value={this.state.pic}
             onChange={this.picHandler}
             required
@@ -90,7 +92,7 @@ class AdminContent extends Component {
           <input
             type="email"
             name="ig"
-            placeholder="enter IG email"
+            placeholder="IG email"
             value={this.state.ig}
             onChange={this.igHandler}
             required
@@ -101,6 +103,7 @@ class AdminContent extends Component {
           <br />
           <br />
           <input
+            style={({ border: "1px solid #303030" }, { marginBottom: "40px" })}
             type="file"
             id="file"
             name="student_file"

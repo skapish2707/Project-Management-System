@@ -22,7 +22,6 @@ export default class Admin extends Component {
     return (
       <React.Fragment>
         <AdminContent />
-        <Link to="/logout">Logout</Link>
       </React.Fragment>
     );
   }

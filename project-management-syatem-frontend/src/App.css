@@ -27,12 +27,13 @@ body {
 body::after {
   content: "";
   display: block;
-  height: 250px; /* Set same as footer's height */
-  /* background-color: #000000; */
+  height: 0px; /* Set same as footer's height */
+  background-color: #000000;
 }
 
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+  height: 0px;
 }

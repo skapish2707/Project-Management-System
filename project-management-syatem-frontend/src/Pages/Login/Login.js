@@ -4,6 +4,7 @@ import SERVER_URL from "../URL";
 import axios from "axios";
 import qs from "qs";
 import "./Login.css";
+import Navbar from "../../components/Navbar/Navbar";
 
 let Data = "";
 
@@ -102,14 +103,11 @@ export default class Login extends Component {
     // }
     return (
       <div>
+        <Navbar />
         <form onSubmit={this.submitForm} className="login-form">
           <div className="login-title">
             <label>Login</label>
           </div>
-
-          <br />
-          <br />
-          <label className="login-label">Username </label>
           <br />
           <br />
           <input
@@ -123,9 +121,6 @@ export default class Login extends Component {
           />
           <br />
           <br />
-          <label className="login-label">Password </label>
-          <br />
-          <br />
           <input
             className="login-input"
             type="password"
@@ -137,33 +132,12 @@ export default class Login extends Component {
           />
           <br />
           <br />
+
           <button type="submit" className="login-btn">
             Login
           </button>
         </form>
       </div>
-      // <div>
-      //   <h1>Login</h1>
-      //   <form onSubmit={this.submitForm}>
-      //     <input
-      //       type="text"
-      //       placeholder="username"
-      //       name="username"
-      //       value={this.state.username}
-      //       onChange={this.onChange}
-      //     />
-      //     <br />
-      //     <input
-      //       type="text"
-      //       placeholder="password"
-      //       name="password"
-      //       value={this.state.password}
-      //       onChange={this.onChange}
-      //     />
-      //     <br />
-      //     <input type="submit" />
-      //   </form>
-      // </div>
     );
   }
 }

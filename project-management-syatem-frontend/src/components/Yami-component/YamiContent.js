@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./YamiContent.css";
+import LoggedNavbar from "../Navbar/LoggedNavbar";
 
 export default class YamiContent extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class YamiContent extends Component {
   render() {
     return (
       <div>
+        <LoggedNavbar />
         <form onSubmit={this.submitHandler} className="yami-form">
           <div className="yami-title">
             <label>Create Admin</label>

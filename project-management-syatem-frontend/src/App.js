@@ -19,6 +19,7 @@ function App() {
         <Route path="/student" exact component={Student} />
         <Route path="/yami" exact component={Yami} />
       </Switch>
+      <footer></footer>
     </Router>
   );
 }
