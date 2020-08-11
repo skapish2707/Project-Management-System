@@ -5,12 +5,14 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app",
+    "dev" : "concurrently \"npm start\" \"(cd ..\\Frontend && npm start )\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "abhishek",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "concurrently": "^5.3.0",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
