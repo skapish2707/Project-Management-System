@@ -55,65 +55,67 @@ class AdminContent extends Component {
     return (
       <div>
         <LoggedNavbar />
-        <form onSubmit={this.submitHandler} className="admin-form">
-          <div className="admin-title">
-            <label>Create Project Class</label>
-          </div>
-          <label className="admin-label">HOD Email:</label>
-          <br />
-          <br />
+        <div className="admin-container">
+          <form onSubmit={this.submitHandler}>
+            <div className="admin-title">
+              <label>Create Project Class</label>
+            </div>
+            <label className="admin-label">HOD Email:</label>
+            <br />
+            <br />
 
-          <input
-            type="email"
-            name="hod"
-            placeholder="HOD email"
-            value={this.state.hod}
-            onChange={this.hodHandler}
-            required
-          />
-          <br />
-          <br />
-          <label className="admin-label">PIC Email:</label>
-          <br />
-          <br />
-          <input
-            type="email"
-            name="pic"
-            placeholder="PIC email"
-            value={this.state.pic}
-            onChange={this.picHandler}
-            required
-          />
-          <br />
-          <br />
-          <label className="admin-label">IG Email:</label>
-          <br />
-          <br />
-          <input
-            type="email"
-            name="ig"
-            placeholder="IG email"
-            value={this.state.ig}
-            onChange={this.igHandler}
-            required
-          />
-          <br />
-          <br />
-          <label className="admin-label">Student Data File:</label>
-          <br />
-          <br />
-          <input
-            style={({ border: "1px solid #303030" }, { marginBottom: "40px" })}
-            type="file"
-            id="file"
-            name="student_file"
-            onChange={this.fileValidation}
-            required
-          />
-          <button type="submit" className="yami-btn">
-            Upload
-          </button>
-        </form>
+            <input
+              type="email"
+              name="hod"
+              placeholder="HOD email"
+              value={this.state.hod}
+              onChange={this.hodHandler}
+              required
+            />
+            <br />
+            <br />
+            <label className="admin-label">PIC Email:</label>
+            <br />
+            <br />
+            <input
+              type="email"
+              name="pic"
+              placeholder="PIC email"
+              value={this.state.pic}
+              onChange={this.picHandler}
+              required
+            />
+            <br />
+            <br />
+            <label className="admin-label">IG Email:</label>
+            <br />
+            <br />
+            <input
+              type="email"
+              name="ig"
+              placeholder="IG email"
+              value={this.state.ig}
+              onChange={this.igHandler}
+              required
+            />
+            <br />
+            <br />
+            <label className="admin-label">Student Data File:</label>
+            <br />
+            <br />
+            <input
+              style={
+                ({ border: "1px solid #303030" }, { marginBottom: "40px" })
+              }
+              type="file"
+              id="file"
+              name="student_file"
+              onChange={this.fileValidation}
+              required
+            />
+            <input type="submit" value="Upload" />
+          </form>
+        </div>
       </div>
     );
   }

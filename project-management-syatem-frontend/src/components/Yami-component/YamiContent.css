@@ -7,56 +7,115 @@
   margin-top: 80px;
 }
 .yami-title {
-  font-size: 40px;
+  font-size: 50px;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .yami-label {
   float: left;
-  padding-left: 40px;
-  margin-bottom: 20px;
-  font-size: 18px;
+  padding-left: 20px;
+  margin-bottom: 15px;
+  font-size: 20px;
 }
 
-.yami-form input {
-  width: 78%;
-  font-size: 15px;
-  padding: 8px;
-  border-radius: 0px;
-  border: none;
-  border-bottom: solid 1px #303030;
+/* /////////////////////////////////////////////////////////////// */
+input[type="email"] {
+  width: 95%;
+  padding: 15px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  box-sizing: border-box;
   margin-bottom: 20px;
+  resize: vertical;
 }
-
-.yami-form select {
-  width: 83%;
-  font-size: 15px;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #888888;
+select {
+  width: 95%;
+  padding: 15px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
   margin-bottom: 50px;
 }
 
-.yami-btn {
-  background-color: #303030;
-  border-radius: 100px;
-  border: none;
+/* Style the label to display next to the inputs */
+label {
+  padding: 12px 12px 12px 0;
   display: inline-block;
-  cursor: pointer;
-  color: #ffffff;
-  font-family: "Recursive", sans-serif;
-  font-size: 20px;
-  padding: 8px 30px;
-  text-decoration: none;
-  margin-top: 10px;
 }
 
-.yami-btn:hover {
-  background-color: #a4c7ed;
+/* Style the submit button */
+input[type="submit"] {
+  background-color: black;
+  font-size: 25px;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
-.yami-btn:active {
-  position: relative;
-  top: 5px;
+input[type="submit"]:hover {
+  background-color: #606060;
+}
+
+/* Style the container */
+.yami-container {
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 80px;
+  background-color: white;
+  /* background-color: #f2f2f2; */
+  padding: 20px;
+  width: 50%;
+  margin-bottom: 50px;
+}
+
+/* Floating column for labels: 25% width */
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+/* Floating column for inputs: 75% width */
+.col-75 {
+  width: 80%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 1080px) {
+  .col-75,
+  input[type="submit"] {
+    width: 100% !;
+    margin-top: 0;
+  }
+  input[type="file"] {
+    width: 100%;
+    margin-top: 0;
+    font-size: 18px;
+  }
+
+  select {
+    width: 100%;
+    margin-top: 0;
+    font-size: 18px;
+  }
+  .yami-container {
+    width: 50%;
+  }
 }

@@ -102,42 +102,40 @@ export default class Login extends Component {
     //   return <Redirect to="/admin" />;
     // }
     return (
-      <div>
+      <React.Fragment>
         <Navbar />
-        <form onSubmit={this.submitForm} className="login-form">
-          <div className="login-title">
-            <label>Login</label>
-          </div>
-          <br />
-          <br />
-          <input
-            className="login-input"
-            type="email"
-            name="username"
-            value={this.state.username}
-            placeholder="username"
-            onChange={this.onChange}
-            required
-          />
-          <br />
-          <br />
-          <input
-            className="login-input"
-            type="password"
-            name="password"
-            value={this.state.password}
-            placeholder="password"
-            onChange={this.onChange}
-            required
-          />
-          <br />
-          <br />
+        <div className="container">
+          <form onSubmit={this.submitForm}>
+            <div className="login-title">
+              <label>Login</label>
+            </div>
+            <br />
+            <br />
+            <input
+              type="email"
+              name="username"
+              value={this.state.username}
+              placeholder="username"
+              onChange={this.onChange}
+              required
+            />
+            <br />
+            <br />
+            <input
+              type="password"
+              name="password"
+              value={this.state.password}
+              placeholder="password"
+              onChange={this.onChange}
+              required
+            />
+            <br />
+            <br />
 
-          <button type="submit" className="login-btn">
-            Login
-          </button>
-        </form>
-      </div>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+      </React.Fragment>
     );
   }
 }

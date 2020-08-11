@@ -4,12 +4,12 @@ import "./Navbar.css";
 const Navbar = () => {
   return (
     <div className="Header">
-      <div class="context">
+      <div className="context">
         <h1>Project Management System</h1>
       </div>
 
-      <div class="area">
-        <ul class="circles">
+      <div className="area">
+        <ul className="circles">
           <li></li>
           <li></li>
           <li></li>
