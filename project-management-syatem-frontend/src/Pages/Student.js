@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
+import Preferences from "../components/Student-component/pref";
 
 export default class Admin extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class Admin extends Component {
     return (
       <div>
         <LoggedNavbar />
-        <h1>Student Page page....Only for Auth People</h1>
+        <Preferences />
         <Link to="/logout">Logout</Link>
       </div>
     );
