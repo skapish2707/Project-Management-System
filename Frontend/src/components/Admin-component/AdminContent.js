@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "./AdminContent.css";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
+import SERVER_URL from "../../Pages/URL";
+import axios from "axios";
+
 
 class AdminContent extends Component {
   constructor(props) {
@@ -31,6 +34,23 @@ class AdminContent extends Component {
   submitHandler = e => {
     e.preventDefault();
     console.log(this.state);
+    var formData = new FormData();
+    formData.append("hod",this.state.hod);
+    formData.append("ig",this.state.ig);
+    formData.append("pic",this.state.pic);
+    formData.append("student_file",this.state.student_file);
+    axios({
+      method: "post",
+      url: SERVER_URL + "/admin",
+      credentials: "include",
+      withCredentials: true,
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function(res){}).catch(function(err){
+        if (err) throw err;
+    });    
     this.setState({ hod: "", student_file: null, pic: "", ig: "" });
   };
 
@@ -47,7 +67,7 @@ class AdminContent extends Component {
       fileInput.value = "";
       return false;
     } else {
-      this.setState({ student_file: e.target.files[0] });
+      this.setState({ student_file: e.target.files[0] },console.log(this.state.student_file));
     }
   };
 
@@ -55,7 +75,7 @@ class AdminContent extends Component {
     return (
       <div>
         <LoggedNavbar />
-        <form onSubmit={this.submitHandler} className="admin-form">
+        <form onSubmit={this.submitHandler} className="admin-form" enctype="multipart/form-data">
           <div className="admin-title">
             <label>Create Project Class</label>
           </div>
