@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app",
-    "dev" : "concurrently \"npm start\" \"(cd ..\\Frontend && npm start )\"",
+    "dev": "concurrently \"npm start\" \"(cd ..\\Frontend && npm start )\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "abhishek",

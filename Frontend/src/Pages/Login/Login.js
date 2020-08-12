@@ -84,12 +84,28 @@ export default class Login extends Component {
   // }
 
   render() {
-    if (Data === "yami") localStorage.setItem("token", "yami");
-    if (Data === "admin") localStorage.setItem("token", "admin");
-    if (Data === "ig") localStorage.setItem("token", "faculty");
-    if (Data === "pic") localStorage.setItem("token", "faculty");
-    if (Data === "hod") localStorage.setItem("token", "faculty");
+    if (Data === "yami") {
+      localStorage.setItem("token", "yami");
+      Data = "";
+    }
+    if (Data === "admin") {
+      localStorage.setItem("token", "admin");
+      Data = "";
+    }
+    if (Data === "ig") {
+      localStorage.setItem("token", "faculty");
+      Data = "";
+    }
+    if (Data === "pic") {
+      localStorage.setItem("token", "faculty");
+      Data = "";
+    }
+    if (Data === "hod") {
+      localStorage.setItem("token", "faculty");
+      Data = "";
+    }
     if (Data === "student") localStorage.setItem("token", "student");
+    Data = "";
     if (this.state.loggedIn) {
       const token = localStorage.getItem("token");
       if (token === "yami") return <Redirect to="/yami" exact />;

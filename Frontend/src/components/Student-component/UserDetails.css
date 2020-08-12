@@ -1,41 +1,29 @@
-.form-group {
-  width: 50%;
-  border: none;
+.student-container {
+  border-radius: 5px;
   margin: auto;
-  height: 1060px;
-  background-color: aliceblue;
-  border-radius: 8px;
-  box-shadow: 5px 10px 18px #888888;
+  margin-top: 80px;
+  background-color: white;
+  /* background-color: #f2f2f2; */
+  padding: 20px;
+  width: 50%;
+  margin-bottom: 50px;
 }
-.form-container {
-  display: flex;
-  flex-direction: column;
-}
-.form-container label {
-  text-align: left;
-  margin-left: 35px;
+.student-container label {
+  float: left;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  font-size: 18px;
 }
 
 .form-title {
-  background-color: #909090;
-  border-radius: 5px 5px 0 0;
-  margin-bottom: 20px;
-  color: white;
+  background-color: #fff;
+  margin-bottom: 30px;
+  color: #000;
 }
 
 .form-title h3 {
   margin: 10px;
-}
-
-.form-control {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  height: 30px;
-  border-radius: 5px;
-  border: 1px solid grey;
-  font-family: "Recursive", sans-serif;
-  font-size: 18px;
+  font-size: 30px;
 }
 
 .btn-secondary {
@@ -93,4 +81,33 @@
   height: 35px;
   font-family: "Recursive", sans-serif;
   font-size: 18px;
+}
+
+input[type="file"] {
+  width: 95%;
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  resize: vertical;
+}
+input[type="text"] {
+  width: 95%;
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  resize: vertical;
+}
+
+@media screen and (max-width: 1200px) {
+  .student-container {
+    width: 70%;
+  }
 }

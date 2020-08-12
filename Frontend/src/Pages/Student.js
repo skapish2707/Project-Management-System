@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 import Preferences from "../components/Student-component/pref";
+import StudentContent from "../components/Student-component/StudentContent";
 
 export default class Admin extends Component {
   constructor(props) {
@@ -23,8 +24,8 @@ export default class Admin extends Component {
     return (
       <div>
         <LoggedNavbar />
-        <Preferences />
-        <Link to="/logout">Logout</Link>
+        {/* <Preferences /> */}
+        <StudentContent />
       </div>
     );
   }
