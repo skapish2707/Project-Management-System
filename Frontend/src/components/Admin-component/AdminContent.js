@@ -79,7 +79,7 @@ class AdminContent extends Component {
     return (
       <div>
         <LoggedNavbar />
-        <div className="admin-container" enctype="multipart/form-data">
+        <div className="admin-container" encType="multipart/form-data">
           <form onSubmit={this.submitHandler}>
             <div className="admin-title">
               <label>Create Project Class</label>

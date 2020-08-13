@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "./UserDetails.css";
+import SERVER_URL from "../../Pages/URL";
+import axios from "axios";
+import qs from "qs";
 
 class StudentContent extends Component {
   // constructor(props) {
@@ -20,8 +23,7 @@ class StudentContent extends Component {
     this.state = {
       preferences: [
         {
-          filled: false,
-          prefno: 1,
+          prefno:1,
           Top: "",
           Dos: "",
           Dsop: "",
@@ -31,7 +33,6 @@ class StudentContent extends Component {
           Shr: ""
         },
         {
-          filled: false,
           prefno: 2,
           Top: "",
           Dos: "",
@@ -42,7 +43,6 @@ class StudentContent extends Component {
           Shr: ""
         },
         {
-          filled: false,
           prefno: 3,
           Top: "",
           Dos: "",
@@ -158,10 +158,10 @@ class StudentContent extends Component {
     for (var i = 0; i < 3; i++) {
       if (i === pn - 1) {
         //let pref=[...prefs[i]];
-        prefs[i].filled = true;
+        // prefs[i].filled = true;
         // prefs[i]=pref;
         this.setState({ preferences: prefs });
-        console.log(prefs[i].filled);
+        //console.log(prefs[i].filled);
         this.handleSubmit(e)
       }
     }
@@ -170,21 +170,64 @@ class StudentContent extends Component {
     for (var i = 0; i < 3; i++) {
       if (i === pn - 1) {
         //let pref=[...prefs[i]];
-        prefs[i].filled = true;
+        // prefs[i].filled = true;
         // prefs[i]=pref;
         this.setState({ preferences: prefs });
-        console.log(prefs[i].filled);
+        //console.log(prefs[i].filled);
       }
     }
     }
     
     
-    console.log(this.state.preferences);
+    //console.log(this.state.preferences);
     
   };
 
   handleSubmit = e => {
     e.preventDefault();
+    let pref1 = this.state.preferences[0];
+    let pref2 = this.state.preferences[1];
+    let pref3 = this.state.preferences[2];
+    //console.log(pref1);
+    axios({
+      method: "post",
+      url: SERVER_URL + "/student",
+      credentials: "include",
+      withCredentials: true,
+      data: qs.stringify({
+        proposals : [{
+        title: pref1.Top,
+        specialization : pref1.Dos,
+        details : pref1.Dsop,
+        agency : pref1.Agency,
+        method : pref1.Mtap,
+        result : pref1.Red,
+        requirements : pref1.Shr
+      },{
+        title: pref2.Top,
+        specialization : pref2.Dos,
+        details : pref2.Dsop,
+        agency : pref2.Agency,
+        method : pref2.Mtap,
+        result : pref2.Red,
+        requirements : pref2.Shr
+      },{
+        title: pref3.Top,
+        specialization : pref3.Dos,
+        details : pref3.Dsop,
+        agency : pref3.Agency,
+        method : pref3.Mtap,
+        result : pref3.Red,
+        requirements : pref3.Shr
+      }]}),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+      }
+    })
+    .then(function (res) {})
+    .catch(function (err) {
+      if (err) throw err;
+    });
     alert("Submitted");
     console.log(this.state.preferences);
   };
@@ -226,7 +269,7 @@ class StudentContent extends Component {
   handleNext = e => {
     e.preventDefault();
     let currentStep = this.state.currentStep;
-    let {filled,prefno,Top,Dos,Dsop,Agency,Mtap,Red,Shr} = this.state.preferences[currentStep-1];
+    let {prefno,Top,Dos,Dsop,Agency,Mtap,Red,Shr} = this.state.preferences[currentStep-1];
     if(Top===""||Dos===""||Dsop===""||Agency===""||Mtap===""||Red===""||Shr===""){
       alert("Please enter all the details of the preference");
     }else{
@@ -316,10 +359,11 @@ function Step1(props) {
       <div className="form-title">
         <h3>Preference 1</h3>
       </div>
-      <label>Top : </label>
+      <label>Title of Preference : </label>
       <br />
       <input
         id="Top"
+        placeholder="Enter title of preference"
         name="Top"
         type="text"
         value={props.preferences[0].Top}
@@ -330,10 +374,11 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Dos : </label>
+      <label>Domain of Specialization : </label>
       <br />
       <input
         id="Dos"
+        placeholder="Enter domain of specialization"
         name="Dos"
         type="text"
         value={props.preferences[0].Dos}
@@ -344,10 +389,11 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Dsop : </label>
+      <label>Detailed Statement of Problem : </label>
       <br />
       <input
         id="Dsop"
+        placeholder="Enter detailed statement of problem"
         name="Dsop"
         type="text"
         value={props.preferences[0].Dsop}
@@ -358,10 +404,11 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Agency : </label>
+      <label>Internal/External Agency : </label>
       <br />
       <input
         id="agency"
+        placeholder="Enter agency guiding you if any else none"
         name="agency"
         type="text"
         value={props.preferences[0].Agency}
@@ -372,10 +419,11 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Mtap : </label>
+      <label>Method/Technique/Algorithm proposed : </label>
       <br />
       <input
         id="Mtap"
+        placeholder="enter method/technique/algo proposed"
         name="Mtap"
         type="text"
         value={props.preferences[0].Mtap}
@@ -386,10 +434,11 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Red : </label>
+      <label>Results Expected : </label>
       <br />
       <input
         id="Red"
+        placeholder="Enter expected results"
         name="Red"
         type="text"
         value={props.preferences[0].Red}
@@ -400,10 +449,11 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Shr : </label>
+      <label>Software and Hardware required : </label>
       <br />
       <input
         id="Shr"
+        placeholder="enter requirements"
         name="Shr"
         type="text"
         value={props.preferences[0].Shr}
@@ -429,10 +479,11 @@ function Step2(props) {
       <div className="form-title">
         <h3>Preference 2</h3>
       </div>
-      <label>Top : </label>
+      <label>Title of Preference : </label>
       <br />
       <input
         id="Top"
+        placeholder="Enter title of preference"
         name="Top"
         type="text"
         value={props.preferences[1].Top}
@@ -443,10 +494,11 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Dos : </label>
+      <label>Domain of Specialization : </label>
       <br />
       <input
         id="Dos"
+        placeholder="Please enter Domain of specialization"
         name="Dos"
         type="text"
         value={props.preferences[1].Dos}
@@ -457,10 +509,11 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Dsop : </label>
+      <label>Detailed Statement of Problem : </label>
       <br />
       <input
         id="Dsop"
+        placeholder="Enter detailed statement of problem"
         name="Dsop"
         type="text"
         value={props.preferences[1].Dsop}
@@ -475,6 +528,7 @@ function Step2(props) {
       <br />
       <input
         id="agency"
+        placeholder="Enter agency guiding you if any else none"
         name="agency"
         type="text"
         value={props.preferences[1].Agency}
@@ -485,10 +539,11 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Mtap : </label>
+      <label>Method/Technique/Algorithm proposed : </label>
       <br />
       <input
         id="Mtap"
+        placeholder="enter method/technique/algo proposed"
         name="Mtap"
         type="text"
         value={props.preferences[1].Mtap}
@@ -499,10 +554,11 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Red : </label>
+      <label>Results Expected : </label>
       <br />
       <input
         id="Red"
+        placeholder="Enter expected results"
         name="Red"
         type="text"
         value={props.preferences[1].Red}
@@ -513,10 +569,11 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Shr : </label>
+      <label>Software and Hardware required : </label>
       <br />
       <input
         id="Shr"
+        placeholder="enter requirements"
         name="Shr"
         type="text"
         value={props.preferences[1].Shr}
@@ -543,10 +600,11 @@ function Step3(props) {
         <div className="form-title">
           <h3>Preference 3</h3>
         </div>
-        <label>Top : </label>
+        <label>Title of Preference : </label>
         <br />
         <input
           id="Top"
+          placeholder="Enter title of preference"
           name="Top"
           type="text"
           value={props.preferences[2].Top}
@@ -557,10 +615,11 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Dos : </label>
+        <label>Domain of Specialization : </label>
         <br />
         <input
           id="Dos"
+          placeholder="Please enter Domain of specialization"
           name="Dos"
           type="text"
           value={props.preferences[2].Dos}
@@ -571,10 +630,11 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Dsop : </label>
+        <label>Detailed Statement of Problem : </label>
         <br />
         <input
           id="Dsop"
+          placeholder="Enter detailed statement of problem"
           name="Dsop"
           type="text"
           value={props.preferences[2].Dsop}
@@ -589,6 +649,7 @@ function Step3(props) {
         <br />
         <input
           id="agency"
+          placeholder="Enter agency guiding you if any else none"
           name="agency"
           type="text"
           value={props.preferences[2].Agency}
@@ -599,10 +660,11 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Mtap : </label>
+        <label>Method/Technique/Algorithm proposed : </label>
         <br />
         <input
           id="Mtap"
+          placeholder="enter method/technique/algo proposed"
           name="Mtap"
           type="text"
           value={props.preferences[2].Mtap}
@@ -613,10 +675,11 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Red : </label>
+        <label>Results Expected : </label>
         <br />
         <input
           id="Red"
+          placeholder="Enter expected results"
           name="Red"
           type="text"
           value={props.preferences[2].Red}
@@ -627,10 +690,11 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Shr : </label>
+        <label>Software and Hardware required : </label>
         <br />
         <input
           id="Shr"
+          placeholder="enter requirements"
           name="Shr"
           type="text"
           value={props.preferences[2].Shr}
