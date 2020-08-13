@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import YamiContent from "../components/Yami-component/YamiContent";
 
 export default class Yami extends Component {
