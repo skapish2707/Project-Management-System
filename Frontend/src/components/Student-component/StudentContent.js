@@ -150,21 +150,23 @@ class StudentContent extends Component {
     //console.log(this.state.preferences)
   };
 
-  handleFileChange = (e, cs) => {
-    let prefs = [...this.state.preferences];
+
+  handleClick = (e,pn) => {
+    e.preventDefault();
+    if(this.state.currentStep===3){
+      let prefs = [...this.state.preferences];
     for (var i = 0; i < 3; i++) {
-      if (i === cs - 1) {
+      if (i === pn - 1) {
         //let pref=[...prefs[i]];
-        prefs[i].selectedFile = e.target.value[0];
+        prefs[i].filled = true;
         // prefs[i]=pref;
         this.setState({ preferences: prefs });
+        console.log(prefs[i].filled);
+        this.handleSubmit(e)
       }
     }
-    //console.log(this.state.preferences)
-  };
-
-  handleClick = (e, pn) => {
-    let prefs = [...this.state.preferences];
+    }else{
+      let prefs = [...this.state.preferences];
     for (var i = 0; i < 3; i++) {
       if (i === pn - 1) {
         //let pref=[...prefs[i]];
@@ -174,36 +176,28 @@ class StudentContent extends Component {
         console.log(prefs[i].filled);
       }
     }
+    }
+    
+    
     console.log(this.state.preferences);
+    
   };
 
   handleSubmit = e => {
     e.preventDefault();
-
     alert("Submitted");
     console.log(this.state.preferences);
   };
 
-  // handleSubmit = event => {
-  //   event.preventDefault();
-  //   const { email, department, name, roll, seat, file } = this.state;
-  //   alert(`Your registration detail: \n
-  //          Email: ${email} \n
-  //          Department: ${department} \n
-  //          name: ${name} \n
-  //          roll: ${roll} \n
-  //          seat: ${seat} \n
-  //          file:${file} \n
-  //          `);
-  // };
 
-  _next = () => {
+  _next = (e) => {
     let currentStep = this.state.currentStep;
     currentStep = currentStep >= 2 ? 3 : currentStep + 1;
     this.setState({
       currentStep: currentStep
     });
-    this.handleClick();
+    //console.log(currentStep);
+    this.handleClick(e,currentStep-1);
   };
 
   _prev = () => {
@@ -229,17 +223,31 @@ class StudentContent extends Component {
     return null;
   }
 
-  nextButton() {
+  handleNext = e => {
+    e.preventDefault();
     let currentStep = this.state.currentStep;
-    if (currentStep < 3) {
-      return (
-        <button className="btn-primary" type="button" onClick={this._next}>
-          Next
-        </button>
-      );
+    let {filled,prefno,Top,Dos,Dsop,Agency,Mtap,Red,Shr} = this.state.preferences[currentStep-1];
+    if(Top===""||Dos===""||Dsop===""||Agency===""||Mtap===""||Red===""||Shr===""){
+      alert("Please enter all the details of the preference");
+    }else{
+      console.log(e);
+      this._next(e);
     }
-    return null;
+    
   }
+
+  // nextButton =() => {
+  //   console.log();
+  //   let currentStep = this.state.currentStep;
+  //   if (currentStep < 3) {
+  //     return (
+  //       <button className="btn-primary" type="button" onClick={this._next}>
+  //         Next
+  //       </button>
+  //     );
+  //   }
+  //   return null;
+  // }
 
   render() {
     return (
@@ -247,7 +255,7 @@ class StudentContent extends Component {
         <h1>Project Title</h1>
         <p>Step {this.state.currentStep}</p>
 
-        <form onSubmit={this.handleSubmit} className="form-group">
+        <form onSubmit={e=>{this.handleClick(e,this.state.currentStep)}} className="form-group">
           {/* 
       render the form steps and pass required props in
     */}
@@ -259,7 +267,7 @@ class StudentContent extends Component {
             handleDsopChange={this.handleDsopChange}
             handleAgencyChange={this.handleAgencyChange}
             handleClick={this.handleClick}
-            handleFileChange={this.handleFileChange}
+            handleNext={this.handleNext}
             handleMtapChange={this.handleMtapChange}
             handleRedChange={this.handleRedChange}
             handleShrChange={this.handleShrChange}
@@ -272,7 +280,7 @@ class StudentContent extends Component {
             handleDsopChange={this.handleDsopChange}
             handleAgencyChange={this.handleAgencyChange}
             handleClick={this.handleClick}
-            handleFileChange={this.handleFileChange}
+            handleNext={this.handleNext}
             handleMtapChange={this.handleMtapChange}
             handleRedChange={this.handleRedChange}
             handleShrChange={this.handleShrChange}
@@ -285,13 +293,13 @@ class StudentContent extends Component {
             handleDsopChange={this.handleDsopChange}
             handleAgencyChange={this.handleAgencyChange}
             handleClick={this.handleClick}
-            handleFileChange={this.handleFileChange}
+            handleSubmit={this.handleSubmit}
             handleMtapChange={this.handleMtapChange}
             handleRedChange={this.handleRedChange}
             handleShrChange={this.handleShrChange}
           />
           {this.previousButton()}
-          {this.nextButton()}
+          {/* {this.nextButton()} */}
         </form>
       </React.Fragment>
     );
@@ -406,20 +414,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>File : </label>
-      <br />
-
-      <br />
-      <br />
-      {/* {console.log(this.state.preferences[0])} */}
-
-      <button
-      // onSubmit={e => {
-      //   this.handleClick(e, this.state.preferences[0].prefno);
-      // }}
-      >
-        Done
-      </button>
+      <button className="btn-primary" onClick={props.handleNext}>Next</button>
     </div>
   );
 }
@@ -432,7 +427,7 @@ function Step2(props) {
     <div className="student-container">
       {/* <form onSubmit={this.handleSubmit}> */}
       <div className="form-title">
-        <h3>Preference 1</h3>
+        <h3>Preference 2</h3>
       </div>
       <label>Top : </label>
       <br />
@@ -532,20 +527,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>File : </label>
-      <br />
-
-      <br />
-      <br />
-      {/* {console.log(this.state.preferences[0])} */}
-
-      <button
-      // onSubmit={e => {
-      //   this.handleClick(e, this.state.preferences[0].prefno);
-      // }}
-      >
-        Done
-      </button>
+      <button className="btn-primary" onClick={props.handleNext}>Next</button>
     </div>
   );
 }
@@ -659,20 +641,11 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>File : </label>
-        <br />
 
-        <br />
-        <br />
+
         {/* {console.log(this.state.preferences[0])} */}
 
-        <button
-        // onSubmit={e => {
-        //   this.handleClick(e, this.state.preferences[0].prefno);
-        // }}
-        >
-          Done
-        </button>
+        
         <input type="submit" value="submit" />
       </div>
     </React.Fragment>
