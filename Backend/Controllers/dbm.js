@@ -16,7 +16,6 @@ mongoose.connect(process.env.uri,{
 	}else{
 		console.log("Connected to database");
 		// CUSTOM CHANGE TO DATABASE HERE \
-
 		// User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
 		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
 		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
@@ -120,9 +119,8 @@ async function getStudents(user,by){
 }
 
 function addProposals(student,proposals){
-    Group.findOne({members:student.id},function(err,group){
+    Group.findOne({members:student.email},function(err,group){
         if (err) throw err;
-        proposals = JSON.parse(proposals);
         group.proposals = []
         for(let i = 0 ; i < proposals.length ; i++){
             group.proposals.push(proposals[i]);
@@ -131,6 +129,7 @@ function addProposals(student,proposals){
             if (err) throw err;
         })
     });
+
 }
 
 

@@ -102,11 +102,12 @@ router.get('/getStudents',async function(req,res){
 });
 
 
-router.post('/student',function(req,res){
+router.post('/student', function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'student') return res.status(404).send();
-	if (req.body.proposals)
+	if (req.body.proposals){
 		dbm.addProposals(req.user,req.body.proposals);
+	}
  	return res.status(200).send("Your Proposals was recorded Successfully!..");
 });
 
