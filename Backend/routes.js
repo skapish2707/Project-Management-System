@@ -8,12 +8,19 @@ router.get('/user',function(req,res){
 	if (!req.user) return res.status(404).send(null);
 	if (req.user) return res.json({
 		email : req.user.email,
-		type : req.user.type
+		type : req.user.type,
+		department : req.user.department,
+		groupName : req.user.groupName,
 	});
 });
 
 router.post('/login',passport.authenticate('local'),function(req,res){
-	res.json(req.user);
+	return res.json({
+		email : req.user.email,
+		type : req.user.type,
+		department : req.user.department,
+		groupName : req.user.groupName,
+	});
 });
 
 router.get('/logout', function(req, res){
@@ -82,17 +89,25 @@ router.post('/admin',async function(req,res){
 		await dbm.addToDatabase(req.user,req.body.pic,department,"pic") ;
 		await dbm.addToDatabase(req.user,req.body.ig,department,"ig");
 		dbm.generateGroups(req.user);
-		res.send("Added  To Database ");
+		res.send("Added To Database ");
 	}
 });
 
-
+//getStudents?by=name
 router.get('/getStudents',async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type == 'student') return res.status(404).send();
-	
 	let items = await dbm.getStudents(req.user,req.query.by);
 	res.send(JSON.stringify(items));
+});
+
+
+router.post('/student',function(req,res){
+	if (!req.user) return res.status(404).send();
+	if (req.user.type != 'student') return res.status(404).send();
+	if (req.body.proposals)
+		dbm.addProposals(req.user,req.body.proposals);
+ 	return res.status(200).send("Your Proposals was recorded Successfully!..");
 });
 
 module.exports = router;

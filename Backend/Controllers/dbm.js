@@ -15,7 +15,8 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
-		// CUSTOM CHANGE TO DATABASE HERE 
+		// CUSTOM CHANGE TO DATABASE HERE \
+
 		// User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
 		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
 		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
@@ -67,7 +68,7 @@ function generateGroups(admin) {
           admin: admin.id
         });
       }
-      group.members.push(user.id);
+      group.members.push(user.email);
       await group.save();
     }
   });
@@ -106,19 +107,31 @@ async function getStudents(user,by){
 	}
 	else if (by == "group"){
 		groups  = await Group.find({admin:admin})
-		for (let i = 0 ; i < groups.length ; i ++){
-			let group  = groups[i]
-			let members = []
-			for (let j = 0 ; j < group.members.length ; j ++){
-				user = await User.findById(group.members[j])
-				members.push(user.email)
-			}
-			items.push({'groupName':group.name,'members':members})
-		}
+        for (let i = 0 ;i < groups.length ; i++){
+            items.push({
+                name : groups[i].name,
+                members : groups[i].members,
+                comments : groups[i].comments,
+                proposals :groups[i].proposals
+            })
+        }
 	}
 	return items
 }
 
+function addProposals(student,proposals){
+    Group.findOne({members:student.id},function(err,group){
+        if (err) throw err;
+        proposals = JSON.parse(proposals);
+        group.proposals = []
+        for(let i = 0 ; i < proposals.length ; i++){
+            group.proposals.push(proposals[i]);
+        }
+        group.save(function(err){
+            if (err) throw err;
+        })
+    });
+}
 
 
 
@@ -155,4 +168,5 @@ module.exports = {
   changePassword: changePassword,
   generateGroups: generateGroups,
   getStudents : getStudents,
+  addProposals : addProposals,
 };
