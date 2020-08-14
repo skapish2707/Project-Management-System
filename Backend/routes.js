@@ -15,6 +15,7 @@ router.get('/user',function(req,res){
 });
 
 router.post('/login',passport.authenticate('local'),function(req,res){
+	if (!req.user) return res.status(404).send(null);
 	return res.json({
 		email : req.user.email,
 		type : req.user.type,
@@ -24,8 +25,9 @@ router.post('/login',passport.authenticate('local'),function(req,res){
 });
 
 router.get('/logout', function(req, res){
+	if (!req.user) return res.status(404).send(null);
 	req.logout();
-	res.status(200).send("logout Out Successfully");
+	return res.status(200).send("logout Out Successfully");
 });
 
 router.post('/changePassword',function(req,res){
@@ -85,9 +87,9 @@ router.post('/admin',async function(req,res){
 			projectName = atributes[1];
 			await dbm.addToDatabase(req.user,email,department,"student", projectName);
 		}
-		await dbm.addToDatabase(req.user,req.body.hod,department,"hod") ;
-		await dbm.addToDatabase(req.user,req.body.pic,department,"pic") ;
-		await dbm.addToDatabase(req.user,req.body.ig,department,"ig");
+		dbm.addToDatabase(req.user,req.body.hod,department,"hod") ;
+		dbm.addToDatabase(req.user,req.body.pic,department,"pic") ;
+		dbm.addToDatabase(req.user,req.body.ig,department,"ig");
 		dbm.generateGroups(req.user);
 		res.send("Added To Database ");
 	}
@@ -102,13 +104,32 @@ router.get('/getStudents',async function(req,res){
 });
 
 
-router.post('/student', function(req,res){
+router.post('/student', async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'student') return res.status(404).send();
 	if (req.body.proposals){
-		dbm.addProposals(req.user,req.body.proposals);
+		try{
+			await dbm.addProposals(req.user,req.body.proposals);
+			return res.status(200).send("Your Proposals was recorded Successfully!..");
+		}catch{
+			return res.send(500).send()
+		}
 	}
- 	return res.status(200).send("Your Proposals was recorded Successfully!..");
 });
+
+router.post('/comment',async function(req,res){
+	if (!req.user) return res.status(404).send();
+	if (req.user.type =='student') return res.status(404).send();
+	// id => group id
+	// msg => comment by staff
+	try{
+		await dbm.addComment(req.user,req.body.id,req.body.msg);
+		return res.status(200).send();
+	}catch{
+		res.status(500).send();
+	}
+});
+
+
 
 module.exports = router;

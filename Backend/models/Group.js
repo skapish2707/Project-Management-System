@@ -5,7 +5,7 @@ var groupSchema  = new mongoose.Schema({
 	admin : {type : mongoose.Schema.Types.ObjectId,ref : 'User'},
 	members : [String],
 	comments : [{
-		author : {type : mongoose.Schema.Types.ObjectId,ref : 'User'},
+		author : String,
 		text : String,
 		time : { type : Date, default: Date.now },
 	}],
