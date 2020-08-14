@@ -9,7 +9,8 @@ var localStrategy = require("passport-local").Strategy;
  
 mongoose.connect(process.env.uri,{
 	useNewUrlParser : true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
+    useFindAndModify: false
 	},function(err){
 	if (err){
 		console.log(err);
@@ -75,7 +76,7 @@ function generateGroups(admin) {
 
 async function addToDatabase(admin, email, department, type, groupName = null) {
   password = makePassword(8);
-  saveLocallyForDevelopment(email, password);
+  saveLocallyForDevelopment(email, password);//sendMailInProduction();
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
   var user = User();
@@ -108,6 +109,7 @@ async function getStudents(user,by){
 		groups  = await Group.find({admin:admin})
         for (let i = 0 ;i < groups.length ; i++){
             items.push({
+                id : groups[i].id,
                 name : groups[i].name,
                 members : groups[i].members,
                 comments : groups[i].comments,
@@ -118,20 +120,18 @@ async function getStudents(user,by){
 	return items
 }
 
-function addProposals(student,proposals){
-    Group.findOne({members:student.email},function(err,group){
-        if (err) throw err;
-        group.proposals = []
-        for(let i = 0 ; i < proposals.length ; i++){
-            group.proposals.push(proposals[i]);
-        }
-        group.save(function(err){
-            if (err) throw err;
-        })
-    });
-
+async function addProposals(student,proposals){
+    await Group.findOneAndUpdate({members:student.email},{proposals:proposals},null)
 }
 
+async function addComment(staff,groupId,msg){
+    group =  await Group.findById(groupId.trim());
+    group.comments.push({
+        author : staff.email,
+        text : msg.trim(),
+    });
+    await group.save();
+}
 
 
 passport.use(
@@ -168,4 +168,5 @@ module.exports = {
   generateGroups: generateGroups,
   getStudents : getStudents,
   addProposals : addProposals,
+  addComment : addComment,
 };
