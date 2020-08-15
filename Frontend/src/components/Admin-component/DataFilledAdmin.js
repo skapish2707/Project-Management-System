@@ -99,7 +99,13 @@ export default class DataFilledAdmin extends Component {
       this.checkData();
     }
 
-    if (this.props.stat != null) return <Tind static={Ad} />;
+    if (this.props.stat != null)
+      return (
+        <div>
+          <LoggedNavbar />
+          <Tind static={Ad} />
+        </div>
+      );
 
     if (this.props.stat === null) {
       console.log(stat);

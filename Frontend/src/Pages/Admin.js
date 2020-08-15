@@ -17,7 +17,8 @@ export default class Admin extends Component {
     }
 
     this.state = {
-      loggedIn
+      loggedIn,
+      resp: ""
     };
   }
 
