@@ -66,9 +66,16 @@ export default class DataFilledAdmin extends Component {
 
     this.state = {
       adData: null,
-      filled: false
+      filled: false,
+      satisfied: null
     };
   }
+
+  setSatisfied = () => {
+    this.setState({
+      satisfied: "yes"
+    });
+  };
 
   checkData() {
     axios({
@@ -78,11 +85,17 @@ export default class DataFilledAdmin extends Component {
     })
       .then(res => {
         Ad = res.data;
-
-        this.setState({
-          adData: res.data,
-          filled: true
-        });
+        if (res.data.length === 0) {
+          this.setState({
+            adData: "new",
+            filled: true
+          });
+        } else {
+          this.setState({
+            adData: res.data,
+            filled: true
+          });
+        }
       })
       // .then(() => {
       //   localStorage.setItem("data", "set");
@@ -99,17 +112,23 @@ export default class DataFilledAdmin extends Component {
       this.checkData();
     }
 
-    if (this.props.stat != null)
+    if (this.state.adData === "new") {
+      this.setSatisfied();
+      console.log(Ad.length);
+      return (
+        <div>
+          <Lion />
+        </div>
+      );
+    }
+    if (this.state.adData) {
+      this.setSatisfied();
       return (
         <div>
           <LoggedNavbar />
           <Tind static={Ad} />
         </div>
       );
-
-    if (this.props.stat === null) {
-      console.log(stat);
-      return <Lion />;
-    }
+    } else return <h1>Loading</h1>;
   }
 }

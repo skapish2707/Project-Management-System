@@ -1,0 +1,68 @@
+.row {
+  width: 100%;
+  display: block;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.column {
+  float: left;
+  width: 32%;
+  text-align: center;
+  padding-bottom: 20px;
+  margin-left: 20px;
+}
+.column ul li {
+  list-style-type: none;
+  padding-top: 15px;
+  padding-left: 0;
+  color: #fff;
+}
+.column ul {
+  margin-left: 0;
+}
+
+.bottom-bar {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+hr {
+  width: 50%;
+  margin: 20px auto;
+  padding: 0;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.footer-link:hover {
+  color: cornflowerblue;
+}
+
+.icon {
+  color: #c0c0c0;
+  size: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .column {
+    width: 100%;
+    margin: auto;
+    padding-bottom: 10px;
+  }
+
+  body::after {
+    content: "";
+    display: block;
+    height: 300px; /* Set same as footer's height */
+    margin-top: 300px;
+  }
+}

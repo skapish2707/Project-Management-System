@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "./YamiContent.css";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
+import axios from "axios";
+import SERVER_URL from "../../Pages/URL";
+import qs from "qs";
 
 export default class YamiContent extends Component {
   constructor(props) {
@@ -23,7 +26,27 @@ export default class YamiContent extends Component {
   submitHandler = event => {
     event.preventDefault();
     const { mail, dept } = this.state;
-    alert(`dept:${dept} \n mail:${mail}`);
+
+    axios({
+      method: "post",
+      url: SERVER_URL + "/YAMI",
+      credentials: "include",
+      withCredentials: true,
+      data: qs.stringify({
+        email: mail,
+        department: dept
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+      }
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+
+      .catch(function (err) {
+        console.log(err);
+      });
   };
 
   render() {

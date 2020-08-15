@@ -30,12 +30,23 @@ export default class LoggedNavbar extends Component {
       <div>
         <header className="header">
           <nav className="header-links">
-            <ul>
-              <a href="#">Profile</a>
-              <Link to="/logout" onClick={this.kickUser}>
-                Logout
-              </Link>
-            </ul>
+            <div className="nav-menu">
+              <ul>
+                <div className="nav-left">
+                  <li>
+                    <a href="#">Profile</a>
+                  </li>
+                  <li>
+                    <Link to="/cp@2707user">Change Password</Link>
+                  </li>
+                </div>
+                <li>
+                  <Link to="/logout" onClick={this.kickUser}>
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </nav>
         </header>
       </div>

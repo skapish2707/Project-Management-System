@@ -1,0 +1,16 @@
+.header-links {
+  width: 100%;
+}
+
+.nav-menu {
+  width: 100%;
+}
+
+.nav-left {
+  display: flex;
+}
+.nav-menu ul {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}

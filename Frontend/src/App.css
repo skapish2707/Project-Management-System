@@ -16,7 +16,7 @@ header {
   background: none;
 }
 footer {
-  background: #000000;
+  background: #202020;
 }
 
 /* Trick: */
@@ -27,13 +27,12 @@ body {
 body::after {
   content: "";
   display: block;
-  height: 0px; /* Set same as footer's height */
-  background-color: #000000;
+  height: 200px; /* Set same as footer's height */
+  margin-top: 100px;
 }
 
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 0px;
 }

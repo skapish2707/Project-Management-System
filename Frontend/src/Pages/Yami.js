@@ -66,7 +66,6 @@ export default class Yami extends Component {
           <React.Fragment>
             <YamiContent />
           </React.Fragment>
-          <Link to="/logout">Logout</Link>
         </div>
       );
     }
