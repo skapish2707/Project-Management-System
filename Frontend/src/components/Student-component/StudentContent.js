@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import "./UserDetails.css";
+import SERVER_URL from "../../Pages/URL";
+import axios from "axios";
+import qs from "qs";
+
 
 class StudentContent extends Component {
   // constructor(props) {
@@ -185,6 +189,51 @@ class StudentContent extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    let pref1 = this.state.preferences[0];
+    let pref2 = this.state.preferences[1];
+    let pref3 = this.state.preferences[2];
+    //console.log(pref1);
+    axios({
+      method: "post",
+      url: SERVER_URL + "/student",
+      credentials: "include",
+      withCredentials: true,
+      data: qs.stringify({
+        proposals : [{
+        "title": pref1.Top,
+        "specialization" : pref1.Dos,
+        "details" : pref1.Dsop,
+        "agency" : pref1.Agency,
+        "method" : pref1.Mtap,
+        "result" : pref1.Red,
+        "requirements" : pref1.Shr
+      },{
+        "title": pref2.Top,
+        "specialization" : pref2.Dos,
+        "details" : pref2.Dsop,
+        "agency" : pref2.Agency,
+        "method" : pref2.Mtap,
+        "result" : pref2.Red,
+        "requirements" : pref2.Shr
+      },{
+        "title": pref3.Top,
+        "specialization" : pref3.Dos,
+        "details" : pref3.Dsop,
+        "agency" : pref3.Agency,
+        "method" : pref3.Mtap,
+        "result" : pref3.Red,
+        "requirements" : pref3.Shr
+      }]}),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+      }
+    })
+    .then(function (res) {
+
+    })
+    .catch(function (err) {
+      if (err) throw err;
+    });
     alert("Submitted");
     console.log(this.state.preferences);
   };
@@ -230,7 +279,7 @@ class StudentContent extends Component {
     if(Top===""||Dos===""||Dsop===""||Agency===""||Mtap===""||Red===""||Shr===""){
       alert("Please enter all the details of the preference");
     }else{
-      console.log(e);
+      console.log(this.state.preferences);
       this._next(e);
     }
     
