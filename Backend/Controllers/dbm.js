@@ -133,6 +133,17 @@ async function addComment(staff,groupId,msg){
     await group.save();
 }
 
+async function getGroup(student){
+    group = await Group.findOne({members:student.email});
+    return {
+        id : group.id,
+        name : group.name,
+        members : group.members,
+        comments : group.comments,
+        proposals :group.proposals
+    }
+}
+
 
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
@@ -169,4 +180,5 @@ module.exports = {
   getStudents : getStudents,
   addProposals : addProposals,
   addComment : addComment,
+  getGroup : getGroup,
 };

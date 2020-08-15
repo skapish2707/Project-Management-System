@@ -14,6 +14,18 @@ router.get('/user',function(req,res){
 	});
 });
 
+router.get('/group',async function(req,res){
+	if(!req.user) return res.status(404).send();
+	if(req.user.type != 'student') return res.status(404).send();
+	try {
+		group = await dbm.getGroup(req.user);
+		return res.send(group)
+	}catch{
+		return res.status(500).send();
+	}
+
+});
+
 router.post('/login',passport.authenticate('local'),function(req,res){
 	if (!req.user) return res.status(404).send(null);
 	return res.json({
