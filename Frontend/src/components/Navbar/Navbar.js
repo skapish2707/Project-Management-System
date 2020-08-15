@@ -27,7 +27,7 @@ const Navbar = () => {
         </ul>
       </div>
       <header className="header">
-        <nav className="header-links">
+        <nav className="header-links1">
           <ul>
             <a href="#">About</a>
 
