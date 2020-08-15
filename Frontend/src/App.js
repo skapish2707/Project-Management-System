@@ -8,6 +8,7 @@ import Student from "./Pages/Student";
 import Yami from "./Pages/Yami";
 import Faculty from "./Pages/Faculty";
 import DataFilledAdmin from "./components/Admin-component/DataFilledAdmin";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/student" exact component={Student} />
         <Route path="/yami" exact component={Yami} />
         <Route path="/astah" exact component={DataFilledAdmin} />
+        <Route path="*" component={NotFound} />
       </Switch>
       <footer></footer>
     </Router>
