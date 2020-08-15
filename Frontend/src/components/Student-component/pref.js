@@ -48,30 +48,6 @@ class Preferences extends Component {
     };
   }
 
-  // previousButton() {
-  // let currentStep = this.state.currentStep;
-  // if (currentStep !== 1) {
-  //     return (
-  //     <button className="btn-secondary" type="button" onClick={this._prev}>
-  //         Previous
-  //     </button>
-  //     );
-  // }
-  // return null;
-  // }
-
-  // nextButton() {
-  // let currentStep = this.state.currentStep;
-  // if (currentStep < 3) {
-  //     return (
-  //     <button className="btn-primary" type="button" onSubmit={this.handleClick}>
-  //         Next
-  //     </button>
-  //     );
-  // }
-  // return null;
-  // }
-
   handleTopChange = (e, pn) => {
     let prefs = [...this.state.preferences];
     for (var i = 0; i < 3; i++) {

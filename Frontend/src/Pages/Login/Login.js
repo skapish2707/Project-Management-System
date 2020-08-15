@@ -5,8 +5,21 @@ import axios from "axios";
 import qs from "qs";
 import "./Login.css";
 import Navbar from "../../components/Navbar/Navbar";
+import DataFilledAdmin from "../../components/Admin-component/DataFilledAdmin";
 
 let Data = "";
+let Ad = [];
+var today = new Date(),
+  date =
+    today.getDate() +
+    "a" +
+    today.getMonth() +
+    "V" +
+    today.getFullYear() +
+    "fUcKyoU" +
+    50 +
+    "Z" +
+    today.getDate();
 
 export default class Login extends Component {
   constructor(props) {
@@ -58,10 +71,11 @@ export default class Login extends Component {
         function (response) {
           console.log(response.data);
           Data = response.data.type;
+
           this.setState({
             user: response.data.type,
             loggedIn: true,
-            msg: "State set"
+            msg: "set"
           });
           console.log(this.state.msg, this.state.user);
           // localStorage.setItem("token", response.data.type);
@@ -71,27 +85,51 @@ export default class Login extends Component {
       .catch(function (err) {
         console.log(err);
       });
+
+    this.checkData();
   }
 
-  // getToken() {
-  //   const token = localStorage.getItem("token");
-  //   if (token === null) {
-  //     this.setState({
-  //       loggedIn: false
-  //     });
-  //     console.log(this.state.loggedIn);
-  //   }
-  // }
+  checkData() {
+    axios({
+      method: "get",
+      url: SERVER_URL + "/getStudents?by=group",
+      withCredentials: true
+    })
+      .then(function (res) {
+        Ad = res.data;
+        console.log(Ad);
+      })
+      // .then(() => {
+      //   localStorage.setItem("data", "set");
+      // })
+
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
+  getToken() {
+    const token = localStorage.getItem("token");
+    if (token === null) {
+      this.setState({
+        loggedIn: false
+      });
+      console.log(this.state.loggedIn);
+    }
+  }
 
   render() {
+    if (Data === "admin") {
+      this.checkData();
+    }
     if (Data === "yami") {
-      localStorage.setItem("token", "yami");
-      Data = "";
+      localStorage.setItem("token", "N1g70xwfa0V6oCXVweqt" + date);
     }
     if (Data === "admin") {
       localStorage.setItem("token", "admin");
       Data = "";
     }
+
     if (Data === "ig") {
       localStorage.setItem("token", "faculty");
       Data = "";
@@ -108,8 +146,10 @@ export default class Login extends Component {
     Data = "";
     if (this.state.loggedIn) {
       const token = localStorage.getItem("token");
-      if (token === "yami") return <Redirect to="/yami" exact />;
-      if (token === "admin") return <Redirect to="/admin" exact />;
+
+      if (token === "N1g70xwfa0V6oCXVweqt" + date)
+        return <Redirect to="/yami" exact />;
+      if (token === "admin") return <DataFilledAdmin stat={Ad} />;
       if (token === "student") return <Redirect to="/student" exact />;
       if (token === "faculty") return <Redirect to="/faculty" exact />;
     }
