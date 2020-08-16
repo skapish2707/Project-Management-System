@@ -14,3 +14,17 @@
   width: 100%;
   justify-content: space-between;
 }
+
+.header-links a {
+  display: inline-block;
+  margin: 15px 20px;
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  letter-spacing: 1.2px;
+}
+
+.header-links a:hover {
+  color: cornflowerblue;
+  cursor: pointer;
+}

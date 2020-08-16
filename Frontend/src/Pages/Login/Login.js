@@ -149,7 +149,7 @@ export default class Login extends Component {
 
       if (token === "N1g70xwfa0V6oCXVweqt" + date)
         return <Redirect to="/yami" exact />;
-      if (token === "admin") return <DataFilledAdmin stat={Ad} />;
+      if (token === "admin") return <Redirect to="/admin" exact />;
       if (token === "student") return <Redirect to="/student" exact />;
       if (token === "faculty") return <Redirect to="/faculty" exact />;
     }
