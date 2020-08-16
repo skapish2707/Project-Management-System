@@ -32,7 +32,8 @@ class StudentContent extends Component {
           Agency: "",
           Mtap: "",
           Red: "",
-          Shr: ""
+          Shr: "",
+          File: null
         },
         {
           filled: false,
@@ -43,7 +44,8 @@ class StudentContent extends Component {
           Agency: "",
           Mtap: "",
           Red: "",
-          Shr: ""
+          Shr: "",
+          File: null
         },
         {
           filled: false,
@@ -54,7 +56,8 @@ class StudentContent extends Component {
           Agency: "",
           Mtap: "",
           Red: "",
-          Shr: ""
+          Shr: "",
+          File: null
         }
       ],
       currentStep: 1
@@ -153,6 +156,16 @@ class StudentContent extends Component {
     }
     //console.log(this.state.preferences)
   };
+
+  handleFileChange = (e, cs) => {
+    let prefs = [...this.state.preferences];
+    for(var i=0;i<3;i++){
+      if(i===cs-1){
+        prefs[i].File=e.target.value[0];
+        this.setState({preferences:prefs})
+      }
+    }
+  }
 
 
   handleClick = (e,pn) => {
@@ -365,7 +378,7 @@ function Step1(props) {
       <div className="form-title">
         <h3>Preference 1</h3>
       </div>
-      <label>Top : </label>
+      <label>Title of Preference : </label>
       <br />
       <input
         id="Top"
@@ -379,7 +392,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Dos : </label>
+      <label>Domain of Specialization : </label>
       <br />
       <input
         id="Dos"
@@ -393,7 +406,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Dsop : </label>
+      <label>Detailed Statement of Problem : </label>
       <br />
       <input
         id="Dsop"
@@ -407,7 +420,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Agency : </label>
+      <label>Internal agency / external agency / CTL / Mastek/or any other : </label>
       <br />
       <input
         id="agency"
@@ -421,7 +434,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Mtap : </label>
+      <label>Method/Technique/Algorithm proposed : </label>
       <br />
       <input
         id="Mtap"
@@ -435,7 +448,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Red : </label>
+      <label>Results Expected : </label>
       <br />
       <input
         id="Red"
@@ -449,7 +462,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Shr : </label>
+      <label>Software and Hardware requirements : </label>
       <br />
       <input
         id="Shr"
@@ -461,6 +474,20 @@ function Step1(props) {
         }}
         required
       />
+      <br />
+      <br />
+      <label>IEEE / ACM / Springer Journal Paper</label>
+        <br />
+        <br />
+        <input
+          id="file"
+          name="file"
+          type="file"
+          onchange={e=>{
+            props.handleFileChange(e,props.preferences[0].prefno)
+          }}
+          required
+        />
       <br />
       <br />
       <button className="btn-primary" onClick={props.handleNext}>Next</button>
@@ -478,7 +505,7 @@ function Step2(props) {
       <div className="form-title">
         <h3>Preference 2</h3>
       </div>
-      <label>Top : </label>
+      <label>Title of Preference : </label>
       <br />
       <input
         id="Top"
@@ -492,7 +519,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Dos : </label>
+      <label>Domain of Specialization : </label>
       <br />
       <input
         id="Dos"
@@ -506,7 +533,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Dsop : </label>
+      <label>Detailed Statement of Problem : </label>
       <br />
       <input
         id="Dsop"
@@ -520,7 +547,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Agency : </label>
+      <label>Internal agency / external agency / CTL / Mastek/or any other : </label>
       <br />
       <input
         id="agency"
@@ -534,7 +561,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Mtap : </label>
+      <label>Method/Technique/Algorithm proposed : </label>
       <br />
       <input
         id="Mtap"
@@ -548,7 +575,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Red : </label>
+      <label>Results Expected : </label>
       <br />
       <input
         id="Red"
@@ -562,7 +589,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Shr : </label>
+      <label>Software and Hardware requirements : </label>
       <br />
       <input
         id="Shr"
@@ -574,6 +601,20 @@ function Step2(props) {
         }}
         required
       />
+      <br />
+      <br />
+      <label>IEEE / ACM / Springer Journal Paper</label>
+        <br />
+        <br />
+        <input
+          id="file"
+          name="file"
+          type="file"
+          onchange={e=>{
+            props.handleFileChange(e,props.preferences[1].prefno)
+          }}
+          required
+        />
       <br />
       <br />
       <button className="btn-primary" onClick={props.handleNext}>Next</button>
@@ -592,7 +633,7 @@ function Step3(props) {
         <div className="form-title">
           <h3>Preference 3</h3>
         </div>
-        <label>Top : </label>
+        <label>Title of Preference : </label>
         <br />
         <input
           id="Top"
@@ -606,7 +647,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Dos : </label>
+        <label>Domain of Specialization : </label>
         <br />
         <input
           id="Dos"
@@ -620,7 +661,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Dsop : </label>
+        <label>Detailed Statement of Problem : </label>
         <br />
         <input
           id="Dsop"
@@ -634,7 +675,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Agency : </label>
+        <label>Internal agency / external agency / CTL / Mastek/or any other : </label>
         <br />
         <input
           id="agency"
@@ -648,7 +689,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Mtap : </label>
+        <label>Method/Technique/Algorithm proposed : </label>
         <br />
         <input
           id="Mtap"
@@ -662,7 +703,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Red : </label>
+        <label>Results Expected : </label>
         <br />
         <input
           id="Red"
@@ -676,7 +717,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Shr : </label>
+        <label>Software and Hardware requirements : </label>
         <br />
         <input
           id="Shr"
@@ -687,6 +728,17 @@ function Step3(props) {
             props.handleShrChange(e, props.preferences[2].prefno);
           }}
           required
+        />
+        <label>IEEE / ACM / Springer Journal Paper</label>
+        <br />
+        <br />
+        <input
+          id="file"
+          name="file"
+          type="file"
+          onchange={e=>{
+            props.handleFileChange(e,props.preferences[2].prefno)
+          }}
         />
         <br />
         <br />
