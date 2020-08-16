@@ -17,7 +17,11 @@ mongoose.connect(process.env.uri,{
 	}else{
 		console.log("Connected to database");
 		// CUSTOM CHANGE TO DATABASE HERE \
-               // User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
+        // User.deleteMany({admin:'5f3911df53b282360c9a8e44'},function(err){
+        //     if (err) throw err
+        //         console.log('deleted etrx department')
+        // })
+        //        User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
 		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
 		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
 		// User.deleteMany({type:'hod'},function(err){if (err) throw err; else console.log('deleted HOD') });
@@ -56,8 +60,8 @@ function saveLocallyForDevelopment(email, password) {
   });
 }
 
-function generateGroups(admin) {
-  User.find({ type: "student", admin: admin.id }, async function (err, users) {
+async function generateGroups(admin) {
+    users = await User.find({ type: "student", admin: admin.id })
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
       let group = await Group.findOne({ name: user.groupName,admin:admin.id });
@@ -71,7 +75,6 @@ function generateGroups(admin) {
       group.members.push(user.email);
       await group.save();
     }
-  });
 }
 
 async function addToDatabase(admin, email, department, type, groupName = null) {
