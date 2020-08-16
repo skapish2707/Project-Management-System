@@ -17,7 +17,7 @@ mongoose.connect(process.env.uri,{
 	}else{
 		console.log("Connected to database");
 		// CUSTOM CHANGE TO DATABASE HERE \
-		// User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
+               // User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
 		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
 		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
 		// User.deleteMany({type:'hod'},function(err){if (err) throw err; else console.log('deleted HOD') });
@@ -60,7 +60,7 @@ function generateGroups(admin) {
   User.find({ type: "student", admin: admin.id }, async function (err, users) {
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
-      let group = await Group.findOne({ name: user.groupName });
+      let group = await Group.findOne({ name: user.groupName,admin:admin.id });
       if (!group) {
         group = await Group({
           name: user.groupName,
