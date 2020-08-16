@@ -18,8 +18,8 @@ router.get('/group',async function(req,res){
 	if(!req.user) return res.status(404).send();
 	if(req.user.type != 'student') return res.status(404).send();
 	try {
-		group = await dbm.getGroup(req.user);
-		return res.send(group)
+		group =  await dbm.getGroup(req.user);
+		return res.status(200).send(group);
 	}catch{
 		return res.status(500).send();
 	}
@@ -102,8 +102,12 @@ router.post('/admin',async function(req,res){
 		dbm.addToDatabase(req.user,req.body.hod,department,"hod") ;
 		dbm.addToDatabase(req.user,req.body.pic,department,"pic") ;
 		dbm.addToDatabase(req.user,req.body.ig,department,"ig");
-		dbm.generateGroups(req.user);
-		res.send("Added To Database ");
+		try{
+			groups = await dbm.generateGroups(req.user);
+			res.status(200).send("Done");
+		}catch{
+			res.status(500).send();
+		}
 	}
 });
 
