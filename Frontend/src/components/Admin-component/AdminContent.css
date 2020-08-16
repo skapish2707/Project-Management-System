@@ -52,3 +52,30 @@ input[type="file"] {
   margin-bottom: 20px;
   resize: vertical;
 }
+
+/* body {
+  background: #002159;
+} */
+
+.group-container {
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 50px;
+  background-color: white;
+  /* background-color: #f2f2f2; */
+  padding: 20px;
+  width: 60%;
+}
+.membertag {
+  font-size: 18px;
+  font-weight: 100;
+}
+
+.member-title {
+  font-size: 18px;
+}
+
+.hor {
+  margin: 0;
+  width: 100%;
+}

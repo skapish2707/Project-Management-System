@@ -59,8 +59,7 @@ function Lion() {
     </div>
   );
 }
-
-export default class DataFilledAdmin extends Component {
+class DataFilledAdmin extends Component {
   constructor(props) {
     super(props);
 

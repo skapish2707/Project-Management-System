@@ -5,7 +5,6 @@ import axios from "axios";
 import qs from "qs";
 import "./Login.css";
 import Navbar from "../../components/Navbar/Navbar";
-import DataFilledAdmin from "../../components/Admin-component/DataFilledAdmin";
 
 let Data = "";
 let Ad = [];
@@ -85,8 +84,6 @@ export default class Login extends Component {
       .catch(function (err) {
         console.log(err);
       });
-
-    this.checkData();
   }
 
   checkData() {

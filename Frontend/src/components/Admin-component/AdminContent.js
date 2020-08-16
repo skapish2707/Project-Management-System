@@ -4,6 +4,10 @@ import LoggedNavbar from "../Navbar/LoggedNavbar";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 
+let Ad = null;
+let filled = false;
+let Groups = null;
+
 class AdminContent extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +16,9 @@ class AdminContent extends Component {
       hod: "",
       student_file: null,
       pic: "",
-      ig: ""
+      ig: "",
+      adData: null,
+      filled
     };
   }
 
@@ -75,72 +81,137 @@ class AdminContent extends Component {
     }
   };
 
+  checkData() {
+    axios({
+      method: "get",
+      url: SERVER_URL + "/getStudents?by=group",
+      withCredentials: true
+    })
+      .then(res => {
+        Ad = res.data.length;
+        Groups = res.data;
+        console.log(Ad);
+        console.log("Groups:", Groups);
+
+        this.setState(
+          {
+            adData: "new",
+            filled: true
+          },
+          console.log(this.state.adData, this.state.filled)
+        );
+      })
+      // .then(() => {
+      //   localStorage.setItem("data", "set");
+      // })
+
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
   render() {
-    return (
-      <div>
-        <LoggedNavbar />
-        <div className="admin-container" encType="multipart/form-data">
-          <form onSubmit={this.submitHandler}>
-            <div className="admin-title">
-              <label>Create Project Class</label>
+    if (this.state.adData === null) {
+      this.checkData();
+    }
+
+    if (this.state.filled === true) {
+      if (Ad == 0) {
+        return (
+          <div>
+            <LoggedNavbar />
+            <div className="admin-container" encType="multipart/form-data">
+              <form onSubmit={this.submitHandler}>
+                <div className="admin-title">
+                  <label>Create Project Class</label>
+                </div>
+                <label className="admin-label">HOD Email:</label>
+                <br />
+                <br />
+                <input
+                  type="email"
+                  name="hod"
+                  placeholder="HOD email"
+                  value={this.state.hod}
+                  onChange={this.hodHandler}
+                  required
+                />
+                <br />
+                <br />
+                <label className="admin-label">PIC Email:</label>
+                <br />
+                <br />
+                <input
+                  type="email"
+                  name="pic"
+                  placeholder="PIC email"
+                  value={this.state.pic}
+                  onChange={this.picHandler}
+                  required
+                />
+                <br />
+                <br />
+                <label className="admin-label">IG Email:</label>
+                <br />
+                <br />
+                <input
+                  type="email"
+                  name="ig"
+                  placeholder="IG email"
+                  value={this.state.ig}
+                  onChange={this.igHandler}
+                  required
+                />
+                <br />
+                <br />
+                <label className="admin-label">Student Data File:</label>
+                <br />
+                <br />
+                <input
+                  style={
+                    ({ border: "1px solid #303030" }, { marginBottom: "40px" })
+                  }
+                  type="file"
+                  id="file"
+                  name="student_file"
+                  onChange={this.fileValidation}
+                  required
+                />
+                <input type="submit" value="Upload" />
+              </form>
             </div>
-            <label className="admin-label">HOD Email:</label>
-            <br />
-            <br />
-            <input
-              type="email"
-              name="hod"
-              placeholder="HOD email"
-              value={this.state.hod}
-              onChange={this.hodHandler}
-              required
-            />
-            <br />
-            <br />
-            <label className="admin-label">PIC Email:</label>
-            <br />
-            <br />
-            <input
-              type="email"
-              name="pic"
-              placeholder="PIC email"
-              value={this.state.pic}
-              onChange={this.picHandler}
-              required
-            />
-            <br />
-            <br />
-            <label className="admin-label">IG Email:</label>
-            <br />
-            <br />
-            <input
-              type="email"
-              name="ig"
-              placeholder="IG email"
-              value={this.state.ig}
-              onChange={this.igHandler}
-              required
-            />
-            <br />
-            <br />
-            <label className="admin-label">Student Data File:</label>
-            <br />
-            <br />
-            <input
-              style={
-                ({ border: "1px solid #303030" }, { marginBottom: "40px" })
-              }
-              type="file"
-              id="file"
-              name="student_file"
-              onChange={this.fileValidation}
-              required
-            />
-            <input type="submit" value="Upload" />
-          </form>
-        </div>
-      </div>
-    );
+          </div>
+        );
+      }
+      if (Ad != 0) {
+        return (
+          <React.Fragment>
+            <LoggedNavbar />
+            <div>
+              {Groups.map(group => {
+                let members = group.members;
+                return (
+                  <div className="group-container" key={group.name}>
+                    <h1>{group.name}</h1>
+                    <hr className="hor" />
+                    <div>
+                      <h1 className="member-title">Members</h1>
+                      {members.map(member => {
+                        return (
+                          <h1 className="membertag" key={member}>
+                            {member}
+                          </h1>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </React.Fragment>
+        );
+      }
+    } else return <h1>LOADING</h1>;
   }
 }
 
