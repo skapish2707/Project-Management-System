@@ -125,7 +125,7 @@ class AdminContent extends Component {
                 <div className="admin-title">
                   <label>Create Project Class</label>
                 </div>
-                <label className="admin-label">HOD Email:</label>
+                <label className="admin-label">Head of Department Email:</label>
                 <br />
                 <br />
                 <input
@@ -138,7 +138,7 @@ class AdminContent extends Component {
                 />
                 <br />
                 <br />
-                <label className="admin-label">PIC Email:</label>
+                <label className="admin-label">Project in Charge Email:</label>
                 <br />
                 <br />
                 <input
@@ -151,7 +151,7 @@ class AdminContent extends Component {
                 />
                 <br />
                 <br />
-                <label className="admin-label">IG Email:</label>
+                <label className="admin-label">Internal Guide Email:</label>
                 <br />
                 <br />
                 <input

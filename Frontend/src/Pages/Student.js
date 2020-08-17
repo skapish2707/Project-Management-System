@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 import axios from "axios";
 import SERVER_URL from "./URL";
-
 import StudentContent from "../components/Student-component/StudentContent";
 
 export default class Admin extends Component {

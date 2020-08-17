@@ -3,7 +3,11 @@ import "./UserDetails.css";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import qs from "qs";
+import LoggedNavbar from "../Navbar/LoggedNavbar";
 
+let Stu = null;
+let filled = false;
+let Proposals = null;
 
 class StudentContent extends Component {
   // constructor(props) {
@@ -33,7 +37,7 @@ class StudentContent extends Component {
           Mtap: "",
           Red: "",
           Shr: "",
-          File: null
+          selectedFile: null
         },
         {
           filled: false,
@@ -45,7 +49,7 @@ class StudentContent extends Component {
           Mtap: "",
           Red: "",
           Shr: "",
-          File: null
+          selectedFile: null
         },
         {
           filled: false,
@@ -57,10 +61,12 @@ class StudentContent extends Component {
           Mtap: "",
           Red: "",
           Shr: "",
-          File: null
+          selectedFile: null
         }
       ],
-      currentStep: 1
+      currentStep: 1,
+      stuData:null,
+      filled
     };
   }
 
@@ -251,6 +257,27 @@ class StudentContent extends Component {
     console.log(this.state.preferences);
   };
 
+  checkData = () => {
+    axios({
+      method:"get",
+      url:SERVER_URL+"/group",
+      withCredentials:true
+    })
+    .then(res => {
+      // console.log(res)
+      Stu=res.data.proposals.length;
+      Proposals=res.data.proposals;
+      //console.log(Stu,Proposals)
+      this.setState({
+        stuData:"new",
+        filled:true
+      })
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  }
+
 
   _next = (e) => {
     let currentStep = this.state.currentStep;
@@ -288,8 +315,8 @@ class StudentContent extends Component {
   handleNext = e => {
     e.preventDefault();
     let currentStep = this.state.currentStep;
-    let {filled,prefno,Top,Dos,Dsop,Agency,Mtap,Red,Shr} = this.state.preferences[currentStep-1];
-    if(Top===""||Dos===""||Dsop===""||Agency===""||Mtap===""||Red===""||Shr===""){
+    let {filled,prefno,Top,Dos,Dsop,Agency,Mtap,Red,Shr,selectedFile} = this.state.preferences[currentStep-1];
+    if(Top===""||Dos===""||Dsop===""||Agency===""||Mtap===""||Red===""||Shr===""||selectedFile===null){
       alert("Please enter all the details of the preference");
     }else{
       console.log(this.state.preferences);
@@ -312,59 +339,83 @@ class StudentContent extends Component {
   // }
 
   render() {
-    return (
-      <React.Fragment>
-        <h1>Project Title</h1>
-        <p>Step {this.state.currentStep}</p>
-
-        <form onSubmit={e=>{this.handleClick(e,this.state.currentStep)}} className="form-group">
-          {/* 
-      render the form steps and pass required props in
-    */}
-          <Step1
-            currentStep={this.state.currentStep}
-            preferences={this.state.preferences}
-            handleTopChange={this.handleTopChange}
-            handleDosChange={this.handleDosChange}
-            handleDsopChange={this.handleDsopChange}
-            handleAgencyChange={this.handleAgencyChange}
-            handleClick={this.handleClick}
-            handleNext={this.handleNext}
-            handleMtapChange={this.handleMtapChange}
-            handleRedChange={this.handleRedChange}
-            handleShrChange={this.handleShrChange}
-          />
-          <Step2
-            currentStep={this.state.currentStep}
-            preferences={this.state.preferences}
-            handleTopChange={this.handleTopChange}
-            handleDosChange={this.handleDosChange}
-            handleDsopChange={this.handleDsopChange}
-            handleAgencyChange={this.handleAgencyChange}
-            handleClick={this.handleClick}
-            handleNext={this.handleNext}
-            handleMtapChange={this.handleMtapChange}
-            handleRedChange={this.handleRedChange}
-            handleShrChange={this.handleShrChange}
-          />
-          <Step3
-            currentStep={this.state.currentStep}
-            preferences={this.state.preferences}
-            handleTopChange={this.handleTopChange}
-            handleDosChange={this.handleDosChange}
-            handleDsopChange={this.handleDsopChange}
-            handleAgencyChange={this.handleAgencyChange}
-            handleClick={this.handleClick}
-            handleSubmit={this.handleSubmit}
-            handleMtapChange={this.handleMtapChange}
-            handleRedChange={this.handleRedChange}
-            handleShrChange={this.handleShrChange}
-          />
-          {this.previousButton()}
-          {/* {this.nextButton()} */}
-        </form>
-      </React.Fragment>
-    );
+    if (this.state.stuData === null) {
+      this.checkData();
+    }
+    if(this.state.filled===true){
+      if(Stu==0){
+        return (
+          <React.Fragment>
+            {/* {this.checkData()} */}
+            <h1>Project Title</h1>
+            <p>Step {this.state.currentStep}</p>
+            <form onSubmit={e=>{this.handleClick(e,this.state.currentStep)}} className="form-group">
+              <Step1
+                currentStep={this.state.currentStep}
+                preferences={this.state.preferences}
+                handleTopChange={this.handleTopChange}
+                handleDosChange={this.handleDosChange}
+                handleDsopChange={this.handleDsopChange}
+                handleAgencyChange={this.handleAgencyChange}
+                handleClick={this.handleClick}
+                handleNext={this.handleNext}
+                handleMtapChange={this.handleMtapChange}
+                handleRedChange={this.handleRedChange}
+                handleShrChange={this.handleShrChange}
+              />
+              <Step2
+                currentStep={this.state.currentStep}
+                preferences={this.state.preferences}
+                handleTopChange={this.handleTopChange}
+                handleDosChange={this.handleDosChange}
+                handleDsopChange={this.handleDsopChange}
+                handleAgencyChange={this.handleAgencyChange}
+                handleClick={this.handleClick}
+                handleNext={this.handleNext}
+                handleMtapChange={this.handleMtapChange}
+                handleRedChange={this.handleRedChange}
+                handleShrChange={this.handleShrChange}
+              />
+              <Step3
+                currentStep={this.state.currentStep}
+                preferences={this.state.preferences}
+                handleTopChange={this.handleTopChange}
+                handleDosChange={this.handleDosChange}
+                handleDsopChange={this.handleDsopChange}
+                handleAgencyChange={this.handleAgencyChange}
+                handleClick={this.handleClick}
+                handleSubmit={this.handleSubmit}
+                handleMtapChange={this.handleMtapChange}
+                handleRedChange={this.handleRedChange}
+                handleShrChange={this.handleShrChange}
+              />
+              {this.previousButton()}
+              {/* {this.nextButton()} */}
+            </form>
+          </React.Fragment> 
+        );
+      }
+      if(Stu!=0){
+        return(
+          
+          <React-Fragment key={Proposals._id}>
+            <h4>hod{"\t"}admin</h4>
+            {Proposals.map(proposal => {
+              // let apphod=proposal.approval.hod
+              return(
+                <div>
+                  <p>{String(proposal.approval.hod)}{"\t"}{String(proposal.approval.admin)}</p>
+                  <hr />
+                </div>
+              )
+            })}
+          </React-Fragment>
+        )
+      }
+    }
+    return(
+      <h1>loading</h1>
+    )
   }
 }
 
@@ -483,7 +534,7 @@ function Step1(props) {
           id="file"
           name="file"
           type="file"
-          onchange={e=>{
+          onChange={e=>{
             props.handleFileChange(e,props.preferences[0].prefno)
           }}
           required
@@ -610,7 +661,7 @@ function Step2(props) {
           id="file"
           name="file"
           type="file"
-          onchange={e=>{
+          onChange={e=>{
             props.handleFileChange(e,props.preferences[1].prefno)
           }}
           required
@@ -736,7 +787,7 @@ function Step3(props) {
           id="file"
           name="file"
           type="file"
-          onchange={e=>{
+          onChange={e=>{
             props.handleFileChange(e,props.preferences[2].prefno)
           }}
         />
