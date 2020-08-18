@@ -21,7 +21,11 @@ mongoose.connect(process.env.uri,{
         //     if (err) throw err
         //         console.log('deleted etrx department')
         // })
-        //        User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
+        // Group.deleteMany({admin:'5f3911df53b282360c9a8e44'},function(err){
+        //     if (err) throw err
+        //         console.log('deleted etrx department')
+  //       // })
+  //       User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
 		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
 		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
 		// User.deleteMany({type:'hod'},function(err){if (err) throw err; else console.log('deleted HOD') });
@@ -68,31 +72,38 @@ async function generateGroups(admin) {
       if (!group) {
         group = await Group({
           name: user.groupName,
+          department : user.department,
           members: [],
-          admin: admin.id
+          admin: admin.id,
         });
       }
-      group.members.push(user.email);
+      group.members.push({
+        name : user.name ,
+        email : user.email ,
+        rollno : user.rollno 
+      });
       await group.save();
     }
 }
 
-async function addToDatabase(admin, email, department, type, groupName = null) {
-  password = makePassword(8);
-  saveLocallyForDevelopment(email, password);//sendMailInProduction();
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(password, salt);
-  var user = User();
-  user.email = email;
-  user.password = hash;
-  user.department = department;
-  user.type = type;
-  if (admin) user.admin = admin.id;
-  if (groupName) {
+async function addToDatabase(admin,name,rollno,email, department, type, groupName = null) {
+    password = makePassword(8);
+    saveLocallyForDevelopment(email, password);//sendMailInProduction();
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    var user = User();
+    user.email = email;
+    user.password = hash;
+    user.department = department;
+    user.type = type;
+    if(rollno) user.rollno = rollno;
+    if(name) user.name = name;
+    if (admin) user.admin = admin.id;
+    if (groupName) {
     var name = groupName.toLowerCase().trim().replace(/ /g, "");
     user.groupName = name;
-  }
-  await user.save();
+    }
+    await user.save();
 }
 
 async function getStudents(user,by){
@@ -137,9 +148,10 @@ async function addComment(staff,groupId,msg){
 }
 
 async function getGroup(student){
-    group = await Group.findOne({members:student.email});
+    group = await Group.findOne({name:student.groupName, admin:student.admin});
     return {
         id : group.id,
+        department : group.department,
         name : group.name,
         members : group.members,
         comments : group.comments,
