@@ -11,6 +11,8 @@ router.get('/user',function(req,res){
 		type : req.user.type,
 		department : req.user.department,
 		groupName : req.user.groupName,
+		name : req.user.name,
+		rollno : req.user.rollno,
 	});
 });
 
@@ -18,8 +20,8 @@ router.get('/group',async function(req,res){
 	if(!req.user) return res.status(404).send();
 	if(req.user.type != 'student') return res.status(404).send();
 	try {
-		group = await dbm.getGroup(req.user);
-		return res.send(group)
+		group =  await dbm.getGroup(req.user);
+		return res.status(200).send(group);
 	}catch{
 		return res.status(500).send();
 	}
@@ -33,6 +35,8 @@ router.post('/login',passport.authenticate('local'),function(req,res){
 		type : req.user.type,
 		department : req.user.department,
 		groupName : req.user.groupName,
+		name : req.user.name,
+		rollno : req.user.rollno,
 	});
 });
 
@@ -91,19 +95,28 @@ router.post('/admin',async function(req,res){
 	else
 	{
 		lines = file.data.toString('utf8').split('\n');
-		department = req.user.department;
+		department = req.user.department.trim();
 		for ( i = 0 ; i < lines.length ; i++ )
 		{
-			atributes = lines[i].split(',');
-			email = atributes[0];
-			projectName = atributes[1];
-			await dbm.addToDatabase(req.user,email,department,"student", projectName);
+			if (lines[i].trim() != ""){
+				atributes = lines[i].split(',');
+				name = atributes[0].trim();
+				rollno = atributes[1].trim();
+				email = atributes[2].trim();
+				groupName = atributes[3].trim();
+				console.log(name,rollno,email,groupName);
+				await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
+			}
 		}
-		dbm.addToDatabase(req.user,req.body.hod,department,"hod") ;
-		dbm.addToDatabase(req.user,req.body.pic,department,"pic") ;
-		dbm.addToDatabase(req.user,req.body.ig,department,"ig");
-		dbm.generateGroups(req.user);
-		res.send("Added To Database ");
+		dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
+		dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
+		dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
+		try{
+			groups = await dbm.generateGroups(req.user);
+			res.status(200).send("Done");
+		}catch{
+			res.status(500).send();
+		}
 	}
 });
 

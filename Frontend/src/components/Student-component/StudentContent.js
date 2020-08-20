@@ -3,6 +3,11 @@ import React, { Component } from "react";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import qs from "qs";
+import LoggedNavbar from "../Navbar/LoggedNavbar";
+
+let Stu = null;
+let filled = false;
+let Proposals = null;
 
 class StudentContent extends Component {
   // constructor(props) {
@@ -31,7 +36,8 @@ class StudentContent extends Component {
           Agency: "",
           Mtap: "",
           Red: "",
-          Shr: ""
+          Shr: "",
+          selectedFile: null
         },
         {
           filled: false,
@@ -42,7 +48,8 @@ class StudentContent extends Component {
           Agency: "",
           Mtap: "",
           Red: "",
-          Shr: ""
+          Shr: "",
+          selectedFile: null
         },
         {
           filled: false,
@@ -53,10 +60,13 @@ class StudentContent extends Component {
           Agency: "",
           Mtap: "",
           Red: "",
-          Shr: ""
+          Shr: "",
+          selectedFile: null
         }
       ],
-      currentStep: 1
+      currentStep: 1,
+      stuData: null,
+      filled
     };
   }
 
@@ -153,6 +163,16 @@ class StudentContent extends Component {
     //console.log(this.state.preferences)
   };
 
+  handleFileChange = (e, cs) => {
+    let prefs = [...this.state.preferences];
+    for (var i = 0; i < 3; i++) {
+      if (i === cs - 1) {
+        prefs[i].File = e.target.value[0];
+        this.setState({ preferences: prefs });
+      }
+    }
+  };
+
   handleClick = (e, pn) => {
     e.preventDefault();
     if (this.state.currentStep === 3) {
@@ -237,6 +257,27 @@ class StudentContent extends Component {
     console.log(this.state.preferences);
   };
 
+  checkData = () => {
+    axios({
+      method: "get",
+      url: SERVER_URL + "/group",
+      withCredentials: true
+    })
+      .then(res => {
+        // console.log(res)
+        Stu = res.data.proposals.length;
+        Proposals = res.data.proposals;
+        //console.log(Stu,Proposals)
+        this.setState({
+          stuData: "new",
+          filled: true
+        });
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
+
   _next = e => {
     let currentStep = this.state.currentStep;
     currentStep = currentStep >= 2 ? 3 : currentStep + 1;
@@ -282,7 +323,8 @@ class StudentContent extends Component {
       Agency,
       Mtap,
       Red,
-      Shr
+      Shr,
+      selectedFile
     } = this.state.preferences[currentStep - 1];
     if (
       Top === "" ||
@@ -291,7 +333,8 @@ class StudentContent extends Component {
       Agency === "" ||
       Mtap === "" ||
       Red === "" ||
-      Shr === ""
+      Shr === "" ||
+      selectedFile === null
     ) {
       alert("Please enter all the details of the preference");
     } else {
@@ -314,64 +357,89 @@ class StudentContent extends Component {
   // }
 
   render() {
-    return (
-      <React.Fragment>
-        <h1>Project Title</h1>
-        <p>Step {this.state.currentStep}</p>
-
-        <form
-          onSubmit={e => {
-            this.handleClick(e, this.state.currentStep);
-          }}
-          className="form-group"
-        >
-          {/* 
-      render the form steps and pass required props in
-    */}
-          <Step1
-            currentStep={this.state.currentStep}
-            preferences={this.state.preferences}
-            handleTopChange={this.handleTopChange}
-            handleDosChange={this.handleDosChange}
-            handleDsopChange={this.handleDsopChange}
-            handleAgencyChange={this.handleAgencyChange}
-            handleClick={this.handleClick}
-            handleNext={this.handleNext}
-            handleMtapChange={this.handleMtapChange}
-            handleRedChange={this.handleRedChange}
-            handleShrChange={this.handleShrChange}
-          />
-          <Step2
-            currentStep={this.state.currentStep}
-            preferences={this.state.preferences}
-            handleTopChange={this.handleTopChange}
-            handleDosChange={this.handleDosChange}
-            handleDsopChange={this.handleDsopChange}
-            handleAgencyChange={this.handleAgencyChange}
-            handleClick={this.handleClick}
-            handleNext={this.handleNext}
-            handleMtapChange={this.handleMtapChange}
-            handleRedChange={this.handleRedChange}
-            handleShrChange={this.handleShrChange}
-          />
-          <Step3
-            currentStep={this.state.currentStep}
-            preferences={this.state.preferences}
-            handleTopChange={this.handleTopChange}
-            handleDosChange={this.handleDosChange}
-            handleDsopChange={this.handleDsopChange}
-            handleAgencyChange={this.handleAgencyChange}
-            handleClick={this.handleClick}
-            handleSubmit={this.handleSubmit}
-            handleMtapChange={this.handleMtapChange}
-            handleRedChange={this.handleRedChange}
-            handleShrChange={this.handleShrChange}
-          />
-          {this.previousButton()}
-          {/* {this.nextButton()} */}
-        </form>
-      </React.Fragment>
-    );
+    if (this.state.stuData === null) {
+      this.checkData();
+    }
+    if (this.state.filled === true) {
+      if (Stu == 0) {
+        return (
+          <React.Fragment>
+            {/* {this.checkData()} */}
+            <h1>Project Title</h1>
+            <p>Step {this.state.currentStep}</p>
+            <form
+              onSubmit={e => {
+                this.handleClick(e, this.state.currentStep);
+              }}
+              className="form-group"
+            >
+              <Step1
+                currentStep={this.state.currentStep}
+                preferences={this.state.preferences}
+                handleTopChange={this.handleTopChange}
+                handleDosChange={this.handleDosChange}
+                handleDsopChange={this.handleDsopChange}
+                handleAgencyChange={this.handleAgencyChange}
+                handleClick={this.handleClick}
+                handleNext={this.handleNext}
+                handleMtapChange={this.handleMtapChange}
+                handleRedChange={this.handleRedChange}
+                handleShrChange={this.handleShrChange}
+              />
+              <Step2
+                currentStep={this.state.currentStep}
+                preferences={this.state.preferences}
+                handleTopChange={this.handleTopChange}
+                handleDosChange={this.handleDosChange}
+                handleDsopChange={this.handleDsopChange}
+                handleAgencyChange={this.handleAgencyChange}
+                handleClick={this.handleClick}
+                handleNext={this.handleNext}
+                handleMtapChange={this.handleMtapChange}
+                handleRedChange={this.handleRedChange}
+                handleShrChange={this.handleShrChange}
+              />
+              <Step3
+                currentStep={this.state.currentStep}
+                preferences={this.state.preferences}
+                handleTopChange={this.handleTopChange}
+                handleDosChange={this.handleDosChange}
+                handleDsopChange={this.handleDsopChange}
+                handleAgencyChange={this.handleAgencyChange}
+                handleClick={this.handleClick}
+                handleSubmit={this.handleSubmit}
+                handleMtapChange={this.handleMtapChange}
+                handleRedChange={this.handleRedChange}
+                handleShrChange={this.handleShrChange}
+              />
+              {this.previousButton()}
+              {/* {this.nextButton()} */}
+            </form>
+          </React.Fragment>
+        );
+      }
+      if (Stu != 0) {
+        return (
+          <React-Fragment key={Proposals._id}>
+            <h4>hod{"\t"}admin</h4>
+            {Proposals.map(proposal => {
+              // let apphod=proposal.approval.hod
+              return (
+                <div>
+                  <p>
+                    {String(proposal.approval.hod)}
+                    {"\t"}
+                    {String(proposal.approval.admin)}
+                  </p>
+                  <hr />
+                </div>
+              );
+            })}
+          </React-Fragment>
+        );
+      }
+    }
+    return <h1>loading</h1>;
   }
 }
 
@@ -385,7 +453,7 @@ function Step1(props) {
       <div className="form-title">
         <h3>Preference 1</h3>
       </div>
-      <label>Top : </label>
+      <label>Title of Preference : </label>
       <br />
       <input
         id="Top"
@@ -399,7 +467,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Dos : </label>
+      <label>Domain of Specialization : </label>
       <br />
       <input
         id="Dos"
@@ -413,7 +481,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Dsop : </label>
+      <label>Detailed Statement of Problem : </label>
       <br />
       <input
         id="Dsop"
@@ -427,7 +495,9 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Agency : </label>
+      <label>
+        Internal agency / external agency / CTL / Mastek/or any other :{" "}
+      </label>
       <br />
       <input
         id="agency"
@@ -441,7 +511,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Mtap : </label>
+      <label>Method/Technique/Algorithm proposed : </label>
       <br />
       <input
         id="Mtap"
@@ -455,7 +525,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Red : </label>
+      <label>Results Expected : </label>
       <br />
       <input
         id="Red"
@@ -469,7 +539,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>Shr : </label>
+      <label>Software and Hardware requirements : </label>
       <br />
       <input
         id="Shr"
@@ -478,6 +548,20 @@ function Step1(props) {
         value={props.preferences[0].Shr}
         onChange={e => {
           props.handleShrChange(e, props.preferences[0].prefno);
+        }}
+        required
+      />
+      <br />
+      <br />
+      <label>IEEE / ACM / Springer Journal Paper</label>
+      <br />
+      <br />
+      <input
+        id="file"
+        name="file"
+        type="file"
+        onChange={e => {
+          props.handleFileChange(e, props.preferences[0].prefno);
         }}
         required
       />
@@ -500,7 +584,7 @@ function Step2(props) {
       <div className="form-title">
         <h3>Preference 2</h3>
       </div>
-      <label>Top : </label>
+      <label>Title of Preference : </label>
       <br />
       <input
         id="Top"
@@ -514,7 +598,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Dos : </label>
+      <label>Domain of Specialization : </label>
       <br />
       <input
         id="Dos"
@@ -528,7 +612,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Dsop : </label>
+      <label>Detailed Statement of Problem : </label>
       <br />
       <input
         id="Dsop"
@@ -542,7 +626,9 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Agency : </label>
+      <label>
+        Internal agency / external agency / CTL / Mastek/or any other :{" "}
+      </label>
       <br />
       <input
         id="agency"
@@ -556,7 +642,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Mtap : </label>
+      <label>Method/Technique/Algorithm proposed : </label>
       <br />
       <input
         id="Mtap"
@@ -570,7 +656,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Red : </label>
+      <label>Results Expected : </label>
       <br />
       <input
         id="Red"
@@ -584,7 +670,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>Shr : </label>
+      <label>Software and Hardware requirements : </label>
       <br />
       <input
         id="Shr"
@@ -593,6 +679,20 @@ function Step2(props) {
         value={props.preferences[1].Shr}
         onChange={e => {
           props.handleShrChange(e, props.preferences[1].prefno);
+        }}
+        required
+      />
+      <br />
+      <br />
+      <label>IEEE / ACM / Springer Journal Paper</label>
+      <br />
+      <br />
+      <input
+        id="file"
+        name="file"
+        type="file"
+        onChange={e => {
+          props.handleFileChange(e, props.preferences[1].prefno);
         }}
         required
       />
@@ -616,7 +716,7 @@ function Step3(props) {
         <div className="form-title">
           <h3>Preference 3</h3>
         </div>
-        <label>Top : </label>
+        <label>Title of Preference : </label>
         <br />
         <input
           id="Top"
@@ -630,7 +730,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Dos : </label>
+        <label>Domain of Specialization : </label>
         <br />
         <input
           id="Dos"
@@ -644,7 +744,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Dsop : </label>
+        <label>Detailed Statement of Problem : </label>
         <br />
         <input
           id="Dsop"
@@ -658,7 +758,9 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Agency : </label>
+        <label>
+          Internal agency / external agency / CTL / Mastek/or any other :{" "}
+        </label>
         <br />
         <input
           id="agency"
@@ -672,7 +774,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Mtap : </label>
+        <label>Method/Technique/Algorithm proposed : </label>
         <br />
         <input
           id="Mtap"
@@ -686,7 +788,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Red : </label>
+        <label>Results Expected : </label>
         <br />
         <input
           id="Red"
@@ -700,7 +802,7 @@ function Step3(props) {
         />
         <br />
         <br />
-        <label>Shr : </label>
+        <label>Software and Hardware requirements : </label>
         <br />
         <input
           id="Shr"
@@ -711,6 +813,17 @@ function Step3(props) {
             props.handleShrChange(e, props.preferences[2].prefno);
           }}
           required
+        />
+        <label>IEEE / ACM / Springer Journal Paper</label>
+        <br />
+        <br />
+        <input
+          id="file"
+          name="file"
+          type="file"
+          onChange={e => {
+            props.handleFileChange(e, props.preferences[2].prefno);
+          }}
         />
         <br />
         <br />
