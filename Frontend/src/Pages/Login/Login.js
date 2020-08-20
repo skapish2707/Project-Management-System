@@ -3,7 +3,15 @@ import { Redirect } from "react-router-dom";
 import SERVER_URL from "../URL";
 import axios from "axios";
 import qs from "qs";
-import "./Login.css";
+
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 import Navbar from "../../components/Navbar/Navbar";
 
 let Data = "";
@@ -20,7 +28,30 @@ var today = new Date(),
     "Z" +
     today.getDate();
 
-export default class Login extends Component {
+const useStyles = theme => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  },
+  fields: {
+    backgroundColor: "#fff"
+  }
+});
+
+class Login extends Component {
   constructor(props) {
     super(props);
     const token = localStorage.getItem("token");
@@ -47,6 +78,10 @@ export default class Login extends Component {
       [e.target.name]: e.target.value
     });
   }
+
+  handleChange = name => ({ target: { value } }) => {
+    this.setState({ [name]: value });
+  };
 
   submitForm(e) {
     e.preventDefault();
@@ -116,6 +151,8 @@ export default class Login extends Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     if (Data === "admin") {
       this.checkData();
     }
@@ -155,40 +192,62 @@ export default class Login extends Component {
     //   return <Redirect to="/admin" />;
     // }
     return (
-      <React.Fragment>
-        <Navbar />
-        <div className="container">
-          <form onSubmit={this.submitForm}>
-            <div className="login-title">
-              <label>Login</label>
-            </div>
-            <br />
-            <br />
-            <input
-              type="email"
-              name="username"
-              value={this.state.username}
-              placeholder="username"
-              onChange={this.onChange}
-              required
-            />
-            <br />
-            <br />
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              placeholder="password"
-              onChange={this.onChange}
-              required
-            />
-            <br />
-            <br />
+      <div>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h4">
+              Login
+            </Typography>
+            <form
+              className={classes.form}
+              onSubmit={this.submitForm}
+              noValidate
+            >
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="username"
+                value={this.state.username}
+                onChange={this.handleChange("username")}
+                className={classes.fields}
+                autoFocus
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Password"
+                type="password"
+                id="password"
+                value={this.state.password}
+                onChange={this.handleChange("password")}
+                autoComplete="current-password"
+                className={classes.fields}
+              />
 
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-      </React.Fragment>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Login
+              </Button>
+            </form>
+          </div>
+        </Container>
+      </div>
     );
   }
 }
+
+export default withStyles(useStyles)(Login);

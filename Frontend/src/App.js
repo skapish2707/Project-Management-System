@@ -26,9 +26,9 @@ function App() {
         <Route path="/cp@2707user" exact component={ChangePassword} />
         <Route path="*" component={NotFound} />
       </Switch>
-      <footer>
+      {/* <footer>
         <Footer />
-      </footer>
+      </footer> */}
     </Router>
   );
 }

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import "./UserDetails.css";
+
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import qs from "qs";
-
 
 class StudentContent extends Component {
   // constructor(props) {
@@ -154,37 +153,34 @@ class StudentContent extends Component {
     //console.log(this.state.preferences)
   };
 
-
-  handleClick = (e,pn) => {
+  handleClick = (e, pn) => {
     e.preventDefault();
-    if(this.state.currentStep===3){
+    if (this.state.currentStep === 3) {
       let prefs = [...this.state.preferences];
-    for (var i = 0; i < 3; i++) {
-      if (i === pn - 1) {
-        //let pref=[...prefs[i]];
-        prefs[i].filled = true;
-        // prefs[i]=pref;
-        this.setState({ preferences: prefs });
-        console.log(prefs[i].filled);
-        this.handleSubmit(e)
+      for (var i = 0; i < 3; i++) {
+        if (i === pn - 1) {
+          //let pref=[...prefs[i]];
+          prefs[i].filled = true;
+          // prefs[i]=pref;
+          this.setState({ preferences: prefs });
+          console.log(prefs[i].filled);
+          this.handleSubmit(e);
+        }
+      }
+    } else {
+      let prefs = [...this.state.preferences];
+      for (var i = 0; i < 3; i++) {
+        if (i === pn - 1) {
+          //let pref=[...prefs[i]];
+          prefs[i].filled = true;
+          // prefs[i]=pref;
+          this.setState({ preferences: prefs });
+          console.log(prefs[i].filled);
+        }
       }
     }
-    }else{
-      let prefs = [...this.state.preferences];
-    for (var i = 0; i < 3; i++) {
-      if (i === pn - 1) {
-        //let pref=[...prefs[i]];
-        prefs[i].filled = true;
-        // prefs[i]=pref;
-        this.setState({ preferences: prefs });
-        console.log(prefs[i].filled);
-      }
-    }
-    }
-    
-    
+
     console.log(this.state.preferences);
-    
   };
 
   handleSubmit = e => {
@@ -199,54 +195,56 @@ class StudentContent extends Component {
       credentials: "include",
       withCredentials: true,
       data: qs.stringify({
-        proposals : [{
-        "title": pref1.Top,
-        "specialization" : pref1.Dos,
-        "details" : pref1.Dsop,
-        "agency" : pref1.Agency,
-        "method" : pref1.Mtap,
-        "result" : pref1.Red,
-        "requirements" : pref1.Shr
-      },{
-        "title": pref2.Top,
-        "specialization" : pref2.Dos,
-        "details" : pref2.Dsop,
-        "agency" : pref2.Agency,
-        "method" : pref2.Mtap,
-        "result" : pref2.Red,
-        "requirements" : pref2.Shr
-      },{
-        "title": pref3.Top,
-        "specialization" : pref3.Dos,
-        "details" : pref3.Dsop,
-        "agency" : pref3.Agency,
-        "method" : pref3.Mtap,
-        "result" : pref3.Red,
-        "requirements" : pref3.Shr
-      }]}),
+        proposals: [
+          {
+            title: pref1.Top,
+            specialization: pref1.Dos,
+            details: pref1.Dsop,
+            agency: pref1.Agency,
+            method: pref1.Mtap,
+            result: pref1.Red,
+            requirements: pref1.Shr
+          },
+          {
+            title: pref2.Top,
+            specialization: pref2.Dos,
+            details: pref2.Dsop,
+            agency: pref2.Agency,
+            method: pref2.Mtap,
+            result: pref2.Red,
+            requirements: pref2.Shr
+          },
+          {
+            title: pref3.Top,
+            specialization: pref3.Dos,
+            details: pref3.Dsop,
+            agency: pref3.Agency,
+            method: pref3.Mtap,
+            result: pref3.Red,
+            requirements: pref3.Shr
+          }
+        ]
+      }),
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8"
       }
     })
-    .then(function (res) {
-
-    })
-    .catch(function (err) {
-      if (err) throw err;
-    });
+      .then(function (res) {})
+      .catch(function (err) {
+        if (err) throw err;
+      });
     alert("Submitted");
     console.log(this.state.preferences);
   };
 
-
-  _next = (e) => {
+  _next = e => {
     let currentStep = this.state.currentStep;
     currentStep = currentStep >= 2 ? 3 : currentStep + 1;
     this.setState({
       currentStep: currentStep
     });
     //console.log(currentStep);
-    this.handleClick(e,currentStep-1);
+    this.handleClick(e, currentStep - 1);
   };
 
   _prev = () => {
@@ -275,15 +273,32 @@ class StudentContent extends Component {
   handleNext = e => {
     e.preventDefault();
     let currentStep = this.state.currentStep;
-    let {filled,prefno,Top,Dos,Dsop,Agency,Mtap,Red,Shr} = this.state.preferences[currentStep-1];
-    if(Top===""||Dos===""||Dsop===""||Agency===""||Mtap===""||Red===""||Shr===""){
+    let {
+      filled,
+      prefno,
+      Top,
+      Dos,
+      Dsop,
+      Agency,
+      Mtap,
+      Red,
+      Shr
+    } = this.state.preferences[currentStep - 1];
+    if (
+      Top === "" ||
+      Dos === "" ||
+      Dsop === "" ||
+      Agency === "" ||
+      Mtap === "" ||
+      Red === "" ||
+      Shr === ""
+    ) {
       alert("Please enter all the details of the preference");
-    }else{
+    } else {
       console.log(this.state.preferences);
       this._next(e);
     }
-    
-  }
+  };
 
   // nextButton =() => {
   //   console.log();
@@ -304,7 +319,12 @@ class StudentContent extends Component {
         <h1>Project Title</h1>
         <p>Step {this.state.currentStep}</p>
 
-        <form onSubmit={e=>{this.handleClick(e,this.state.currentStep)}} className="form-group">
+        <form
+          onSubmit={e => {
+            this.handleClick(e, this.state.currentStep);
+          }}
+          className="form-group"
+        >
           {/* 
       render the form steps and pass required props in
     */}
@@ -463,7 +483,9 @@ function Step1(props) {
       />
       <br />
       <br />
-      <button className="btn-primary" onClick={props.handleNext}>Next</button>
+      <button className="btn-primary" onClick={props.handleNext}>
+        Next
+      </button>
     </div>
   );
 }
@@ -576,7 +598,9 @@ function Step2(props) {
       />
       <br />
       <br />
-      <button className="btn-primary" onClick={props.handleNext}>Next</button>
+      <button className="btn-primary" onClick={props.handleNext}>
+        Next
+      </button>
     </div>
   );
 }
@@ -691,10 +715,8 @@ function Step3(props) {
         <br />
         <br />
 
-
         {/* {console.log(this.state.preferences[0])} */}
 
-        
         <input type="submit" value="submit" />
       </div>
     </React.Fragment>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./YamiContent.css";
+
 import LoggedNavbar from "../Navbar/LoggedNavbar";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";

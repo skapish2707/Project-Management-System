@@ -206,7 +206,7 @@ class AdminContent extends Component {
                     </div>
                   </div>
                 );
-              })}
+              })} 
             </div>
           </React.Fragment>
         );
