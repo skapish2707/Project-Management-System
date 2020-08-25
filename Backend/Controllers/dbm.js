@@ -147,6 +147,20 @@ async function addComment(staff,groupId,msg){
     await group.save();
 }
 
+async function approve(groupId,proposalId,staff){
+    group =  await Group.findById(groupId.trim());
+    for (let i = 0 ; i < group.proposals.length ; i++){
+      if (group.proposals[i].id == proposalId.trim()){
+        if (staff == 'admin'){
+          group.proposals[i].approval.admin = true;
+        }else if(staff == 'hod'){
+          group.proposals[i].approval.hod = true;
+        }
+      }
+    }
+    await group.save();
+}
+
 async function getGroup(student){
     group = await Group.findOne({name:student.groupName, admin:student.admin});
     return {
@@ -196,4 +210,5 @@ module.exports = {
   addProposals : addProposals,
   addComment : addComment,
   getGroup : getGroup,
+  approve : approve,
 };
