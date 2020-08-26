@@ -5,32 +5,11 @@ import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
 
-var today = new Date(),
-  date =
-    today.getDate() +
-    "a" +
-    today.getMonth() +
-    "V" +
-    today.getFullYear() +
-    "fUcKyoU" +
-    50 +
-    "Z" +
-    today.getDate();
-
-let sata = "N1g70xwfa0V6oCXVweqt" + date;
-
 export default class Yami extends Component {
   constructor(props) {
     super(props);
-    const token = localStorage.getItem("token");
-    let loggedIn = false;
-    if (token === sata) {
-      loggedIn = true;
-    }
-
     this.state = {
-      loggedIn,
-      resp: ""
+      user: null
     };
   }
 
@@ -41,27 +20,19 @@ export default class Yami extends Component {
       withCredentials: true
     })
       .then(res => {
-        console.log(res.data.type);
-        this.setState({
-          loggedIn: true,
-          resp: res.data.type
-        });
+        this.setState({ user: res.data });
       })
-
-      .catch(function (err) {
-        console.log(err);
+      .catch(err => {
+        this.setState({ user: "None" });
+        localStorage.removeItem("token");
       });
   };
 
   render() {
-    if (this.state.resp === "") {
+    if (this.state.user === null) {
       this.getStat();
-    }
-
-    if (this.state.loggedIn === false) {
-      return <Redirect to="/" />;
-    }
-    if (this.state.resp === "yami") {
+      return <h1>LOADING</h1>;
+    } else if (this.state.user.type === "yami") {
       return (
         <div>
           <React.Fragment>

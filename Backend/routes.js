@@ -155,6 +155,18 @@ router.post('/comment',async function(req,res){
 	}
 });
 
+router.post('/approve',async function(req,res){	
+	if (!req.user) return res.status(404).send();
+	if (req.user.type != 'admin' && req.user.type != 'hod') return res.status(404).send();
+	// id => group id
+	// pid => proposal id
+	try {
+		await dbm.approve(req.body.id,req.body.pid,req.user.type);
+		return res.status(200).send();
+	}catch{
+		res.status(500).send();
+	}
+})
 
 
 module.exports = router;
