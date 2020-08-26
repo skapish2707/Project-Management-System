@@ -1,12 +1,55 @@
 import React, { Component } from "react";
-import "./AdminContent.css";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
 import SERVER_URL from "../../Pages/URL";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import axios from "axios";
+import {
+  LinearProgress,
+  TextField,
+  withStyles,
+  Container,
+  Grid,
+  Typography,
+  Button,
+  Input
+} from "@material-ui/core";
 
 let Ad = null;
 let filled = false;
 let Groups = null;
+
+const useStyles = theme => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.up("md")]: {
+      width: "70%"
+    },
+    margin: "auto",
+    alignItems: "center"
+  },
+
+  form: {
+    width: "90%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  },
+  fields: {
+    backgroundColor: "#fff"
+  },
+  Input: {
+    border: "1px solid #d1d1d1",
+    padding: "4px 5px",
+    width: "55%",
+    marginBottom: "20px",
+    marginTop: "15px",
+    float: "right",
+    borderRadius: "4px"
+  }
+});
 
 class AdminContent extends Component {
   constructor(props) {
@@ -14,9 +57,12 @@ class AdminContent extends Component {
 
     this.state = {
       hod: "",
+      hodName: "",
       student_file: null,
       pic: "",
+      picName: "",
       ig: "",
+      igName: "",
       adData: null,
       filled
     };
@@ -25,12 +71,21 @@ class AdminContent extends Component {
   hodHandler = e => {
     this.setState({ hod: e.target.value });
   };
+  hodNameHandler = e => {
+    this.setState({ hodName: e.target.value });
+  };
 
   picHandler = e => {
     this.setState({ pic: e.target.value });
   };
+  picNameHandler = e => {
+    this.setState({ picName: e.target.value });
+  };
   igHandler = e => {
     this.setState({ ig: e.target.value });
+  };
+  igNameHandler = e => {
+    this.setState({ igName: e.target.value });
   };
   // studentfileHandler = e => {
   //   this.fileValidation(e);
@@ -40,9 +95,12 @@ class AdminContent extends Component {
     e.preventDefault();
     console.log(this.state);
     var formData = new FormData();
-    formData.append("hod", this.state.hod);
-    formData.append("ig", this.state.ig);
-    formData.append("pic", this.state.pic);
+    formData.append("hodName", this.state.hodName);
+    formData.append("hodEmail", this.state.hod);
+    formData.append("igName", this.state.igName);
+    formData.append("igEmail", this.state.ig);
+    formData.append("picName", this.state.picName);
+    formData.append("picEmail", this.state.pic);
     formData.append("student_file", this.state.student_file);
     axios({
       method: "post",
@@ -111,6 +169,7 @@ class AdminContent extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     if (this.state.adData === null) {
       this.checkData();
     }
@@ -120,66 +179,126 @@ class AdminContent extends Component {
         return (
           <div>
             <LoggedNavbar />
-            <div className="admin-container" encType="multipart/form-data">
-              <form onSubmit={this.submitHandler}>
-                <div className="admin-title">
-                  <label>Create Project Class</label>
-                </div>
-                <label className="admin-label">Head of Department Email:</label>
-                <br />
-                <br />
-                <input
-                  type="email"
-                  name="hod"
-                  placeholder="HOD email"
-                  value={this.state.hod}
-                  onChange={this.hodHandler}
-                  required
-                />
-                <br />
-                <br />
-                <label className="admin-label">Project in Charge Email:</label>
-                <br />
-                <br />
-                <input
-                  type="email"
-                  name="pic"
-                  placeholder="PIC email"
-                  value={this.state.pic}
-                  onChange={this.picHandler}
-                  required
-                />
-                <br />
-                <br />
-                <label className="admin-label">Internal Guide Email:</label>
-                <br />
-                <br />
-                <input
-                  type="email"
-                  name="ig"
-                  placeholder="IG email"
-                  value={this.state.ig}
-                  onChange={this.igHandler}
-                  required
-                />
-                <br />
-                <br />
-                <label className="admin-label">Student Data File:</label>
-                <br />
-                <br />
-                <input
-                  style={
-                    ({ border: "1px solid #303030" }, { marginBottom: "40px" })
-                  }
-                  type="file"
-                  id="file"
-                  name="student_file"
-                  onChange={this.fileValidation}
-                  required
-                />
-                <input type="submit" value="Upload" />
-              </form>
-            </div>
+            <Container component="main" maxWidth="lg">
+              <div
+                className={classes.paper}
+                style={{
+                  boxShadow:
+                    "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+                  backgroundColor: "#fff",
+                  borderRadius: "6px"
+                }}
+              >
+                <Typography variant="h2" style={{ margin: "25px 0" }}>
+                  Create Project List
+                </Typography>
+                <form className={classes.form} onSubmit={this.submitHandler}>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="hodName"
+                    label="Enter Head of Department Name"
+                    value={this.state.hodName}
+                    onChange={this.hodNameHandler}
+                    required
+                    autoFocus
+                  />
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="hod"
+                    label="Enter Head of Department Email"
+                    value={this.state.hod}
+                    onChange={this.hodHandler}
+                    required
+                  />
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="hodName"
+                    label="Enter Project Incharge Name"
+                    value={this.state.picName}
+                    onChange={this.picNameHandler}
+                    required
+                  />
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="pic"
+                    label="Enter Project Incharge Email"
+                    value={this.state.pic}
+                    onChange={this.picHandler}
+                    required
+                  />
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="hodName"
+                    label="Enter Internal Guide Name"
+                    value={this.state.igName}
+                    onChange={this.igNameHandler}
+                    required
+                  />
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="ig"
+                    label="Enter Internal Guide Email"
+                    value={this.state.ig}
+                    onChange={this.igHandler}
+                    required
+                  />
+                  <Typography
+                    style={{
+                      width: "45%",
+                      float: "left",
+                      marginTop: "25px",
+                      marginBottom: "25px",
+                      color: "#606060"
+                    }}
+                  >
+                    Upload Student File:
+                  </Typography>
+                  <Input
+                    className={classes.Input}
+                    type="file"
+                    id="file"
+                    name="student_file"
+                    onChange={this.fileValidation}
+                    required
+                  />
+                  <div style={{ alignItems: "center", margin: "0 30%" }}>
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                      className={classes.submit}
+                      startIcon={<CloudUploadIcon />}
+                      style={{
+                        padding: "8pxpx",
+                        fontSize: "18px",
+                        backgroundColor: "#1877f2",
+                        margin: "25px"
+                      }}
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </Container>
           </div>
         );
       }
@@ -194,7 +313,7 @@ class AdminContent extends Component {
                   <div className="group-container" key={group.name}>
                     <h1>{group.name}</h1>
                     <hr className="hor" />
-                    <div>
+                    {/* <div>
                       <h1 className="member-title">Members</h1>
                       {members.map(member => {
                         return (
@@ -203,16 +322,16 @@ class AdminContent extends Component {
                           </h1>
                         );
                       })}
-                    </div>
+                    </div> */}
                   </div>
                 );
-              })} 
+              })}
             </div>
           </React.Fragment>
         );
       }
-    } else return <h1>LOADING</h1>;
+    } else return <LinearProgress />;
   }
 }
 
-export default AdminContent;
+export default withStyles(useStyles)(AdminContent);

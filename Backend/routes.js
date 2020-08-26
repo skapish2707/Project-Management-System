@@ -72,7 +72,7 @@ router.post('/yami',function(req,res){
 	//department : department
 	email = req.body.email;
 	department = req.body.department;
-	dbm.addToDatabase(null,email,department,"admin");
+	dbm.addToDatabase(null,req.body.name,null,email,department,"admin");
 	res.status(200).send("Done") ;
 });
 

@@ -3,6 +3,7 @@ import { Redirect, Link } from "react-router-dom";
 import YamiContent from "../components/Yami-component/YamiContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
+import { LinearProgress } from "@material-ui/core";
 
 var today = new Date(),
   date =
@@ -70,6 +71,6 @@ export default class Yami extends Component {
       );
     }
 
-    return <h1>LOADING</h1>;
+    return <LinearProgress />;
   }
 }

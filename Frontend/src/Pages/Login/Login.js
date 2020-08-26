@@ -3,12 +3,11 @@ import { Redirect } from "react-router-dom";
 import SERVER_URL from "../URL";
 import axios from "axios";
 import qs from "qs";
-
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -37,10 +36,12 @@ const useStyles = theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: "#606060",
+    height: "50px",
+    width: "50px"
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "90%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
   submit: {
@@ -195,12 +196,24 @@ class Login extends Component {
       <div>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
+          <div
+            className={classes.paper}
+            style={{
+              boxShadow:
+                "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+              backgroundColor: "#fff",
+              borderRadius: "6px"
+            }}
+          >
+            <Avatar
+              variant="circle"
+              className={classes.avatar}
+              style={{ marginTop: "30px" }}
+            >
+              <PersonIcon fontSize="large" />
             </Avatar>
-            <Typography component="h1" variant="h4">
-              Login
+            <Typography component="h2" variant="h6">
+              User Login
             </Typography>
             <form
               className={classes.form}
@@ -239,8 +252,15 @@ class Login extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                style={{
+                  padding: "10px",
+                  fontSize: "18px",
+                  fontWeight: "bolder",
+                  backgroundColor: "#1877f2",
+                  marginBottom: "25px"
+                }}
               >
-                Login
+                Log In
               </Button>
             </form>
           </div>

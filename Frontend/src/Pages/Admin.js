@@ -3,6 +3,7 @@ import { Redirect, Link } from "react-router-dom";
 import AdminContent from "../components/Admin-component/AdminContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
+import { LinearProgress } from "@material-ui/core";
 
 var today = new Date(),
   date = today.getDate();
@@ -59,6 +60,6 @@ export default class Admin extends Component {
       );
     }
 
-    return <h1>LOADING</h1>;
+    return <LinearProgress />;
   }
 }
