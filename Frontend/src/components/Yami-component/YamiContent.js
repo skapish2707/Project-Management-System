@@ -14,6 +14,13 @@ import { withStyles } from "@material-ui/core/styles";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = theme => ({
   paper: {
@@ -59,6 +66,8 @@ class YamiContent extends Component {
     super(props);
 
     this.state = {
+      openSuccess : false,
+      openFailure : false,
       name:"",
       mail: "",
       dept: "Computer Science"
@@ -93,17 +102,25 @@ class YamiContent extends Component {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8"
       }
     })
-      .then(function (response) {
-        console.log(response);
+      .then(response => {
+        this.setState({openSuccess:true});
       })
 
-      .catch(function (err) {
-        console.log(err);
+      .catch(err => {
+        this.setState({openFailure:true});
       });
   };
 
   render() {
+
     const { classes } = this.props;
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      this.setState({openFailure:false,openSuccess:false})
+    };
+
     return (
       <div>
         <LoggedNavbar />
@@ -178,60 +195,21 @@ class YamiContent extends Component {
                 Create
               </Button>
             </form>
+            <Snackbar open={this.state.openSuccess} autoHideDuration={6000} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="success">
+                A new Admin was created successfully
+              </Alert>
+            </Snackbar>
+            <Snackbar open={this.state.openFailure} autoHideDuration={6000} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="error">
+                There was some problem while creating the admin please refresh the page and try again.
+              </Alert>
+            </Snackbar>
           </div>
         </Container>
       </div>
 
         
-        // <Container maxWidth="xs">
-
-           
-            
-        //   </Container>
-      
-
-       
-
-      
-      /// <div>
-      //   <LoggedNavbar />
-      //   <div className="yami-container">
-      //     <form onSubmit={this.submitHandler}>
-      //       <div className="yami-title">
-      //         <label>Create Admin</label>
-      //       </div>
-      //       <label className="yami-label">Admin Email:</label>
-      //       <br />
-      //       <br />
-      //       <input
-      //         type="email"
-      //         name="email"
-      //         placeholder="enter email"
-      //         value={this.state.mail}
-      //         onChange={this.mailHandler}
-      //         required
-      //       />
-      //       <br />
-      //       <br />
-      //       <label className="yami-label">Select Department</label>
-      //       <br />
-      //       <br />
-      //       <div>
-      //         <select onChange={this.deptHandler} value={this.state.dept}>
-      //           <option value="Computer Science">Computer Science</option>
-      //           <option value="Information Technology">
-      //             Information Technology
-      //           </option>
-      //           <option value="Electronics And Telecommunication">
-      //             Electronics And Telecommunication
-      //           </option>
-      //           <option value="Electronics">Electronics</option>
-      //         </select>
-      //       </div>
-      //       <input type="submit" value="Submit" />
-      //     </form>
-      //   </div>
-      // </div>
     );
   }
 }
