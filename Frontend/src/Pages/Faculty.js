@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import FacultyContent from "../components/Faculty-component/FacultyContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
+import { LinearProgress } from "@material-ui/core";
 
 export default class Admin extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class Admin extends Component {
     }
     this.state = {
       loggedIn,
-      resp: ""
+      user: "",
     };
   }
 
@@ -25,41 +26,41 @@ export default class Admin extends Component {
       withCredentials: true
     })
       .then(res => {
-        console.log(res.data.type);
         this.setState({
           loggedIn: true,
-          resp: res.data.type
+          user: res.data,
         });
       })
-
-      .catch(function (err) {
-        console.log(err);
+      .catch( err => {
+        this.setState({
+          loggedIn: false,
+          user: "no user",
+        });
+        localStorage.removeItem("token");
       });
   };
 
   render() {
-    if (this.state.resp === "") {
+    if (this.state.user === "") {
       this.getStat();
+      return <LinearProgress />;
     }
-
-    if (this.state.loggedIn === false) {
-      return <Redirect to="/" />;
-    }
-    if (
-      this.state.resp === "ig" ||
-      this.state.resp === "pic" ||
-      this.state.resp === "hod"
+    else if (
+      this.state.user.type === "ig" ||
+      this.state.user.type === "pic" ||
+      this.state.user.type === "hod"
     ) {
       return (
         <div>
-          <React.Fragment>
+          <React.Fragment >
             <FacultyContent />
-            <Link to="/logout">Logout</Link>
           </React.Fragment>
         </div>
       );
     }
+    else {
+      return <Redirect to="/" />;
+    }
 
-    return <h1>LOADING</h1>;
   }
 }

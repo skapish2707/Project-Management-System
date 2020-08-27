@@ -33,7 +33,8 @@ export default class Yami extends Component {
     if (this.state.user === null) {
       this.getStat();
       return <LinearProgress />;
-    } else if (this.state.user.type === "yami") {
+    } 
+    else if (this.state.user.type === "yami") {
       return (
         <div>
          
