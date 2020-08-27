@@ -19,7 +19,7 @@ export default class Admin extends Component {
 
     this.state = {
       loggedIn,
-      resp: ""
+      user: ""
     };
   }
 
@@ -34,33 +34,32 @@ export default class Admin extends Component {
         console.log(res.data.type);
         this.setState({
           loggedIn: true,
-          resp: res.data.type
+          user: res.data
         });
       })
 
-      .catch(function (err) {
-        console.log(err);
+      .catch(err => {
+        this.setState({
+          loggedIn: false,
+          user: "No User"
+        });
+        localStorage.removeItem("token");
       });
   };
   render() {
-    if (this.state.resp === "") {
+    if (this.state.user === "") {
       this.getStat();
-    }
-
-    if (this.state.loggedIn === false) {
-      return <Redirect to="/" />;
-    }
-    if (this.state.resp === "admin") {
+      return <LinearProgress />;
+    } else if (this.state.user.type === "admin") {
       return (
         <div>
           <React.Fragment>
-            {/* <AdminContent /> */}
             <AdminContent />
           </React.Fragment>
         </div>
       );
+    } else {
+      return <Redirect to="/" />;
     }
-
-    return <LinearProgress />;
   }
 }
