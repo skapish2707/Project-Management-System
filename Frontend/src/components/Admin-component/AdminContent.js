@@ -13,7 +13,9 @@ import {
   Button,
   Input
 } from "@material-ui/core";
+import Profile from "../Profile";
 
+let userInfo = [];
 let Ad = null;
 let filled = false;
 let Groups = null;
@@ -173,12 +175,15 @@ class AdminContent extends Component {
     if (this.state.adData === null) {
       this.checkData();
     }
+    userInfo = this.props.userInfo;
+    console.log(userInfo.name);
 
     if (this.state.filled === true) {
       if (Ad == 0) {
         return (
           <div>
             <LoggedNavbar />
+            <Profile userInfo={userInfo} />
             <Container component="main" maxWidth="lg">
               <div
                 className={classes.paper}
@@ -306,6 +311,7 @@ class AdminContent extends Component {
         return (
           <React.Fragment>
             <LoggedNavbar />
+            <Profile userInfo={userInfo} />
             <div>
               {Groups.map(group => {
                 let members = group.members;

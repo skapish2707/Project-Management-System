@@ -4,10 +4,10 @@ import "./ChangePassword.css";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
 import { LinearProgress } from "@material-ui/core";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
@@ -51,10 +51,10 @@ const useStyles = theme => ({
     float: "right",
     borderRadius: "4px"
   },
-  deptLabel : {
+  deptLabel: {
     marginTop: "25px",
     marginBottom: "15px",
-    float : "left",
+    float: "left"
   }
 });
 class ChangePassword extends Component {
@@ -62,10 +62,10 @@ class ChangePassword extends Component {
     super(props);
 
     this.state = {
-      user : "",
+      user: "",
       newPassword: "",
       confirmPassword: "",
-      openSuccess : "",
+      openSuccess: false
     };
   }
 
@@ -74,10 +74,12 @@ class ChangePassword extends Component {
       method: "get",
       url: SERVER_URL + "/user",
       withCredentials: true
-    }).then(res => {
-        this.setState({user: res.data,});
-      }).catch(err => {
-        this.setState({user:'no user'})
+    })
+      .then(res => {
+        this.setState({ user: res.data });
+      })
+      .catch(err => {
+        this.setState({ user: "no user" });
         localStorage.removeItem("token");
       });
   };
@@ -95,27 +97,35 @@ class ChangePassword extends Component {
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8"
       }
-    }).then(res => {
-        this.setState({openSuccess:true});
-      }).catch(function (err) {
+    })
+      .then(res => {
+        this.setState({ openSuccess: true });
+      })
+      .catch(function (err) {
         console.log(err);
       });
   };
 
-  newpasswordHandler = e => {this.setState({ newPassword: e.target.value });};
-  confirmpasswordHandler = e => {this.setState({ confirmPassword: e.target.value });};
+  newpasswordHandler = e => {
+    this.setState({ newPassword: e.target.value });
+  };
+  confirmpasswordHandler = e => {
+    this.setState({ confirmPassword: e.target.value });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
 
-    if (this.state.newPassword !== this.state.confirmPassword || this.state.newPassword.length < 8) {
+    if (
+      this.state.newPassword !== this.state.confirmPassword ||
+      this.state.newPassword.length < 8
+    ) {
       this.setState({
-        newPassword : "",
-        confirmPassword : "",
+        newPassword: "",
+        confirmPassword: ""
       });
-      console.log(this.state)
-    }
-    else {
+      console.log(this.state);
+    } else {
       this.pushPassword();
     }
   };
@@ -123,94 +133,98 @@ class ChangePassword extends Component {
   render() {
     const { classes } = this.props;
     const handleClose = (event, reason) => {
-      this.setState({openSuccess:false,user:'no user'})
+      this.setState({ openSuccess: false, user: "no user" });
       localStorage.removeItem("token");
     };
-    if(this.state.user === ""){
+    if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
-    }else if(this.state.user === 'no user'){
+    } else if (this.state.user === "no user") {
       return <Redirect to="/" />;
-    }else {
-        if (this.state.newPassword !== this.state.confirmPassword){
-          var helptext = "Two fields Doesn't match"
+    } else {
+      if (this.state.newPassword !== this.state.confirmPassword) {
+        var helptext = "Two fields Doesn't match";
+      } else if (this.state.newPassword === this.state.confirmPassword) {
+        var helptext = "";
+        if (this.state.newPassword && this.state.newPassword.length < 8) {
+          var helptext = "Please Enter a Password with length greater than 8";
         }
-        else if (this.state.newPassword === this.state.confirmPassword) {
-          var helptext ="";
-          if (this.state.newPassword && this.state.newPassword.length < 8 ){
-            var helptext = "Please Enter a Password with length greater than 8";
-          }
-        }
+      }
       return (
         <div>
           <LoggedNavbar />
           <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div
-            className={classes.paper}
-            style={{
-              boxShadow:
-                "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
-              backgroundColor: "#fff",
-              borderRadius: "6px"
-            }}
-          >
-           <Snackbar open={this.state.openSuccess}  onClose={handleClose} >
-              <Alert onClose={handleClose} severity="success">
-                Your Password was changed successfully Please click anywhere to login again
-              </Alert>
-            </Snackbar>
-            <form
-              className={classes.form}
-              onSubmit={this.handleSubmit}
-              noValidate
+            <CssBaseline />
+            <div
+              className={classes.paper}
+              style={{
+                boxShadow:
+                  "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+                backgroundColor: "#fff",
+                borderRadius: "6px"
+              }}
             >
-              <Typography variant="h4" style={{ marginTop:'15px',marginBottom:'15px'}}>
-                Change Password
-              </Typography>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                type="password"
-                required
-                fullWidth
-                label="New Password"
-                value={this.state.newPassword}
-                onChange={this.newpasswordHandler}
-                autoFocus/>
-              <TextField
-                variant="outlined"
-                type="password"
-                margin="normal"
-                required
-                fullWidth
-                label="Confirm Password"
-                value={this.state.confirmPassword}
-                onChange={this.confirmpasswordHandler}
+              <Snackbar open={this.state.openSuccess} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success">
+                  Your Password was changed successfully Please click anywhere
+                  to login again
+                </Alert>
+              </Snackbar>
+              <form
+                className={classes.form}
+                onSubmit={this.handleSubmit}
+                noValidate
+              >
+                <Typography
+                  variant="h4"
+                  style={{ marginTop: "15px", marginBottom: "15px" }}
+                >
+                  Change Password
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  type="password"
+                  required
+                  fullWidth
+                  label="New Password"
+                  value={this.state.newPassword}
+                  onChange={this.newpasswordHandler}
+                  autoFocus
                 />
-                <Typography variant="subtitle" color="error">
+                <TextField
+                  variant="outlined"
+                  type="password"
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="Confirm Password"
+                  value={this.state.confirmPassword}
+                  onChange={this.confirmpasswordHandler}
+                />
+                <Typography variant="h6" color="error">
                   {helptext}
                 </Typography>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                style={{
-                  padding: "10px",
-                  fontSize: "18px",
-                  fontWeight: "bolder",
-                  backgroundColor: "#1877f2",
-                  marginBottom: "25px"
-                }}
-              >
-                Change Password
-              </Button>
-            </form>
-          </div>
-        </Container>
-      </div>        
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  style={{
+                    padding: "10px",
+                    fontSize: "18px",
+                    fontWeight: "bolder",
+                    backgroundColor: "#1877f2",
+                    marginBottom: "25px"
+                  }}
+                >
+                  Change Password
+                </Button>
+              </form>
+            </div>
+          </Container>
+        </div>
       );
     }
   }

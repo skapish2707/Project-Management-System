@@ -54,7 +54,7 @@ export default class Admin extends Component {
       return (
         <div>
           <React.Fragment>
-            <AdminContent />
+            <AdminContent userInfo={this.state.user} />
           </React.Fragment>
         </div>
       );
