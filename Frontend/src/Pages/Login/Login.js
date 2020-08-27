@@ -14,6 +14,8 @@ import Container from "@material-ui/core/Container";
 import Navbar from "../../components/Navbar/Navbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -74,7 +76,8 @@ class Login extends Component {
       loggedIn,
       user: "",
       msg: "",
-      invalidCredentials: false
+      invalidCredentials: false,
+      getResponse: false
     };
     this.onChange = this.onChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -94,6 +97,7 @@ class Login extends Component {
     e.preventDefault();
     const { username, password } = this.state;
     //Login Logic
+    this.setState({ getResponse: true });
 
     axios({
       method: "post",
@@ -116,7 +120,8 @@ class Login extends Component {
           this.setState({
             user: response.data.type,
             loggedIn: true,
-            msg: "set"
+            msg: "set",
+            getResponse: false
           });
           console.log(this.state.msg, this.state.user);
           // localStorage.setItem("token", response.data.type);
@@ -125,7 +130,7 @@ class Login extends Component {
 
       .catch(err => {
         console.log(err);
-        this.setState({ invalidCredentials: true });
+        this.setState({ invalidCredentials: true, getResponse: false });
       });
   }
 
@@ -204,7 +209,9 @@ class Login extends Component {
     // if (this.state.loggedIn) {
     //   return <Redirect to="/admin" />;
     // }
-
+    if (this.state.getResponse) {
+      return <LinearProgress />;
+    }
     return (
       <div>
         <Container component="main" maxWidth="xs">
