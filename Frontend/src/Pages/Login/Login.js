@@ -12,8 +12,8 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Navbar from "../../components/Navbar/Navbar";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -74,7 +74,7 @@ class Login extends Component {
       loggedIn,
       user: "",
       msg: "",
-      invalidCredentials : false,
+      invalidCredentials: false
     };
     this.onChange = this.onChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -125,7 +125,7 @@ class Login extends Component {
 
       .catch(err => {
         console.log(err);
-        this.setState({invalidCredentials:true});
+        this.setState({ invalidCredentials: true });
       });
   }
 
@@ -196,10 +196,10 @@ class Login extends Component {
       if (token === "faculty") return <Redirect to="/faculty" exact />;
     }
     const handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
+      if (reason === "clickaway") {
         return;
       }
-      this.setState({invalidCredentials:false})
+      this.setState({ invalidCredentials: false });
     };
     // if (this.state.loggedIn) {
     //   return <Redirect to="/admin" />;
@@ -234,6 +234,7 @@ class Login extends Component {
               noValidate
             >
               <TextField
+                type="email"
                 variant="outlined"
                 margin="normal"
                 required
@@ -276,7 +277,11 @@ class Login extends Component {
                 Log In
               </Button>
             </form>
-             <Snackbar open={this.state.invalidCredentials} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar
+              open={this.state.invalidCredentials}
+              autoHideDuration={6000}
+              onClose={handleClose}
+            >
               <Alert onClose={handleClose} severity="error">
                 Invalid Username/Password Please try again
               </Alert>
