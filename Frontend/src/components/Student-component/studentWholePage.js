@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Grid} from "@material-ui/core";
+import {Grid, Container} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -20,9 +20,11 @@ function TabPanel(props) {
 				{...other}
 			>
 				{value === index && (
-					<Box p={3}>
-						<Typography>{children}</Typography>
-					</Box>
+					<Container>
+						<Box>
+							<Typography component={'span'}>{children}</Typography>
+						</Box>
+					</Container>
 				)}
 			</div>
 		);
@@ -70,51 +72,49 @@ const StudentWholePage = () => {
 		};
 
 		return ( 
-				<React.Fragment>
-						<Grid container>
-								<div className={classes.root}>
-										<Grid item xs="2" className={classes.grid}>
-												<Tabs
-														orientation="vertical"
-														value={value}
-														onChange={handleChange}
-														aria-label="Vertical tabs example"
-														className={classes.tabs}
-												>
-														<Tab label="Home" {...a11yProps(0)} />
-														<Tab label="Preferences" {...a11yProps(1)} />
-														<Tab label="Item Three" {...a11yProps(2)} />
-														<Tab label="Item Four" {...a11yProps(3)} />
-														<Tab label="Item Five" {...a11yProps(4)} />
-														<Tab label="Item Six" {...a11yProps(5)} />
-														<Tab label="Item Seven" {...a11yProps(6)} />
-												</Tabs>
-										</Grid>
-										<Grid className={classes.TabPanel} item xs="8">
-												<TabPanel value={value} index={0}>
-													Home
-												</TabPanel>
-												<TabPanel value={value} index={1}>
-													<StudentContent />
-												</TabPanel>
-												<TabPanel value={value} index={2}>
-														Item Three
-												</TabPanel>
-												<TabPanel value={value} index={3}>
-														Item Four
-												</TabPanel>
-												<TabPanel value={value} index={4}>
-														Item Five
-												</TabPanel>
-												<TabPanel value={value} index={5}>
-														Item Six
-												</TabPanel>
-												<TabPanel value={value} index={6}>
-														Item Seven
-												</TabPanel>
-										</Grid>
-										<Grid item xs="2"></Grid>
-								</div>
+			<React.Fragment>
+				<Grid container className={classes.root} >
+						<Grid item xs={2} className={classes.grid}>
+							<Tabs
+									orientation="vertical"
+									value={value}
+									onChange={handleChange}
+									aria-label="Vertical tabs example"
+									className={classes.tabs}
+							>
+									<Tab label="Home" {...a11yProps(0)} />
+									<Tab label="Preferences" {...a11yProps(1)} />
+									<Tab label="Item Three" {...a11yProps(2)} />
+									<Tab label="Item Four" {...a11yProps(3)} />
+									<Tab label="Item Five" {...a11yProps(4)} />
+									<Tab label="Item Six" {...a11yProps(5)} />
+									<Tab label="Item Seven" {...a11yProps(6)} />
+							</Tabs>
+						</Grid>
+						<Grid className={classes.TabPanel} item xs={8}>
+							<TabPanel value={value} index={0}>
+								Home
+							</TabPanel>
+							<TabPanel value={value} index={1}>
+								<StudentContent />
+							</TabPanel>
+							<TabPanel value={value} index={2}>
+									Item Three
+							</TabPanel>
+							<TabPanel value={value} index={3}>
+									Item Four
+							</TabPanel>
+							<TabPanel value={value} index={4}>
+									Item Five
+							</TabPanel>
+							<TabPanel value={value} index={5}>
+									Item Six
+							</TabPanel>
+							<TabPanel value={value} index={6}>
+									Item Seven
+							</TabPanel>
+						</Grid>
+						<Grid item xs={2}></Grid>
 						</Grid>
 				</React.Fragment>
 		 );
