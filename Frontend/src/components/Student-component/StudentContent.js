@@ -2,25 +2,17 @@ import React, { Component } from "react";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import qs from "qs";
-import {Typography } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles } from "@material-ui/core";
 
 let Stu = null;
 let filled = false;
 let Proposals = null;
 
+const useStyles = theme => ({
+
+});
+
 class StudentContent extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     currentStep: 1,
-  //     email: "",
-  //     department: "Computer Science",
-  //     name: "",
-  //     roll: "",
-  //     seat: "",
-  //     selectedFile: null
-  //   };
-  // }
 
   constructor(props) {
     super(props);
@@ -283,7 +275,6 @@ class StudentContent extends Component {
     this.setState({
       currentStep: currentStep
     });
-    //console.log(currentStep);
     this.handleClick(e, currentStep - 1);
   };
 
@@ -302,9 +293,9 @@ class StudentContent extends Component {
     let currentStep = this.state.currentStep;
     if (currentStep !== 1) {
       return (
-        <button className="btn-secondary" type="button" onClick={this._prev}>
+        <Button component={'span'} onClick={this._prev}>
           Previous
-        </button>
+        </Button>
       );
     }
     return null;
@@ -313,18 +304,7 @@ class StudentContent extends Component {
   handleNext = e => {
     e.preventDefault();
     let currentStep = this.state.currentStep;
-    let {
-      filled,
-      prefno,
-      Top,
-      Dos,
-      Dsop,
-      Agency,
-      Mtap,
-      Red,
-      Shr,
-      selectedFile
-    } = this.state.preferences[currentStep - 1];
+    let {filled,prefno,Top,Dos,Dsop,Agency,Mtap,Red,Shr,selectedFile} = this.state.preferences[currentStep - 1];
     if (
       Top === "" ||
       Dos === "" ||
@@ -342,20 +322,10 @@ class StudentContent extends Component {
     }
   };
 
-  // nextButton =() => {
-  //   console.log();
-  //   let currentStep = this.state.currentStep;
-  //   if (currentStep < 3) {
-  //     return (
-  //       <button className="btn-primary" type="button" onClick={this._next}>
-  //         Next
-  //       </button>
-  //     );
-  //   }
-  //   return null;
-  // }
 
   render() {
+    const classes = this.props;
+
     if (this.state.stuData === null) {
       this.checkData();
     }
@@ -363,14 +333,11 @@ class StudentContent extends Component {
       if (Stu == 0) {
         return (
           <React.Fragment>
-            {/* {this.checkData()} */}
-            <Typography variant="h1" style={{alignContent:"center"}}>Project Title</Typography>
-            <p>Step {this.state.currentStep}</p>
+            <Typography component={'span'} variant="h1" style={{alignContent:"center"}}>Project Title</Typography>
             <form
               onSubmit={e => {
                 this.handleClick(e, this.state.currentStep);
               }}
-              className="form-group"
             >
               <Step1
                 currentStep={this.state.currentStep}
@@ -412,400 +379,378 @@ class StudentContent extends Component {
                 handleShrChange={this.handleShrChange}
               />
               {this.previousButton()}
-              {/* {this.nextButton()} */}
             </form>
           </React.Fragment>
         );
       }
       if (Stu != 0) {
         return (
-          <React-Fragment key={Proposals._id}>
-            <h4>hod{"\t"}admin</h4>
-            {Proposals.map(proposal => {
-              // let apphod=proposal.approval.hod
-              return (
-                <div>
-                  <p>
-                    {String(proposal.approval.hod)}
-                    {"\t"}
-                    {String(proposal.approval.admin)}
-                  </p>
-                  <hr />
-                </div>
-              );
-            })}
-          </React-Fragment>
+          <React.Fragment>
+            <Typography component={'span'}>FORM FILLED</Typography>
+          </React.Fragment>
         );
       }
     }
-    return <h1>loading</h1>;
+    return(
+      <React.Fragment>
+        <Typography component={'span'} variant="h3">LOADING</Typography>
+      </React.Fragment>
+    ) 
   }
 }
 
-function Step1(props) {
-  if (props.currentStep !== 1) {
+function Step1(props){
+  if(props.currentStep!==1){
     return null;
+  }else{
+    return(
+      <React.Fragment>
+        <Grid container spacing={2}>
+          <Grid component={'span'} item xs={12}>
+            <Typography component={'span'} variant="h3">Preference 1</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Title of Preference : </Typography>
+            <TextField component={'span'} id="Top" name="Top" type="text" value={props.preferences[0].Top}
+            onChange={e => {
+              props.handleTopChange(e, props.preferences[0].prefno);
+            }}
+            required />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Domain of Specialization : </Typography>
+            <TextField component={'span'}
+              id="Dos"
+              name="Dos"
+              type="text"
+              value={props.preferences[0].Dos}
+              onChange={e => {
+                props.handleDosChange(e, props.preferences[0].prefno);
+              }}
+              required />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Detailed Statement of Problem : </Typography>
+            <TextField component={'span'}
+              id="Dsop"
+              name="Dsop"
+              type="text"
+              value={props.preferences[0].Dsop}
+              onChange={e => {
+                props.handleDsopChange(e, props.preferences[0].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+            <TextField component={'span'}
+              id="agency"
+              name="agency"
+              type="text"
+              value={props.preferences[0].Agency}
+              onChange={e => {
+                props.handleAgencyChange(e, props.preferences[0].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
+            <TextField component={'span'}
+              id="Mtap"
+              name="Mtap"
+              type="text"
+              value={props.preferences[0].Mtap}
+              onChange={e => {
+                props.handleMtapChange(e, props.preferences[0].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Results Expected : </Typography>
+            <TextField component={'span'}
+              id="Red"
+              name="Red"
+              type="text"
+              value={props.preferences[0].Red}
+              onChange={e => {
+                props.handleRedChange(e, props.preferences[0].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Software and Hardware requirements : </Typography>
+            <TextField component={'span'}
+              id="Shr"
+              name="Shr"
+              type="text"
+              value={props.preferences[0].Shr}
+              onChange={e => {
+                props.handleShrChange(e, props.preferences[0].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
+            <TextField component={'span'}
+              id="file"
+              name="file"
+              type="file"
+              onChange={e => {
+                props.handleFileChange(e, props.preferences[0].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={4} />
+          <Grid item xs={4}>
+            <Button component={'span'} onClick={props.handleNext}>Next</Button>
+          </Grid>
+          <Grid item xs={4} />
+        </Grid>
+      </React.Fragment>
+    );
   }
-  return (
-    <React.Fragment>
-      {/* <form onSubmit={this.handleSubmit}> */}
-      <div>
-        <h3>Preference 1</h3>
-      </div>
-      <label>Title of Preference : </label>
-      <input
-        id="Top"
-        name="Top"
-        type="text"
-        value={props.preferences[0].Top}
-        onChange={e => {
-          props.handleTopChange(e, props.preferences[0].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Domain of Specialization : </label>
-      <input
-        id="Dos"
-        name="Dos"
-        type="text"
-        value={props.preferences[0].Dos}
-        onChange={e => {
-          props.handleDosChange(e, props.preferences[0].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Detailed Statement of Problem : </label>
-      <input
-        id="Dsop"
-        name="Dsop"
-        type="text"
-        value={props.preferences[0].Dsop}
-        onChange={e => {
-          props.handleDsopChange(e, props.preferences[0].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>
-        Internal agency / external agency / CTL / Mastek/or any other :{" "}
-      </label>
-      <input
-        id="agency"
-        name="agency"
-        type="text"
-        value={props.preferences[0].Agency}
-        onChange={e => {
-          props.handleAgencyChange(e, props.preferences[0].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Method/Technique/Algorithm proposed : </label>
-      <input
-        id="Mtap"
-        name="Mtap"
-        type="text"
-        value={props.preferences[0].Mtap}
-        onChange={e => {
-          props.handleMtapChange(e, props.preferences[0].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Results Expected : </label>
-      <input
-        id="Red"
-        name="Red"
-        type="text"
-        value={props.preferences[0].Red}
-        onChange={e => {
-          props.handleRedChange(e, props.preferences[0].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Software and Hardware requirements : </label>
-      <input
-        id="Shr"
-        name="Shr"
-        type="text"
-        value={props.preferences[0].Shr}
-        onChange={e => {
-          props.handleShrChange(e, props.preferences[0].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>IEEE / ACM / Springer Journal Paper : </label>
-      <input
-        id="file"
-        name="file"
-        type="file"
-        onChange={e => {
-          props.handleFileChange(e, props.preferences[0].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <button onClick={props.handleNext}>
-        Next
-      </button>
-    </React.Fragment>
-  );
 }
 
-function Step2(props) {
-  if (props.currentStep !== 2) {
+function Step2(props){
+  if(props.currentStep!==2){
     return null;
+  }else{
+    return(
+      <React.Fragment>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Typography component={'span'} variant="h3">Preference 2</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Title of Preference : </Typography>
+            <TextField component={'span'} id="Top" name="Top" type="text" value={props.preferences[1].Top}
+            onChange={e => {
+              props.handleTopChange(e, props.preferences[1].prefno);
+            }}
+            required />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Domain of Specialization : </Typography>
+            <TextField component={'span'}
+              id="Dos"
+              name="Dos"
+              type="text"
+              value={props.preferences[1].Dos}
+              onChange={e => {
+                props.handleDosChange(e, props.preferences[1].prefno);
+              }}
+              required />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Detailed Statement of Problem : </Typography>
+            <TextField component={'span'}
+              id="Dsop"
+              name="Dsop"
+              type="text"
+              value={props.preferences[1].Dsop}
+              onChange={e => {
+                props.handleDsopChange(e, props.preferences[1].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+            <TextField component={'span'}
+              id="agency"
+              name="agency"
+              type="text"
+              value={props.preferences[1].Agency}
+              onChange={e => {
+                props.handleAgencyChange(e, props.preferences[1].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
+            <TextField component={'span'}
+              id="Mtap"
+              name="Mtap"
+              type="text"
+              value={props.preferences[1].Mtap}
+              onChange={e => {
+                props.handleMtapChange(e, props.preferences[1].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Results Expected : </Typography>
+            <TextField component={'span'}
+              id="Red"
+              name="Red"
+              type="text"
+              value={props.preferences[1].Red}
+              onChange={e => {
+                props.handleRedChange(e, props.preferences[1].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Software and Hardware requirements : </Typography>
+            <TextField component={'span'}
+              id="Shr"
+              name="Shr"
+              type="text"
+              value={props.preferences[1].Shr}
+              onChange={e => {
+                props.handleShrChange(e, props.preferences[1].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
+            <TextField component={'span'}
+              id="file"
+              name="file"
+              type="file"
+              onChange={e => {
+                props.handleFileChange(e, props.preferences[1].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={4} />
+          <Grid item xs={4}>
+            <Button component={'span'} onClick={props.handleNext}>Next</Button>
+          </Grid>
+          <Grid item xs={4} />
+        </Grid>
+      </React.Fragment>
+    );
   }
-  return (
-    <div className="student-container">
-      {/* <form onSubmit={this.handleSubmit}> */}
-      <div className="form-title">
-        <h3>Preference 2</h3>
-      </div>
-      <label>Title of Preference : </label>
-      <input
-        id="Top"
-        name="Top"
-        type="text"
-        value={props.preferences[1].Top}
-        onChange={e => {
-          props.handleTopChange(e, props.preferences[1].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Domain of Specialization : </label>
-      <input
-        id="Dos"
-        name="Dos"
-        type="text"
-        value={props.preferences[1].Dos}
-        onChange={e => {
-          props.handleDosChange(e, props.preferences[1].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Detailed Statement of Problem : </label>
-      <input
-        id="Dsop"
-        name="Dsop"
-        type="text"
-        value={props.preferences[1].Dsop}
-        onChange={e => {
-          props.handleDsopChange(e, props.preferences[1].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>
-        Internal agency / external agency / CTL / Mastek/or any other :{" "}
-      </label>
-      <input
-        id="agency"
-        name="agency"
-        type="text"
-        value={props.preferences[1].Agency}
-        onChange={e => {
-          props.handleAgencyChange(e, props.preferences[1].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Method/Technique/Algorithm proposed : </label>
-      <input
-        id="Mtap"
-        name="Mtap"
-        type="text"
-        value={props.preferences[1].Mtap}
-        onChange={e => {
-          props.handleMtapChange(e, props.preferences[1].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Results Expected : </label>
-      <input
-        id="Red"
-        name="Red"
-        type="text"
-        value={props.preferences[1].Red}
-        onChange={e => {
-          props.handleRedChange(e, props.preferences[1].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>Software and Hardware requirements : </label>
-      <input
-        id="Shr"
-        name="Shr"
-        type="text"
-        value={props.preferences[1].Shr}
-        onChange={e => {
-          props.handleShrChange(e, props.preferences[1].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <label>IEEE / ACM / Springer Journal Paper : </label>
-      <input
-        id="file"
-        name="file"
-        type="file"
-        onChange={e => {
-          props.handleFileChange(e, props.preferences[1].prefno);
-        }}
-        required
-      />
-      <br />
-      <br />
-      <button className="btn-primary" onClick={props.handleNext}>
-        Next
-      </button>
-    </div>
-  );
 }
 
-function Step3(props) {
-  if (props.currentStep !== 3) {
+function Step3(props){
+  if(props.currentStep!==3){
     return null;
+  }else{
+    return(
+      <React.Fragment>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Typography component={'span'} variant="h3">Preference 3</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Title of Preference : </Typography>
+            <TextField component={'span'} id="Top" name="Top" type="text" value={props.preferences[2].Top}
+            onChange={e => {
+              props.handleTopChange(e, props.preferences[2].prefno);
+            }}
+            required />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Domain of Specialization : </Typography>
+            <TextField component={'span'}
+              id="Dos"
+              name="Dos"
+              type="text"
+              value={props.preferences[2].Dos}
+              onChange={e => {
+                props.handleDosChange(e, props.preferences[2].prefno);
+              }}
+              required />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Detailed Statement of Problem : </Typography>
+            <TextField component={'span'}
+              id="Dsop"
+              name="Dsop"
+              type="text"
+              value={props.preferences[2].Dsop}
+              onChange={e => {
+                props.handleDsopChange(e, props.preferences[2].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+            <TextField component={'span'}
+              id="agency"
+              name="agency"
+              type="text"
+              value={props.preferences[2].Agency}
+              onChange={e => {
+                props.handleAgencyChange(e, props.preferences[2].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
+            <TextField component={'span'}
+              id="Mtap"
+              name="Mtap"
+              type="text"
+              value={props.preferences[2].Mtap}
+              onChange={e => {
+                props.handleMtapChange(e, props.preferences[2].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Results Expected : </Typography>
+            <TextField component={'span'}
+              id="Red"
+              name="Red"
+              type="text"
+              value={props.preferences[2].Red}
+              onChange={e => {
+                props.handleRedChange(e, props.preferences[2].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>Software and Hardware requirements : </Typography>
+            <TextField component={'span'}
+              id="Shr"
+              name="Shr"
+              type="text"
+              value={props.preferences[2].Shr}
+              onChange={e => {
+                props.handleShrChange(e, props.preferences[2].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
+            <TextField component={'span'}
+              id="file"
+              name="file"
+              type="file"
+              onChange={e => {
+                props.handleFileChange(e, props.preferences[2].prefno);
+              }}
+              required
+            />
+          </Grid>
+          <Grid item xs={4} />
+          <Grid item xs={4}>
+            <TextField component={'span'} type="submit">Submit</TextField>
+          </Grid>
+          <Grid item xs={4} />
+        </Grid>
+      </React.Fragment>
+    );
   }
-  return (
-    <React.Fragment>
-      <div className="student-container">
-        {/* <form onSubmit={this.handleSubmit}> */}
-        <div className="form-title">
-          <h3>Preference 3</h3>
-        </div>
-        <label>Title of Preference : </label>
-        <input
-          id="Top"
-          name="Top"
-          type="text"
-          value={props.preferences[2].Top}
-          onChange={e => {
-            props.handleTopChange(e, props.preferences[2].prefno);
-          }}
-          required
-        />
-        <br />
-        <br />
-        <label>Domain of Specialization : </label>
-        <input
-          id="Dos"
-          name="Dos"
-          type="text"
-          value={props.preferences[2].Dos}
-          onChange={e => {
-            props.handleDosChange(e, props.preferences[2].prefno);
-          }}
-          required
-        />
-        <br />
-        <br />
-        <label>Detailed Statement of Problem : </label>
-        <input
-          id="Dsop"
-          name="Dsop"
-          type="text"
-          value={props.preferences[2].Dsop}
-          onChange={e => {
-            props.handleDsopChange(e, props.preferences[2].prefno);
-          }}
-          required
-        />
-        <br />
-        <br />
-        <label>
-          Internal agency / external agency / CTL / Mastek/or any other :{" "}
-        </label>
-        <input
-          id="agency"
-          name="agency"
-          type="text"
-          value={props.preferences[2].Agency}
-          onChange={e => {
-            props.handleAgencyChange(e, props.preferences[2].prefno);
-          }}
-          required
-        />
-        <br />
-        <br />
-        <label>Method/Technique/Algorithm proposed : </label>
-        <input
-          id="Mtap"
-          name="Mtap"
-          type="text"
-          value={props.preferences[2].Mtap}
-          onChange={e => {
-            props.handleMtapChange(e, props.preferences[2].prefno);
-          }}
-          required
-        />
-        <br />
-        <br />
-        <label>Results Expected : </label>
-        <input
-          id="Red"
-          name="Red"
-          type="text"
-          value={props.preferences[2].Red}
-          onChange={e => {
-            props.handleRedChange(e, props.preferences[2].prefno);
-          }}
-          required
-        />
-        <br />
-        <br />
-        <label>Software and Hardware requirements : </label>
-        <input
-          id="Shr"
-          name="Shr"
-          type="text"
-          value={props.preferences[2].Shr}
-          onChange={e => {
-            props.handleShrChange(e, props.preferences[2].prefno);
-          }}
-          required
-        />
-        <label>IEEE / ACM / Springer Journal Paper : </label>
-        <input
-          id="file"
-          name="file"
-          type="file"
-          onChange={e => {
-            props.handleFileChange(e, props.preferences[2].prefno);
-          }}
-        />
-        <br />
-        <br />
-
-        {/* {console.log(this.state.preferences[0])} */}
-
-        <input type="submit" value="submit" />
-      </div>
-    </React.Fragment>
-  );
 }
 
-export default StudentContent;
+export default withStyles(useStyles)(StudentContent);
