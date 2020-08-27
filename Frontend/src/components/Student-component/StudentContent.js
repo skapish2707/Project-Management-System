@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import qs from "qs";
-import LoggedNavbar from "../Navbar/LoggedNavbar";
+import {Typography } from "@material-ui/core";
 
 let Stu = null;
 let filled = false;
@@ -365,7 +364,7 @@ class StudentContent extends Component {
         return (
           <React.Fragment>
             {/* {this.checkData()} */}
-            <h1>Project Title</h1>
+            <Typography variant="h1" style={{alignContent:"center"}}>Project Title</Typography>
             <p>Step {this.state.currentStep}</p>
             <form
               onSubmit={e => {
@@ -448,13 +447,12 @@ function Step1(props) {
     return null;
   }
   return (
-    <div className="student-container">
+    <React.Fragment>
       {/* <form onSubmit={this.handleSubmit}> */}
-      <div className="form-title">
+      <div>
         <h3>Preference 1</h3>
       </div>
       <label>Title of Preference : </label>
-      <br />
       <input
         id="Top"
         name="Top"
@@ -468,7 +466,6 @@ function Step1(props) {
       <br />
       <br />
       <label>Domain of Specialization : </label>
-      <br />
       <input
         id="Dos"
         name="Dos"
@@ -482,7 +479,6 @@ function Step1(props) {
       <br />
       <br />
       <label>Detailed Statement of Problem : </label>
-      <br />
       <input
         id="Dsop"
         name="Dsop"
@@ -498,7 +494,6 @@ function Step1(props) {
       <label>
         Internal agency / external agency / CTL / Mastek/or any other :{" "}
       </label>
-      <br />
       <input
         id="agency"
         name="agency"
@@ -512,7 +507,6 @@ function Step1(props) {
       <br />
       <br />
       <label>Method/Technique/Algorithm proposed : </label>
-      <br />
       <input
         id="Mtap"
         name="Mtap"
@@ -526,7 +520,6 @@ function Step1(props) {
       <br />
       <br />
       <label>Results Expected : </label>
-      <br />
       <input
         id="Red"
         name="Red"
@@ -540,7 +533,6 @@ function Step1(props) {
       <br />
       <br />
       <label>Software and Hardware requirements : </label>
-      <br />
       <input
         id="Shr"
         name="Shr"
@@ -553,9 +545,7 @@ function Step1(props) {
       />
       <br />
       <br />
-      <label>IEEE / ACM / Springer Journal Paper</label>
-      <br />
-      <br />
+      <label>IEEE / ACM / Springer Journal Paper : </label>
       <input
         id="file"
         name="file"
@@ -567,10 +557,10 @@ function Step1(props) {
       />
       <br />
       <br />
-      <button className="btn-primary" onClick={props.handleNext}>
+      <button onClick={props.handleNext}>
         Next
       </button>
-    </div>
+    </React.Fragment>
   );
 }
 
@@ -585,7 +575,6 @@ function Step2(props) {
         <h3>Preference 2</h3>
       </div>
       <label>Title of Preference : </label>
-      <br />
       <input
         id="Top"
         name="Top"
@@ -599,7 +588,6 @@ function Step2(props) {
       <br />
       <br />
       <label>Domain of Specialization : </label>
-      <br />
       <input
         id="Dos"
         name="Dos"
@@ -613,7 +601,6 @@ function Step2(props) {
       <br />
       <br />
       <label>Detailed Statement of Problem : </label>
-      <br />
       <input
         id="Dsop"
         name="Dsop"
@@ -629,7 +616,6 @@ function Step2(props) {
       <label>
         Internal agency / external agency / CTL / Mastek/or any other :{" "}
       </label>
-      <br />
       <input
         id="agency"
         name="agency"
@@ -643,7 +629,6 @@ function Step2(props) {
       <br />
       <br />
       <label>Method/Technique/Algorithm proposed : </label>
-      <br />
       <input
         id="Mtap"
         name="Mtap"
@@ -657,7 +642,6 @@ function Step2(props) {
       <br />
       <br />
       <label>Results Expected : </label>
-      <br />
       <input
         id="Red"
         name="Red"
@@ -671,7 +655,6 @@ function Step2(props) {
       <br />
       <br />
       <label>Software and Hardware requirements : </label>
-      <br />
       <input
         id="Shr"
         name="Shr"
@@ -684,9 +667,7 @@ function Step2(props) {
       />
       <br />
       <br />
-      <label>IEEE / ACM / Springer Journal Paper</label>
-      <br />
-      <br />
+      <label>IEEE / ACM / Springer Journal Paper : </label>
       <input
         id="file"
         name="file"
@@ -717,7 +698,6 @@ function Step3(props) {
           <h3>Preference 3</h3>
         </div>
         <label>Title of Preference : </label>
-        <br />
         <input
           id="Top"
           name="Top"
@@ -731,7 +711,6 @@ function Step3(props) {
         <br />
         <br />
         <label>Domain of Specialization : </label>
-        <br />
         <input
           id="Dos"
           name="Dos"
@@ -745,7 +724,6 @@ function Step3(props) {
         <br />
         <br />
         <label>Detailed Statement of Problem : </label>
-        <br />
         <input
           id="Dsop"
           name="Dsop"
@@ -761,7 +739,6 @@ function Step3(props) {
         <label>
           Internal agency / external agency / CTL / Mastek/or any other :{" "}
         </label>
-        <br />
         <input
           id="agency"
           name="agency"
@@ -775,7 +752,6 @@ function Step3(props) {
         <br />
         <br />
         <label>Method/Technique/Algorithm proposed : </label>
-        <br />
         <input
           id="Mtap"
           name="Mtap"
@@ -789,7 +765,6 @@ function Step3(props) {
         <br />
         <br />
         <label>Results Expected : </label>
-        <br />
         <input
           id="Red"
           name="Red"
@@ -803,7 +778,6 @@ function Step3(props) {
         <br />
         <br />
         <label>Software and Hardware requirements : </label>
-        <br />
         <input
           id="Shr"
           name="Shr"
@@ -814,9 +788,7 @@ function Step3(props) {
           }}
           required
         />
-        <label>IEEE / ACM / Springer Journal Paper</label>
-        <br />
-        <br />
+        <label>IEEE / ACM / Springer Journal Paper : </label>
         <input
           id="file"
           name="file"

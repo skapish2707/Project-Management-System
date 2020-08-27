@@ -3,7 +3,8 @@ import { Redirect } from "react-router-dom";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 import axios from "axios";
 import SERVER_URL from "./URL";
-import StudentContent from "../components/Student-component/StudentContent";
+import StudentWholePage from "../components/Student-component/studentWholePage"
+//import StudentContent from "../components/Student-component/StudentContent";
 
 export default class Admin extends Component {
   constructor(props) {
@@ -50,7 +51,7 @@ export default class Admin extends Component {
       return (
         <div>
           <LoggedNavbar />
-          <StudentContent />
+          <StudentWholePage />
         </div>
       );
     }
