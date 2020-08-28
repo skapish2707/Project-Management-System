@@ -2,14 +2,19 @@ import React, { Component } from "react";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import qs from "qs";
-import {Typography, TextField, Grid, Button, withStyles } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper } from "@material-ui/core";
 
 let Stu = null;
 let filled = false;
 let Proposals = null;
 
 const useStyles = theme => ({
-
+  buttonprop:{
+    marginBottom: "5px"
+  },
+  TextField:{
+    width:"500px",
+  }
 });
 
 class StudentContent extends Component {
@@ -158,7 +163,7 @@ class StudentContent extends Component {
     let prefs = [...this.state.preferences];
     for (var i = 0; i < 3; i++) {
       if (i === cs - 1) {
-        prefs[i].File = e.target.value[0];
+        prefs[i].selectedFile = e.target.value[0];
         this.setState({ preferences: prefs });
       }
     }
@@ -167,6 +172,7 @@ class StudentContent extends Component {
   handleClick = (e, pn) => {
     e.preventDefault();
     if (this.state.currentStep === 3) {
+      console.log("HELLO");
       let prefs = [...this.state.preferences];
       for (var i = 0; i < 3; i++) {
         if (i === pn - 1) {
@@ -186,7 +192,7 @@ class StudentContent extends Component {
           prefs[i].filled = true;
           // prefs[i]=pref;
           this.setState({ preferences: prefs });
-          console.log(prefs[i].filled);
+          //console.log(prefs[i].filled);
         }
       }
     }
@@ -240,11 +246,14 @@ class StudentContent extends Component {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8"
       }
     })
-      .then(function (res) {})
+      .then(function (res) {
+        alert("Submitted");
+      })
       .catch(function (err) {
+        alert("Not Submitted");
         if (err) throw err;
       });
-    alert("Submitted");
+    
     console.log(this.state.preferences);
   };
 
@@ -255,7 +264,7 @@ class StudentContent extends Component {
       withCredentials: true
     })
       .then(res => {
-        // console.log(res)
+        console.log(res)
         Stu = res.data.proposals.length;
         Proposals = res.data.proposals;
         //console.log(Stu,Proposals)
@@ -306,26 +315,18 @@ class StudentContent extends Component {
     let currentStep = this.state.currentStep;
     let {filled,prefno,Top,Dos,Dsop,Agency,Mtap,Red,Shr,selectedFile} = this.state.preferences[currentStep - 1];
     if (
-      Top === "" ||
-      Dos === "" ||
-      Dsop === "" ||
-      Agency === "" ||
-      Mtap === "" ||
-      Red === "" ||
-      Shr === "" ||
-      selectedFile === null
+      Top === "" || Dos === "" || Dsop === "" || Agency === "" || Mtap === "" || Red === "" || Shr === "" || selectedFile === null
     ) {
       alert("Please enter all the details of the preference");
     } else {
-      console.log(this.state.preferences);
+      // console.log(this.state.preferences);
       this._next(e);
     }
   };
 
 
   render() {
-    const classes = this.props;
-
+    const {classes} = this.props;
     if (this.state.stuData === null) {
       this.checkData();
     }
@@ -333,13 +334,9 @@ class StudentContent extends Component {
       if (Stu == 0) {
         return (
           <React.Fragment>
-            <Typography component={'span'} variant="h1" style={{alignContent:"center"}}>Project Title</Typography>
-            <form
-              onSubmit={e => {
-                this.handleClick(e, this.state.currentStep);
-              }}
-            >
+            <form>
               <Step1
+                classes={classes}
                 currentStep={this.state.currentStep}
                 preferences={this.state.preferences}
                 handleTopChange={this.handleTopChange}
@@ -351,8 +348,10 @@ class StudentContent extends Component {
                 handleMtapChange={this.handleMtapChange}
                 handleRedChange={this.handleRedChange}
                 handleShrChange={this.handleShrChange}
+                handleFileChange={this.handleFileChange}
               />
               <Step2
+                classes={classes}
                 currentStep={this.state.currentStep}
                 preferences={this.state.preferences}
                 handleTopChange={this.handleTopChange}
@@ -364,8 +363,10 @@ class StudentContent extends Component {
                 handleMtapChange={this.handleMtapChange}
                 handleRedChange={this.handleRedChange}
                 handleShrChange={this.handleShrChange}
+                handleFileChange={this.handleFileChange}
               />
               <Step3
+                classes={classes}
                 currentStep={this.state.currentStep}
                 preferences={this.state.preferences}
                 handleTopChange={this.handleTopChange}
@@ -377,6 +378,7 @@ class StudentContent extends Component {
                 handleMtapChange={this.handleMtapChange}
                 handleRedChange={this.handleRedChange}
                 handleShrChange={this.handleShrChange}
+                handleFileChange={this.handleFileChange}
               />
               {this.previousButton()}
             </form>
@@ -386,20 +388,25 @@ class StudentContent extends Component {
       if (Stu != 0) {
         return (
           <React.Fragment>
-            <Typography component={'span'}>FORM FILLED</Typography>
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography component={'span'} variant="h3">Preferences</Typography>
+              </Grid>
+            </Grid>
           </React.Fragment>
         );
       }
     }
     return(
       <React.Fragment>
-        <Typography component={'span'} variant="h3">LOADING</Typography>
+        <CircularProgress />
       </React.Fragment>
     ) 
   }
 }
 
 function Step1(props){
+  const classes=props.classes;
   if(props.currentStep!==1){
     return null;
   }else{
@@ -409,17 +416,21 @@ function Step1(props){
           <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 1</Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
-            <TextField component={'span'} id="Top" name="Top" type="text" value={props.preferences[0].Top}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'} id="Top" name="Top" type="text" value={props.preferences[0].Top}
             onChange={e => {
               props.handleTopChange(e, props.preferences[0].prefno);
             }}
             required />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Dos"
               name="Dos"
               type="text"
@@ -429,9 +440,11 @@ function Step1(props){
               }}
               required />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Dsop"
               name="Dsop"
               type="text"
@@ -442,9 +455,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="agency"
               name="agency"
               type="text"
@@ -455,9 +470,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Mtap"
               name="Mtap"
               type="text"
@@ -468,9 +485,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Results Expected : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Red"
               name="Red"
               type="text"
@@ -481,9 +500,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Shr"
               name="Shr"
               type="text"
@@ -494,9 +515,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="file"
               name="file"
               type="file"
@@ -508,7 +531,7 @@ function Step1(props){
           </Grid>
           <Grid item xs={4} />
           <Grid item xs={4}>
-            <Button component={'span'} onClick={props.handleNext}>Next</Button>
+            <Button className={classes.buttonprop} variant="contained" component={'span'} onClick={props.handleNext}>Next</Button>
           </Grid>
           <Grid item xs={4} />
         </Grid>
@@ -518,26 +541,31 @@ function Step1(props){
 }
 
 function Step2(props){
+  const classes=props.classes;
   if(props.currentStep!==2){
     return null;
   }else{
     return(
       <React.Fragment>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
+        <Grid container spacing={2}>
+          <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 2</Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
-            <TextField component={'span'} id="Top" name="Top" type="text" value={props.preferences[1].Top}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'} id="Top" name="Top" type="text" value={props.preferences[1].Top}
             onChange={e => {
               props.handleTopChange(e, props.preferences[1].prefno);
             }}
             required />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Dos"
               name="Dos"
               type="text"
@@ -547,9 +575,11 @@ function Step2(props){
               }}
               required />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Dsop"
               name="Dsop"
               type="text"
@@ -560,9 +590,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="agency"
               name="agency"
               type="text"
@@ -573,9 +605,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Mtap"
               name="Mtap"
               type="text"
@@ -586,9 +620,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Results Expected : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Red"
               name="Red"
               type="text"
@@ -599,9 +635,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Shr"
               name="Shr"
               type="text"
@@ -612,9 +650,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="file"
               name="file"
               type="file"
@@ -626,7 +666,7 @@ function Step2(props){
           </Grid>
           <Grid item xs={4} />
           <Grid item xs={4}>
-            <Button component={'span'} onClick={props.handleNext}>Next</Button>
+            <Button className={classes.buttonprop} variant="contained" component={'span'} onClick={props.handleNext}>Next</Button>
           </Grid>
           <Grid item xs={4} />
         </Grid>
@@ -636,26 +676,31 @@ function Step2(props){
 }
 
 function Step3(props){
+  const classes=props.classes;
   if(props.currentStep!==3){
     return null;
   }else{
     return(
       <React.Fragment>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
+        <Grid container spacing={2}>
+          <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 3</Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
-            <TextField component={'span'} id="Top" name="Top" type="text" value={props.preferences[2].Top}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'} id="Top" name="Top" type="text" value={props.preferences[2].Top}
             onChange={e => {
               props.handleTopChange(e, props.preferences[2].prefno);
             }}
             required />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Dos"
               name="Dos"
               type="text"
@@ -665,9 +710,11 @@ function Step3(props){
               }}
               required />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Dsop"
               name="Dsop"
               type="text"
@@ -678,9 +725,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="agency"
               name="agency"
               type="text"
@@ -691,9 +740,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Mtap"
               name="Mtap"
               type="text"
@@ -704,9 +755,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Results Expected : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Red"
               name="Red"
               type="text"
@@ -717,9 +770,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="Shr"
               name="Shr"
               type="text"
@@ -730,9 +785,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
-            <TextField component={'span'}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField className={classes.TextField} variant="outlined" component={'span'}
               id="file"
               name="file"
               type="file"
@@ -744,7 +801,9 @@ function Step3(props){
           </Grid>
           <Grid item xs={4} />
           <Grid item xs={4}>
-            <TextField component={'span'} type="submit">Submit</TextField>
+            <Button component={'span'} type="submit" onClick={e=>{
+              props.handleClick(e, props.currentStep);
+            }}>Submit</Button>
           </Grid>
           <Grid item xs={4} />
         </Grid>
