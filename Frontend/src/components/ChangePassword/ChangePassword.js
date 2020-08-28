@@ -60,12 +60,14 @@ const useStyles = theme => ({
 class ChangePassword extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       user: "",
       newPassword: "",
       confirmPassword: "",
-      openSuccess: false
+      openSuccess: false,
+      openFailure :false,
+      helptext : "",
     };
   }
 
@@ -101,8 +103,8 @@ class ChangePassword extends Component {
       .then(res => {
         this.setState({ openSuccess: true });
       })
-      .catch(function (err) {
-        console.log(err);
+      .catch(err => {
+        this.setState({openFailure : true});
       });
   };
 
@@ -115,26 +117,26 @@ class ChangePassword extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
-    if (
-      this.state.newPassword !== this.state.confirmPassword ||
-      this.state.newPassword.length < 8
-    ) {
-      this.setState({
-        newPassword: "",
-        confirmPassword: ""
-      });
-      console.log(this.state);
-    } else {
-      this.pushPassword();
+    if(this.state.newPassword !== this.state.confirmPassword){
+      this.setState({helptext : "Two fields Doesn't match"}) ;
+    }else if(this.state.newPassword.length < 8){
+      this.setState({helptext : "Please Enter a Password with length greater than 8"});
+    }
+    else{
+       this.pushPassword(); 
     }
   };
 
   render() {
     const { classes } = this.props;
     const handleClose = (event, reason) => {
-      this.setState({ openSuccess: false, user: "no user" });
-      localStorage.removeItem("token");
+      if(this.state.openSuccess){
+        this.setState({openSuccess: false, user: "no user"});
+        localStorage.removeItem("token");
+      }
+      else if(this.state.openFailure){
+        this.setState({openFailure : false});
+      }
     };
     if (this.state.user === "") {
       this.getStat();
@@ -142,14 +144,6 @@ class ChangePassword extends Component {
     } else if (this.state.user === "no user") {
       return <Redirect to="/" />;
     } else {
-      if (this.state.newPassword !== this.state.confirmPassword) {
-        var helptext = "Two fields Doesn't match";
-      } else if (this.state.newPassword === this.state.confirmPassword) {
-        var helptext = "";
-        if (this.state.newPassword && this.state.newPassword.length < 8) {
-          var helptext = "Please Enter a Password with length greater than 8";
-        }
-      }
       return (
         <div>
           <LoggedNavbar />
@@ -168,6 +162,11 @@ class ChangePassword extends Component {
                 <Alert onClose={handleClose} severity="success">
                   Your Password was changed successfully Please click anywhere
                   to login again
+                </Alert>
+              </Snackbar>
+              <Snackbar open={this.state.openFailure} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                  There was some problem while changing your password please refresh the page and try again
                 </Alert>
               </Snackbar>
               <form
@@ -202,8 +201,8 @@ class ChangePassword extends Component {
                   value={this.state.confirmPassword}
                   onChange={this.confirmpasswordHandler}
                 />
-                <Typography variant="h6" color="error">
-                  {helptext}
+                <Typography variant="subtitle2" color="error">
+                  {this.state.helptext}
                 </Typography>
                 <Button
                   type="submit"
