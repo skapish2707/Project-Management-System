@@ -13,7 +13,7 @@ const useStyles = theme => ({
     marginBottom: "5px"
   },
   TextField:{
-    width:"500px",
+    width:"40ch",
   }
 });
 
@@ -416,21 +416,21 @@ function Step1(props){
           <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 1</Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'} id="Top" name="Top" type="text" value={props.preferences[0].Top}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'} id="Top" name="Top" type="text" value={props.preferences[0].Top}
             onChange={e => {
               props.handleTopChange(e, props.preferences[0].prefno);
             }}
             required />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Dos"
               name="Dos"
               type="text"
@@ -440,11 +440,11 @@ function Step1(props){
               }}
               required />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Dsop"
               name="Dsop"
               type="text"
@@ -455,11 +455,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="agency"
               name="agency"
               type="text"
@@ -470,11 +470,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Mtap"
               name="Mtap"
               type="text"
@@ -485,11 +485,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Results Expected : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Red"
               name="Red"
               type="text"
@@ -500,11 +500,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Shr"
               name="Shr"
               type="text"
@@ -515,11 +515,11 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="file"
               name="file"
               type="file"
@@ -551,21 +551,21 @@ function Step2(props){
           <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 2</Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'} id="Top" name="Top" type="text" value={props.preferences[1].Top}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'} id="Top" name="Top" type="text" value={props.preferences[1].Top}
             onChange={e => {
               props.handleTopChange(e, props.preferences[1].prefno);
             }}
             required />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Dos"
               name="Dos"
               type="text"
@@ -575,11 +575,11 @@ function Step2(props){
               }}
               required />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Dsop"
               name="Dsop"
               type="text"
@@ -590,11 +590,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="agency"
               name="agency"
               type="text"
@@ -605,11 +605,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Mtap"
               name="Mtap"
               type="text"
@@ -620,11 +620,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Results Expected : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Red"
               name="Red"
               type="text"
@@ -635,11 +635,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Shr"
               name="Shr"
               type="text"
@@ -650,11 +650,11 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="file"
               name="file"
               type="file"
@@ -686,21 +686,21 @@ function Step3(props){
           <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 3</Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'} id="Top" name="Top" type="text" value={props.preferences[2].Top}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'} id="Top" name="Top" type="text" value={props.preferences[2].Top}
             onChange={e => {
               props.handleTopChange(e, props.preferences[2].prefno);
             }}
             required />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Dos"
               name="Dos"
               type="text"
@@ -710,11 +710,11 @@ function Step3(props){
               }}
               required />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Dsop"
               name="Dsop"
               type="text"
@@ -725,11 +725,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="agency"
               name="agency"
               type="text"
@@ -740,11 +740,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Mtap"
               name="Mtap"
               type="text"
@@ -755,11 +755,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Results Expected : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Red"
               name="Red"
               type="text"
@@ -770,11 +770,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="Shr"
               name="Shr"
               type="text"
@@ -785,11 +785,11 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <TextField className={classes.TextField} variant="outlined" component={'span'}
+          <Grid item xs={12} md={6}>
+            <TextField className={classes.TextField} variant="standard" component={'span'}
               id="file"
               name="file"
               type="file"
