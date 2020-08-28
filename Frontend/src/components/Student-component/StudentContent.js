@@ -302,7 +302,7 @@ class StudentContent extends Component {
     let currentStep = this.state.currentStep;
     if (currentStep !== 1) {
       return (
-        <Button component={'span'} onClick={this._prev}>
+        <Button variant="contained" component={'span'} onClick={this._prev}>
           Previous
         </Button>
       );
@@ -801,7 +801,7 @@ function Step3(props){
           </Grid>
           <Grid item xs={4} />
           <Grid item xs={4}>
-            <Button component={'span'} type="submit" onClick={e=>{
+            <Button variant="contained" component={'span'} type="submit" onClick={e=>{
               props.handleClick(e, props.currentStep);
             }}>Submit</Button>
           </Grid>
