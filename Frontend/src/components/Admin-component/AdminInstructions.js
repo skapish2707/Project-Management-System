@@ -8,7 +8,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     // minWidth: 275,
     textAlign: "left",
-    width: "100%",
+    // height: "220px",
+
     [theme.breakpoints.down("sm")]: {}
   },
   title: {
@@ -22,9 +23,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Profile(props) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-  const userInfo = props;
-  console.log(userInfo);
   return (
     <Card
       className={classes.root}
@@ -36,13 +34,21 @@ export default function Profile(props) {
       }}
     >
       <CardContent>
-        <Typography variant="h3">User Details -</Typography>
+        <Typography variant="h3">Instructions -</Typography>
         <Typography className={classes.title}>
-          <b> Name:</b> {userInfo.userInfo.name} &nbsp;&nbsp;&nbsp;&nbsp;
-          <b> Designation:</b> {userInfo.userInfo.type} &nbsp;&nbsp;&nbsp;&nbsp;
-          <b> Department:</b> {userInfo.userInfo.department}{" "}
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <b>Email:</b> {userInfo.userInfo.email}
+          1.Please fill the below form to create project list of your department
+        </Typography>
+        <Typography className={classes.title}>
+          2.Project list file should be of .csv format
+        </Typography>
+        <Typography className={classes.title}>
+          3.Adding email of respective authorities will give them access
+          according to their designation
+        </Typography>
+        <Typography className={classes.title}>
+          {" "}
+          4.On submitting the form you will create a list mentioned in the file
+          and will give authorities to emails mentioned by you
         </Typography>
       </CardContent>
     </Card>

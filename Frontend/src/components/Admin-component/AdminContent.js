@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
 import SERVER_URL from "../../Pages/URL";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import AdminInstructions from "./AdminInstructions";
 import axios from "axios";
 import {
   LinearProgress,
@@ -23,10 +24,11 @@ let Groups = null;
 const useStyles = theme => ({
   paper: {
     marginTop: theme.spacing(8),
+    width: "70%",
     display: "flex",
     flexDirection: "column",
-    [theme.breakpoints.up("md")]: {
-      width: "70%"
+    [theme.breakpoints.down("sm")]: {
+      width: "90%"
     },
     margin: "auto",
     alignItems: "center"
@@ -184,6 +186,7 @@ class AdminContent extends Component {
           <div>
             <LoggedNavbar />
             <Profile userInfo={userInfo} />
+            <AdminInstructions userInfo={userInfo} />
             <Container component="main" maxWidth="lg">
               <div
                 className={classes.paper}
