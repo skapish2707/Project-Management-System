@@ -8,12 +8,15 @@ const useStyles = makeStyles(theme => ({
   root: {
     // minWidth: 275,
     textAlign: "left",
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
     // height: "220px",
 
     [theme.breakpoints.down("sm")]: {}
   },
   title: {
-    fontSize: "20px",
+    fontSize: "16px",
     letterSpacing: "1px"
   },
   pos: {
@@ -30,11 +33,13 @@ export default function Profile(props) {
       style={{
         boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
         backgroundColor: "#fff",
-        borderRadius: "6px"
+        borderRadius: "0px"
       }}
     >
       <CardContent>
-        <Typography variant="h3">Instructions -</Typography>
+        <Typography variant="h4" style={{ fontWeight: "600" }}>
+          Instructions -
+        </Typography>
         <Typography className={classes.title}>
           1.Please fill the below form to create project list of your department
         </Typography>

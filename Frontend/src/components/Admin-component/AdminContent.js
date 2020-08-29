@@ -8,7 +8,6 @@ import {
   LinearProgress,
   TextField,
   withStyles,
-  Container,
   Grid,
   Typography,
   Button,
@@ -33,6 +32,11 @@ const useStyles = theme => ({
     margin: "auto",
     alignItems: "center"
   },
+  pape: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    backgroundColor: "#fff"
+  },
 
   form: {
     width: "90%", // Fix IE 11 issue.
@@ -45,13 +49,23 @@ const useStyles = theme => ({
     backgroundColor: "#fff"
   },
   Input: {
+    width: "90%",
     border: "1px solid #d1d1d1",
     padding: "4px 5px",
-    width: "55%",
-    marginBottom: "20px",
-    marginTop: "15px",
-    float: "right",
     borderRadius: "4px"
+  },
+  Inputfield: {
+    width: "90%",
+    padding: "0px"
+  },
+  gridField: {
+    padding: "8px 0 !important"
+  },
+  InputTitle: {
+    textAlign: "left",
+    paddingLeft: "30px",
+    fontSize: "16px",
+    fontWeight: "600"
   }
 });
 
@@ -186,127 +200,195 @@ class AdminContent extends Component {
           <div>
             <LoggedNavbar />
             <Profile userInfo={userInfo} />
-            <AdminInstructions userInfo={userInfo} />
-            <Container component="main" maxWidth="lg">
-              <div
-                className={classes.paper}
+            <AdminInstructions />
+            <div
+              style={{
+                width: "90%",
+                margin: "50px auto",
+                boxShadow:
+                  "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+                backgroundColor: "#fff",
+                borderRadius: "10px"
+              }}
+            >
+              <form
                 style={{
-                  boxShadow:
-                    "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
                   backgroundColor: "#fff",
-                  borderRadius: "6px"
+                  marginTop: "30px",
+                  padding: "20px 30px"
                 }}
               >
-                <Typography variant="h2" style={{ margin: "25px 0" }}>
+                <Typography variant="h2" style={{ marginBottom: "30px" }}>
                   Create Project List
                 </Typography>
-                <form className={classes.form} onSubmit={this.submitHandler}>
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="hodName"
-                    label="Enter Head of Department Name"
-                    value={this.state.hodName}
-                    onChange={this.hodNameHandler}
-                    required
-                    autoFocus
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="hod"
-                    label="Enter Head of Department Email"
-                    value={this.state.hod}
-                    onChange={this.hodHandler}
-                    required
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="hodName"
-                    label="Enter Project Incharge Name"
-                    value={this.state.picName}
-                    onChange={this.picNameHandler}
-                    required
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="pic"
-                    label="Enter Project Incharge Email"
-                    value={this.state.pic}
-                    onChange={this.picHandler}
-                    required
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="hodName"
-                    label="Enter Internal Guide Name"
-                    value={this.state.igName}
-                    onChange={this.igNameHandler}
-                    required
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    id="ig"
-                    label="Enter Internal Guide Email"
-                    value={this.state.ig}
-                    onChange={this.igHandler}
-                    required
-                  />
-                  <Typography
-                    style={{
-                      width: "45%",
-                      float: "left",
-                      marginTop: "25px",
-                      marginBottom: "25px",
-                      color: "#606060"
-                    }}
+                <Grid container spacing={2}>
+                  <Grid item xs={12} className={classes.gridField}>
+                    <Typography className={classes.InputTitle}>
+                      Enter Head Of Department Details:
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={classes.gridField}
                   >
-                    Upload Student File:
-                  </Typography>
-                  <Input
-                    className={classes.Input}
-                    type="file"
-                    id="file"
-                    name="student_file"
-                    onChange={this.fileValidation}
-                    required
-                  />
-                  <div style={{ alignItems: "center", margin: "0 30%" }}>
-                    <Button
-                      type="submit"
-                      color="primary"
-                      variant="contained"
-                      className={classes.submit}
-                      startIcon={<CloudUploadIcon />}
-                      style={{
-                        padding: "8pxpx",
-                        fontSize: "18px",
-                        backgroundColor: "#1877f2",
-                        margin: "25px"
-                      }}
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                </form>
-              </div>
-            </Container>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      id="hodName"
+                      label="Enter Head of Department Name"
+                      value={this.state.hodName}
+                      onChange={this.hodNameHandler}
+                      className={classes.Inputfield}
+                      required
+                      autoFocus
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={classes.gridField}
+                  >
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      id="hod"
+                      label="Enter Head of Department Email"
+                      value={this.state.hod}
+                      onChange={this.hodHandler}
+                      className={classes.Inputfield}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridField}>
+                    <Typography className={classes.InputTitle}>
+                      Enter Project Incharge Details:
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={classes.gridField}
+                  >
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      id="hodName"
+                      label="Enter Project Incharge Name"
+                      value={this.state.picName}
+                      onChange={this.picNameHandler}
+                      className={classes.Inputfield}
+                      required
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={classes.gridField}
+                  >
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      id="pic"
+                      label="Enter Project Incharge Email"
+                      value={this.state.pic}
+                      onChange={this.picHandler}
+                      className={classes.Inputfield}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridField}>
+                    <Typography className={classes.InputTitle}>
+                      Enter Internal Guide Details:
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={classes.gridField}
+                  >
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      id="hodName"
+                      label="Enter Internal Guide Name"
+                      value={this.state.igName}
+                      onChange={this.igNameHandler}
+                      className={classes.Inputfield}
+                      required
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={classes.gridField}
+                  >
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      id="ig"
+                      label="Enter Internal Guide Email"
+                      value={this.state.ig}
+                      onChange={this.igHandler}
+                      className={classes.Inputfield}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridField}>
+                    <Typography className={classes.InputTitle}>
+                      Upload Student List File:
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={classes.gridField}
+                  >
+                    <Input
+                      className={classes.Input}
+                      type="file"
+                      id="file"
+                      name="student_file"
+                      onChange={this.fileValidation}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12} className={classes.gridField}>
+                    <div style={{ alignItems: "center", margin: "0 30%" }}>
+                      <Button
+                        type="submit"
+                        color="primary"
+                        variant="contained"
+                        className={classes.submit}
+                        startIcon={<CloudUploadIcon />}
+                        style={{
+                          padding: "8px 50px",
+                          fontSize: "18px",
+                          backgroundColor: "#1877f2",
+                          margin: "25px"
+                        }}
+                      >
+                        Submit
+                      </Button>
+                    </div>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
           </div>
         );
       }
@@ -315,23 +397,32 @@ class AdminContent extends Component {
           <React.Fragment>
             <LoggedNavbar />
             <Profile userInfo={userInfo} />
-            <div>
+            <div style={{ width: "50%", margin: "auto", textAlign: "left" }}>
               {Groups.map(group => {
                 let members = group.members;
                 return (
                   <div className="group-container" key={group.name}>
                     <h1>{group.name}</h1>
                     <hr className="hor" />
-                    {/* <div>
+                    <div>
                       <h1 className="member-title">Members</h1>
                       {members.map(member => {
                         return (
-                          <h1 className="membertag" key={member}>
-                            {member}
-                          </h1>
+                          <div style={{ textAlign: "left" }}>
+                            <h3 className="membertag" key={member.name}>
+                              Name: {member.name}
+                            </h3>
+                            <h3 className="membertag" key={member.email}>
+                              Email: {member.email}
+                            </h3>
+                            <h3 className="membertag" key={member.rollno}>
+                              Roll No: {member.rollno}
+                            </h3>
+                            <hr />
+                          </div>
                         );
                       })}
-                    </div> */}
+                    </div>
                   </div>
                 );
               })}
