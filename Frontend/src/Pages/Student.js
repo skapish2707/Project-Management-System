@@ -49,7 +49,7 @@ export default class Admin extends Component {
       return (
         <div>
           <LoggedNavbar />
-          <StudentWholePage />
+          <StudentWholePage userInfo={this.state.user} />
         </div>
       );
     }
