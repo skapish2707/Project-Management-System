@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import qs from "qs";
-import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper, Tabs, Tab, Box, AppBar } from "@material-ui/core";
 
 let Stu = null;
 let filled = false;
@@ -16,6 +17,41 @@ const useStyles = theme => ({
     width:"40ch",
   }
 });
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+
 
 class StudentContent extends Component {
 
@@ -62,9 +98,16 @@ class StudentContent extends Component {
       ],
       currentStep: 1,
       stuData: null,
+      tabValue:0,
       filled
     };
   }
+  
+  handleChange = (event, newValue) => {
+    this.setState({
+      tabValue:newValue
+    });
+  };
 
   handleTopChange = (e, pn) => {
     let prefs = [...this.state.preferences];
@@ -325,6 +368,7 @@ class StudentContent extends Component {
   };
 
 
+
   render() {
     const {classes} = this.props;
     if (this.state.stuData === null) {
@@ -386,13 +430,27 @@ class StudentContent extends Component {
         );
       }
       if (Stu != 0) {
+        let value=this.state.tabValue
         return (
           <React.Fragment>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography component={'span'} variant="h3">Preferences</Typography>
-              </Grid>
-            </Grid>
+            <div className={classes.root}>
+              <AppBar position="static">
+                <Tabs value={value} onChange={this.handleChange} aria-label="simple tabs example" centered>
+                  <Tab label="Item One" {...a11yProps(0)} />
+                  <Tab label="Item Two" {...a11yProps(1)} />
+                  <Tab label="Item Three" {...a11yProps(2)} />
+                </Tabs>
+              </AppBar>
+              <TabPanel value={value} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                Item Three
+              </TabPanel>
+            </div>
           </React.Fragment>
         );
       }
