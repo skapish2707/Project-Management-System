@@ -80,7 +80,7 @@ const StudentWholePage = (props) => {
 		return ( 
 			<React.Fragment>
 				<Profile userInfo={userInfo} />
-				<Grid style={{marginTop:"5px"}} container className={classes.root} >
+				<Grid style={{marginTop:"3px"}} container className={classes.root} >
 					<Grid item xs={2} className={classes.grid}>
 						<Tabs
 								orientation="vertical"
