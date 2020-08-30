@@ -64,6 +64,7 @@ class StudentContent extends Component {
       stuData: null,
       filled
     };
+
   }
 
   handleTopChange = (e, pn) => {
@@ -163,7 +164,7 @@ class StudentContent extends Component {
     let prefs = [...this.state.preferences];
     for (var i = 0; i < 3; i++) {
       if (i === cs - 1) {
-        prefs[i].selectedFile = e.target.value[0];
+        prefs[i].selectedFile = e.target.files[0];
         this.setState({ preferences: prefs });
       }
     }
@@ -206,44 +207,49 @@ class StudentContent extends Component {
     let pref2 = this.state.preferences[1];
     let pref3 = this.state.preferences[2];
     //console.log(pref1);
+    let proposals = [
+          {
+            "title": pref1.Top,
+            "specialization": pref1.Dos,
+            "details": pref1.Dsop,
+            "agency": pref1.Agency,
+            "method": pref1.Mtap,
+            "result": pref1.Red,
+            "requirements": pref1.Shr
+          },
+          {
+            "title": pref2.Top,
+            "specialization": pref2.Dos,
+            "details": pref2.Dsop,
+            "agency": pref2.Agency,
+            "method": pref2.Mtap,
+            "result": pref2.Red,
+            "requirements": pref2.Shr
+          },
+          {
+            "title": pref3.Top,
+            "specialization": pref3.Dos,
+            "details": pref3.Dsop,
+            "agency": pref3.Agency,
+            "method": pref3.Mtap,
+            "result": pref3.Red,
+            "requirements": pref3.Shr
+          }
+    ]
+    var formData = new FormData();
+    formData.append("proposals",JSON.stringify(proposals));
+    formData.append("file1",this.state.preferences[0].selectedFile);
+    formData.append("file2",this.state.preferences[1].selectedFile);
+    formData.append("file3",this.state.preferences[2].selectedFile);
+    console.log(proposals)
     axios({
       method: "post",
       url: SERVER_URL + "/student",
       credentials: "include",
       withCredentials: true,
-      data: qs.stringify({
-        proposals: [
-          {
-            title: pref1.Top,
-            specialization: pref1.Dos,
-            details: pref1.Dsop,
-            agency: pref1.Agency,
-            method: pref1.Mtap,
-            result: pref1.Red,
-            requirements: pref1.Shr
-          },
-          {
-            title: pref2.Top,
-            specialization: pref2.Dos,
-            details: pref2.Dsop,
-            agency: pref2.Agency,
-            method: pref2.Mtap,
-            result: pref2.Red,
-            requirements: pref2.Shr
-          },
-          {
-            title: pref3.Top,
-            specialization: pref3.Dos,
-            details: pref3.Dsop,
-            agency: pref3.Agency,
-            method: pref3.Mtap,
-            result: pref3.Red,
-            requirements: pref3.Shr
-          }
-        ]
-      }),
+      data: formData,
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+       "Content-Type": "multipart/form-data"
       }
     })
       .then(function (res) {
