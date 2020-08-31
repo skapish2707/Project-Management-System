@@ -14,7 +14,11 @@ const useStyles = theme => ({
     marginBottom: "5px"
   },
   TextField:{
-    width:"40ch",
+    width:"90%",
+  },
+  typography:{
+    display:"flex",
+    justifyContent:"left"
   }
 });
 
@@ -440,15 +444,13 @@ class StudentContent extends Component {
         return (
           <React.Fragment>
             <div className={classes.root}>
-              <AppBar position="static">
-                <Tabs value={value} onChange={this.handleChange} aria-label="simple tabs example" centered>
+                <Tabs value={value} onChange={this.handleChange} aria-label="simple tabs example" indicatorColor="primary" textColor="primary" centered>
                   <Tab label="Item One" {...a11yProps(0)} />
                   <Tab label="Item Two" {...a11yProps(1)} />
                   <Tab label="Item Three" {...a11yProps(2)} />
                 </Tabs>
-              </AppBar>
               <TabPanel value={value} index={0}>
-                Item One
+                Item one
               </TabPanel>
               <TabPanel value={value} index={1}>
                 Item Two
@@ -480,7 +482,7 @@ function Step1(props){
           <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 1</Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -490,7 +492,7 @@ function Step1(props){
             }}
             required />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -504,7 +506,7 @@ function Step1(props){
               }}
               required />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -519,7 +521,7 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -534,7 +536,7 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -549,7 +551,7 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Results Expected : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -564,7 +566,7 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -579,7 +581,7 @@ function Step1(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -615,7 +617,7 @@ function Step2(props){
           <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 2</Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -625,7 +627,7 @@ function Step2(props){
             }}
             required />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -639,7 +641,7 @@ function Step2(props){
               }}
               required />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -654,7 +656,7 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -669,7 +671,7 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -684,7 +686,7 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Results Expected : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -699,7 +701,7 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -714,7 +716,7 @@ function Step2(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -750,7 +752,7 @@ function Step3(props){
           <Grid component={'span'} item xs={12}>
             <Typography component={'span'} variant="h3">Preference 3</Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Title of Preference : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -760,7 +762,7 @@ function Step3(props){
             }}
             required />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Domain of Specialization : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -774,7 +776,7 @@ function Step3(props){
               }}
               required />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Detailed Statement of Problem : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -789,7 +791,7 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -804,7 +806,7 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Method/Technique/Algorithm proposed : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -819,7 +821,7 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Results Expected : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -834,7 +836,7 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>Software and Hardware requirements : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -849,7 +851,7 @@ function Step3(props){
               required
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid className={classes.typography} item xs={12} md={6}>
             <Typography component={'span'}>IEEE / ACM / Springer Journal Paper : </Typography>
           </Grid>
           <Grid item xs={12} md={6}>

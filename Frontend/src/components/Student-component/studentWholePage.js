@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Grid, Container} from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -10,6 +10,9 @@ import StudentContent from './StudentContent';
 import Profile from '../Profile';
 
 let userInfo = [];
+
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
 
 function TabPanel(props) {
 		const { children, value, index, ...other } = props;
@@ -51,6 +54,8 @@ function TabPanel(props) {
 			flexGrow: 1,
 			backgroundColor: theme.palette.background.paper,
 			display: 'flex',
+			maxWidth:"100%",
+			marginTop:"3px"
 		},
 		// tabs: {
 		//   borderRight: `1px solid ${theme.palette.divider}`,
@@ -58,11 +63,25 @@ function TabPanel(props) {
 		TabPanel:{
 				//borderLeft:`1px solid ${theme.palette.divider}`,
 				display: "block",
-				margin:"auto"
+				margin:"1px",
 		},
-		grid:{
+		vert_tab_grid:{
 			borderRight:`1px solid ${theme.palette.divider}`
+		},
+		hor_tab_grid:{
+			borderBottom:`1px solid ${theme.palette.divider}`
+		},
+		large_win_tabs:{
+			[theme.breakpoints.down('650')]: {
+				display:"none"
+			},
+		},
+		small_win_tabs:{
+			[theme.breakpoints.up('650')]: {
+				display:"none"
+			},
 		}
+
 	}));
 
 const StudentWholePage = (props) => {
@@ -78,53 +97,110 @@ const StudentWholePage = (props) => {
 		};
 
 		return ( 
-			<React.Fragment>
+			<React.Fragment >
 				<Profile userInfo={userInfo} />
-				<Grid style={{marginTop:"3px"}} container className={classes.root} >
-					<Grid item xs={2} className={classes.grid}>
-						<Tabs
-								orientation="vertical"
-								value={value}
-								onChange={handleChange}
-								aria-label="Vertical tabs example"
-								className={classes.tabs}
-						>
-								<Tab label="Home" {...a11yProps(0)} />
-								<Tab label="Preferences" {...a11yProps(1)} />
-								<Tab label="Item Three" {...a11yProps(2)} />
-								<Tab label="Item Four" {...a11yProps(3)} />
-								<Tab label="Item Five" {...a11yProps(4)} />
-								<Tab label="Item Six" {...a11yProps(5)} />
-								<Tab label="Item Seven" {...a11yProps(6)} />
-						</Tabs>
-					</Grid>
-					<Grid className={classes.TabPanel} item xs={8}>
-						<TabPanel value={value} index={0}>
-							Home
-						</TabPanel>
-						<TabPanel value={value} index={1}>
-							<StudentContent />
-						</TabPanel>
-						<TabPanel value={value} index={2}>
-								Item Three
-						</TabPanel>
-						<TabPanel value={value} index={3}>
-								Item Four
-						</TabPanel>
-						<TabPanel value={value} index={4}>
-								Item Five
-						</TabPanel>
-						<TabPanel value={value} index={5}>
-								Item Six
-						</TabPanel>
-						<TabPanel value={value} index={6}>
-								Item Seven
-						</TabPanel>
-					</Grid>
-					<Grid item xs={2}></Grid>
-					</Grid>
+					<div className={classes.small_win_tabs}>
+						<Grid container className={classes.root} >
+							<ThemeProvider theme={theme}>
+								<Grid item xs={12} className={classes.hor_tab_grid}>
+									<Tabs
+											orientation="horizontal"
+											value={value}
+											onChange={handleChange}
+											aria-label="horizontal tabs"
+											variant="scrollable"
+          									scrollButtons="on"
+											indicatorColor="primary"
+											textColor="primary"
+									>
+											<Tab className={classes.tab} label="Home" {...a11yProps(0)} />
+											<Tab className={classes.tab} label="Preferences" {...a11yProps(1)} />
+											<Tab className={classes.tab} label="Item Three" {...a11yProps(2)} />
+											<Tab className={classes.tab} label="Item Four" {...a11yProps(3)} />
+											<Tab className={classes.tab} label="Item Five" {...a11yProps(4)} />
+											<Tab className={classes.tab} label="Item Six" {...a11yProps(5)} />
+											<Tab className={classes.tab} label="Item Seven" {...a11yProps(6)} />
+									</Tabs>
+								</Grid>
+								{/* <Grid item xs={2} /> */}
+							</ThemeProvider>
+							<Grid item xs={1}></Grid>
+							<Grid className={classes.TabPanel} item xs={10}>
+								<TabPanel value={value} index={0}>
+									Home
+								</TabPanel>
+								<TabPanel value={value} index={1}>
+									<StudentContent />
+								</TabPanel>
+								<TabPanel value={value} index={2}>
+										Item Three
+								</TabPanel>
+								<TabPanel value={value} index={3}>
+										Item Four
+								</TabPanel>
+								<TabPanel value={value} index={4}>
+										Item Five
+								</TabPanel>
+								<TabPanel value={value} index={5}>
+										Item Six
+								</TabPanel>
+								<TabPanel value={value} index={6}>
+										Item Seven
+								</TabPanel>
+							</Grid>
+							<Grid item xs={1}></Grid>
+						</Grid>
+					</div>
+					<div className={classes.large_win_tabs}>
+						<Grid style={{marginTop:"3px"}} container className={classes.root} >
+							<ThemeProvider theme={theme}>
+								<Grid item xs={3} className={classes.vert_tab_grid}>
+									<Tabs
+											orientation="vertical"
+											value={value}
+											onChange={handleChange}
+											aria-label="Vertical tabs"
+											
+									>
+											<Tab className={classes.tab} label="Home" {...a11yProps(0)} />
+											<Tab className={classes.tab} label="Preferences" {...a11yProps(1)} />
+											<Tab className={classes.tab} label="Item Three" {...a11yProps(2)} />
+											<Tab className={classes.tab} label="Item Four" {...a11yProps(3)} />
+											<Tab className={classes.tab} label="Item Five" {...a11yProps(4)} />
+											<Tab className={classes.tab} label="Item Six" {...a11yProps(5)} />
+											<Tab className={classes.tab} label="Item Seven" {...a11yProps(6)} />
+									</Tabs>
+								</Grid>
+							</ThemeProvider>
+							<Grid className={classes.TabPanel} item xs={8}>
+								<TabPanel value={value} index={0}>
+									Home
+								</TabPanel>
+								<TabPanel value={value} index={1}>
+									<StudentContent />
+								</TabPanel>
+								<TabPanel value={value} index={2}>
+										Item Three
+								</TabPanel>
+								<TabPanel value={value} index={3}>
+										Item Four
+								</TabPanel>
+								<TabPanel value={value} index={4}>
+										Item Five
+								</TabPanel>
+								<TabPanel value={value} index={5}>
+										Item Six
+								</TabPanel>
+								<TabPanel value={value} index={6}>
+										Item Seven
+								</TabPanel>
+							</Grid>
+							<Grid item xs={1}></Grid>
+						</Grid>
+					</div>
 				</React.Fragment>
 		 );
 }
  
 export default StudentWholePage;
+
