@@ -135,7 +135,7 @@ async function getStudents(user,by){
 }
 
 async function addProposals(student,proposals){
-    await Group.findOneAndUpdate({admin:student.admin,name:student.groupName},{proposals:proposals});
+  await Group.findOneAndUpdate({admin:student.admin,name:student.groupName},{proposals:proposals});
 }
 
 async function addComment(staff,groupId,msg){
