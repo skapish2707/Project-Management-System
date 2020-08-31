@@ -4,7 +4,7 @@ import YamiContent from "../components/Yami-component/YamiContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
-
+import Footer from "../components/Footer/Footer";
 
 export default class Yami extends Component {
   constructor(props) {
@@ -33,20 +33,19 @@ export default class Yami extends Component {
     if (this.state.user === null) {
       this.getStat();
       return <LinearProgress />;
-    } 
-    else if (this.state.user.type === "yami") {
+    } else if (this.state.user.type === "yami") {
       return (
         <div>
-         
           <React.Fragment>
             <YamiContent />
+            <footer>
+              <Footer />
+            </footer>
           </React.Fragment>
         </div>
       );
     } else {
-      return <Redirect to="/" exact />
+      return <Redirect to="/" exact />;
     }
-
-    
   }
 }

@@ -8,15 +8,12 @@ html {
 body {
   margin: 0;
 }
-
-input {
-  font-family: "Recursive", sans-serif;
-}
-
-button {
-  font-family: "Recursive", sans-serif;
-}
-
-select {
-  font-family: "Recursive", sans-serif;
+#footer {
+  bottom: 0;
+  color: #707070;
+  height: 2em;
+  left: 0;
+  position: relative;
+  font-size: small;
+  width: 100%;
 }

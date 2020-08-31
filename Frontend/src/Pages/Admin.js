@@ -4,6 +4,7 @@ import AdminContent from "../components/Admin-component/AdminContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
+import Footer from "../components/Footer/Footer";
 
 var today = new Date(),
   date = today.getDate();

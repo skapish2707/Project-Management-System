@@ -4,6 +4,7 @@ import FacultyContent from "../components/Faculty-component/FacultyContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
+import Footer from "../components/Footer/Footer";
 
 export default class Admin extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export default class Admin extends Component {
     }
     this.state = {
       loggedIn,
-      user: "",
+      user: ""
     };
   }
 
@@ -28,13 +29,13 @@ export default class Admin extends Component {
       .then(res => {
         this.setState({
           loggedIn: true,
-          user: res.data,
+          user: res.data
         });
       })
-      .catch( err => {
+      .catch(err => {
         this.setState({
           loggedIn: false,
-          user: "no user",
+          user: "no user"
         });
         localStorage.removeItem("token");
       });
@@ -44,23 +45,23 @@ export default class Admin extends Component {
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
-    }
-    else if (
+    } else if (
       this.state.user.type === "ig" ||
       this.state.user.type === "pic" ||
       this.state.user.type === "hod"
     ) {
       return (
         <div>
-          <React.Fragment >
+          <React.Fragment>
             <FacultyContent />
+            <footer>
+              <Footer />
+            </footer>
           </React.Fragment>
         </div>
       );
-    }
-    else {
+    } else {
       return <Redirect to="/" />;
     }
-
   }
 }

@@ -3,6 +3,7 @@ import LoggedNavbar from "../Navbar/LoggedNavbar";
 import SERVER_URL from "../../Pages/URL";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import AdminInstructions from "./AdminInstructions";
+import Footer from "../../components/Footer/Footer";
 import axios from "axios";
 import {
   LinearProgress,
@@ -14,6 +15,7 @@ import {
   Input
 } from "@material-ui/core";
 import Profile from "../Profile";
+import ProjectList from "./ProjectList";
 
 let userInfo = [];
 let Ad = null;
@@ -390,6 +392,9 @@ class AdminContent extends Component {
                 </Grid>
               </form>
             </div>
+            <footer>
+              <Footer />
+            </footer>
           </div>
         );
       }
@@ -398,36 +403,21 @@ class AdminContent extends Component {
           <React.Fragment>
             <LoggedNavbar />
             <Profile userInfo={userInfo} />
-            <div style={{ width: "50%", margin: "auto", textAlign: "left" }}>
-              {Groups.map(group => {
-                let members = group.members;
-                return (
-                  <div className="group-container" key={group.name}>
-                    <h1>{group.name}</h1>
-                    <hr className="hor" />
-                    <div>
-                      <h1 className="member-title">Members</h1>
-                      {members.map(member => {
-                        return (
-                          <div style={{ textAlign: "left" }}>
-                            <h3 className="membertag" key={member.name}>
-                              Name: {member.name}
-                            </h3>
-                            <h3 className="membertag" key={member.email}>
-                              Email: {member.email}
-                            </h3>
-                            <h3 className="membertag" key={member.rollno}>
-                              Roll No: {member.rollno}
-                            </h3>
-                            <hr />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+            <div
+              style={{
+                width: "90%",
+                margin: "auto",
+                textAlign: "left",
+                marginTop: "50px",
+                boxShadow:
+                  "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+              }}
+            >
+              <ProjectList Groups={Groups} />
             </div>
+            <footer>
+              <Footer />
+            </footer>
           </React.Fragment>
         );
       }

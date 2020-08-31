@@ -15,6 +15,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Footer from "../../components/Footer/Footer";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -295,6 +296,9 @@ class Login extends Component {
             </Snackbar>
           </div>
         </Container>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     );
   }

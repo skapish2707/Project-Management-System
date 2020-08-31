@@ -3,8 +3,9 @@ import { Redirect } from "react-router-dom";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 import axios from "axios";
 import SERVER_URL from "./URL";
-import StudentWholePage from "../components/Student-component/studentWholePage"
+import StudentWholePage from "../components/Student-component/studentWholePage";
 import { LinearProgress } from "@material-ui/core";
+import Footer from "../components/Footer/Footer";
 
 //import StudentContent from "../components/Student-component/StudentContent";
 
@@ -31,7 +32,7 @@ export default class Admin extends Component {
       .then(res => {
         this.setState({
           loggedIn: true,
-          user: res.data,
+          user: res.data
         });
       })
       .catch(err => {
@@ -44,18 +45,18 @@ export default class Admin extends Component {
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
-    }
-    else if (this.state.user.type === "student") {
+    } else if (this.state.user.type === "student") {
       return (
         <div>
           <LoggedNavbar />
           <StudentWholePage userInfo={this.state.user} />
+          <footer>
+            <Footer />
+          </footer>
         </div>
       );
-    }
-    else {
+    } else {
       return <Redirect to="/" />;
     }
-
   }
 }
