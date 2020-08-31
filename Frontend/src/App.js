@@ -22,7 +22,6 @@ function App() {
         <Route path="/faculty" exact component={Faculty} />
         <Route path="/student" exact component={Student} />
         <Route path="/yami" exact component={Yami} />
-
         <Route path="/cp@2707user" exact component={ChangePassword} />
         <Route path="*" component={NotFound} />
       </Switch>
