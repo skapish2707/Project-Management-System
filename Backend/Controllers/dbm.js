@@ -6,7 +6,7 @@ var fs = require("fs");
 require("dotenv").config();
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
- 
+
 mongoose.connect(process.env.uri,{
 	useNewUrlParser : true,
 	useUnifiedTopology: true,
@@ -17,14 +17,14 @@ mongoose.connect(process.env.uri,{
 	}else{
 		console.log("Connected to database");
 		// CUSTOM CHANGE TO DATABASE HERE \
-        // User.deleteMany({admin:'5f3911df53b282360c9a8e44'},function(err){
+        // User.deleteMany({admin:'5f4bc5a4d2ce8c33401e4d16'},function(err){
         //     if (err) throw err
         //         console.log('deleted etrx department')
         // })
-        // Group.deleteMany({admin:'5f3911df53b282360c9a8e44'},function(err){
+        // Group.deleteMany({admin:'5f4bc5a4d2ce8c33401e4d16'},function(err){
         //     if (err) throw err
         //         console.log('deleted etrx department')
-  //       // })
+        // })
   //       User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
 		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
 		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
@@ -135,7 +135,7 @@ async function getStudents(user,by){
 }
 
 async function addProposals(student,proposals){
-    await Group.findOneAndUpdate({members:student.email},{proposals:proposals},null)
+  await Group.findOneAndUpdate({admin:student.admin,name:student.groupName},{proposals:proposals});
 }
 
 async function addComment(staff,groupId,msg){

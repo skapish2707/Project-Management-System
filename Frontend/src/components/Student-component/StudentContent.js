@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import qs from "qs";
-import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper, Tabs, Tab, Box, AppBar } from "@material-ui/core";
 
 let Stu = null;
 let filled = false;
@@ -16,6 +17,41 @@ const useStyles = theme => ({
     width:"40ch",
   }
 });
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+
 
 class StudentContent extends Component {
 
@@ -62,9 +98,17 @@ class StudentContent extends Component {
       ],
       currentStep: 1,
       stuData: null,
+      tabValue:0,
       filled
     };
+
   }
+  
+  handleChange = (event, newValue) => {
+    this.setState({
+      tabValue:newValue
+    });
+  };
 
   handleTopChange = (e, pn) => {
     let prefs = [...this.state.preferences];
@@ -163,7 +207,7 @@ class StudentContent extends Component {
     let prefs = [...this.state.preferences];
     for (var i = 0; i < 3; i++) {
       if (i === cs - 1) {
-        prefs[i].selectedFile = e.target.value[0];
+        prefs[i].selectedFile = e.target.files[0];
         this.setState({ preferences: prefs });
       }
     }
@@ -206,44 +250,49 @@ class StudentContent extends Component {
     let pref2 = this.state.preferences[1];
     let pref3 = this.state.preferences[2];
     //console.log(pref1);
+    let proposals = [
+          {
+            "title": pref1.Top,
+            "specialization": pref1.Dos,
+            "details": pref1.Dsop,
+            "agency": pref1.Agency,
+            "method": pref1.Mtap,
+            "result": pref1.Red,
+            "requirements": pref1.Shr
+          },
+          {
+            "title": pref2.Top,
+            "specialization": pref2.Dos,
+            "details": pref2.Dsop,
+            "agency": pref2.Agency,
+            "method": pref2.Mtap,
+            "result": pref2.Red,
+            "requirements": pref2.Shr
+          },
+          {
+            "title": pref3.Top,
+            "specialization": pref3.Dos,
+            "details": pref3.Dsop,
+            "agency": pref3.Agency,
+            "method": pref3.Mtap,
+            "result": pref3.Red,
+            "requirements": pref3.Shr
+          }
+    ]
+    var formData = new FormData();
+    formData.append("proposals",JSON.stringify(proposals));
+    formData.append("file1",this.state.preferences[0].selectedFile);
+    formData.append("file2",this.state.preferences[1].selectedFile);
+    formData.append("file3",this.state.preferences[2].selectedFile);
+    console.log(proposals)
     axios({
       method: "post",
       url: SERVER_URL + "/student",
       credentials: "include",
       withCredentials: true,
-      data: qs.stringify({
-        proposals: [
-          {
-            title: pref1.Top,
-            specialization: pref1.Dos,
-            details: pref1.Dsop,
-            agency: pref1.Agency,
-            method: pref1.Mtap,
-            result: pref1.Red,
-            requirements: pref1.Shr
-          },
-          {
-            title: pref2.Top,
-            specialization: pref2.Dos,
-            details: pref2.Dsop,
-            agency: pref2.Agency,
-            method: pref2.Mtap,
-            result: pref2.Red,
-            requirements: pref2.Shr
-          },
-          {
-            title: pref3.Top,
-            specialization: pref3.Dos,
-            details: pref3.Dsop,
-            agency: pref3.Agency,
-            method: pref3.Mtap,
-            result: pref3.Red,
-            requirements: pref3.Shr
-          }
-        ]
-      }),
+      data: formData,
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+       "Content-Type": "multipart/form-data"
       }
     })
       .then(function (res) {
@@ -325,6 +374,7 @@ class StudentContent extends Component {
   };
 
 
+
   render() {
     const {classes} = this.props;
     if (this.state.stuData === null) {
@@ -386,13 +436,27 @@ class StudentContent extends Component {
         );
       }
       if (Stu != 0) {
+        let value=this.state.tabValue
         return (
           <React.Fragment>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography component={'span'} variant="h3">Preferences</Typography>
-              </Grid>
-            </Grid>
+            <div className={classes.root}>
+              <AppBar position="static">
+                <Tabs value={value} onChange={this.handleChange} aria-label="simple tabs example" centered>
+                  <Tab label="Item One" {...a11yProps(0)} />
+                  <Tab label="Item Two" {...a11yProps(1)} />
+                  <Tab label="Item Three" {...a11yProps(2)} />
+                </Tabs>
+              </AppBar>
+              <TabPanel value={value} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                Item Three
+              </TabPanel>
+            </div>
           </React.Fragment>
         );
       }

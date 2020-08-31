@@ -217,6 +217,7 @@ class AdminContent extends Component {
                   marginTop: "30px",
                   padding: "20px 30px"
                 }}
+                onSubmit={this.submitHandler}
               >
                 <Typography variant="h2" style={{ marginBottom: "30px" }}>
                   Create Project List
