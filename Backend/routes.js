@@ -134,12 +134,27 @@ router.get('/getStudents',async function(req,res){
 router.post('/student', async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'student') return res.status(404).send();
+	if (!req.files) return res.status(422).send();
+	req.files.file1.mv('public/'+req.user.groupName.trim()+"pref1"+req.files.file1.name,function(err){
+		if (err) throw (err);
+	})
+	req.files.file2.mv('public/'+req.user.groupName.trim()+"pref2"+req.files.file2.name,function(err){
+		if (err) throw (err);
+	})
+	req.files.file3.mv('public/'+req.user.groupName.trim()+"pref3"+req.files.file3.name,function(err){
+		if (err) throw (err);
+	})
+
 	if (req.body.proposals){
 		try{
-			await dbm.addProposals(req.user,req.body.proposals);
+			let proposals = JSON.parse(req.body.proposals);
+			proposals[0].attachPrints = req.user.groupName.trim()+"pref1"+req.files.file1.name;
+			proposals[1].attachPrints = req.user.groupName.trim()+"pref2"+req.files.file2.name;
+			proposals[2].attachPrints = req.user.groupName.trim()+"pref3"+req.files.file3.name;
+			await dbm.addProposals(req.user,proposals);
 			return res.status(200).send("Your Proposals was recorded Successfully!..");
 		}catch{
-			return res.send(500).send()
+			return res.status(500).send()
 		}
 	}
 });
