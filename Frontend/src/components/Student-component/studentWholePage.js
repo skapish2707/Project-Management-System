@@ -72,11 +72,15 @@ function TabPanel(props) {
 			borderBottom:`1px solid ${theme.palette.divider}`
 		},
 		large_win_tabs:{
+			width:"90%",
+			margin:"auto",
 			[theme.breakpoints.down('650')]: {
 				display:"none"
 			},
 		},
 		small_win_tabs:{
+			width:"90%",
+			margin:"auto",
 			[theme.breakpoints.up('650')]: {
 				display:"none"
 			},
@@ -87,7 +91,7 @@ function TabPanel(props) {
 const StudentWholePage = (props) => {
 
 		userInfo = props.userInfo;
-		console.log(userInfo.name);
+		//console.log(userInfo.name);
 
 		const classes = useStyles();
 		const [value, setValue] = React.useState(0);
@@ -99,7 +103,8 @@ const StudentWholePage = (props) => {
 		return ( 
 			<React.Fragment >
 				<Profile userInfo={userInfo} />
-					<div className={classes.small_win_tabs}>
+					<div style={{boxShadow:
+                "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",}} className={classes.small_win_tabs}>
 						<Grid container className={classes.root} >
 							<ThemeProvider theme={theme}>
 								<Grid item xs={12} className={classes.hor_tab_grid}>
@@ -151,7 +156,8 @@ const StudentWholePage = (props) => {
 							<Grid item xs={1}></Grid>
 						</Grid>
 					</div>
-					<div className={classes.large_win_tabs}>
+					<div style={{boxShadow:
+                "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",}} className={classes.large_win_tabs}>
 						<Grid style={{marginTop:"3px"}} container className={classes.root} >
 							<ThemeProvider theme={theme}>
 								<Grid item xs={3} className={classes.vert_tab_grid}>
@@ -160,6 +166,8 @@ const StudentWholePage = (props) => {
 											value={value}
 											onChange={handleChange}
 											aria-label="Vertical tabs"
+											indicatorColor="primary"
+											textColor="primary"
 											
 									>
 											<Tab className={classes.tab} label="Home" {...a11yProps(0)} />
