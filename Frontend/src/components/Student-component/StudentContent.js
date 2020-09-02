@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
+import Snackbar from '@material-ui/core/Snackbar';
 import qs from "qs";
-import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper, Tabs, Tab, Box, AppBar } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper, Tabs, Tab, Box, LinearProgress } from "@material-ui/core";
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 let Stu = null;
 let filled = false;
@@ -107,10 +113,25 @@ class StudentContent extends Component {
       currentStep: 1,
       stuData: null,
       tabValue:0,
-      filled
+      filled,
+      openSuccess:false,
+      openFailure:false,
+      formFilled:false,
+      loading:false
     };
 
   }
+
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({
+      openSuccess:false,
+      openFailure:false,
+      stuData:null
+    });
+  };
   
   handleChange = (event, newValue) => {
     this.setState({
@@ -244,7 +265,7 @@ class StudentContent extends Component {
           prefs[i].filled = true;
           // prefs[i]=pref;
           this.setState({ preferences: prefs });
-          //console.log(prefs[i].filled);
+          console.log(prefs[i].filled);
         }
       }
     }
@@ -293,6 +314,7 @@ class StudentContent extends Component {
     formData.append("file2",this.state.preferences[1].selectedFile);
     formData.append("file3",this.state.preferences[2].selectedFile);
     console.log(proposals)
+    this.setState({loading:true})
     axios({
       method: "post",
       url: SERVER_URL + "/student",
@@ -303,11 +325,11 @@ class StudentContent extends Component {
        "Content-Type": "multipart/form-data"
       }
     })
-      .then(function (res) {
-        alert("Submitted");
+      .then(res => {
+        this.setState({openSuccess:true,loading:false})
       })
-      .catch(function (err) {
-        alert("Not Submitted");
+      .catch(err => {
+        this.setState({openFailure:true,loading:false})
         if (err) throw err;
       });
     
@@ -354,18 +376,20 @@ class StudentContent extends Component {
   /*
    * the functions for our button
    */
-  previousButton() {
-    const classes=useStyles();
-    let currentStep = this.state.currentStep;
-    if (currentStep !== 1) {
-      return (
-        <Button className={classes.buttonprop} variant="contained" component={'span'} onClick={this._prev}>
-          Previous
-        </Button>
-      );
-    }
-    return null;
-  }
+  // previousButton() {
+  //   const classes=useStyles();
+  //   let currentStep = this.state.currentStep;
+  //   if (currentStep !== 1) {
+  //     return (
+  //       <Button className={classes.buttonprop} variant="contained" component={'span'} onClick={this._prev}>
+  //         Previous
+  //       </Button>
+  //     );
+  //   }
+  //   return null;
+  // }
+
+
 
   handleNext = e => {
     e.preventDefault();
@@ -377,6 +401,7 @@ class StudentContent extends Component {
       alert("Please enter all the details of the preference");
     } else {
       // console.log(this.state.preferences);
+      this.setState({open:true})
       this._next(e);
     }
   };
@@ -385,6 +410,13 @@ class StudentContent extends Component {
 
   render() {
     const {classes} = this.props;
+    if (this.state.loading){
+      return(
+        <div style={{margin:"auto"}}>
+          <CircularProgress />
+        </div>
+      )
+    }
     if (this.state.stuData === null) {
       this.checkData();
     }
@@ -406,6 +438,7 @@ class StudentContent extends Component {
                 handleMtapChange={this.handleMtapChange}
                 handleRedChange={this.handleRedChange}
                 handleShrChange={this.handleShrChange}
+                handleClose={this.handleClose}
                 handleFileChange={this.handleFileChange}
               />
               <Step2
@@ -423,9 +456,14 @@ class StudentContent extends Component {
                 handleShrChange={this.handleShrChange}
                 handleFileChange={this.handleFileChange}
                 previousButton={this.previousButton}
+                handleClose={this.handleClose}
+                _prev={this._prev}
               />
               <Step3
                 classes={classes}
+                openSuccess={this.state.openSuccess}
+                openFailure={this.state.openFailure}
+                handleClose={this.handleClose}
                 currentStep={this.state.currentStep}
                 preferences={this.state.preferences}
                 handleTopChange={this.handleTopChange}
@@ -439,6 +477,7 @@ class StudentContent extends Component {
                 handleShrChange={this.handleShrChange}
                 handleFileChange={this.handleFileChange}
                 previousButton={this.previousButton}
+                _prev={this._prev}
               />
               {/* {this.previousButton()} */}
             </form>
@@ -461,7 +500,6 @@ class StudentContent extends Component {
                   <Button fullWidth
                 variant="contained"
                 color="primary" style={{
-                  width:"200px",
                   padding: "10px",
                   fontSize: "18px",
                   fontWeight: "bolder",
@@ -752,10 +790,17 @@ function Step2(props){
           </Grid>
           <Grid item xs={2} />
           <Grid item xs={4}>
-            {props.previousButton()}
+            <Button className={classes.buttonprop} variant="contained" component={'span'} onClick={props._prev}>
+              Previous
+            </Button>
           </Grid>
           <Grid item xs={4}>
             <Button className={classes.buttonprop} variant="contained" component={'span'} onClick={props.handleNext}>Next</Button>
+            {/* <Snackbar open={props.open} autoHideDuration={6000} onClose={props.handleClose}>
+              <Alert onClose={props.handleClose} severity="success">
+                Preference 2 submitted successfully
+              </Alert>
+            </Snackbar> */}
           </Grid>
           <Grid item xs={2} />
         </Grid>
@@ -890,12 +935,25 @@ function Step3(props){
           </Grid>
           <Grid item xs={2} />
           <Grid item xs={4}>
-            {props.previousButton()}
+            <Button className={classes.buttonprop} variant="contained" component={'span'} onClick={props._prev}>
+              Previous
+            </Button>
           </Grid>
           <Grid item xs={4}>
-            <Button variant="contained" component={'span'} type="submit" onClick={e=>{
+            <Button className={classes.buttonprop} variant="contained" component={'span'} type="submit" onClick={e=>{
               props.handleClick(e, props.currentStep);
-            }}>Submit</Button>
+            }}>Submit
+            </Button>
+            <Snackbar open={props.openSuccess} autoHideDuration={6000} onClose={props.handleClose}>
+              <Alert onClose={props.handleClose} severity="success">
+                Preferences submitted successfully
+              </Alert>
+            </Snackbar>
+            <Snackbar open={props.openFailure} autoHideDuration={6000} onClose={props.handleClose}>
+              <Alert onClose={props.handleClose} severity="error">
+                Preferences not submitted successfully
+              </Alert>
+            </Snackbar>
           </Grid>
           <Grid item xs={2} />
         </Grid>
