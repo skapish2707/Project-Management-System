@@ -10,7 +10,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
+let stuData = null;
 let Stu = null;
 let filled = false;
 let Proposals = null;
@@ -19,6 +19,7 @@ const useStyles = theme => ({
   buttonprop:{
     padding: "10px",
     fontSize: "18px",
+    color:"#fff",
     fontWeight: "bolder",
     backgroundColor: "#1877f2",
     marginBottom: "25px"
@@ -66,8 +67,9 @@ function a11yProps(index) {
 }
 
 
-
 class StudentContent extends Component {
+
+
   classes=useStyles();
   constructor(props) {
     super(props);
@@ -343,8 +345,27 @@ class StudentContent extends Component {
       withCredentials: true
     })
       .then(res => {
+        var i=0;
         Stu = res.data.proposals.length;
         Proposals = res.data.proposals;
+        let prefs = [...this.state.preferences]
+        Proposals.map(Proposal => {
+          let { title, specialization, result, requirements, method, details, attachPrints, agency} = Proposal
+          prefs[i].Top=title;
+          prefs[i].Dos=specialization;
+          prefs[i].Dsop=details;
+          prefs[i].Shr=requirements;
+          prefs[i].Mtap=method;
+          prefs[i].Red=result;
+          prefs[i].Agency=agency;
+          prefs[i].SelectedFile=attachPrints;
+          if(prefs[i].Top!==""){
+            prefs[i].filled=true;
+          }
+          i=i+1;
+        })
+        this.setState({preferences:prefs});
+        //console.log(this.state.preferences);
         //console.log(Stu,Proposals)
         this.setState({
           stuData: "new",
@@ -410,6 +431,8 @@ class StudentContent extends Component {
 
   render() {
     const {classes} = this.props;
+    stuData = this.state.stuData;
+    filled = this.state.filled;
     if (this.state.loading){
       return(
         <div style={{margin:"auto"}}>
@@ -417,10 +440,10 @@ class StudentContent extends Component {
         </div>
       )
     }
-    if (this.state.stuData === null) {
+    if (stuData === null) {
       this.checkData();
     }
-    if (this.state.filled === true) {
+    if (filled === true) {
       if (Stu == 0) {
         return (
           <React.Fragment>
@@ -485,48 +508,190 @@ class StudentContent extends Component {
         );
       }
       if (Stu != 0) {
+        let top=[this.state.preferences[0].Top,this.state.preferences[1].Top,this.state.preferences[2].Top];
+        let dos=[this.state.preferences[0].Dos,this.state.preferences[1].Dos,this.state.preferences[2].Dos];
+        let dsop=[this.state.preferences[0].Dsop,this.state.preferences[1].Dsop,this.state.preferences[2].Dsop];
+        let agency=[this.state.preferences[0].Agency,this.state.preferences[1].Agency,this.state.preferences[2].Agency];
+        let mtap=[this.state.preferences[0].Mtap,this.state.preferences[1].Mtap,this.state.preferences[2].Mtap];
+        let red=[this.state.preferences[0].Red,this.state.preferences[1].Red,this.state.preferences[2].Red];
+        let shr=[this.state.preferences[0].Shr,this.state.preferences[1].Shr,this.state.preferences[2].Shr];
+        let selectedFile=[this.state.preferences[0].SelectedFile,this.state.preferences[1].SelectedFile,this.state.preferences[2].SelectedFile];
         let value=this.state.tabValue;
-        for(var i=0;i<3;i++){
-          console.log(Proposals[i]);
           return (
             <React.Fragment>
               <div className={classes.root}>
                   <Tabs value={value} onChange={this.handleChange} aria-label="simple tabs example" indicatorColor="primary" textColor="primary" centered>
-                    <Tab label="Item One" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
+                    <Tab label="Preference 1" {...a11yProps(0)} />
+                    <Tab label="Preference 2" {...a11yProps(1)} />
+                    <Tab label="Preference 3" {...a11yProps(2)} />
                   </Tabs>
                 <TabPanel value={value} index={0}>
-                  <Button fullWidth
-                variant="contained"
-                color="primary" style={{
-                  padding: "10px",
-                  fontSize: "18px",
-                  fontWeight: "bolder",
-                  backgroundColor: "#1877f2",
-                  marginBottom: "25px"
-                }}>
-                    HELLO THERE
-                  </Button>
+                  <Grid container spacing={2}>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Title of Preference : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{top[0]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Domain/Area of Specialization : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{dos[0]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Detailed Statement of Problem : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{dsop[0]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{agency[0]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{mtap[0]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Results Expected : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{red[0]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Software and Hardware requirements : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{shr[0]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{selectedFile[0]}</Typography>
+                    </Grid>
+                  </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                  Item Two
+                  <Grid container spacing={2}>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Title of Preference : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{top[1]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Domain/Area of Specialization : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{dos[1]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Detailed Statement of Problem : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{dsop[1]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{agency[1]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{mtap[1]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Results Expected : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{red[1]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Software and Hardware requirements : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{shr[1]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{selectedFile[1]}</Typography>
+                    </Grid>
+                  </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                  Item Three
+                  <Grid container spacing={2}>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Title of Preference : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{top[2]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Domain/Area of Specialization : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{dos[2]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Detailed Statement of Problem : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{dsop[2]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{agency[2]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{mtap[2]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Results Expected : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{red[2]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>Software and Hardware requirements : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{shr[2]}</Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                    </Grid>
+                    <Grid className={classes.typography} item xs={12} md={6}>
+                      <Typography>{selectedFile[2]}</Typography>
+                    </Grid>
+                  </Grid>
                 </TabPanel>
               </div>
             </React.Fragment>
           );
-        }
       }
     }
     return(
       <React.Fragment>
         <CircularProgress />
       </React.Fragment>
-    ) 
-  }
+    )
+  } 
 }
 
 function Step1(props){
