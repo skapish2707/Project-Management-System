@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
 import SERVER_URL from "../../Pages/URL";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";

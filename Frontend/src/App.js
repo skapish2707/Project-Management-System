@@ -10,6 +10,7 @@ import Faculty from "./Pages/Faculty";
 import DataFilledAdmin from "./components/Admin-component/DataFilledAdmin";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
 import NotFound from "./components/NotFound";
+import PrefPage from "./Pages/PrefPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/student" exact component={Student} />
         <Route path="/yami" exact component={Yami} />
         <Route path="/cp@2707user" exact component={ChangePassword} />
+        <Route path="/admin/prefs/:id" exact component={PrefPage} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>
