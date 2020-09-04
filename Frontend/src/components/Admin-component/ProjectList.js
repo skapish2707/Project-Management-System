@@ -122,6 +122,7 @@ export default function ControlledAccordions(props) {
                 state: { Group: Group }
               });
             };
+            console.log(Group);
             let members = Group.members;
             let Gname = Group.name;
             let id = Group.id;
@@ -213,12 +214,18 @@ export default function ControlledAccordions(props) {
                           );
                         })}
                       </Grid>
+                      <Grid item xs={12}>
+                        {Group.proposals.length === 3 ? (
+                          <div>
+                            <Button onClick={routeChange}>
+                              Show Preferences
+                            </Button>
+                          </div>
+                        ) : (
+                          <Typography>Preferences not filled</Typography>
+                        )}
+                      </Grid>
                     </Grid>
-                    {Group.proposals.length === 3 ? (
-                      <Button onClick={routeChange}>Show Preferences</Button>
-                    ) : (
-                      <Typography>Preferences not filled</Typography>
-                    )}
                   </AccordionDetails>
                 </Accordion>
               );
@@ -325,12 +332,18 @@ export default function ControlledAccordions(props) {
                           );
                         })}
                       </Grid>
+                      <Grid item xs={12}>
+                        {Group.proposals.length === 3 ? (
+                          <div>
+                            <Button onClick={routeChange}>
+                              Show Preferences
+                            </Button>
+                          </div>
+                        ) : (
+                          <Typography>Preferences not filled</Typography>
+                        )}
+                      </Grid>
                     </Grid>
-                    {Group.proposals.length === 3 ? (
-                      <Button onClick={routeChange}>Show Preferences</Button>
-                    ) : (
-                      <Typography>Preferences not filled</Typography>
-                    )}
                   </AccordionDetails>
                 </Accordion>
               );
@@ -379,13 +392,19 @@ export default function ControlledAccordions(props) {
                     })}
                   </AccordionSummary>
                   <AccordionDetails className={classes.accordet}>
-                    <Grid container spacing={2}>
+                    <Grid
+                      container
+                      spacing={3}
+                      style={{ width: "100%", padding: "auto" }}
+                    >
                       <Grid item xs={12}>
-                        <Grid container>
+                        <Grid container style={{ width: "100%" }}>
                           <Grid item xs={12} sm={4}>
-                            <Typography style={{ fontWeight: "600" }}>
-                              Name
-                            </Typography>
+                            <div>
+                              <Typography style={{ fontWeight: "600" }}>
+                                Name
+                              </Typography>
+                            </div>
                           </Grid>
                           <Grid item xs={12} sm={4}>
                             <Typography style={{ fontWeight: "600" }}>
@@ -416,12 +435,18 @@ export default function ControlledAccordions(props) {
                           );
                         })}
                       </Grid>
+                      <Grid item xs={12}>
+                        {Group.proposals.length === 3 ? (
+                          <div>
+                            <Button onClick={routeChange}>
+                              Show Preferences
+                            </Button>
+                          </div>
+                        ) : (
+                          <Typography>Preferences not filled</Typography>
+                        )}
+                      </Grid>
                     </Grid>
-                    {Group.proposals.length === 3 ? (
-                      <Button onClick={routeChange}>Show Preferences</Button>
-                    ) : (
-                      <Typography>Preferences not filled</Typography>
-                    )}
                   </AccordionDetails>
                 </Accordion>
               );
