@@ -63,7 +63,7 @@ function TabPanel(props) {
 		TabPanel:{
 				//borderLeft:`1px solid ${theme.palette.divider}`,
 				display: "block",
-				margin:"1px",
+				//margin:"1px",
 		},
 		vert_tab_grid:{
 			borderRight:`1px solid ${theme.palette.divider}`
@@ -74,14 +74,14 @@ function TabPanel(props) {
 		large_win_tabs:{
 			width:"90%",
 			margin:"auto",
-			[theme.breakpoints.down('650')]: {
+			[theme.breakpoints.down('670')]: {
 				display:"none"
 			},
 		},
 		small_win_tabs:{
 			width:"90%",
 			margin:"auto",
-			[theme.breakpoints.up('650')]: {
+			[theme.breakpoints.up('670')]: {
 				display:"none"
 			},
 		}
@@ -99,7 +99,6 @@ const StudentWholePage = (props) => {
 		const handleChange = (event, newValue) => {
 				setValue(newValue);
 		};
-
 		return ( 
 			<React.Fragment >
 				<Profile userInfo={userInfo} />
@@ -129,8 +128,7 @@ const StudentWholePage = (props) => {
 								</Grid>
 								{/* <Grid item xs={2} /> */}
 							</ThemeProvider>
-							<Grid item xs={1}></Grid>
-							<Grid className={classes.TabPanel} item xs={10}>
+							<Grid className={classes.TabPanel} item xs={12}>
 								<TabPanel value={value} index={0}>
 									Home
 								</TabPanel>
@@ -153,7 +151,7 @@ const StudentWholePage = (props) => {
 										Item Seven
 								</TabPanel>
 							</Grid>
-							<Grid item xs={1}></Grid>
+							{/* <Grid item xs={1}></Grid> */}
 						</Grid>
 					</div>
 					<div style={{boxShadow:
@@ -180,7 +178,7 @@ const StudentWholePage = (props) => {
 									</Tabs>
 								</Grid>
 							</ThemeProvider>
-							<Grid className={classes.TabPanel} item xs={8}>
+							<Grid className={classes.TabPanel} item xs={9}>
 								<TabPanel value={value} index={0}>
 									Home
 								</TabPanel>
@@ -203,7 +201,7 @@ const StudentWholePage = (props) => {
 										Item Seven
 								</TabPanel>
 							</Grid>
-							<Grid item xs={1}></Grid>
+							{/* <Grid item xs={1}></Grid> */}
 						</Grid>
 					</div>
 				</React.Fragment>
