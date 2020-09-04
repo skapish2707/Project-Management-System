@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Student from "./Pages/Student";
 import Yami from "./Pages/Yami";
 import Faculty from "./Pages/Faculty";
-import DataFilledAdmin from "./components/Admin-component/DataFilledAdmin";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
 import NotFound from "./components/NotFound";
 import PrefPage from "./Pages/PrefPage";

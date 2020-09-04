@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { Grid, colors } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import BusinessIcon from "@material-ui/icons/Business";
 import ContactMailIcon from "@material-ui/icons/ContactMail";
 import "./Footer.css";
@@ -30,6 +30,11 @@ const Footer = () => {
   const classes = useStyles();
   return (
     <React.Fragment>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <footer>
         <Grid container className={classes.root}>
           <Grid item xs={12} sm={4}>

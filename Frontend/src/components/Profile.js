@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Profile(props) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
   const userInfo = props;
   console.log(userInfo);
   return (

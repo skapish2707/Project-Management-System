@@ -13,7 +13,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import { Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 /* eslint no-restricted-globals:0 */
 
@@ -30,7 +29,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component="span">{children}</Typography>
         </Box>
       )}
     </div>
@@ -92,123 +91,345 @@ export default function ControlledAccordions(props) {
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  console.log(props.Groups);
   const Groups = props.Groups;
 
   return (
     <div className={classes.root}>
-      {Groups.map(Group => {
-        const routeChange = () => {
-          let path = `/admin/prefs/${id}`;
-          histor.push({
-            pathname: `/admin/prefs/${id}`,
-            state: { Group: Group }
-          });
-        };
-        let members = Group.members;
-        console.log(members);
-        let Gname = Group.name;
-        let id = Group.id;
-        console.log(Gname, id);
-        return (
-          <Accordion
-            expanded={expanded === Gname}
-            onChange={handleChange(Gname)}
-            className={classes.accor}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
-            >
-              <Typography className={classes.heading}>{Group.name}</Typography>
-              {members.map(member => {
-                return (
-                  <Typography className={classes.secondaryHeading}>
-                    {member.name}&nbsp;&nbsp;&nbsp;&nbsp;
-                  </Typography>
-                );
-              })}
-            </AccordionSummary>
-            <AccordionDetails className={classes.accordet}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Grid container>
-                    <Grid item xs={12} sm={4}>
-                      <Typography style={{ fontWeight: "600" }}>
-                        Name
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <Typography style={{ fontWeight: "600" }}>
-                        Email
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <Typography style={{ fontWeight: "600" }}>
-                        Rollno
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  {members.map(member => {
-                    return (
-                      <Grid container>
-                        <Grid item xs={12} sm={4}>
-                          <Typography>{member.name}</Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                          <Typography>{member.email}</Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                          <Typography>{member.rollno}</Typography>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChangeT}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="Approved" {...a11yProps(0)} />
+          <Tab label="Applied" {...a11yProps(1)} />
+          <Tab label="Not Applied" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+          {Groups.map(Group => {
+            const routeChange = () => {
+              histor.push({
+                pathname: `/admin/prefs/${id}`,
+                state: { Group: Group }
+              });
+            };
+            let members = Group.members;
+            let Gname = Group.name;
+            let id = Group.id;
+            let pref1 = [];
+            let pref2 = [];
+            let pref3 = [];
+
+            let pref1Approval = false;
+            let pref2Approval = false;
+            let pref3Approval = false;
+
+            if (Group.proposals.length !== 0) {
+              pref1 = Group.proposals[0];
+              pref2 = Group.proposals[1];
+              pref3 = Group.proposals[2];
+
+              pref1Approval = pref1.approval.admin;
+              pref2Approval = pref2.approval.admin;
+              pref3Approval = pref3.approval.admin;
+            }
+
+            if (
+              pref1Approval ||
+              pref2Approval ||
+              (pref3Approval && Group.proposals.length !== 0)
+            ) {
+              console.log(Group.name);
+              return (
+                <Accordion
+                  expanded={expanded === Gname}
+                  onChange={handleChange(Gname)}
+                  className={classes.accor}
+                  key={Group.name}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography className={classes.heading}>
+                      {Group.name}
+                    </Typography>
+                    {members.map(member => {
+                      return (
+                        <Typography
+                          key={member.name}
+                          className={classes.secondaryHeading}
+                        >
+                          {member.name}&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Typography>
+                      );
+                    })}
+                  </AccordionSummary>
+                  <AccordionDetails className={classes.accordet}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Grid container>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Name
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Email
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Rollno
+                            </Typography>
+                          </Grid>
                         </Grid>
                       </Grid>
-                    );
-                  })}
-                </Grid>
-              </Grid>
-              {Group.proposals.length === 3 ? (
-                <Button onClick={routeChange}>Show Preferences</Button>
-              ) : (
-                <Typography>Preferences not filled</Typography>
-              )}
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
-      <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={handleChangeT}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="full width tabs example"
-          >
-            <Tab label="Item One" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={handleChangeIndex}
-        >
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            Item One
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            Item Three
-          </TabPanel>
-        </SwipeableViews>
-      </div>
+                      <Grid item xs={12}>
+                        {members.map(member => {
+                          return (
+                            <Grid container key={member.rollno}>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.name}</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.email}</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.rollno}</Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        })}
+                      </Grid>
+                    </Grid>
+                    {Group.proposals.length === 3 ? (
+                      <Button onClick={routeChange}>Show Preferences</Button>
+                    ) : (
+                      <Typography>Preferences not filled</Typography>
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              );
+            }
+            return null;
+          })}
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+          {Groups.map(Group => {
+            const routeChange = () => {
+              histor.push({
+                pathname: `/admin/prefs/${id}`,
+                state: { Group: Group }
+              });
+            };
+            let members = Group.members;
+            let Gname = Group.name;
+            let id = Group.id;
+            let pref1 = [];
+            let pref2 = [];
+            let pref3 = [];
+
+            let pref1Approval = false;
+            let pref2Approval = false;
+            let pref3Approval = false;
+
+            if (Group.proposals.length !== 0) {
+              pref1 = Group.proposals[0];
+              pref2 = Group.proposals[1];
+              pref3 = Group.proposals[2];
+
+              pref1Approval = pref1.approval.admin;
+              pref2Approval = pref2.approval.admin;
+              pref3Approval = pref3.approval.admin;
+            }
+
+            if (
+              !pref1Approval &&
+              !pref2Approval &&
+              !pref3Approval &&
+              Group.proposals.length !== 0
+            ) {
+              return (
+                <Accordion
+                  expanded={expanded === Gname}
+                  onChange={handleChange(Gname)}
+                  className={classes.accor}
+                  key={Group.name}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography className={classes.heading}>
+                      {Group.name}
+                    </Typography>
+                    {members.map(member => {
+                      return (
+                        <Typography
+                          key={member.name}
+                          className={classes.secondaryHeading}
+                        >
+                          {member.name}&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Typography>
+                      );
+                    })}
+                  </AccordionSummary>
+                  <AccordionDetails className={classes.accordet}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Grid container>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Name
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Email
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Rollno
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={12}>
+                        {members.map(member => {
+                          return (
+                            <Grid container key={member.rollno}>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.name}</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.email}</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.rollno}</Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        })}
+                      </Grid>
+                    </Grid>
+                    {Group.proposals.length === 3 ? (
+                      <Button onClick={routeChange}>Show Preferences</Button>
+                    ) : (
+                      <Typography>Preferences not filled</Typography>
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              );
+            }
+            return null;
+          })}
+        </TabPanel>
+
+        <TabPanel value={value} index={2} dir={theme.direction}>
+          {Groups.map(Group => {
+            const routeChange = () => {
+              histor.push({
+                pathname: `/admin/prefs/${id}`,
+                state: { Group: Group }
+              });
+            };
+            let members = Group.members;
+            let Gname = Group.name;
+            let id = Group.id;
+
+            if (Group.proposals.length === 0) {
+              return (
+                <Accordion
+                  expanded={expanded === Gname}
+                  onChange={handleChange(Gname)}
+                  className={classes.accor}
+                  key={Group.name}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography className={classes.heading}>
+                      {Group.name}
+                    </Typography>
+                    {members.map(member => {
+                      return (
+                        <Typography
+                          key={member.name}
+                          className={classes.secondaryHeading}
+                        >
+                          {member.name}&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Typography>
+                      );
+                    })}
+                  </AccordionSummary>
+                  <AccordionDetails className={classes.accordet}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Grid container>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Name
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Email
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Rollno
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={12}>
+                        {members.map(member => {
+                          return (
+                            <Grid container key={member.rollno}>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.name}</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.email}</Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={4}>
+                                <Typography>{member.rollno}</Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        })}
+                      </Grid>
+                    </Grid>
+                    {Group.proposals.length === 3 ? (
+                      <Button onClick={routeChange}>Show Preferences</Button>
+                    ) : (
+                      <Typography>Preferences not filled</Typography>
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              );
+            }
+            return null;
+          })}
+        </TabPanel>
+      </SwipeableViews>
     </div>
   );
 }

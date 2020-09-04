@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
 import SERVER_URL from "../../Pages/URL";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -114,7 +113,6 @@ class AdminContent extends Component {
 
   submitHandler = e => {
     e.preventDefault();
-    console.log(this.state);
     var formData = new FormData();
     formData.append("hodName", this.state.hodName);
     formData.append("hodEmail", this.state.hod);
@@ -169,16 +167,10 @@ class AdminContent extends Component {
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
-        console.log(Ad);
-        console.log("Groups:", Groups);
-
-        this.setState(
-          {
-            adData: "new",
-            filled: true
-          },
-          console.log(this.state.adData, this.state.filled)
-        );
+        this.setState({
+          adData: "new",
+          filled: true
+        });
       })
       // .then(() => {
       //   localStorage.setItem("data", "set");
@@ -195,10 +187,9 @@ class AdminContent extends Component {
       this.checkData();
     }
     userInfo = this.props.userInfo;
-    console.log(userInfo.name);
 
     if (this.state.filled === true) {
-      if (Ad == 0) {
+      if (Ad === 0) {
         return (
           <div>
             <LoggedNavbar />
@@ -399,7 +390,7 @@ class AdminContent extends Component {
           </div>
         );
       }
-      if (Ad != 0) {
+      if (Ad !== 0) {
         return (
           <React.Fragment>
             <LoggedNavbar />

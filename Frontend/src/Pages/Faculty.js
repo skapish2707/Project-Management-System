@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import FacultyContent from "../components/Faculty-component/FacultyContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
