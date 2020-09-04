@@ -1,43 +1,54 @@
 import React from "react";
-import "./Navbar.css";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles(theme => ({
+	title: {
+		flexGrow: 1,
+		textAlign: "left",
+		margin :theme.spacing(2)
+	},
+}));
+
+
 
 const Navbar = () => {
-  return (
-    <div className="Header">
-      <div className="context">
-        <h1>Project Management System</h1>
-      </div>
+	const classes = useStyles();
 
-      <div className="area">
-        <ul className="circles">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
-      <header className="header">
-        <nav className="header-links1">
-          <ul>
-            <a href="#">About</a>
-
-            <a href="#">Contact Us</a>
-          </ul>
-        </nav>
-        <div className="social">Social Media Links</div>
-      </header>
-    </div>
-  );
+	return (
+		<div >
+			<AppBar position="static" style={{ backgroundColor: "#000" }}>
+				<Typography variant="h5" className={classes.title}>
+				Project Management System
+				</Typography>
+			</AppBar>
+		</div>
+	);
 };
 
 export default Navbar;
+
+
+// <div className="context">
+//         <h1>Project Management System</h1>
+//       </div>
+   
+//       <div className="area">
+//         <ul className="circles">
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//           <li></li>
+//         </ul>
+//       </div>
