@@ -10,12 +10,15 @@ import TextField from "@material-ui/core/TextField";
 import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import Grid from '@material-ui/core/Grid';
 import Navbar from "../../components/Navbar/Navbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Footer from "../../components/Footer/Footer";
+import Hidden from '@material-ui/core/Hidden';
+import Image from './back.jpg';
+import Container from "@material-ui/core/Container";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -38,9 +41,14 @@ var today = new Date(),
 const useStyles = theme => ({
   paper: {
     marginTop: theme.spacing(8),
+    background : "#ffcdd2",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+  },
+  leftpaper : {
+    backgroundImage:`url(${Image})`,
+    height:"600px",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -214,88 +222,95 @@ class Login extends Component {
       return <LinearProgress />;
     }
     return (
-      <div>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div
-            className={classes.paper}
-            style={{
-              boxShadow:
-                "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
-              backgroundColor: "#fff",
-              borderRadius: "6px"
-            }}
-          >
-            <Avatar
-              variant="circle"
-              className={classes.avatar}
-              style={{ marginTop: "30px" }}
+      <div className={classes.leftpaper}>
+      <div ></div>
+        <React.Fragment>
+            <Navbar/>
+          </React.Fragment>
+          <Container component="main" maxWidth="xs" >
+            <CssBaseline />
+            <div
+              className={classes.paper}
+              style={{
+                boxShadow:
+                  "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+                backgroundColor: "#fff",
+                borderRadius: "6px"
+              }}
             >
-              <PersonIcon fontSize="large" />
-            </Avatar>
-            <Typography component="h2" variant="h6">
-              User Login
-            </Typography>
-            <form
-              className={classes.form}
-              onSubmit={this.submitForm}
-              noValidate
-            >
-              <TextField
-                type="email"
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="username"
-                value={this.state.username}
-                onChange={this.handleChange("username")}
-                className={classes.fields}
-                autoFocus
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type="password"
-                id="password"
-                value={this.state.password}
-                onChange={this.handleChange("password")}
-                autoComplete="current-password"
-                className={classes.fields}
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                style={{
-                  padding: "10px",
-                  fontSize: "18px",
-                  fontWeight: "bolder",
-                  backgroundColor: "#1877f2",
-                  marginBottom: "25px"
-                }}
+              <Avatar
+                variant="circle"
+                className={classes.avatar}
+                style={{ marginTop: "30px" }}
               >
-                Log In
-              </Button>
-            </form>
-            <Snackbar
-              open={this.state.invalidCredentials}
-              autoHideDuration={6000}
-              onClose={handleClose}
-            >
-              <Alert onClose={handleClose} severity="error">
-                Invalid Username/Password Please try again
-              </Alert>
-            </Snackbar>
-          </div>
-        </Container>
+                <PersonIcon fontSize="large" />
+              </Avatar>
+              <Typography component="h2" variant="h6">
+                User Login
+              </Typography>
+              <form
+                className={classes.form}
+                onSubmit={this.submitForm}
+                noValidate
+              >
+                <TextField
+                  type="email"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="username"
+                  value={this.state.username}
+                  onChange={this.handleChange("username")}
+                  className={classes.fields}
+                  autoFocus
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="Password"
+                  type="password"
+                  id="password"
+                  value={this.state.password}
+                  onChange={this.handleChange("password")}
+                  autoComplete="current-password"
+                  className={classes.fields}
+                />
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  style={{
+                    padding: "10px",
+                    fontSize: "18px",
+                    fontWeight: "bolder",
+                    backgroundColor: "#1877f2",
+                    marginBottom: "25px"
+                  }}
+                >
+                  Log In
+                </Button>
+              </form>
+              <Snackbar
+                open={this.state.invalidCredentials}
+                autoHideDuration={6000}
+                onClose={handleClose}
+              >
+                <Alert onClose={handleClose} severity="error">
+                  Invalid Username/Password Please try again
+                </Alert>
+              </Snackbar>
+            </div>
+          <br/><br/><br/>
+          </Container>
+
+          
         <footer>
           <Footer />
         </footer>
@@ -305,3 +320,90 @@ class Login extends Component {
 }
 
 export default withStyles(useStyles)(Login);
+ // <Grid container>
+          //   <Hidden xsDown>
+          //     <Grid item   md={7}   className={classes.leftpaper}>  
+          //     </Grid>
+          //   </Hidden>
+          //   <Grid item  component="main" maxWidth="xs" md={5}>
+          //     <CssBaseline />
+          //     <div
+          //       className={classes.paper}
+          //       style={{
+          //         boxShadow:
+          //           "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+          //         backgroundColor: "#fff",
+          //         borderRadius: "6px"
+          //       }}
+          //     >
+          //       <Avatar
+          //         variant="circle"
+          //         className={classes.avatar}
+          //         style={{ marginTop: "30px" }}
+          //       >
+          //         <PersonIcon fontSize="large" />
+          //       </Avatar>
+          //       <Typography component="h2" variant="h6">
+          //         User Login
+          //       </Typography>
+          //       <form
+          //         className={classes.form}
+          //         onSubmit={this.submitForm}
+          //         noValidate
+          //       >
+          //         <TextField
+          //           type="email"
+          //           variant="outlined"
+          //           margin="normal"
+          //           required
+          //           fullWidth
+          //           id="username"
+          //           label="username"
+          //           value={this.state.username}
+          //           onChange={this.handleChange("username")}
+          //           className={classes.fields}
+          //           autoFocus
+          //         />
+          //         <TextField
+          //           variant="outlined"
+          //           margin="normal"
+          //           required
+          //           fullWidth
+          //           label="Password"
+          //           type="password"
+          //           id="password"
+          //           value={this.state.password}
+          //           onChange={this.handleChange("password")}
+          //           autoComplete="current-password"
+          //           className={classes.fields}
+          //         />
+
+          //         <Button
+          //           type="submit"
+          //           fullWidth
+          //           variant="contained"
+          //           color="primary"
+          //           className={classes.submit}
+          //           style={{
+          //             padding: "10px",
+          //             fontSize: "18px",
+          //             fontWeight: "bolder",
+          //             backgroundColor: "#1877f2",
+          //             marginBottom: "25px"
+          //           }}
+          //         >
+          //           Log In
+          //         </Button>
+          //       </form>
+          //       <Snackbar
+          //         open={this.state.invalidCredentials}
+          //         autoHideDuration={6000}
+          //         onClose={handleClose}
+          //       >
+          //         <Alert onClose={handleClose} severity="error">
+          //           Invalid Username/Password Please try again
+          //         </Alert>
+          //       </Snackbar>
+          //     </div>
+          //   </Grid>
+          // </Grid>
