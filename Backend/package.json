@@ -20,6 +20,7 @@
     "express-fileupload": "^1.1.8",
     "express-flash": "0.0.2",
     "mongoose": "^5.9.26",
+    "node-xlsx": "^0.15.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"

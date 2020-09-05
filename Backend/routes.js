@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router();
 var dbm = require('./Controllers/dbm');
+var xlsx = require('node-xlsx');
 var passport = dbm.passport;
 require('dotenv').config();
 
@@ -92,12 +93,13 @@ router.post('/admin',async function(req,res){
 		return res.send("No File Selected ");
 	
 	file = req.files.student_file
-	if (file.name.slice(-4,file.name.length) != ".csv")
-		res.send("Please Select A CSV File");
-	else
+	if (file.name.slice(-4,file.name.length) != ".csv" && file.name.slice(-5,file.name.length) !=".xlsx")
+		return res.send("Please select A .csv file or a .xlsx file");
+
+	department = req.user.department.trim();
+	if (file.name.slice(-4,file.name.length) == ".csv")
 	{
 		lines = file.data.toString('utf8').split('\n');
-		department = req.user.department.trim();
 		for ( i = 0 ; i < lines.length ; i++ )
 		{
 			if (lines[i].trim() != ""){
@@ -109,16 +111,30 @@ router.post('/admin',async function(req,res){
 				console.log(name,rollno,email,groupName);
 				await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
 			}
+		 }
+	}
+	else if( file.name.slice(-5,file.name.length) ==".xlsx")
+	{
+		lines = xlsx.parse(file.data)[0].data; // parses a buffer
+		for (i = 0 ; i < lines.length ; i++){
+			name = lines[i][0];
+			rollno = lines[i][1];
+			email = lines[i][2];
+			groupName = lines[i][3];
+
+			console.log(name,rollno,email,groupName);
+			await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
 		}
-		dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
-		dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
-		dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
-		try{
-			groups = await dbm.generateGroups(req.user);
-			res.status(200).send("Done");
-		}catch{
-			res.status(500).send();
-		}
+		
+	}
+	dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
+	dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
+	dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
+	try{
+		groups = await dbm.generateGroups(req.user);
+		res.status(200).send("Done");
+	}catch{
+		res.status(500).send();
 	}
 });
 
