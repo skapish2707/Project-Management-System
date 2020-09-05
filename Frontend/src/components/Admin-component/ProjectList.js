@@ -217,12 +217,18 @@ export default function ControlledAccordions(props) {
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
                           <div>
-                            <Button onClick={routeChange}>
+                            <Button
+                              onClick={routeChange}
+                              variant="outlined"
+                              color="primary"
+                            >
                               Show Preferences
                             </Button>
                           </div>
                         ) : (
-                          <Typography>Preferences not filled</Typography>
+                          <Button disabled variant="outlined" color="secondary">
+                            <Typography>Preferences not filled</Typography>
+                          </Button>
                         )}
                       </Grid>
                     </Grid>
@@ -335,12 +341,18 @@ export default function ControlledAccordions(props) {
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
                           <div>
-                            <Button onClick={routeChange}>
+                            <Button
+                              onClick={routeChange}
+                              variant="outlined"
+                              color="primary"
+                            >
                               Show Preferences
                             </Button>
                           </div>
                         ) : (
-                          <Typography>Preferences not filled</Typography>
+                          <Button disabled variant="outlined" color="secondary">
+                            <Typography>Preferences not filled</Typography>
+                          </Button>
                         )}
                       </Grid>
                     </Grid>
@@ -438,12 +450,18 @@ export default function ControlledAccordions(props) {
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
                           <div>
-                            <Button onClick={routeChange}>
+                            <Button
+                              onClick={routeChange}
+                              variant="outlined"
+                              color="primary"
+                            >
                               Show Preferences
                             </Button>
                           </div>
                         ) : (
-                          <Typography>Preferences not filled</Typography>
+                          <Button variant="outlined" color="secondary">
+                            <Typography>Preferences not filled</Typography>
+                          </Button>
                         )}
                       </Grid>
                     </Grid>

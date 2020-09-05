@@ -20,6 +20,7 @@ const PrefPage = props => {
   const Proposals = Group.proposals;
   console.log(Group);
   console.log(Proposals);
+  console.log(Proposals[0].approval.admin);
   //initialize classes for material uI
   const classes = useStyles();
 
@@ -32,12 +33,12 @@ const PrefPage = props => {
           </Typography>
         </Grid>
         {Proposals.map((proposal, index) => {
+          let approval = proposal.approval;
+          console.log(approval.admin);
           return (
             <Grid
               item
               xs={12}
-              sm={12}
-              md={4}
               className={classes.gridContent}
               key={proposal._id}
             >
@@ -93,10 +94,39 @@ const PrefPage = props => {
                     {proposal.applied}
                   </Typography>
                 </Grid>
+                <Grid item xs={12}>
+                  <Typography>
+                    <b>Attached Print:&nbsp;&nbsp;</b>
+                    {proposal.attachPrints}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  {approval.admin ? (
+                    <Typography>
+                      <b>Admin approval status:</b>Approved
+                    </Typography>
+                  ) : (
+                    <Typography>
+                      <b>Admin approval status:</b>not approved
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  {approval.hod ? (
+                    <Typography>
+                      <b>HOD approval status:</b>Approved
+                    </Typography>
+                  ) : (
+                    <Typography>
+                      <b>HOD approval status:</b>not approved
+                    </Typography>
+                  )}
+                </Grid>
               </Grid>
             </Grid>
           );
         })}
+        if
       </Grid>
     </div>
   );
