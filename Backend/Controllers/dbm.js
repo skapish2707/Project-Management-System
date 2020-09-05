@@ -17,14 +17,14 @@ mongoose.connect(process.env.uri,{
 	}else{
 		console.log("Connected to database");
 		// CUSTOM CHANGE TO DATABASE HERE \
-        // User.deleteMany({admin:'5f4bc5a4d2ce8c33401e4d16'},function(err){
-        //     if (err) throw err
-        //         console.log('deleted etrx department')
-        // })
-        // Group.deleteMany({admin:'5f4bc5a4d2ce8c33401e4d16'},function(err){
-        //     if (err) throw err
-        //         console.log('deleted etrx department')
-        // })
+        User.deleteMany({admin:'5f522c984203835d6c83fe6f'},function(err){
+            if (err) throw err
+                console.log('deleted etrx department')
+        })
+        Group.deleteMany({admin:'5f522c984203835d6c83fe6f'},function(err){
+            if (err) throw err
+                console.log('deleted etrx department')
+        })
   //       User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
 		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
 		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
