@@ -4,10 +4,11 @@ import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import qs from "qs";
-import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper, Tabs, Tab, Box, LinearProgress, AppBar, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper, Tabs, Tab, Box, LinearProgress, AppBar, createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 
-//let theme = createMuiTheme();
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -40,8 +41,8 @@ const useStyles = theme => ({
   typographyFilled:{
     fontWeight:"700",
     fontSize:"20px",
-    // display:"flex",
-    // textAlign:"left"
+    display:"flex",
+    textAlign:"left"
   },
   tabPanel:{
     borderTop:"1px solid #000",
@@ -56,8 +57,9 @@ const useStyles = theme => ({
     [theme.breakpoints.up('700')]: {
       display:"none"
     },
-  }
+  },
 });
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -563,7 +565,7 @@ class StudentContent extends Component {
                       <Typography>{pref1.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.agency}</Typography>
@@ -595,7 +597,7 @@ class StudentContent extends Component {
                   </Grid>
                 </TabPanel>
                 <TabPanel className={classes.tabPanel} value={value} index={1}>
-                  <Grid container spacing={4}>
+                  <Grid container spacing={3}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
                       <Typography>Title of Preference : </Typography>
                     </Grid>
@@ -615,7 +617,7 @@ class StudentContent extends Component {
                       <Typography>{pref2.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.agency}</Typography>
@@ -647,7 +649,7 @@ class StudentContent extends Component {
                   </Grid>
                 </TabPanel>
                 <TabPanel className={classes.tabPanel} value={value} index={2}>
-                  <Grid container spacing={4}>
+                  <Grid container spacing={3}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
                       <Typography>Title of Preference : </Typography>
                     </Grid>
@@ -667,7 +669,7 @@ class StudentContent extends Component {
                       <Typography>{pref3.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.agency}</Typography>
@@ -708,7 +710,7 @@ class StudentContent extends Component {
                   </Tabs>
                 </AppBar>
                 <TabPanel className={classes.tabPanel} value={value} index={0}>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={3}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
                       <Typography>Title of Preference : </Typography>
                     </Grid>
@@ -728,7 +730,7 @@ class StudentContent extends Component {
                       <Typography>{pref1.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.agency}</Typography>
@@ -780,7 +782,7 @@ class StudentContent extends Component {
                       <Typography>{pref2.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.agency}</Typography>
@@ -832,7 +834,7 @@ class StudentContent extends Component {
                       <Typography>{pref3.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency / external agency / CTL / Mastek/or any other : </Typography>
+                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.agency}</Typography>
@@ -883,6 +885,7 @@ function Step1(props) {
   } else {
     return (
       <React.Fragment>
+        <ThemeProvider theme={theme}>
         <Grid container spacing={2}>
           <Grid component={"span"} item xs={12}>
             <Typography component={"span"} variant="h3">
@@ -915,8 +918,10 @@ function Step1(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
               component={"span"}
+              multiline
+              rows={2}
               id="Dos"
               name="Dos"
               type="text"
@@ -935,8 +940,10 @@ function Step1(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
               component={"span"}
+              multiline
+              rows={2}
               id="Dsop"
               name="Dsop"
               type="text"
@@ -955,8 +962,10 @@ function Step1(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
               component={"span"}
+              multiline
+              rows={2}
               id="agency"
               name="agency"
               type="text"
@@ -975,8 +984,10 @@ function Step1(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
               component={"span"}
+              multiline
+              rows={2}
               id="Mtap"
               name="Mtap"
               type="text"
@@ -993,7 +1004,9 @@ function Step1(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Red"
               name="Red"
@@ -1013,7 +1026,9 @@ function Step1(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Shr"
               name="Shr"
@@ -1057,6 +1072,7 @@ function Step1(props) {
           </Grid>
           <Grid item xs={4} />
         </Grid>
+        </ThemeProvider>
       </React.Fragment>
     );
   }
@@ -1069,6 +1085,7 @@ function Step2(props) {
   } else {
     return (
       <React.Fragment>
+        <ThemeProvider theme={theme}>
         <Grid container spacing={2}>
           <Grid component={"span"} item xs={12}>
             <Typography component={"span"} variant="h3">
@@ -1101,7 +1118,9 @@ function Step2(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Dos"
               name="Dos"
@@ -1121,7 +1140,9 @@ function Step2(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Dsop"
               name="Dsop"
@@ -1141,7 +1162,9 @@ function Step2(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="agency"
               name="agency"
@@ -1161,7 +1184,9 @@ function Step2(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Mtap"
               name="Mtap"
@@ -1179,7 +1204,9 @@ function Step2(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Red"
               name="Red"
@@ -1199,7 +1226,9 @@ function Step2(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Shr"
               name="Shr"
@@ -1258,6 +1287,7 @@ function Step2(props) {
           </Grid>
           <Grid item xs={2} />
         </Grid>
+        </ThemeProvider>
       </React.Fragment>
     );
   }
@@ -1270,6 +1300,7 @@ function Step3(props) {
   } else {
     return (
       <React.Fragment>
+        <ThemeProvider theme={theme}>
         <Grid container spacing={2}>
           <Grid component={"span"} item xs={12}>
             <Typography component={"span"} variant="h3">
@@ -1302,7 +1333,9 @@ function Step3(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Dos"
               name="Dos"
@@ -1322,7 +1355,9 @@ function Step3(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Dsop"
               name="Dsop"
@@ -1342,7 +1377,9 @@ function Step3(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="agency"
               name="agency"
@@ -1362,7 +1399,9 @@ function Step3(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Mtap"
               name="Mtap"
@@ -1380,7 +1419,9 @@ function Step3(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Red"
               name="Red"
@@ -1400,7 +1441,9 @@ function Step3(props) {
           <Grid item xs={12}sm={6}>
             <TextField
               className={classes.TextField}
-              variant="standard"
+              variant="outlined"
+              multiline
+              rows={2}
               component={"span"}
               id="Shr"
               name="Shr"
@@ -1475,6 +1518,7 @@ function Step3(props) {
           </Grid>
           <Grid item xs={2} />
         </Grid>
+        </ThemeProvider>
       </React.Fragment>
     );
   }
