@@ -16,7 +16,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Footer from "../../components/Footer/Footer";
 import Container from "@material-ui/core/Container";
-
+import Image from './back.jpg'
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -37,31 +37,45 @@ var today = new Date(),
 
 const useStyles = theme => ({
   paper: {
-    marginTop: theme.spacing(8),
-    background: "#ffcdd2",
+    background: "transparent",
+    boxShadow:"0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+    borderRadius: "6px",
+    float :"right",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    color:"#fff",
+    marginTop:theme.spacing(18),
+    
+
   },
   leftpaper: {
-    // backgroundImage: `url(${Image})`,
-    // height: "600px"
+     backgroundImage: `url(${Image})`,
+     backgroundSize : "cover",
+     height:"100%",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: "#606060",
     height: "50px",
-    width: "50px"
+    width: "50px",
+    marginTop: "30px" 
   },
   form: {
     width: "90%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    padding: "10px",
+    fontSize: "18px",
+    fontWeight: "bolder",
+    backgroundColor: "#1877f2",
+    marginBottom: "25px"
   },
   fields: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   }
 });
 
@@ -219,40 +233,26 @@ class Login extends Component {
       return <LinearProgress />;
     }
     return (
-      <div className={classes.leftpaper}>
-        <div></div>
-        <React.Fragment>
-          <Navbar />
-        </React.Fragment>
-        <Container component="main" maxWidth="xs">
+      <div className={classes.leftpaper}> 
+        
+        <Container component="main" maxWidth="xs" className={classes.paper} >
           <CssBaseline />
-          <div
-            className={classes.paper}
-            style={{
-              boxShadow:
-                "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
-              backgroundColor: "#fff",
-              borderRadius: "6px"
-            }}
-          >
             <Avatar
               variant="circle"
               className={classes.avatar}
-              style={{ marginTop: "30px" }}
             >
               <PersonIcon fontSize="large" />
             </Avatar>
             <Typography component="h2" variant="h6">
-              User Login
+              Project Management System
             </Typography>
             <form
               className={classes.form}
               onSubmit={this.submitForm}
-              noValidate
             >
               <TextField
                 type="email"
-                variant="outlined"
+                variant="filled"
                 margin="normal"
                 required
                 fullWidth
@@ -264,7 +264,7 @@ class Login extends Component {
                 autoFocus
               />
               <TextField
-                variant="outlined"
+                variant="filled"
                 margin="normal"
                 required
                 fullWidth
@@ -283,13 +283,6 @@ class Login extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                style={{
-                  padding: "10px",
-                  fontSize: "18px",
-                  fontWeight: "bolder",
-                  backgroundColor: "#1877f2",
-                  marginBottom: "25px"
-                }}
               >
                 Log In
               </Button>
@@ -303,16 +296,8 @@ class Login extends Component {
                 Invalid Username/Password Please try again
               </Alert>
             </Snackbar>
-          </div>
-          <br />
-          <br />
-          <br />
         </Container>
-
-        <footer>
-          <Footer />
-        </footer>
-      </div>
+     </div>
     );
   }
 }

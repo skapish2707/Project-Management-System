@@ -3,12 +3,3 @@
   color: #bbb;
   line-height: 1.5;
 }
-
-@media screen and (max-width: 600px) {
-  body::after {
-    content: "";
-    display: block;
-    height: 300px; /* Set same as footer's height */
-    margin-top: 250px;
-  }
-}
