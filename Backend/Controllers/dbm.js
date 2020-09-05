@@ -16,20 +16,24 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
-		// CUSTOM CHANGE TO DATABASE HERE \
-        User.deleteMany({admin:'5f522c984203835d6c83fe6f'},function(err){
-            if (err) throw err
-                console.log('deleted etrx department')
-        })
-        Group.deleteMany({admin:'5f522c984203835d6c83fe6f'},function(err){
-            if (err) throw err
-                console.log('deleted etrx department')
-        })
-  //       User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
-		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
-		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
-		// User.deleteMany({type:'hod'},function(err){if (err) throw err; else console.log('deleted HOD') });
-		// Group.deleteMany({},function(err){if (err) throw err; else console.log('deleted Groups') });
+		// CUSTOM CHANGE TO DATABASE HERE 
+
+    //DELETE  STUDENT GROUPS HOD PIC IG by admin email
+        // User.findOne({email:"newtest@admin.com"},function(err,admin){
+        //   if(err) throw err ;
+        //   User.deleteMany({admin:admin.id},function(err){
+        //       if (err) throw err
+        //           console.log('deleted all user created by ', admin.email)
+        //   })
+        //   Group.deleteMany({admin:admin.id},function(err){
+        //       if (err) throw err
+        //           console.log('deleted all groups created by', admin.email)
+        //   })  
+        // })
+    //DELETE PROPOSAL BY EMAIL OF ANY MEMBER
+      //Group.findOneAndUpdate({members.email:"student@email.com"},{proposals:[]})
+      
+  
 	}
 });
 
