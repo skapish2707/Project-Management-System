@@ -12,11 +12,16 @@ import {
   Grid,
   Typography,
   Button,
-  Input
+  Input,
+  Snackbar
 } from "@material-ui/core";
 import Profile from "../Profile";
 import ProjectList from "./ProjectList";
+import MuiAlert from "@material-ui/lab/Alert";
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 let userInfo = [];
 let Ad = null;
 let filled = false;
@@ -84,7 +89,9 @@ class AdminContent extends Component {
       ig: "",
       igName: "",
       adData: null,
-      filled
+      filled,
+      openSuccess: false,
+      openFailure: false
     };
   }
 
@@ -111,6 +118,17 @@ class AdminContent extends Component {
   //   this.fileValidation(e);
   // };
 
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({
+      openSuccess: false,
+      openFailure: false,
+      adData:null
+    });
+  };
+
   submitHandler = e => {
     e.preventDefault();
     var formData = new FormData();
@@ -131,8 +149,11 @@ class AdminContent extends Component {
         "Content-Type": "multipart/form-data"
       }
     })
-      .then(function (res) {})
-      .catch(function (err) {
+      .then((res) => {
+        this.setState({openSuccess:true});
+      })
+      .catch((err) => {
+        this.setState({openFailure:true});
         if (err) throw err;
       });
     this.setState({ hod: "", student_file: null, pic: "", ig: "" });
@@ -144,7 +165,7 @@ class AdminContent extends Component {
     var filePath = fileInput.value;
 
     // Allowing file type
-    var allowedExtensions = /(\.csv)$/i;
+    var allowedExtensions = /(\.csv|\.xlsx)$/i;
 
     if (!allowedExtensions.exec(filePath)) {
       alert("Invalid file type");
@@ -379,6 +400,24 @@ class AdminContent extends Component {
                       >
                         Submit
                       </Button>
+                      <Snackbar
+                        open={this.state.openSuccess}
+                        autoHideDuration={6000}
+                        onClose={this.handleClose}
+                      >
+                        <Alert onClose={this.handleClose} severity="success">
+                          Preferences submitted successfully
+                        </Alert>
+                      </Snackbar>
+                      <Snackbar
+                        open={this.state.openFailure}
+                        autoHideDuration={6000}
+                        onClose={this.handleClose}
+                      >
+                        <Alert onClose={this.handleClose} severity="error">
+                          Preferences not submitted successfully
+                        </Alert>
+                      </Snackbar>
                     </div>
                   </Grid>
                 </Grid>
