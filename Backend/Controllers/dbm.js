@@ -108,8 +108,18 @@ async function addToDatabase(admin,name,rollno,email, department, type, groupNam
     user.groupName = name;
     }
     await user.save();
+    return user;
 }
-
+async function addMemberToGroup(groupId,student){
+  member = {
+    name : student.name,
+    email : student.email,
+    rollno : student.rollno
+  }
+  group = await Group.findById(groupId)
+  group.members.push(member) ;
+  await group.save();
+}
 async function getStudents(user,by){
 	let admin = null;
 	if (user.type == 'admin') admin = user.id;
@@ -215,4 +225,5 @@ module.exports = {
   addComment : addComment,
   getGroup : getGroup,
   approve : approve,
+  addMemberToGroup : addMemberToGroup,
 };

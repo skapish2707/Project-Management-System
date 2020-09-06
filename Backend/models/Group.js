@@ -4,7 +4,7 @@ var groupSchema  = new mongoose.Schema({
 	name : String,
 	admin : {type : mongoose.Schema.Types.ObjectId,ref : 'User'},
 	members : [{
-		id : {type : mongoose.Schema.Types.ObjectId,ref : 'User'},
+		// id : {type : mongoose.Schema.Types.ObjectId,ref : 'User'},
 		name : String,
 		email : String,
 		rollno : String,
@@ -23,7 +23,7 @@ var groupSchema  = new mongoose.Schema({
 		method : String,
 		result : String,
 		requirements : String,
-		attachPrints : String, //remove later
+		attachPrints : String, 
 		approval : {
 			admin : { type :Boolean,default:false },
 			hod : { type :Boolean,default:false },
