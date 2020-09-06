@@ -75,14 +75,14 @@ function TabPanel(props) {
 		large_win_tabs:{
 			width:"90%",
 			margin:"auto",
-			[theme.breakpoints.down('670')]: {
+			[theme.breakpoints.down('760')]: {
 				display:"none"
 			},
 		},
 		small_win_tabs:{
 			width:"90%",
 			margin:"auto",
-			[theme.breakpoints.up('670')]: {
+			[theme.breakpoints.up('760')]: {
 				display:"none"
 			},
 		}

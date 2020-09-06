@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
-import qs from "qs";
-import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper, Tabs, Tab, Box, LinearProgress, AppBar, createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Tabs, Tab, Box, AppBar, createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 
 let theme = createMuiTheme();
@@ -286,7 +285,7 @@ class StudentContent extends Component {
       }
     } else {
       let prefs = [...this.state.preferences];
-      for (var i = 0; i < 3; i++) {
+      for (i = 0; i < 3; i++) {
         if (i === pn - 1) {
           //let pref=[...prefs[i]];
           prefs[i].filled = true;
@@ -370,7 +369,6 @@ class StudentContent extends Component {
       withCredentials: true
     })
       .then(res => {
-        var i = 0;
         Stu = res.data.proposals.length;
         Proposals = res.data.proposals;
         //console.log(Proposals);
@@ -425,8 +423,6 @@ class StudentContent extends Component {
     e.preventDefault();
     let currentStep = this.state.currentStep;
     let {
-      filled,
-      prefno,
       Top,
       Dos,
       Dsop,
@@ -469,7 +465,7 @@ class StudentContent extends Component {
       this.checkData();
     }
     if (filled === true) {
-      if (Stu == 0) {
+      if (Stu === 0) {
         return (
           <React.Fragment>
             <form>
@@ -532,7 +528,7 @@ class StudentContent extends Component {
           </React.Fragment>
         );
       }
-      if (Stu != 0) {
+      if (Stu !== 0) {
         let value=this.state.tabValue;
           return (
             <React.Fragment>
