@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import StudentContent from './StudentContent';
 import Profile from '../Profile';
+import StudentHomePage from './studentHomePage';
 
 let userInfo = [];
 
@@ -130,7 +131,7 @@ const StudentWholePage = (props) => {
 							</ThemeProvider>
 							<Grid className={classes.TabPanel} item xs={12}>
 								<TabPanel value={value} index={0}>
-									Home
+									<StudentHomePage />
 								</TabPanel>
 								<TabPanel value={value} index={1}>
 									<StudentContent />
@@ -180,7 +181,7 @@ const StudentWholePage = (props) => {
 							</ThemeProvider>
 							<Grid className={classes.TabPanel} item xs={9}>
 								<TabPanel value={value} index={0}>
-									Home
+									<StudentHomePage />
 								</TabPanel>
 								<TabPanel value={value} index={1}>
 									<StudentContent />
