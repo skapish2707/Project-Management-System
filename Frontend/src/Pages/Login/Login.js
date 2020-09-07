@@ -16,7 +16,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Footer from "../../components/Footer/Footer";
 import Container from "@material-ui/core/Container";
-import Image from './back.jpg'
+import Image from "./back.jpg";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -38,33 +38,30 @@ var today = new Date(),
 const useStyles = theme => ({
   paper: {
     background: "transparent",
-    boxShadow:"0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
     borderRadius: "6px",
-    float :"right",
+    float: "right",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    color:"#fff",
-    marginTop:theme.spacing(18),
-    
-
+    color: "#fff",
+    marginTop: theme.spacing(18)
   },
   leftpaper: {
-     backgroundImage: `url(${Image})`,
-     backgroundSize : "cover",
-     height:"100%",
+    backgroundImage: `url(${Image})`,
+    backgroundSize: "cover",
+    height: "100%"
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: "#606060",
     height: "50px",
     width: "50px",
-    marginTop: "30px" 
+    marginTop: "30px"
   },
   form: {
     width: "90%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-    
+    marginTop: theme.spacing(1)
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -75,7 +72,7 @@ const useStyles = theme => ({
     marginBottom: "25px"
   },
   fields: {
-    backgroundColor: "#fff",
+    backgroundColor: "#fff"
   }
 });
 
@@ -206,7 +203,7 @@ class Login extends Component {
       Data = "";
     }
     if (Data === "hod") {
-      localStorage.setItem("token", "faculty");
+      localStorage.setItem("token", "hod");
       Data = "";
     }
     if (Data === "student") localStorage.setItem("token", "student");
@@ -219,6 +216,7 @@ class Login extends Component {
       if (token === "admin") return <Redirect to="/admin" exact />;
       if (token === "student") return <Redirect to="/student" exact />;
       if (token === "faculty") return <Redirect to="/faculty" exact />;
+      if (token === "hod") return <Redirect to="/hod" exact />;
     }
     const handleClose = (event, reason) => {
       if (reason === "clickaway") {
@@ -233,71 +231,64 @@ class Login extends Component {
       return <LinearProgress />;
     }
     return (
-      <div className={classes.leftpaper}> 
-        
-        <Container component="main" maxWidth="xs" className={classes.paper} >
+      <div className={classes.leftpaper}>
+        <Container component="main" maxWidth="xs" className={classes.paper}>
           <CssBaseline />
-            <Avatar
-              variant="circle"
-              className={classes.avatar}
-            >
-              <PersonIcon fontSize="large" />
-            </Avatar>
-            <Typography component="h2" variant="h6">
-              Project Management System
-            </Typography>
-            <form
-              className={classes.form}
-              onSubmit={this.submitForm}
-            >
-              <TextField
-                type="email"
-                variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="username"
-                value={this.state.username}
-                onChange={this.handleChange("username")}
-                className={classes.fields}
-                autoFocus
-              />
-              <TextField
-                variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type="password"
-                id="password"
-                value={this.state.password}
-                onChange={this.handleChange("password")}
-                autoComplete="current-password"
-                className={classes.fields}
-              />
+          <Avatar variant="circle" className={classes.avatar}>
+            <PersonIcon fontSize="large" />
+          </Avatar>
+          <Typography component="h2" variant="h6">
+            Project Management System
+          </Typography>
+          <form className={classes.form} onSubmit={this.submitForm}>
+            <TextField
+              type="email"
+              variant="filled"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="username"
+              value={this.state.username}
+              onChange={this.handleChange("username")}
+              className={classes.fields}
+              autoFocus
+            />
+            <TextField
+              variant="filled"
+              margin="normal"
+              required
+              fullWidth
+              label="Password"
+              type="password"
+              id="password"
+              value={this.state.password}
+              onChange={this.handleChange("password")}
+              autoComplete="current-password"
+              className={classes.fields}
+            />
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Log In
-              </Button>
-            </form>
-            <Snackbar
-              open={this.state.invalidCredentials}
-              autoHideDuration={6000}
-              onClose={handleClose}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
             >
-              <Alert onClose={handleClose} severity="error">
-                Invalid Username/Password Please try again
-              </Alert>
-            </Snackbar>
+              Log In
+            </Button>
+          </form>
+          <Snackbar
+            open={this.state.invalidCredentials}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity="error">
+              Invalid Username/Password Please try again
+            </Alert>
+          </Snackbar>
         </Container>
-     </div>
+      </div>
     );
   }
 }

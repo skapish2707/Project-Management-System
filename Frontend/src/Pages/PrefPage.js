@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { Grid, Typography, makeStyles } from "@material-ui/core";
+import { Grid, Typography, makeStyles, Button } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   grid: { padding: "10px" },
@@ -25,7 +25,7 @@ const PrefPage = props => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div style={{ width: "90%", margin: "auto" }}>
       <Grid container spacing={2} className={classes.grid}>
         <Grid item xs={12}>
           <Typography variant="h3">
@@ -122,11 +122,23 @@ const PrefPage = props => {
                     </Typography>
                   )}
                 </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                      window.open(
+                        `http://localhost:8000/${proposal.attachPrints}`
+                      );
+                    }}
+                  >
+                    Show Uploaded Document
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           );
         })}
-        if
       </Grid>
     </div>
   );
