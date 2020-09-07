@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import FacultyContent from "../components/Faculty-component/FacultyContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
 import Footer from "../components/Footer/Footer";
+import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 
 export default class Admin extends Component {
   constructor(props) {
     super();
     const token = localStorage.getItem("token");
     let loggedIn = false;
-    if (token === "faculty") {
+    if (token === "hod") {
       loggedIn = true;
     }
     this.state = {
@@ -45,14 +45,12 @@ export default class Admin extends Component {
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
-    } else if (
-      this.state.user.type === "ig" ||
-      this.state.user.type === "pic"
-    ) {
+    } else if (this.state.user.type === "hod") {
       return (
         <div>
           <React.Fragment>
-            <FacultyContent />
+            <LoggedNavbar />
+            <h1>Hod page</h1>
             <footer>
               <Footer />
             </footer>
