@@ -171,6 +171,13 @@ async function approve(groupId,proposalId,staff){
           group.proposals[i].approval.hod = true;
         }
       }
+      else {
+        if (staff == 'admin'){
+          group.proposals[i].approval.admin = false;
+        }else if(staff == 'hod'){
+          group.proposals[i].approval.hod = false;
+        }
+      }
     }
     await group.save();
 }
