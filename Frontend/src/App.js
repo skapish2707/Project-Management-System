@@ -10,6 +10,7 @@ import Faculty from "./Pages/Faculty";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
 import NotFound from "./components/NotFound";
 import PrefPage from "./Pages/PrefPage";
+import Hod from "./Pages/Hod";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Login} />
         <Route path="/admin" exact component={Admin} />
+        <Route path="/hod" exact component={Hod} />
         <Route path="/logout" exact component={Logout} />
         <Route path="/faculty" exact component={Faculty} />
         <Route path="/student" exact component={Student} />

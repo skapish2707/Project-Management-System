@@ -9,18 +9,21 @@ theme = responsiveFontSizes(theme);
 const useStyles = makeStyles((theme)=>({
     tableContainer:{
         marginTop:"10px",
-        marginBottom:"10px",
-        backgroundColor:"#666"
+        marginBottom:"50px",
     },
     table:{
         minWidth: 650,
     }
 }))
 
+let propF=false;
+let sData=null;
+let fill=false;
 let Group = null;
 
 const StudentHomePage = () => {
 
+    const [propFilled,setPropFilled] = useState(false)
     const [stuData, setStuData] = useState(null);
     const [filled, setFilled ] = useState(false);
     const [loading,setLoading] = useState(false);
@@ -34,17 +37,42 @@ const StudentHomePage = () => {
         })
         .then(res => {
         Group = res.data;
-        console.log(Group);
+        //console.log(Group.proposals.length);
+        if(Group.proposals.length>0){
+            setPropFilled(true);
+            propF=propFilled;
+        }
         setStuData("new");
         setFilled(true);
         setLoading(false);
+        sData = stuData ;
+        fill=filled;
         })
         .catch((err) => {
         console.log(err);
         });
     }
 
-    let studata = stuData;
+    function propApproved(proposals){
+        let approved=false;
+        let propTitle="";
+        proposals.map(proposal=>{
+            if(proposal.approval.admin && proposal.approval.hod){
+                approved=true;
+                propTitle=proposal.title;
+            }
+        })
+        if(approved){
+            return(
+            <Typography style={{marginBottom:"40px"}} variant="h4">Your Proposal {propTitle} has been approved. Please start working on it.</Typography>
+            )
+        }else{
+            return(
+            <Typography style={{marginBottom:"40px"}} variant="h5">Your Proposals are yet to be approved. Please check again later.</Typography>
+            )
+        }
+    }
+    // console.log(propF)
     if (loading) {
         return (
             <div style={{ margin: "auto" }}>
@@ -52,17 +80,17 @@ const StudentHomePage = () => {
             </div>
         );
     }
-    if(studata === null){
+    if(sData === null){
         checkData();
     }
-    if(filled){
+    if(fill && propF){
         let i=1;
         const {department,name,members,proposals} = Group;
         return (
             <React.Fragment>
                 <ThemeProvider theme={theme}>
                 <Typography variant="h4">Group Details</Typography>
-                <TableContainer className={classes.tableContainer} component={Paper}>
+                <TableContainer style={{backgroundColor:"#d3d3d3"}} className={classes.tableContainer} component={Paper}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                         <TableHead>
                         <TableRow>
@@ -87,7 +115,7 @@ const StudentHomePage = () => {
                     </Table>
                 </TableContainer>
                 <Typography style={{marginTop:"20px"}} variant="h4">Approval Status</Typography>
-                <TableContainer className={classes.tableContainer} component={Paper}>
+                <TableContainer style={{backgroundColor:"#d3d3d3"}} className={classes.tableContainer} component={Paper}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                         <TableHead>
                         <TableRow>
@@ -109,11 +137,51 @@ const StudentHomePage = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                {propApproved(proposals)}
+                </ThemeProvider>
+            </React.Fragment>
+            
+         );
+    }
+    if(fill && !propF){
+        let i=1;
+        const {department,name,members,proposals} = Group;
+        return (
+            <React.Fragment>
+                <ThemeProvider theme={theme}>
+                <Typography variant="h4">Group Details</Typography>
+                <TableContainer style={{backgroundColor:"#d3d3d3"}} className={classes.tableContainer} component={Paper}>
+                    <Table className={classes.table} size="small" aria-label="a dense table">
+                        <TableHead>
+                        <TableRow>
+                            <TableCell align="center">Name</TableCell>
+                            <TableCell align="center">Roll No.</TableCell>
+                            <TableCell align="center">Email ID</TableCell>
+                            <TableCell align="center">Group No.</TableCell>
+                            <TableCell align="center">Department</TableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {members.map((member) => (
+                            <TableRow key={member._id}>
+                            <TableCell align="center">{member.name}</TableCell>
+                            <TableCell align="center">{member.rollno}</TableCell>
+                            <TableCell align="center">{member.email}</TableCell>
+                            <TableCell align="center">{name}</TableCell>
+                            <TableCell align="center">{department}</TableCell>
+                            </TableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                    <Typography style={{marginBottom:"40px"}} variant="h3">Preferences not filled</Typography>
                 </ThemeProvider>
             </React.Fragment>
          );
     }
-    
+    return(
+        <CircularProgress />
+    )
 }
  
 export default StudentHomePage;
