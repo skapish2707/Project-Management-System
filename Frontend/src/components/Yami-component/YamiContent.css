@@ -1,0 +1,121 @@
+.yami-form {
+  background-color: #fff;
+  margin: auto;
+  width: 25%;
+  height: 450px;
+  border-radius: 3px;
+  margin-top: 80px;
+}
+.yami-title {
+  font-size: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.yami-label {
+  float: left;
+  padding-left: 20px;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+/* /////////////////////////////////////////////////////////////// */
+input[type="email"] {
+  width: 95%;
+  padding: 15px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  resize: vertical;
+}
+select {
+  width: 95%;
+  padding: 15px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+  margin-bottom: 50px;
+}
+
+/* Style the label to display next to the inputs */
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+/* Style the submit button */
+input[type="submit"] {
+  background-color: black;
+  font-size: 25px;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+input[type="submit"]:hover {
+  background-color: #606060;
+}
+
+/* Style the container */
+.yami-container {
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 80px;
+  background-color: white;
+  /* background-color: #f2f2f2; */
+  padding: 20px;
+  width: 50%;
+  margin-bottom: 50px;
+}
+
+/* Floating column for labels: 25% width */
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+/* Floating column for inputs: 75% width */
+.col-75 {
+  width: 80%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 1080px) {
+  .col-75,
+  input[type="submit"] {
+    width: 100% !;
+    margin-top: 0;
+  }
+  input[type="file"] {
+    width: 100%;
+    margin-top: 0;
+    font-size: 18px;
+  }
+
+  select {
+    width: 100%;
+    margin-top: 0;
+    font-size: 18px;
+  }
+  .yami-container {
+    width: 50%;
+  }
+}

@@ -6,21 +6,34 @@ var fs = require("fs");
 require("dotenv").config();
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
- 
+
 mongoose.connect(process.env.uri,{
 	useNewUrlParser : true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
+    useFindAndModify: false
 	},function(err){
 	if (err){
 		console.log(err);
 	}else{
 		console.log("Connected to database");
 		// CUSTOM CHANGE TO DATABASE HERE 
-		// User.deleteMany({type:'student'},function(err){if (err) throw err; else console.log('deleted all students') });
-		// User.deleteMany({type:'ig'},function(err){if (err) throw err; else console.log('deleted IG') });
-		// User.deleteMany({type:'pic'},function(err){if (err) throw err; else console.log('deleted PIC') });
-		// User.deleteMany({type:'hod'},function(err){if (err) throw err; else console.log('deleted HOD') });
-		// Group.deleteMany({},function(err){if (err) throw err; else console.log('deleted Groups') });
+
+    //DELETE  STUDENT GROUPS HOD PIC IG by admin email
+        // User.findOne({email:"newtest@admin.com"},function(err,admin){
+        //   if(err) throw err ;
+        //   User.deleteMany({admin:admin.id},function(err){
+        //       if (err) throw err
+        //           console.log('deleted all user created by ', admin.email)
+        //   })
+        //   Group.deleteMany({admin:admin.id},function(err){
+        //       if (err) throw err
+        //           console.log('deleted all groups created by', admin.email)
+        //   })  
+        // })
+    //DELETE PROPOSAL BY EMAIL OF ANY MEMBER
+      //Group.findOneAndUpdate({members.email:"student@email.com"},{proposals:[]})
+      
+  
 	}
 });
 
@@ -55,42 +68,58 @@ function saveLocallyForDevelopment(email, password) {
   });
 }
 
-function generateGroups(admin) {
-  User.find({ type: "student", admin: admin.id }, async function (err, users) {
+async function generateGroups(admin) {
+    users = await User.find({ type: "student", admin: admin.id })
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
-      let group = await Group.findOne({ name: user.groupName });
+      let group = await Group.findOne({ name: user.groupName,admin:admin.id });
       if (!group) {
         group = await Group({
           name: user.groupName,
+          department : user.department,
           members: [],
-          admin: admin.id
+          admin: admin.id,
         });
       }
-      group.members.push(user.id);
+      group.members.push({
+        name : user.name ,
+        email : user.email ,
+        rollno : user.rollno 
+      });
       await group.save();
     }
-  });
 }
 
-async function addToDatabase(admin, email, department, type, groupName = null) {
-  password = makePassword(8);
-  saveLocallyForDevelopment(email, password);
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(password, salt);
-  var user = User();
-  user.email = email;
-  user.password = hash;
-  user.department = department;
-  user.type = type;
-  if (admin) user.admin = admin.id;
-  if (groupName) {
+async function addToDatabase(admin,name,rollno,email, department, type, groupName = null) {
+    password = makePassword(8);
+    saveLocallyForDevelopment(email, password);//sendMailInProduction();
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    var user = User();
+    user.email = email;
+    user.password = hash;
+    user.department = department;
+    user.type = type;
+    if(rollno) user.rollno = rollno;
+    if(name) user.name = name;
+    if (admin) user.admin = admin.id;
+    if (groupName) {
     var name = groupName.toLowerCase().trim().replace(/ /g, "");
     user.groupName = name;
-  }
-  await user.save();
+    }
+    await user.save();
+    return user;
 }
-
+async function addMemberToGroup(groupId,student){
+  member = {
+    name : student.name,
+    email : student.email,
+    rollno : student.rollno
+  }
+  group = await Group.findById(groupId)
+  group.members.push(member) ;
+  await group.save();
+}
 async function getStudents(user,by){
 	let admin = null;
 	if (user.type == 'admin') admin = user.id;
@@ -106,20 +135,57 @@ async function getStudents(user,by){
 	}
 	else if (by == "group"){
 		groups  = await Group.find({admin:admin})
-		for (let i = 0 ; i < groups.length ; i ++){
-			let group  = groups[i]
-			let members = []
-			for (let j = 0 ; j < group.members.length ; j ++){
-				user = await User.findById(group.members[j])
-				members.push(user.email)
-			}
-			items.push({'groupName':group.name,'members':members})
-		}
+        for (let i = 0 ;i < groups.length ; i++){
+            items.push({
+                id : groups[i].id,
+                name : groups[i].name,
+                members : groups[i].members,
+                comments : groups[i].comments,
+                proposals :groups[i].proposals
+            })
+        }
 	}
 	return items
 }
 
+async function addProposals(student,proposals){
+  await Group.findOneAndUpdate({admin:student.admin,name:student.groupName},{proposals:proposals});
+}
 
+async function addComment(staff,groupId,msg){
+    group =  await Group.findById(groupId.trim());
+    group.comments.push({
+        author : staff.email,
+        text : msg.trim(),
+    });
+    await group.save();
+}
+
+async function approve(groupId,proposalId,staff){
+    group =  await Group.findById(groupId.trim());
+    for (let i = 0 ; i < group.proposals.length ; i++){
+      if (group.proposals[i].id == proposalId.trim()){
+        if (staff == 'admin'){
+          group.proposals[i].approval.admin = true;
+        }else if(staff == 'hod'){
+          group.proposals[i].approval.hod = true;
+        }
+      }
+    }
+    await group.save();
+}
+
+async function getGroup(student){
+    group = await Group.findOne({name:student.groupName, admin:student.admin});
+    return {
+        id : group.id,
+        department : group.department,
+        name : group.name,
+        members : group.members,
+        comments : group.comments,
+        proposals :group.proposals
+    }
+}
 
 
 passport.use(
@@ -155,4 +221,9 @@ module.exports = {
   changePassword: changePassword,
   generateGroups: generateGroups,
   getStudents : getStudents,
+  addProposals : addProposals,
+  addComment : addComment,
+  getGroup : getGroup,
+  approve : approve,
+  addMemberToGroup : addMemberToGroup,
 };

@@ -12,6 +12,9 @@ var app = express();
 //body-parser
 app.use(express.urlencoded({ extended: true }));
 
+// static files
+app.use(express.static('./public'))
+
 // file fileUpload middleware
 app.use(fileUpload());
 
@@ -20,7 +23,7 @@ app.use(flash());
 
 // Session 
 app.use(cookieSession({
-	maxAge : 24*60*60*1000,
+	maxAge : 45*60*1000,
 	keys : [process.env.SESSION_SECRET],
 }));
 
