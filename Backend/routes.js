@@ -151,22 +151,22 @@ router.post('/student', async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'student') return res.status(404).send();
 	if (!req.files) return res.status(422).send();
-	req.files.file1.mv('public/'+req.user.groupName.trim()+"pref1"+req.files.file1.name,function(err){
+	req.files.file1.mv('public/'+req.user.id.trim()+"pref1"+req.files.file1.name,function(err){
 		if (err) throw (err);
 	})
-	req.files.file2.mv('public/'+req.user.groupName.trim()+"pref2"+req.files.file2.name,function(err){
+	req.files.file2.mv('public/'+req.user.id.trim()+"pref2"+req.files.file2.name,function(err){
 		if (err) throw (err);
 	})
-	req.files.file3.mv('public/'+req.user.groupName.trim()+"pref3"+req.files.file3.name,function(err){
+	req.files.file3.mv('public/'+req.user.id.trim()+"pref3"+req.files.file3.name,function(err){
 		if (err) throw (err);
 	})
 
 	if (req.body.proposals){
 		try{
 			let proposals = JSON.parse(req.body.proposals);
-			proposals[0].attachPrints = req.user.groupName.trim()+"pref1"+req.files.file1.name;
-			proposals[1].attachPrints = req.user.groupName.trim()+"pref2"+req.files.file2.name;
-			proposals[2].attachPrints = req.user.groupName.trim()+"pref3"+req.files.file3.name;
+			proposals[0].attachPrints = req.user.id.trim()+"pref1"+req.files.file1.name;
+			proposals[1].attachPrints = req.user.id.trim()+"pref2"+req.files.file2.name;
+			proposals[2].attachPrints = req.user.id.trim()+"pref3"+req.files.file3.name;
 			await dbm.addProposals(req.user,proposals);
 			return res.status(200).send("Your Proposals was recorded Successfully!..");
 		}catch{
@@ -201,5 +201,24 @@ router.post('/approve',async function(req,res){
 	}
 })
 
+router.post('/addmember',async function(req,res){
+	if (!req.user) return res.status(404).send();
+	if (req.user.type != 'admin') return res.status(404).send();
+
+	// id => group id
+	// student name
+	// student rollno
+	// student email
+	// student department
+	// student groupName
+	// addToDatabase(admin,name,rollno,email, department, type, groupName = null) 
+	try {
+		student =  await dbm.addToDatabase(req.user,req.body.name,req.body.rollno,req.body.email,req.body.department,"student",req.body.groupName);
+		await dbm.addMemberToGroup(req.body.id.trim(),student);
+		return res.status(200).send();
+	}catch{
+		return res.status(500).send();
+	}
+})
 
 module.exports = router;

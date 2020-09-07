@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
-import qs from "qs";
-import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Paper, Tabs, Tab, Box, LinearProgress, AppBar, createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Tabs, Tab, Box, AppBar, createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 
 let theme = createMuiTheme();
@@ -31,7 +30,7 @@ const useStyles = theme => ({
     marginBottom: "25px"
   },
   TextField: {
-    width: "90%"
+    width: "100%"
   },
   typography:{
     fontSize:"16px",
@@ -286,7 +285,7 @@ class StudentContent extends Component {
       }
     } else {
       let prefs = [...this.state.preferences];
-      for (var i = 0; i < 3; i++) {
+      for (i = 0; i < 3; i++) {
         if (i === pn - 1) {
           //let pref=[...prefs[i]];
           prefs[i].filled = true;
@@ -370,7 +369,6 @@ class StudentContent extends Component {
       withCredentials: true
     })
       .then(res => {
-        var i = 0;
         Stu = res.data.proposals.length;
         Proposals = res.data.proposals;
         //console.log(Proposals);
@@ -425,8 +423,6 @@ class StudentContent extends Component {
     e.preventDefault();
     let currentStep = this.state.currentStep;
     let {
-      filled,
-      prefno,
       Top,
       Dos,
       Dsop,
@@ -469,7 +465,7 @@ class StudentContent extends Component {
       this.checkData();
     }
     if (filled === true) {
-      if (Stu == 0) {
+      if (Stu === 0) {
         return (
           <React.Fragment>
             <form>
@@ -532,7 +528,7 @@ class StudentContent extends Component {
           </React.Fragment>
         );
       }
-      if (Stu != 0) {
+      if (Stu !== 0) {
         let value=this.state.tabValue;
           return (
             <React.Fragment>
@@ -921,7 +917,8 @@ function Step1(props) {
               variant="outlined"
               component={"span"}
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               id="Dos"
               name="Dos"
               type="text"
@@ -943,7 +940,8 @@ function Step1(props) {
               variant="outlined"
               component={"span"}
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               id="Dsop"
               name="Dsop"
               type="text"
@@ -965,7 +963,8 @@ function Step1(props) {
               variant="outlined"
               component={"span"}
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               id="agency"
               name="agency"
               type="text"
@@ -987,7 +986,8 @@ function Step1(props) {
               variant="outlined"
               component={"span"}
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               id="Mtap"
               name="Mtap"
               type="text"
@@ -1006,7 +1006,8 @@ function Step1(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Red"
               name="Red"
@@ -1028,7 +1029,8 @@ function Step1(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Shr"
               name="Shr"
@@ -1120,7 +1122,8 @@ function Step2(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Dos"
               name="Dos"
@@ -1142,7 +1145,8 @@ function Step2(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Dsop"
               name="Dsop"
@@ -1164,7 +1168,8 @@ function Step2(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="agency"
               name="agency"
@@ -1186,7 +1191,8 @@ function Step2(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Mtap"
               name="Mtap"
@@ -1206,7 +1212,8 @@ function Step2(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Red"
               name="Red"
@@ -1228,7 +1235,8 @@ function Step2(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Shr"
               name="Shr"
@@ -1335,7 +1343,8 @@ function Step3(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Dos"
               name="Dos"
@@ -1357,7 +1366,8 @@ function Step3(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Dsop"
               name="Dsop"
@@ -1379,7 +1389,8 @@ function Step3(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="agency"
               name="agency"
@@ -1401,7 +1412,8 @@ function Step3(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Mtap"
               name="Mtap"
@@ -1421,7 +1433,8 @@ function Step3(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Red"
               name="Red"
@@ -1443,7 +1456,8 @@ function Step3(props) {
               className={classes.TextField}
               variant="outlined"
               multiline
-              rows={2}
+              inputProps={{style: {fontSize: 14}}}
+              rows={3}
               component={"span"}
               id="Shr"
               name="Shr"

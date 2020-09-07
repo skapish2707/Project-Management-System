@@ -406,7 +406,7 @@ class AdminContent extends Component {
                         onClose={this.handleClose}
                       >
                         <Alert onClose={this.handleClose} severity="success">
-                          Preferences submitted successfully
+                          Data submitted successfully
                         </Alert>
                       </Snackbar>
                       <Snackbar
@@ -415,7 +415,7 @@ class AdminContent extends Component {
                         onClose={this.handleClose}
                       >
                         <Alert onClose={this.handleClose} severity="error">
-                          Preferences not submitted successfully
+                          Data not submitted successfully
                         </Alert>
                       </Snackbar>
                     </div>
