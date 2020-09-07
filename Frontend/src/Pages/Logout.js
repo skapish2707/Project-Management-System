@@ -11,7 +11,8 @@ export default class Logout extends Component {
     return (
       <div>
         <h1>You Have been Logged out</h1>
-        <Link to="/">Login Again</Link>
+        <button onClick={() => {window.location.reload(false)}}><Link to="/">Login Again</Link></button>
+        
       </div>
     );
   }
