@@ -10,13 +10,11 @@ import TextField from "@material-ui/core/TextField";
 import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import Navbar from "../../components/Navbar/Navbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Footer from "../../components/Footer/Footer";
 import Container from "@material-ui/core/Container";
-import Image from "./back.jpg";
+import Image from "./background2.jpg";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -38,14 +36,17 @@ var today = new Date(),
 const useStyles = theme => ({
   paper: {
     background: "transparent",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+    // boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
     borderRadius: "6px",
-    float: "right",
+    float: "center",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     color: "#fff",
-    marginTop: theme.spacing(18)
+    paddingTop: "40px",
+    [theme.breakpoints.down("575")]: {
+      paddingTop: "20px"
+    }
   },
   leftpaper: {
     backgroundImage: `url(${Image})`,
@@ -54,7 +55,7 @@ const useStyles = theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: "#606060",
+    backgroundColor: "#1877f2",
     height: "50px",
     width: "50px",
     marginTop: "30px"
@@ -72,7 +73,18 @@ const useStyles = theme => ({
     marginBottom: "25px"
   },
   fields: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    borderRadius: "3px"
+  },
+  title: {
+    paddingTop: "50px",
+    color: "#fff",
+    [theme.breakpoints.down("775")]: {
+      fontSize: "45px"
+    },
+    [theme.breakpoints.down("575")]: {
+      fontSize: "40px"
+    }
   }
 });
 
@@ -231,64 +243,69 @@ class Login extends Component {
       return <LinearProgress />;
     }
     return (
-      <div className={classes.leftpaper}>
-        <Container component="main" maxWidth="xs" className={classes.paper}>
-          <CssBaseline />
-          <Avatar variant="circle" className={classes.avatar}>
-            <PersonIcon fontSize="large" />
-          </Avatar>
-          <Typography component="h2" variant="h6">
-            Project Management System
+      <React.Fragment>
+        <div className={classes.leftpaper}>
+          <Typography variant="h2" className={classes.title}>
+            <b>Project Management System</b>
           </Typography>
-          <form className={classes.form} onSubmit={this.submitForm}>
-            <TextField
-              type="email"
-              variant="filled"
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="username"
-              value={this.state.username}
-              onChange={this.handleChange("username")}
-              className={classes.fields}
-              autoFocus
-            />
-            <TextField
-              variant="filled"
-              margin="normal"
-              required
-              fullWidth
-              label="Password"
-              type="password"
-              id="password"
-              value={this.state.password}
-              onChange={this.handleChange("password")}
-              autoComplete="current-password"
-              className={classes.fields}
-            />
+          <Container component="main" maxWidth="xs" className={classes.paper}>
+            <CssBaseline />
+            <Avatar variant="circle" className={classes.avatar}>
+              <PersonIcon fontSize="large" />
+            </Avatar>
+            <Typography component="h2" variant="h6">
+              <b>User Login</b>
+            </Typography>
+            <form className={classes.form} onSubmit={this.submitForm}>
+              <TextField
+                type="email"
+                variant="filled"
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="username"
+                value={this.state.username}
+                onChange={this.handleChange("username")}
+                className={classes.fields}
+                autoFocus
+              />
+              <TextField
+                variant="filled"
+                margin="normal"
+                required
+                fullWidth
+                label="Password"
+                type="password"
+                id="password"
+                value={this.state.password}
+                onChange={this.handleChange("password")}
+                autoComplete="current-password"
+                className={classes.fields}
+              />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Log In
+              </Button>
+            </form>
+            <Snackbar
+              open={this.state.invalidCredentials}
+              autoHideDuration={6000}
+              onClose={handleClose}
             >
-              Log In
-            </Button>
-          </form>
-          <Snackbar
-            open={this.state.invalidCredentials}
-            autoHideDuration={6000}
-            onClose={handleClose}
-          >
-            <Alert onClose={handleClose} severity="error">
-              Invalid Username/Password Please try again
-            </Alert>
-          </Snackbar>
-        </Container>
-      </div>
+              <Alert onClose={handleClose} severity="error">
+                Invalid Username/Password Please try again
+              </Alert>
+            </Snackbar>
+          </Container>
+        </div>
+      </React.Fragment>
     );
   }
 }

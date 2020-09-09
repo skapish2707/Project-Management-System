@@ -30,8 +30,6 @@ export default class Admin extends Component {
       withCredentials: true
     })
       .then(res => {
-        console.log(res.data);
-        console.log(res.data.type);
         this.setState({
           loggedIn: true,
           user: res.data

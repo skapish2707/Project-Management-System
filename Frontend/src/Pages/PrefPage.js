@@ -10,7 +10,10 @@ import axios from "axios";
 import SERVER_URL from "./URL";
 import qs from "qs";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, TextField } from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
+import ClearIcon from "@material-ui/icons/Clear";
+import { toFirstCharUppercase } from "../components/ToUpper";
 
 let filled = false;
 let Ad = null;
@@ -21,13 +24,47 @@ const styles = theme => ({
     width: "100%"
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: theme.typography.pxToRem(18),
     flexBasis: "33.33%",
     flexShrink: 0
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    flexBasis: "33.33%",
+    flexShrink: 0,
+    textAlign: "left",
+    [theme.breakpoints.down("600")]: {
+      display: "none"
+    }
+  },
+  grid: {
+    margin: "20px",
+    textAlign: "center"
+  },
+  comment: {
+    marginTop: "50px"
+  },
+  comTitle: {
+    textAlign: "right",
+    margin: "auto 0",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "left"
+    }
+  },
+  comField: {
+    width: "90%",
+    backgroundColor: "#fff",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%"
+    }
+  },
+  comButton: {
+    textAlign: "left",
+    margin: "auto 0",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "right"
+    }
   }
 });
 
@@ -40,8 +77,48 @@ class ControlledExpansionPanels extends React.Component {
     this.state = {
       expanded: null,
       adData: null,
-      filled
+      filled,
+      comment: ""
     };
+  }
+
+  commentHandler = e => {
+    let comment = e.target.value;
+    this.setState(
+      {
+        comment: comment
+      },
+      function () {
+        console.log(this.state.comment);
+      }
+    );
+  };
+  //axios request to send comments
+  sendComment(Gid) {
+    const { comment } = this.state;
+    axios({
+      method: "post",
+      url: SERVER_URL + "/comment",
+      credentials: "include",
+      withCredentials: true,
+      data: qs.stringify({
+        id: Gid,
+        msg: comment
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+      }
+    })
+      .then(response => {
+        console.log(response);
+        this.setState({
+          adData: null
+        });
+      })
+
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   checkData() {
@@ -53,7 +130,7 @@ class ControlledExpansionPanels extends React.Component {
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
-        console.log(Ad);
+        console.log(Groups);
         this.setState({
           adData: "new",
           filled: true
@@ -105,6 +182,7 @@ class ControlledExpansionPanels extends React.Component {
     const { classes } = this.props;
     const { expanded } = this.state;
     const Group = location.state.Group;
+    const Gid = Group.id;
 
     //call axios
     if (this.state.adData === null) {
@@ -112,14 +190,19 @@ class ControlledExpansionPanels extends React.Component {
     }
     if (this.state.filled === true && Ad !== 0) {
       return (
-        <div>
+        <div style={{ width: "90%", margin: "auto" }}>
           {Groups.map(group => {
             if (group.id === Group.id) {
-              console.log(group.id, Group.id);
               let Proposals = group.proposals;
-              console.log(Proposals);
               return (
                 <div>
+                  <Grid container spacing={2} className={classes.grid}>
+                    <Grid item xs={12}>
+                      <Typography variant="h3">
+                        <b>{toFirstCharUppercase(Group.name)}</b>
+                      </Typography>
+                    </Grid>
+                  </Grid>
                   {Proposals.map((proposal, index) => {
                     const panel = proposal.title;
                     let approval = proposal.approval;
@@ -135,12 +218,38 @@ class ControlledExpansionPanels extends React.Component {
                           aria-controls="panel1bh-content"
                           id="panel1bh-header"
                         >
-                          <Typography className={classes.heading}>
-                            <b>Proposal {index + 1}</b>
-                          </Typography>
+                          {proposal.approval.admin ? (
+                            <Typography
+                              className={classes.heading}
+                              style={{ color: "#03ac13" }}
+                            >
+                              <b>Proposal {index + 1}</b>
+                            </Typography>
+                          ) : (
+                            <Typography className={classes.heading}>
+                              <b>Proposal {index + 1}</b>
+                            </Typography>
+                          )}
+
                           <Typography className={classes.secondaryHeading}>
                             {proposal.title}
                           </Typography>
+                          {proposal.approval.admin ? (
+                            <Typography
+                              style={{
+                                color: "#03ac13",
+                                margin: "auto"
+                              }}
+                            >
+                              <DoneIcon size="large" />
+                            </Typography>
+                          ) : (
+                            <Typography
+                              style={{ color: "red", margin: "auto" }}
+                            >
+                              <ClearIcon size="large" />
+                            </Typography>
+                          )}
                         </AccordionSummary>
                         <AccordionDetails style={{ textAlign: "left" }}>
                           <Grid
@@ -238,22 +347,77 @@ class ControlledExpansionPanels extends React.Component {
                               sm={6}
                               style={{ textAlign: "right" }}
                             >
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                size="large"
-                                onClick={() => {
-                                  this.handleApprove(pid, Gid);
-                                }}
-                              >
-                                Approve Proposal
-                              </Button>
+                              {!proposal.approval.admin ? (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  size="large"
+                                  onClick={() => {
+                                    this.handleApprove(pid, Gid);
+                                  }}
+                                >
+                                  Approve Proposal
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="contained"
+                                  color="secondary"
+                                  size="large"
+                                >
+                                  Already Approved
+                                </Button>
+                              )}
                             </Grid>
                           </Grid>
                         </AccordionDetails>
                       </Accordion>
                     );
                   })}
+                  <Grid container className={classes.comment}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={3}
+                      className={classes.comTitle}
+                    >
+                      <Typography>
+                        <b>Add Comments:</b>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <TextField
+                        className={classes.comField}
+                        variant="outlined"
+                        component={"span"}
+                        multiline
+                        inputProps={{ style: { fontSize: 14 } }}
+                        rows={3}
+                        id="comment"
+                        name="comment"
+                        type="text"
+                        value={this.state.comment}
+                        onChange={this.commentHandler}
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={3}
+                      className={classes.comButton}
+                    >
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          this.sendComment(Gid);
+                        }}
+                      >
+                        Send Comment
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </div>
               );
             } else return null;
