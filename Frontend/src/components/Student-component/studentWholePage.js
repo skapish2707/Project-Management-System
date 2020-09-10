@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import StudentContent from './StudentContent';
 import Profile from '../Profile';
 import StudentHomePage from './studentHomePage';
+import StudentCommentPage from './StudentCommentPage';
 
 let userInfo = [];
 
@@ -171,7 +172,7 @@ const StudentWholePage = (props) => {
 									>
 											<Tab className={classes.tab} label="Home" {...a11yProps(0)} />
 											<Tab className={classes.tab} label="Preferences" {...a11yProps(1)} />
-											<Tab className={classes.tab} label="Item Three" {...a11yProps(2)} />
+											<Tab className={classes.tab} label="Comments" {...a11yProps(2)} />
 											<Tab className={classes.tab} label="Item Four" {...a11yProps(3)} />
 											<Tab className={classes.tab} label="Item Five" {...a11yProps(4)} />
 											<Tab className={classes.tab} label="Item Six" {...a11yProps(5)} />
@@ -187,7 +188,7 @@ const StudentWholePage = (props) => {
 									<StudentContent />
 								</TabPanel>
 								<TabPanel value={value} index={2}>
-										Item Three
+									<StudentCommentPage />
 								</TabPanel>
 								<TabPanel value={value} index={3}>
 										Item Four

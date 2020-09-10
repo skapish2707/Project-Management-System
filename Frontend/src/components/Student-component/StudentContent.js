@@ -588,7 +588,17 @@ class StudentContent extends Component {
                       <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>{pref1.attachPrints}</Typography>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => {
+                        window.open(
+                          `http://localhost:8000/${pref1.attachPrints}`
+                        );
+                      }}
+                    >
+                      Uploaded Document
+                    </Button>
                     </Grid>
                   </Grid>
                 </TabPanel>
@@ -640,7 +650,17 @@ class StudentContent extends Component {
                       <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>{pref2.attachPrints}</Typography>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => {
+                        window.open(
+                          `http://localhost:8000/${pref2.attachPrints}`
+                        );
+                      }}
+                    >
+                      Uploaded Document
+                    </Button>
                     </Grid>
                   </Grid>
                 </TabPanel>
@@ -692,7 +712,17 @@ class StudentContent extends Component {
                       <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>{pref3.attachPrints}</Typography>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => {
+                        window.open(
+                          `http://localhost:8000/${pref3.attachPrints}`
+                        );
+                      }}
+                    >
+                      Uploaded Document
+                    </Button>
                     </Grid>
                   </Grid>
                 </TabPanel>
@@ -753,7 +783,17 @@ class StudentContent extends Component {
                       <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>{pref1.attachPrints}</Typography>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => {
+                        window.open(
+                          `http://localhost:8000/${pref1.attachPrints}`
+                        );
+                      }}
+                    >
+                      Uploaded Document
+                    </Button>
                     </Grid>
                   </Grid>
                 </TabPanel>
@@ -805,7 +845,17 @@ class StudentContent extends Component {
                       <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>{pref2.attachPrints}</Typography>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => {
+                        window.open(
+                          `http://localhost:8000/${pref2.attachPrints}`
+                        );
+                      }}
+                    >
+                      Uploaded Document
+                    </Button>
                     </Grid>
                   </Grid>
                 </TabPanel>
@@ -857,7 +907,17 @@ class StudentContent extends Component {
                       <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>{pref3.attachPrints}</Typography>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => {
+                        window.open(
+                          `http://localhost:8000/${pref3.attachPrints}`
+                        );
+                      }}
+                    >
+                      Uploaded Document
+                    </Button>
                     </Grid>
                   </Grid>
                 </TabPanel>
