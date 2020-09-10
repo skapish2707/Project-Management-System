@@ -11,6 +11,7 @@ import ChangePassword from "./components/ChangePassword/ChangePassword";
 import NotFound from "./components/NotFound";
 import PrefPage from "./Pages/PrefPage";
 import Hod from "./Pages/Hod";
+import HodPrefPage from "./components/Hod-component/HodPrefPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/yami" exact component={Yami} />
         <Route path="/cp@2707user" exact component={ChangePassword} />
         <Route path="/admin/prefs/:id" exact component={PrefPage} />
+        <Route path="/hod/prefs/:id" exact component={HodPrefPage} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>

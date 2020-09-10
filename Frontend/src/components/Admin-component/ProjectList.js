@@ -14,6 +14,7 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
+import { toFirstCharUppercase } from "../ToUpper";
 /* eslint no-restricted-globals:0 */
 
 function TabPanel(props) {
@@ -122,7 +123,6 @@ export default function ControlledAccordions(props) {
                 state: { Group: Group }
               });
             };
-            console.log(Group);
             let members = Group.members;
             let Gname = Group.name;
             let id = Group.id;
@@ -149,7 +149,6 @@ export default function ControlledAccordions(props) {
               pref2Approval ||
               (pref3Approval && Group.proposals.length !== 0)
             ) {
-              console.log(Group.name);
               return (
                 <Accordion
                   expanded={expanded === Gname}
@@ -163,7 +162,7 @@ export default function ControlledAccordions(props) {
                     id="panel1bh-header"
                   >
                     <Typography className={classes.heading}>
-                      {Group.name}
+                      {toFirstCharUppercase(Group.name)}
                     </Typography>
                     {members.map(member => {
                       return (
@@ -287,7 +286,7 @@ export default function ControlledAccordions(props) {
                     id="panel1bh-header"
                   >
                     <Typography className={classes.heading}>
-                      {Group.name}
+                      {toFirstCharUppercase(Group.name)}
                     </Typography>
                     {members.map(member => {
                       return (
@@ -390,7 +389,7 @@ export default function ControlledAccordions(props) {
                     id="panel1bh-header"
                   >
                     <Typography className={classes.heading}>
-                      {Group.name}
+                      {toFirstCharUppercase(Group.name)}
                     </Typography>
                     {members.map(member => {
                       return (

@@ -5,10 +5,12 @@ import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
 import Footer from "../components/Footer/Footer";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
+import HodContent from "../components/Hod-component/HodContent";
 
-export default class Admin extends Component {
+
+export default class Hod extends Component {
   constructor(props) {
-    super();
+    super(props);
     const token = localStorage.getItem("token");
     let loggedIn = false;
     if (token === "hod") {
@@ -16,7 +18,7 @@ export default class Admin extends Component {
     }
     this.state = {
       loggedIn,
-      user: ""
+      user: "",
     };
   }
 
@@ -35,22 +37,25 @@ export default class Admin extends Component {
       .catch(err => {
         this.setState({
           loggedIn: false,
-          user: "no user"
+          user: "No User"
         });
         localStorage.removeItem("token");
       });
   };
 
+
   render() {
+    //groups = this.state.Groups;
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
-    } else if (this.state.user.type === "hod") {
+    }
+    else if (this.state.user.type === "hod") {
       return (
         <div>
           <React.Fragment>
             <LoggedNavbar />
-            <h1>Hod page</h1>
+            <HodContent userInfo={this.state.user}/>
             <footer>
               <Footer />
             </footer>

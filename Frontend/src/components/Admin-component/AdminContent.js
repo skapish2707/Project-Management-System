@@ -28,6 +28,18 @@ let filled = false;
 let Groups = null;
 
 const useStyles = theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "40vh"
+  },
+  main: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2)
+  },
+  footer: {
+    marginTop: "auto"
+  },
   paper: {
     marginTop: theme.spacing(8),
     width: "70%",
@@ -125,7 +137,7 @@ class AdminContent extends Component {
     this.setState({
       openSuccess: false,
       openFailure: false,
-      adData:null
+      adData: null
     });
   };
 
@@ -149,11 +161,11 @@ class AdminContent extends Component {
         "Content-Type": "multipart/form-data"
       }
     })
-      .then((res) => {
-        this.setState({openSuccess:true});
+      .then(res => {
+        this.setState({ openSuccess: true });
       })
-      .catch((err) => {
-        this.setState({openFailure:true});
+      .catch(err => {
+        this.setState({ openFailure: true });
         if (err) throw err;
       });
     this.setState({ hod: "", student_file: null, pic: "", ig: "" });
@@ -162,7 +174,7 @@ class AdminContent extends Component {
   fileValidation = e => {
     var fileInput = document.getElementById("file");
     console.log(fileInput);
-    console.log(e.target.files[0])
+    console.log(e.target.files[0]);
     var filePath = fileInput.value;
     console.log(filePath);
     // Allowing file type
@@ -213,7 +225,7 @@ class AdminContent extends Component {
     if (this.state.filled === true) {
       if (Ad === 0) {
         return (
-          <div>
+          <div className={classes.root}>
             <LoggedNavbar />
             <Profile userInfo={userInfo} />
             <AdminInstructions />
@@ -424,7 +436,7 @@ class AdminContent extends Component {
                 </Grid>
               </form>
             </div>
-            <footer>
+            <footer className={classes.footer}>
               <Footer />
             </footer>
           </div>
@@ -444,10 +456,11 @@ class AdminContent extends Component {
                 boxShadow:
                   "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
               }}
+              className={classes.root}
             >
               <ProjectList Groups={Groups} />
             </div>
-            <footer>
+            <footer className={classes.footer}>
               <Footer />
             </footer>
           </React.Fragment>
