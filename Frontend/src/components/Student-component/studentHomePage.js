@@ -37,7 +37,7 @@ const StudentHomePage = () => {
         })
         .then(res => {
         Group = res.data;
-        //console.log(Group.proposals.length);
+        //console.log(Group.comments);
         if(Group.proposals.length>0){
             setPropFilled(true);
             propF=propFilled;
@@ -139,12 +139,10 @@ const StudentHomePage = () => {
                 </TableContainer>
                 {propApproved(proposals)}
                 </ThemeProvider>
-            </React.Fragment>
-            
+            </React.Fragment> 
          );
     }
     if(fill && !propF){
-        let i=1;
         const {department,name,members,proposals} = Group;
         return (
             <React.Fragment>
