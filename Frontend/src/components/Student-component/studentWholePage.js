@@ -114,18 +114,14 @@ const StudentWholePage = (props) => {
 											value={value}
 											onChange={handleChange}
 											aria-label="horizontal tabs"
-											variant="scrollable"
-          									scrollButtons="on"
+											variant="fullWidth"
+          									//scrollButtons="on"
 											indicatorColor="primary"
 											textColor="primary"
 									>
 											<Tab className={classes.tab} label="Home" {...a11yProps(0)} />
 											<Tab className={classes.tab} label="Preferences" {...a11yProps(1)} />
-											<Tab className={classes.tab} label="Item Three" {...a11yProps(2)} />
-											<Tab className={classes.tab} label="Item Four" {...a11yProps(3)} />
-											<Tab className={classes.tab} label="Item Five" {...a11yProps(4)} />
-											<Tab className={classes.tab} label="Item Six" {...a11yProps(5)} />
-											<Tab className={classes.tab} label="Item Seven" {...a11yProps(6)} />
+											<Tab className={classes.tab} label="Comments" {...a11yProps(2)} />
 									</Tabs>
 								</Grid>
 								{/* <Grid item xs={2} /> */}
@@ -138,19 +134,7 @@ const StudentWholePage = (props) => {
 									<StudentContent />
 								</TabPanel>
 								<TabPanel value={value} index={2}>
-										Item Three
-								</TabPanel>
-								<TabPanel value={value} index={3}>
-										Item Four
-								</TabPanel>
-								<TabPanel value={value} index={4}>
-										Item Five
-								</TabPanel>
-								<TabPanel value={value} index={5}>
-										Item Six
-								</TabPanel>
-								<TabPanel value={value} index={6}>
-										Item Seven
+									<StudentCommentPage />
 								</TabPanel>
 							</Grid>
 							{/* <Grid item xs={1}></Grid> */}
@@ -173,10 +157,6 @@ const StudentWholePage = (props) => {
 											<Tab className={classes.tab} label="Home" {...a11yProps(0)} />
 											<Tab className={classes.tab} label="Preferences" {...a11yProps(1)} />
 											<Tab className={classes.tab} label="Comments" {...a11yProps(2)} />
-											<Tab className={classes.tab} label="Item Four" {...a11yProps(3)} />
-											<Tab className={classes.tab} label="Item Five" {...a11yProps(4)} />
-											<Tab className={classes.tab} label="Item Six" {...a11yProps(5)} />
-											<Tab className={classes.tab} label="Item Seven" {...a11yProps(6)} />
 									</Tabs>
 								</Grid>
 							</ThemeProvider>
@@ -189,18 +169,6 @@ const StudentWholePage = (props) => {
 								</TabPanel>
 								<TabPanel value={value} index={2}>
 									<StudentCommentPage />
-								</TabPanel>
-								<TabPanel value={value} index={3}>
-										Item Four
-								</TabPanel>
-								<TabPanel value={value} index={4}>
-										Item Five
-								</TabPanel>
-								<TabPanel value={value} index={5}>
-										Item Six
-								</TabPanel>
-								<TabPanel value={value} index={6}>
-										Item Seven
 								</TabPanel>
 							</Grid>
 							{/* <Grid item xs={1}></Grid> */}

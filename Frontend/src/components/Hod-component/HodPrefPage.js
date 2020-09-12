@@ -366,13 +366,25 @@ class HodPrefPage extends Component {
                                           )}
                                       </div>
                                     ) : (
-                                      <Button
-                                        variant="contained"
-                                        color="secondary"
-                                        size="large"
-                                      >
-                                        Another Proposal has been approved
-                                      </Button>
+                                      <div>
+                                        {!proposal.approval.hod ? (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            size="large"
+                                          >
+                                            Not Approved
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            size="large"
+                                          >
+                                            Another Proposal has been approved
+                                          </Button>
+                                        )}
+                                      </div>
                                     )}
                                   </Grid>
                                 </Grid>
