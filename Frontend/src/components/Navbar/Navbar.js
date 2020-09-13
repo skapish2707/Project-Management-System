@@ -2,53 +2,48 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { Link } from "react-router-dom";
+import Toolbar from "@material-ui/core/Toolbar";
 
 const useStyles = makeStyles(theme => ({
-	title: {
-		flexGrow: 1,
-		textAlign: "left",
-		margin :theme.spacing(2)
-	},
+  title: {
+    flexGrow: 1,
+    textAlign: "left",
+    margin: theme.spacing(2)
+  },
+  backButton: {},
+  buttonContainer: {
+    padding: "auto",
+    textAlign: "center"
+  }
 }));
 
-
-
 const Navbar = () => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	return (
-		<div >
-			<AppBar position="static" style={{ backgroundColor: "#000" }}>
-				<Typography variant="h5" className={classes.title}>
-				Project Management System
-				</Typography>
-			</AppBar>
-		</div>
-	);
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" style={{ backgroundColor: "#000" }}>
+        <Toolbar>
+          <Typography variant="h5" className={classes.title}>
+            Project Management System
+          </Typography>
+
+          <Link
+            to="/admin"
+            className={classes.navMenu}
+            style={{ textDecoration: "none", color: "#000" }}
+          >
+            <Button color="inherit" variant="contained">
+              Go Back
+            </Button>
+          </Link>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 };
 
 export default Navbar;
-
-
-// <div className="context">
-//         <h1>Project Management System</h1>
-//       </div>
-   
-//       <div className="area">
-//         <ul className="circles">
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//           <li></li>
-//         </ul>
-//       </div>
