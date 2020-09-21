@@ -13,7 +13,8 @@ import {
   Typography,
   Button,
   Input,
-  Snackbar
+  Snackbar,
+  CircularProgress
 } from "@material-ui/core";
 import Profile from "../Profile";
 import ProjectList from "./ProjectList";
@@ -96,11 +97,15 @@ class AdminContent extends Component {
       hod: "",
       hodName: "",
       student_file: null,
-
+      // pic: "",
+      // picName: "",
+      // ig: "",
+      // igName: "",
       adData: null,
       filled,
       openSuccess: false,
-      openFailure: false
+      openFailure: false,
+      loading: false
     };
   }
 
@@ -111,18 +116,18 @@ class AdminContent extends Component {
     this.setState({ hodName: e.target.value });
   };
 
-  picHandler = e => {
-    this.setState({ pic: e.target.value });
-  };
-  picNameHandler = e => {
-    this.setState({ picName: e.target.value });
-  };
-  igHandler = e => {
-    this.setState({ ig: e.target.value });
-  };
-  igNameHandler = e => {
-    this.setState({ igName: e.target.value });
-  };
+  // picHandler = e => {
+  //   this.setState({ pic: e.target.value });
+  // };
+  // picNameHandler = e => {
+  //   this.setState({ picName: e.target.value });
+  // };
+  // igHandler = e => {
+  //   this.setState({ ig: e.target.value });
+  // };
+  // igNameHandler = e => {
+  //   this.setState({ igName: e.target.value });
+  // };
   // studentfileHandler = e => {
   //   this.fileValidation(e);
   // };
@@ -143,7 +148,12 @@ class AdminContent extends Component {
     var formData = new FormData();
     formData.append("hodName", this.state.hodName);
     formData.append("hodEmail", this.state.hod);
+    // formData.append("igName", this.state.igName);
+    // formData.append("igEmail", this.state.ig);
+    // formData.append("picName", this.state.picName);
+    // formData.append("picEmail", this.state.pic);
     formData.append("student_file", this.state.student_file);
+    this.setState({ loading: true });
     axios({
       method: "post",
       url: SERVER_URL + "/admin",
@@ -155,13 +165,14 @@ class AdminContent extends Component {
       }
     })
       .then(res => {
-        this.setState({ openSuccess: true });
+        this.setState({ openSuccess: true, loading: false });
+        window.location.reload(false);
       })
       .catch(err => {
-        this.setState({ openFailure: true });
+        this.setState({ openFailure: true, loading: false });
         if (err) throw err;
       });
-    this.setState({ hod: "", student_file: null, pic: "", ig: "" });
+    this.setState({ hod: "", student_file: null, hodName: "" });
   };
 
   fileValidation = e => {
@@ -210,6 +221,14 @@ class AdminContent extends Component {
 
   render() {
     const { classes } = this.props;
+    if (this.state.loading) {
+      return (
+        <div style={{ margin: "auto" }}>
+          <LoggedNavbar />
+          <CircularProgress />
+        </div>
+      );
+    }
     if (this.state.adData === null) {
       this.checkData();
     }
@@ -285,11 +304,11 @@ class AdminContent extends Component {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12} className={classes.gridField}>
+                  {/* <Grid item xs={12} className={classes.gridField}>
                     <Typography className={classes.InputTitle}>
                       Upload Student List File:
                     </Typography>
-                  </Grid>
+                  </Grid> */}
                   <Grid
                     item
                     xs={12}
