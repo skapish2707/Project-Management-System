@@ -7,7 +7,6 @@ import Footer from "../components/Footer/Footer";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 import HodContent from "../components/Hod-component/HodContent";
 
-
 export default class Hod extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +17,7 @@ export default class Hod extends Component {
     }
     this.state = {
       loggedIn,
-      user: "",
+      user: ""
     };
   }
 
@@ -43,22 +42,17 @@ export default class Hod extends Component {
       });
   };
 
-
   render() {
     //groups = this.state.Groups;
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
-    }
-    else if (this.state.user.type === "hod") {
+    } else if (this.state.user.type === "hod") {
       return (
         <div>
           <React.Fragment>
             <LoggedNavbar />
-            <HodContent userInfo={this.state.user}/>
-            <footer>
-              <Footer />
-            </footer>
+            <HodContent userInfo={this.state.user} />
           </React.Fragment>
         </div>
       );

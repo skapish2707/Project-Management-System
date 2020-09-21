@@ -96,10 +96,7 @@ class AdminContent extends Component {
       hod: "",
       hodName: "",
       student_file: null,
-      pic: "",
-      picName: "",
-      ig: "",
-      igName: "",
+
       adData: null,
       filled,
       openSuccess: false,
@@ -146,10 +143,6 @@ class AdminContent extends Component {
     var formData = new FormData();
     formData.append("hodName", this.state.hodName);
     formData.append("hodEmail", this.state.hod);
-    formData.append("igName", this.state.igName);
-    formData.append("igEmail", this.state.ig);
-    formData.append("picName", this.state.picName);
-    formData.append("picEmail", this.state.pic);
     formData.append("student_file", this.state.student_file);
     axios({
       method: "post",
@@ -235,8 +228,7 @@ class AdminContent extends Component {
                 margin: "50px auto",
                 boxShadow:
                   "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
-                backgroundColor: "#fff",
-                borderRadius: "10px"
+                backgroundColor: "#fff"
               }}
             >
               <form
@@ -289,88 +281,6 @@ class AdminContent extends Component {
                       label="Enter Head of Department Email"
                       value={this.state.hod}
                       onChange={this.hodHandler}
-                      className={classes.Inputfield}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} className={classes.gridField}>
-                    <Typography className={classes.InputTitle}>
-                      Enter Project Incharge Details:
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      id="hodName"
-                      label="Enter Project Incharge Name"
-                      value={this.state.picName}
-                      onChange={this.picNameHandler}
-                      className={classes.Inputfield}
-                      required
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      id="pic"
-                      label="Enter Project Incharge Email"
-                      value={this.state.pic}
-                      onChange={this.picHandler}
-                      className={classes.Inputfield}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} className={classes.gridField}>
-                    <Typography className={classes.InputTitle}>
-                      Enter Internal Guide Details:
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      id="hodName"
-                      label="Enter Internal Guide Name"
-                      value={this.state.igName}
-                      onChange={this.igNameHandler}
-                      className={classes.Inputfield}
-                      required
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      id="ig"
-                      label="Enter Internal Guide Email"
-                      value={this.state.ig}
-                      onChange={this.igHandler}
                       className={classes.Inputfield}
                       required
                     />
