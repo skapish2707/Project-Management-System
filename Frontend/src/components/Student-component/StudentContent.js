@@ -353,6 +353,7 @@ class StudentContent extends Component {
     })
       .then(res => {
         this.setState({ openSuccess: true, loading: false });
+        window.location.reload(false);
       })
       .catch(err => {
         this.setState({ openFailure: true, loading: false });

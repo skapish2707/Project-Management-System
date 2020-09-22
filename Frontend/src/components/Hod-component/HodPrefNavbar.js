@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Navbar = () => {
+const HodPrefNavbar = () => {
   const classes = useStyles();
 
   return (
@@ -32,7 +32,7 @@ const Navbar = () => {
           </Typography>
 
           <Link
-            to="/admin"
+            to="/hod"
             className={classes.navMenu}
             style={{ textDecoration: "none", color: "#000" }}
           >
@@ -46,4 +46,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default HodPrefNavbar;

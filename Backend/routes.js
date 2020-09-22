@@ -128,8 +128,8 @@ router.post('/admin',async function(req,res){
 		
 	}
 	dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
-	dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
-	dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
+	// dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
+	// dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
 	try{
 		groups = await dbm.generateGroups(req.user);
 		res.status(200).send("Done");

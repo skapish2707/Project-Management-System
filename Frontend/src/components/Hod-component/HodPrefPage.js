@@ -14,6 +14,7 @@ import { Grid, Button, TextField } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import { toFirstCharUppercase } from "../ToUpper";
+import HodPrefNavbar from "./HodPrefNavbar";
 
 let filled = false;
 let Ad = null;
@@ -186,6 +187,7 @@ class HodPrefPage extends Component {
         if (this.state.filled === true && Ad !== 0) {
             return (
               <div style={{ width: "90%", margin: "auto" }}>
+                <HodPrefNavbar />
                 {Groups.map(group => {
                   if (group.id === Group.id) {
                     let Proposals = group.proposals;
@@ -366,13 +368,25 @@ class HodPrefPage extends Component {
                                           )}
                                       </div>
                                     ) : (
-                                      <Button
-                                        variant="contained"
-                                        color="secondary"
-                                        size="large"
-                                      >
-                                        Another Proposal has been approved
-                                      </Button>
+                                      <div>
+                                        {!proposal.approval.hod ? (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            size="large"
+                                          >
+                                            Not Approved
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            size="large"
+                                          >
+                                            Another Proposal has been approved
+                                          </Button>
+                                        )}
+                                      </div>
                                     )}
                                   </Grid>
                                 </Grid>

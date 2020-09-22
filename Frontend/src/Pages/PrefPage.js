@@ -14,6 +14,7 @@ import { Grid, Button, TextField } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import { toFirstCharUppercase } from "../components/ToUpper";
+import Navbar from "../components/Navbar/Navbar";
 
 let filled = false;
 let Ad = null;
@@ -190,239 +191,242 @@ class ControlledExpansionPanels extends React.Component {
     }
     if (this.state.filled === true && Ad !== 0) {
       return (
-        <div style={{ width: "90%", margin: "auto" }}>
-          {Groups.map(group => {
-            if (group.id === Group.id) {
-              let Proposals = group.proposals;
-              return (
-                <div>
-                  <Grid container spacing={2} className={classes.grid}>
-                    <Grid item xs={12}>
-                      <Typography variant="h3">
-                        <b>{toFirstCharUppercase(Group.name)}</b>
-                      </Typography>
+        <React.Fragment>
+          <Navbar />
+          <div style={{ width: "90%", margin: "auto" }}>
+            {Groups.map(group => {
+              if (group.id === Group.id) {
+                let Proposals = group.proposals;
+                return (
+                  <div>
+                    <Grid container spacing={2} className={classes.grid}>
+                      <Grid item xs={12}>
+                        <Typography variant="h3">
+                          <b>{toFirstCharUppercase(Group.name)}</b>
+                        </Typography>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  {Proposals.map((proposal, index) => {
-                    const panel = proposal.title;
-                    let approval = proposal.approval;
-                    let pid = proposal._id;
-                    let Gid = Group.id;
-                    return (
-                      <Accordion
-                        expanded={expanded === panel}
-                        onChange={this.handleChange(panel)}
-                      >
-                        <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
-                          aria-controls="panel1bh-content"
-                          id="panel1bh-header"
+                    {Proposals.map((proposal, index) => {
+                      const panel = proposal.title;
+                      let approval = proposal.approval;
+                      let pid = proposal._id;
+                      let Gid = Group.id;
+                      return (
+                        <Accordion
+                          expanded={expanded === panel}
+                          onChange={this.handleChange(panel)}
                         >
-                          {proposal.approval.admin ? (
-                            <Typography
-                              className={classes.heading}
-                              style={{ color: "#03ac13" }}
-                            >
-                              <b>Proposal {index + 1}</b>
-                            </Typography>
-                          ) : (
-                            <Typography className={classes.heading}>
-                              <b>Proposal {index + 1}</b>
-                            </Typography>
-                          )}
-
-                          <Typography className={classes.secondaryHeading}>
-                            {proposal.title}
-                          </Typography>
-                          {proposal.approval.admin ? (
-                            <Typography
-                              style={{
-                                color: "#03ac13",
-                                margin: "auto"
-                              }}
-                            >
-                              <DoneIcon size="large" />
-                            </Typography>
-                          ) : (
-                            <Typography
-                              style={{ color: "red", margin: "auto" }}
-                            >
-                              <ClearIcon size="large" />
-                            </Typography>
-                          )}
-                        </AccordionSummary>
-                        <AccordionDetails style={{ textAlign: "left" }}>
-                          <Grid
-                            container
-                            className={classes.content}
-                            spacing={1}
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
                           >
-                            <Grid item xs={12}>
-                              <Typography>
-                                <b>Title:&nbsp;&nbsp;</b>
-                                {proposal.title}
+                            {proposal.approval.admin ? (
+                              <Typography
+                                className={classes.heading}
+                                style={{ color: "#03ac13" }}
+                              >
+                                <b>Proposal {index + 1}</b>
                               </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Typography>
-                                <b>Details:&nbsp;&nbsp;</b>
-                                {proposal.details}
+                            ) : (
+                              <Typography className={classes.heading}>
+                                <b>Proposal {index + 1}</b>
                               </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Typography>
-                                <b>Method:&nbsp;&nbsp;</b>
-                                {proposal.method}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Typography>
-                                <b>Requirements:&nbsp;&nbsp;</b>
-                                {proposal.requirements}
-                              </Typography>
-                            </Grid>
+                            )}
 
-                            <Grid item xs={12}>
-                              <Typography>
-                                <b>Specialization:&nbsp;&nbsp;</b>
-                                {proposal.specialization}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Typography>
-                                <b>Result:&nbsp;&nbsp;</b>
-                                {proposal.result}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Typography>
-                                <b>Appied On:&nbsp;&nbsp;</b>
-                                {proposal.applied}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Typography>
-                                <b>Attached Print:&nbsp;&nbsp;</b>
-                                {proposal.attachPrints}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                              {approval.admin ? (
-                                <Typography>
-                                  <b>Admin approval status:</b>Approved
-                                </Typography>
-                              ) : (
-                                <Typography>
-                                  <b>Admin approval status:</b>not approved
-                                </Typography>
-                              )}
-                            </Grid>
-                            <Grid item xs={12}>
-                              {approval.hod ? (
-                                <Typography>
-                                  <b>HOD approval status:</b>Approved
-                                </Typography>
-                              ) : (
-                                <Typography>
-                                  <b>HOD approval status:</b>not approved
-                                </Typography>
-                              )}
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                              <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => {
-                                  window.open(
-                                    `http://localhost:8000/${proposal.attachPrints}`
-                                  );
+                            <Typography className={classes.secondaryHeading}>
+                              {proposal.title}
+                            </Typography>
+                            {proposal.approval.admin ? (
+                              <Typography
+                                style={{
+                                  color: "#03ac13",
+                                  margin: "auto"
                                 }}
                               >
-                                Show Uploaded Document
-                              </Button>
-                            </Grid>
+                                <DoneIcon size="large" />
+                              </Typography>
+                            ) : (
+                              <Typography
+                                style={{ color: "red", margin: "auto" }}
+                              >
+                                <ClearIcon size="large" />
+                              </Typography>
+                            )}
+                          </AccordionSummary>
+                          <AccordionDetails style={{ textAlign: "left" }}>
                             <Grid
-                              item
-                              xs={12}
-                              sm={6}
-                              style={{ textAlign: "right" }}
+                              container
+                              className={classes.content}
+                              spacing={1}
                             >
-                              {!proposal.approval.admin ? (
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Title:&nbsp;&nbsp;</b>
+                                  {proposal.title}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Details:&nbsp;&nbsp;</b>
+                                  {proposal.details}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Method:&nbsp;&nbsp;</b>
+                                  {proposal.method}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Requirements:&nbsp;&nbsp;</b>
+                                  {proposal.requirements}
+                                </Typography>
+                              </Grid>
+
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Specialization:&nbsp;&nbsp;</b>
+                                  {proposal.specialization}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Result:&nbsp;&nbsp;</b>
+                                  {proposal.result}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Appied On:&nbsp;&nbsp;</b>
+                                  {proposal.applied}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Attached Print:&nbsp;&nbsp;</b>
+                                  {proposal.attachPrints}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                {approval.admin ? (
+                                  <Typography>
+                                    <b>Admin approval status:</b>Approved
+                                  </Typography>
+                                ) : (
+                                  <Typography>
+                                    <b>Admin approval status:</b>not approved
+                                  </Typography>
+                                )}
+                              </Grid>
+                              <Grid item xs={12}>
+                                {approval.hod ? (
+                                  <Typography>
+                                    <b>HOD approval status:</b>Approved
+                                  </Typography>
+                                ) : (
+                                  <Typography>
+                                    <b>HOD approval status:</b>not approved
+                                  </Typography>
+                                )}
+                              </Grid>
+                              <Grid item xs={12} sm={6}>
                                 <Button
-                                  variant="contained"
+                                  variant="outlined"
                                   color="primary"
-                                  size="large"
                                   onClick={() => {
-                                    this.handleApprove(pid, Gid);
+                                    window.open(
+                                      `http://localhost:8000/${proposal.attachPrints}`
+                                    );
                                   }}
                                 >
-                                  Approve Proposal
+                                  Show Uploaded Document
                                 </Button>
-                              ) : (
-                                <Button
-                                  variant="contained"
-                                  color="secondary"
-                                  size="large"
-                                >
-                                  Already Approved
-                                </Button>
-                              )}
+                              </Grid>
+                              <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                style={{ textAlign: "right" }}
+                              >
+                                {!proposal.approval.admin ? (
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    onClick={() => {
+                                      this.handleApprove(pid, Gid);
+                                    }}
+                                  >
+                                    Approve Proposal
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    size="large"
+                                  >
+                                    Already Approved
+                                  </Button>
+                                )}
+                              </Grid>
                             </Grid>
-                          </Grid>
-                        </AccordionDetails>
-                      </Accordion>
-                    );
-                  })}
-                  <Grid container className={classes.comment}>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={12}
-                      md={3}
-                      className={classes.comTitle}
-                    >
-                      <Typography>
-                        <b>Add Comments:</b>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <TextField
-                        className={classes.comField}
-                        variant="outlined"
-                        component={"span"}
-                        multiline
-                        inputProps={{ style: { fontSize: 14 } }}
-                        rows={3}
-                        id="comment"
-                        name="comment"
-                        type="text"
-                        value={this.state.comment}
-                        onChange={this.commentHandler}
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={12}
-                      md={3}
-                      className={classes.comButton}
-                    >
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          this.sendComment(Gid);
-                        }}
+                          </AccordionDetails>
+                        </Accordion>
+                      );
+                    })}
+                    <Grid container className={classes.comment}>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={3}
+                        className={classes.comTitle}
                       >
-                        Send Comment
-                      </Button>
+                        <Typography>
+                          <b>Add Comments:</b>
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={6}>
+                        <TextField
+                          className={classes.comField}
+                          variant="outlined"
+                          component={"span"}
+                          multiline
+                          inputProps={{ style: { fontSize: 14 } }}
+                          rows={3}
+                          id="comment"
+                          name="comment"
+                          type="text"
+                          value={this.state.comment}
+                          onChange={this.commentHandler}
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={3}
+                        className={classes.comButton}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {
+                            this.sendComment(Gid);
+                          }}
+                        >
+                          Send Comment
+                        </Button>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </div>
-              );
-            } else return null;
-          })}
-        </div>
+                  </div>
+                );
+              } else return null;
+            })}
+          </div>
+        </React.Fragment>
       );
     } else return <LinearProgress />;
 
