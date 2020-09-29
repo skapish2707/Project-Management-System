@@ -79,7 +79,8 @@ class ControlledExpansionPanels extends React.Component {
       expanded: null,
       adData: null,
       filled,
-      comment: ""
+      comment: "",
+      approved: false
     };
   }
 
@@ -362,13 +363,25 @@ class ControlledExpansionPanels extends React.Component {
                                     Approve Proposal
                                   </Button>
                                 ) : (
-                                  <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    size="large"
-                                  >
-                                    Already Approved
-                                  </Button>
+                                  <div>
+                                    {proposal.approval.hod ? (
+                                      <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        size="large"
+                                      >
+                                        Approval Done
+                                      </Button>
+                                    ) : (
+                                      <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        size="large"
+                                      >
+                                        Already Approved
+                                      </Button>
+                                    )}
+                                  </div>
                                 )}
                               </Grid>
                             </Grid>
