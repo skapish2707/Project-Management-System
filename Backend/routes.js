@@ -86,8 +86,8 @@ router.post('/admin',async function(req,res){
 	
 	// filename : student_file
 	// hod : hod 
-	// projectIncharge : pic
-	// internal guide : ig
+	// dueDate 
+	// acadYear 
 
 	if (!req.files)
 		return res.send("No File Selected ");
@@ -131,8 +131,8 @@ router.post('/admin',async function(req,res){
 	// dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
 	// dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
 	try{
-		groups = await dbm.generateGroups(req.user);
-		res.status(200).send("Done");
+		groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear);
+		res.status(200).send("OK");
 	}catch{
 		res.status(500).send();
 	}
