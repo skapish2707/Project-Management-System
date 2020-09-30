@@ -122,6 +122,17 @@ async function addMemberToGroup(groupId,student){
   group.members.push(member) ;
   await group.save();
 }
+
+async function updateDueDate(admin,dueDate){
+  Group.find({admin:admin.id},function(err,groups){
+    if (err) throw err ;
+    groups.forEach(function(group){
+      group.dueDate = dueDate;
+      group.save();
+    })    
+  })
+}
+
 async function getStudents(user,by){
 	let admin = null;
 	if (user.type == 'admin') admin = user.id;
@@ -143,7 +154,9 @@ async function getStudents(user,by){
                 name : groups[i].name,
                 members : groups[i].members,
                 comments : groups[i].comments,
-                proposals :groups[i].proposals
+                proposals :groups[i].proposals,
+                dueDate : groups[i].dueDate,
+                acadYear : groups[i].acadYear
             })
         }
 	}
@@ -235,4 +248,5 @@ module.exports = {
   getGroup : getGroup,
   approve : approve,
   addMemberToGroup : addMemberToGroup,
+  updateDueDate:updateDueDate,
 };
