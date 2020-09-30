@@ -15,6 +15,13 @@ import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import { toFirstCharUppercase } from "../ToUpper";
 import Navbar from "../Navbar/Navbar";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import HodCommentPage from "./HodCommentPage";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 let filled = false;
 let Ad = null;
@@ -22,7 +29,10 @@ let Groups = null;
 
 const styles = theme => ({
   root: {
-    width: "100%"
+    width: "100%",
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
@@ -76,7 +86,9 @@ class HodPrefPage extends Component {
       expanded: null,
       adData: null,
       filled,
-      comment: ""
+      comment: "",
+      openSuccess: false,
+      openFailure: false,
     };
   }
 
@@ -86,10 +98,22 @@ class HodPrefPage extends Component {
       {
         comment: comment
       },
-      function () {
-        console.log(this.state.comment);
-      }
+      // function () {
+      //   console.log(this.state.comment);
+      // }
     );
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({
+      openSuccess: false,
+      openFailure: false,
+      adData: null
+    })
   };
 
   sendComment(Gid) {
@@ -108,6 +132,8 @@ class HodPrefPage extends Component {
       }
     })
       .then(response => {
+        this.setState({ openSuccess: true, loading: false });
+        window.location.reload(false);
         console.log(response);
         this.setState({
           adData: null
@@ -115,6 +141,7 @@ class HodPrefPage extends Component {
       })
 
       .catch(err => {
+        this.setState({ openFailure: true, loading: false });
         console.log(err);
       });
   }
@@ -191,8 +218,9 @@ class HodPrefPage extends Component {
             {Groups.map(group => {
               if (group.id === Group.id) {
                 let Proposals = group.proposals;
+                let Comments =group.comments;
                 return (
-                  <div>
+                  <div key={group.id}>
                     <Grid container spacing={2} className={classes.grid}>
                       <Grid item xs={12}>
                         <Typography variant="h3">
@@ -206,7 +234,7 @@ class HodPrefPage extends Component {
                       let pid = proposal._id;
                       let Gid = Group.id;
                       return (
-                        <Accordion
+                        <Accordion key={proposal._id}
                           expanded={expanded === panel}
                           onChange={this.handleChange(panel)}
                         >
@@ -437,6 +465,27 @@ class HodPrefPage extends Component {
                         >
                           Send Comment
                         </Button>
+                        <Snackbar
+                        open={this.state.openSuccess}
+                        autoHideDuration={6000}
+                        onClose={this.handleClose}
+                      >
+                        <Alert onClose={this.handleClose} severity="success">
+                          Successful comment
+                        </Alert>
+                      </Snackbar>
+                      <Snackbar
+                        open={this.state.openFailure}
+                        autoHideDuration={6000}
+                        onClose={this.handleClose}
+                      >
+                        <Alert onClose={this.handleClose} severity="error">
+                          Unsuccessful comment
+                        </Alert>
+                      </Snackbar>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <HodCommentPage Comments={Comments}/>
                       </Grid>
                     </Grid>
                   </div>
