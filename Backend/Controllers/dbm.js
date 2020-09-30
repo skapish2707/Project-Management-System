@@ -17,9 +17,9 @@ mongoose.connect(process.env.uri,{
 	}else{
 		console.log("Connected to database");
 		// CUSTOM CHANGE TO DATABASE HERE 
-
+    
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
-        // User.findOne({email:"trial@admin.com"},function(err,admin){
+        // User.findOne({email:"newTrial@admin.com"},function(err,admin){
         //   if(err) throw err ;
         //   User.deleteMany({admin:admin.id},function(err){
         //       if (err) throw err
@@ -68,7 +68,7 @@ function saveLocallyForDevelopment(email, password) {
   });
 }
 
-async function generateGroups(admin) {
+async function generateGroups(admin,dueDate,acadYear) {
     users = await User.find({ type: "student", admin: admin.id })
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
@@ -79,6 +79,8 @@ async function generateGroups(admin) {
           department : user.department,
           members: [],
           admin: admin.id,
+          dueDate:dueDate,
+          acadYear:acadYear
         });
       }
       group.members.push({
