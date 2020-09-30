@@ -215,9 +215,21 @@ router.post('/addmember',async function(req,res){
 	try {
 		student =  await dbm.addToDatabase(req.user,req.body.name,req.body.rollno,req.body.email,req.body.department,"student",req.body.groupName);
 		await dbm.addMemberToGroup(req.body.id.trim(),student);
-		return res.status(200).send();
+		return res.status(200).send("OK");
 	}catch{
 		return res.status(500).send();
+	}
+})
+
+router.post('/updateDueDate',async function(req,res){
+	if (!req.user) return res.status(404).send()
+	if (req.user.type != 'admin') return res.status(404).send()
+	try {
+		await dbm.updateDueDate(req.user,req.body.dueDate);
+		return res.status(200).send("OK");
+	}
+	catch{
+		return res.status(500).send("OK");
 	}
 })
 
