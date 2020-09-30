@@ -11,6 +11,8 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 
 const kickUser = () => {
   axios({
@@ -121,7 +123,11 @@ export default function MenuAppBar() {
             className={classes.navMenu}
             style={{ textDecoration: "none", color: "#000" }}
           >
-            <Button color="inherit" variant="contained">
+            <Button
+              color="inherit"
+              variant="contained"
+              startIcon={<AssignmentIndIcon />}
+            >
               Change Password
             </Button>
           </Link>
@@ -135,6 +141,7 @@ export default function MenuAppBar() {
               color="inherit"
               variant="contained"
               style={{ marginLeft: "20px" }}
+              startIcon={<ExitToAppIcon />}
             >
               Logout
             </Button>

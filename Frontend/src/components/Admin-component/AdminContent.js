@@ -13,7 +13,8 @@ import {
   Typography,
   Button,
   Input,
-  Snackbar, CircularProgress
+  Snackbar,
+  CircularProgress
 } from "@material-ui/core";
 import Profile from "../Profile";
 import ProjectList from "./ProjectList";
@@ -164,14 +165,14 @@ class AdminContent extends Component {
       }
     })
       .then(res => {
-        this.setState({ openSuccess: true,loading: false });
+        this.setState({ openSuccess: true, loading: false });
         window.location.reload(false);
       })
       .catch(err => {
-        this.setState({ openFailure: true,loading: false });
+        this.setState({ openFailure: true, loading: false });
         if (err) throw err;
       });
-    this.setState({ hod: "", student_file: null, hodName:""});
+    this.setState({ hod: "", student_file: null, hodName: "" });
   };
 
   fileValidation = e => {
@@ -246,8 +247,7 @@ class AdminContent extends Component {
                 margin: "50px auto",
                 boxShadow:
                   "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
-                backgroundColor: "#fff",
-                borderRadius: "10px"
+                backgroundColor: "#fff"
               }}
             >
               <form
@@ -305,88 +305,6 @@ class AdminContent extends Component {
                     />
                   </Grid>
                   {/* <Grid item xs={12} className={classes.gridField}>
-                    <Typography className={classes.InputTitle}>
-                      Enter Project Incharge Details:
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      id="hodName"
-                      label="Enter Project Incharge Name"
-                      value={this.state.picName}
-                      onChange={this.picNameHandler}
-                      className={classes.Inputfield}
-                      required
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      id="pic"
-                      label="Enter Project Incharge Email"
-                      value={this.state.pic}
-                      onChange={this.picHandler}
-                      className={classes.Inputfield}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} className={classes.gridField}>
-                    <Typography className={classes.InputTitle}>
-                      Enter Internal Guide Details:
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      id="hodName"
-                      label="Enter Internal Guide Name"
-                      value={this.state.igName}
-                      onChange={this.igNameHandler}
-                      className={classes.Inputfield}
-                      required
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      id="ig"
-                      label="Enter Internal Guide Email"
-                      value={this.state.ig}
-                      onChange={this.igHandler}
-                      className={classes.Inputfield}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} className={classes.gridField}>
                     <Typography className={classes.InputTitle}>
                       Upload Student List File:
                     </Typography>

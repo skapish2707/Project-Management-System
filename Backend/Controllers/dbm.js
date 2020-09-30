@@ -19,7 +19,7 @@ mongoose.connect(process.env.uri,{
 		// CUSTOM CHANGE TO DATABASE HERE 
 
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
-        // User.findOne({email:"newTrial@admin.com"},function(err,admin){
+        // User.findOne({email:"trial@admin.com"},function(err,admin){
         //   if(err) throw err ;
         //   User.deleteMany({admin:admin.id},function(err){
         //       if (err) throw err
