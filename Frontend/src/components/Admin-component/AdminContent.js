@@ -358,7 +358,9 @@ class AdminContent extends Component {
                     </Typography>
                   </Grid> */}
                   <Grid item xs={12} sm={12} md={6}>
-                    <Typography>Enter Academic Year:</Typography>
+                    <Typography className={classes.InputTitle}>
+                      Enter Academic Year:
+                    </Typography>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
                     <FormControl variant="outlined" label="Academic Year">
@@ -386,7 +388,7 @@ class AdminContent extends Component {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <Typography>
+                    <Typography className={classes.InputTitle}>
                       Enter Due Date for Proposal Submission:
                     </Typography>
                   </Grid>
