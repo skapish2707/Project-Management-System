@@ -28,14 +28,21 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 
+function appendLeadingZeroes(n) {
+  if (n <= 9) {
+    return "0" + n;
+  }
+  return n;
+}
+
 //getting todays date
 var tempDate = new Date();
 var date =
   tempDate.getFullYear() +
   "-" +
-  (tempDate.getMonth() + 1) +
+  appendLeadingZeroes(tempDate.getMonth() + 1) +
   "-" +
-  tempDate.getDate();
+  appendLeadingZeroes(tempDate.getDate());
 console.log(date);
 
 function Alert(props) {
@@ -125,6 +132,7 @@ class AdminContent extends Component {
     };
   }
 
+  //to change format of the month
   appendLeadingZeroes(n) {
     if (n <= 9) {
       return "0" + n;
@@ -194,11 +202,9 @@ class AdminContent extends Component {
     var formData = new FormData();
     formData.append("hodName", this.state.hodName);
     formData.append("hodEmail", this.state.hod);
-    // formData.append("igName", this.state.igName);
-    // formData.append("igEmail", this.state.ig);
-    // formData.append("picName", this.state.picName);
-    // formData.append("picEmail", this.state.pic);
     formData.append("student_file", this.state.student_file);
+    formData.append("dueDate", this.state.prefDueDate);
+    formData.append("acadYear", this.state.Academicyear);
     this.setState({ loading: true });
     axios({
       method: "post",
@@ -358,61 +364,75 @@ class AdminContent extends Component {
                     </Typography>
                   </Grid> */}
                   <Grid item xs={12} sm={12} md={6}>
-                    <Typography className={classes.InputTitle}>
-                      Enter Academic Year:
-                    </Typography>
+                    <Grid container>
+                      <Grid item xs={12} className={classes.gridField}>
+                        <Typography className={classes.InputTitle}>
+                          Enter Academic Year:
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        {" "}
+                        <FormControl
+                          variant="outlined"
+                          label="Academic Year"
+                          style={{ width: "60%", padding: "8px" }}
+                        >
+                          <Select
+                            required
+                            value={this.state.Academicyear}
+                            onChange={this.handleAcademicYear}
+                            name="Academic Year"
+                          >
+                            <MenuItem value="2020-2021">2020-2021</MenuItem>
+                            <MenuItem value="2021-2022">2021-2022</MenuItem>
+                            <MenuItem value="2022-2023">2022-2023</MenuItem>
+                            <MenuItem value="2023-2024">2023-2024</MenuItem>
+                            <MenuItem value="2024-2025">2024-2025</MenuItem>
+                            <MenuItem value="2025-2026">2025-2026</MenuItem>
+                            <MenuItem value="2026-2027">2026-2027</MenuItem>
+                            <MenuItem value="2027-2028">2027-2028</MenuItem>
+                            <MenuItem value="2028-2029">2028-2029</MenuItem>
+                            <MenuItem value="2029-2030">2029-2030</MenuItem>
+                            <MenuItem value="2030-2031">2030-2031</MenuItem>
+                            <MenuItem value="2031-2032">2031-2032</MenuItem>
+                            <MenuItem value="2032-2033">2032-2033</MenuItem>
+                            <MenuItem value="2033-2034">2033-2034</MenuItem>
+                            <MenuItem value="2034-2035">2034-2035</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <FormControl variant="outlined" label="Academic Year">
-                      <Select
-                        value={this.state.Academicyear}
-                        onChange={this.handleAcademicYear}
-                        name="Academic Year"
-                      >
-                        <MenuItem value="2020-2021">2020-2021</MenuItem>
-                        <MenuItem value="2021-2022">2021-2022</MenuItem>
-                        <MenuItem value="2022-2023">2022-2023</MenuItem>
-                        <MenuItem value="2023-2024">2023-2024</MenuItem>
-                        <MenuItem value="2024-2025">2024-2025</MenuItem>
-                        <MenuItem value="2025-2026">2025-2026</MenuItem>
-                        <MenuItem value="2026-2027">2026-2027</MenuItem>
-                        <MenuItem value="2027-2028">2027-2028</MenuItem>
-                        <MenuItem value="2028-2029">2028-2029</MenuItem>
-                        <MenuItem value="2029-2030">2029-2030</MenuItem>
-                        <MenuItem value="2030-2031">2030-2031</MenuItem>
-                        <MenuItem value="2031-2032">2031-2032</MenuItem>
-                        <MenuItem value="2032-2033">2032-2033</MenuItem>
-                        <MenuItem value="2033-2034">2033-2034</MenuItem>
-                        <MenuItem value="2034-2035">2034-2035</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={6}>
-                    <Typography className={classes.InputTitle}>
-                      Enter Due Date for Proposal Submission:
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    className={classes.gridField}
-                  >
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        autoOk
-                        variant="inline"
-                        inputVariant="outlined"
-                        label="With keyboard"
-                        format="yyyy/MM/dd"
-                        value={this.state.prefDueDate}
-                        InputAdornmentProps={{ position: "start" }}
-                        onChange={this.handleDateChange}
-                      />
-                    </MuiPickersUtilsProvider>
+                    <Grid container>
+                      <Grid item xs={12} className={classes.gridField}>
+                        <Typography className={classes.InputTitle}>
+                          Enter Due Date for Proposal Submission:
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <KeyboardDatePicker
+                            autoOk
+                            required
+                            variant="inline"
+                            inputVariant="outlined"
+                            format="yyyy/MM/dd"
+                            value={this.state.prefDueDate}
+                            InputAdornmentProps={{ position: "start" }}
+                            onChange={this.handleDateChange}
+                            style={{ width: "60%", padding: "8px" }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                    </Grid>
                   </Grid>
 
+                  <Grid item xs={12} sm={12}>
+                    <Typography className={classes.InputTitle}>
+                      Upload Student Group List:
+                    </Typography>
+                  </Grid>
                   <Grid
                     item
                     xs={12}
@@ -426,6 +446,10 @@ class AdminContent extends Component {
                       id="file"
                       name="student_file"
                       onChange={this.fileValidation}
+                      style={{
+                        width: "60%",
+                        padding: "12px"
+                      }}
                       required
                     />
                   </Grid>
