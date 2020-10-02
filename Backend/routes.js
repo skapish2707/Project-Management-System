@@ -233,4 +233,23 @@ router.post('/updateDueDate',async function(req,res){
 	}
 })
 
+//serverURL/addGuide?type=new
+router.post('/addGuide',async function(req,res){
+	if (!req.user) return res.status(404).send();
+	if (req.user.type != 'admin') return res.status(404).send();
+	// email 
+	// name
+	// groupId
+	try {
+		if (req.query.type == "new"){
+			await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email.trim(),req.user.department,'guide');
+		}
+		await dbm.addGuide(req.body.email.trim(),req.body.name.trim(),req.body.groupId.trim())
+		return res.status(200).send("OK")
+	}catch {
+		return res.status(500).send();
+	}
+})
+
+
 module.exports = router;
