@@ -31,9 +31,7 @@ mongoose.connect(process.env.uri,{
         //   })  
         // })
     //DELETE PROPOSAL BY EMAIL OF ANY MEMBER
-      // Group.findOneAndUpdate({members.email:"trialNew1@gmail.com"},{proposals:[]})
-      
-  
+      // Group.findOneAndUpdate({members.email:"trialNew1@gmail.com"},{proposals:[]})  
 	}
 });
 
@@ -156,7 +154,8 @@ async function getStudents(user,by){
                 comments : groups[i].comments,
                 proposals :groups[i].proposals,
                 dueDate : groups[i].dueDate,
-                acadYear : groups[i].acadYear
+                acadYear : groups[i].acadYear,
+                guide : groups[i].guide
             })
         }
 	}
@@ -174,6 +173,18 @@ async function addComment(staff,groupId,msg){
         text : msg.trim(),
     });
     await group.save();
+}
+
+async function addGuide(email,name,groupId){
+  await Group.findByIdAndUpdate(groupId,{name:"groupname 1",guide:{name : name.trim() ,email : email.trim()}});
+  // //console.log(group);
+  // group = await Group.findById(groupId.trim())
+  // group.guide = {
+  //   name : name,
+  //   email : email
+  // }
+  // await group.save()
+  // console.log(group)
 }
 
 async function approve(groupId,proposalId,staff){
@@ -248,5 +259,6 @@ module.exports = {
   getGroup : getGroup,
   approve : approve,
   addMemberToGroup : addMemberToGroup,
-  updateDueDate:updateDueDate,
+  updateDueDate : updateDueDate,
+  addGuide : addGuide,
 };
