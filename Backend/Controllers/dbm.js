@@ -177,14 +177,18 @@ async function addComment(staff,groupId,msg){
 
 async function addGuide(email,name,groupId){
   await Group.findByIdAndUpdate(groupId,{name:"groupname 1",guide:{name : name.trim() ,email : email.trim()}});
-  // //console.log(group);
-  // group = await Group.findById(groupId.trim())
-  // group.guide = {
-  //   name : name,
-  //   email : email
-  // }
-  // await group.save()
-  // console.log(group)
+}
+
+async function getGuide(admin){
+  guides = await User.find({admin:admin.id,type:"guide"});
+  let custom_guides = []
+  for (let i = 0 ; i < guides.length; i++) {
+    custom_guides.push({
+      "name" :guides[i].name,
+      "email" : guides[i].email
+    })
+  }
+  return custom_guides
 }
 
 async function approve(groupId,proposalId,staff){
@@ -261,4 +265,5 @@ module.exports = {
   addMemberToGroup : addMemberToGroup,
   updateDueDate : updateDueDate,
   addGuide : addGuide,
+  getGuide : getGuide,
 };
