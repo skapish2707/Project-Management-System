@@ -123,7 +123,7 @@ class HodContent extends Component {
               }}
               className={classes.root}
             >
-              <HodProjectList Groups={Groups} />
+              <HodProjectList Groups={Groups} Designation={userInfo.type}/>
             </div>
             <footer>
               <Footer />

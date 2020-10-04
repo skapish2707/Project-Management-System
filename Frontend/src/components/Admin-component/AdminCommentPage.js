@@ -33,7 +33,7 @@ const THEME = createMuiTheme(
     }
 )
 
-const HodCommentPage = (props) => {
+const AdminCommentPage = (props) => {
     const classes = useStyles();
     const comments=props.Comments;
     //console.log(comments);
@@ -113,4 +113,4 @@ const HodCommentPage = (props) => {
     }
 }
  
-export default HodCommentPage;
+export default AdminCommentPage;
