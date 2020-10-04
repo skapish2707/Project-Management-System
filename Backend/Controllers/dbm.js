@@ -220,7 +220,9 @@ async function getGroup(student){
         name : group.name,
         members : group.members,
         comments : group.comments,
-        proposals :group.proposals
+        proposals :group.proposals,
+        dueDate:group.dueDate,
+        acadYear:group.acadYear
     }
 }
 
