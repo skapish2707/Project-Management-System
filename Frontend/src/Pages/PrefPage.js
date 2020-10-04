@@ -15,9 +15,9 @@ import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import { toFirstCharUppercase } from "../components/ToUpper";
 import Navbar from "../components/Navbar/Navbar";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-import AdminCommentPage from "../components/Admin-component/AdminCommentPage"
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import AdminCommentPage from "../components/Admin-component/AdminCommentPage";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -30,9 +30,9 @@ let Groups = null;
 const styles = theme => ({
   root: {
     width: "100%",
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
+    "& > * + *": {
+      marginTop: theme.spacing(2)
+    }
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
@@ -92,21 +92,19 @@ class ControlledExpansionPanels extends React.Component {
       comment: "",
       approved: false,
       openSuccess: false,
-      openFailure: false,
+      openFailure: false
     };
   }
 
   commentHandler = e => {
     let comment = e.target.value;
-    this.setState(
-      {
-        comment: comment
-      },
-    );
+    this.setState({
+      comment: comment
+    });
   };
 
   handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -114,7 +112,7 @@ class ControlledExpansionPanels extends React.Component {
       openSuccess: false,
       openFailure: false,
       adData: null
-    })
+    });
   };
 
   //axios request to send comments
@@ -138,7 +136,7 @@ class ControlledExpansionPanels extends React.Component {
         console.log(response);
         this.setState({
           adData: null,
-          comment:""
+          comment: ""
         });
       })
 
@@ -157,13 +155,12 @@ class ControlledExpansionPanels extends React.Component {
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
-        console.log(typeof Groups[0].comments[0].time);
-        
+        console.log(Groups[3].comments);
+
         this.setState({
           adData: "new",
           filled: true
         });
-        
       })
       .catch(function (err) {
         console.log(err);
@@ -225,7 +222,7 @@ class ControlledExpansionPanels extends React.Component {
             {Groups.map(group => {
               if (group.id === Group.id) {
                 let Proposals = group.proposals;
-                let Comments =group.comments;
+                let Comments = group.comments;
                 return (
                   <div key={group.id}>
                     <Grid container spacing={2} className={classes.grid}>
@@ -241,7 +238,8 @@ class ControlledExpansionPanels extends React.Component {
                       let pid = proposal._id;
                       let Gid = Group.id;
                       return (
-                        <Accordion key={proposal._id}
+                        <Accordion
+                          key={proposal._id}
                           expanded={expanded === panel}
                           onChange={this.handleChange(panel)}
                         >
@@ -461,26 +459,26 @@ class ControlledExpansionPanels extends React.Component {
                           Send Comment
                         </Button>
                         <Snackbar
-                        open={this.state.openSuccess}
-                        autoHideDuration={6000}
-                        onClose={this.handleClose}
-                      >
-                        <Alert onClose={this.handleClose} severity="success">
-                          Successful comment
-                        </Alert>
-                      </Snackbar>
-                      <Snackbar
-                        open={this.state.openFailure}
-                        autoHideDuration={6000}
-                        onClose={this.handleClose}
-                      >
-                        <Alert onClose={this.handleClose} severity="error">
-                          Unsuccessful comment
-                        </Alert>
-                      </Snackbar>
+                          open={this.state.openSuccess}
+                          autoHideDuration={6000}
+                          onClose={this.handleClose}
+                        >
+                          <Alert onClose={this.handleClose} severity="success">
+                            Successful comment
+                          </Alert>
+                        </Snackbar>
+                        <Snackbar
+                          open={this.state.openFailure}
+                          autoHideDuration={6000}
+                          onClose={this.handleClose}
+                        >
+                          <Alert onClose={this.handleClose} severity="error">
+                            Unsuccessful comment
+                          </Alert>
+                        </Snackbar>
                       </Grid>
                       <Grid item xs={12} sm={12} md={12}>
-                        <AdminCommentPage Comments={Comments}/>
+                        <AdminCommentPage Comments={Comments} />
                       </Grid>
                     </Grid>
                   </div>
