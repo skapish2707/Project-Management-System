@@ -366,7 +366,7 @@ export default function ControlledAccordions(props) {
                         <Grid container>
                           <Grid item xs={12}>
                             <Typography style={{ fontWeight: "600" }}>
-                              Roll no
+                              Roll-no
                             </Typography>
                           </Grid>
                           <Grid item xs={12}>
