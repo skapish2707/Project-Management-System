@@ -76,7 +76,7 @@ router.post('/yami',function(req,res){
 	email = req.body.email;
 	department = req.body.department;
 	dbm.addToDatabase(null,name,null,email,department,"admin");
-	res.status(200).send("Done") ;
+	res.status(200).send("OK") ;
 });
 
 
@@ -232,5 +232,34 @@ router.post('/updateDueDate',async function(req,res){
 		return res.status(500).send("OK");
 	}
 })
+
+//serverURL/addGuide?type=new
+router.post('/addGuide',async function(req,res){
+	if (!req.user) return res.status(404).send();
+	if (req.user.type != 'admin') return res.status(404).send();
+	// email 
+	// name
+	// groupId
+	try {
+		if (req.query.type == "new"){
+			await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email.trim(),req.user.department,'guide');
+		}
+		await dbm.addGuide(req.body.email.trim(),req.body.name.trim(),req.body.groupId.trim())
+		return res.status(200).send("OK");
+	}catch {
+		return res.status(500).send();
+	}
+})
+router.get('/getGuide',async function(req,res){
+	if (!req.user) return res.status(404).send();
+	if (req.user.type != 'admin') return res.status(404).send();
+	try {
+		guides = await dbm.getGuide(req.user);
+		return res.status(200).send(guides);
+	}catch{
+		return res.status(500).send();
+	}
+})
+
 
 module.exports = router;

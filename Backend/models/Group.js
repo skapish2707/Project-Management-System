@@ -35,6 +35,10 @@ var groupSchema  = new mongoose.Schema({
 	}],
 	dueDate : {type : Date},
 	acadYear : String,
+	guide : {
+		name : String,
+		email : String,
+	}
 });
 
 var Group = mongoose.model('Group',groupSchema);
