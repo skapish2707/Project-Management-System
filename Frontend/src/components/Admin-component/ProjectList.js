@@ -149,13 +149,14 @@ export default function ControlledAccordions(props) {
               pref1HodApproval = pref1.approval.hod;
               pref2HodApproval = pref2.approval.hod;
               pref3HodApproval = pref3.approval.hod;
-
             }
 
             if (
               (pref1AdminApproval && pref1HodApproval) ||
               (pref2AdminApproval && pref2HodApproval) ||
-              ((pref3AdminApproval && pref3HodApproval) && Group.proposals.length !== 0)
+              (pref3AdminApproval &&
+                pref3HodApproval &&
+                Group.proposals.length !== 0)
             ) {
               return (
                 <Accordion
@@ -185,41 +186,49 @@ export default function ControlledAccordions(props) {
                   </AccordionSummary>
                   <AccordionDetails className={classes.accordet}>
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sm={4}>
                         <Grid container>
-                          <Grid item xs={12} sm={4}>
+                          <Grid item xs={12}>
                             <Typography style={{ fontWeight: "600" }}>
                               Name
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={4}>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.name}</Typography>;
+                            })}
+                          </Grid>
+                        </Grid>
+                      </Grid>
+
+                      <Grid item xs={12} sm={5}>
+                        <Grid container>
+                          <Grid item xs={12}>
                             <Typography style={{ fontWeight: "600" }}>
                               Email
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography style={{ fontWeight: "600" }}>
-                              Rollno
-                            </Typography>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.email}</Typography>;
+                            })}
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid item xs={12}>
-                        {members.map(member => {
-                          return (
-                            <Grid container key={member.rollno}>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.name}</Typography>
-                              </Grid>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.email}</Typography>
-                              </Grid>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.rollno}</Typography>
-                              </Grid>
-                            </Grid>
-                          );
-                        })}
+
+                      <Grid item xs={12} sm={3}>
+                        <Grid container>
+                          <Grid item xs={12}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Roll no
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.rollno}</Typography>;
+                            })}
+                          </Grid>
+                        </Grid>
                       </Grid>
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
@@ -232,7 +241,7 @@ export default function ControlledAccordions(props) {
                               Show Preferences
                             </Button>
                             <Button
-                              style={{marginLeft : "15px"}}
+                              style={{ marginLeft: "15px" }}
                               variant="outlined"
                               color="primary"
                             >
@@ -291,7 +300,9 @@ export default function ControlledAccordions(props) {
             if (
               (pref1AdminApproval && !pref1HodApproval) ||
               (pref2AdminApproval && !pref2HodApproval) ||
-              ((pref3AdminApproval && !pref3HodApproval) && Group.proposals.length !== 0)
+              (pref3AdminApproval &&
+                !pref3HodApproval &&
+                Group.proposals.length !== 0)
             ) {
               return (
                 <Accordion
@@ -321,41 +332,49 @@ export default function ControlledAccordions(props) {
                   </AccordionSummary>
                   <AccordionDetails className={classes.accordet}>
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sm={4}>
                         <Grid container>
-                          <Grid item xs={12} sm={4}>
+                          <Grid item xs={12}>
                             <Typography style={{ fontWeight: "600" }}>
                               Name
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={4}>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.name}</Typography>;
+                            })}
+                          </Grid>
+                        </Grid>
+                      </Grid>
+
+                      <Grid item xs={12} sm={5}>
+                        <Grid container>
+                          <Grid item xs={12}>
                             <Typography style={{ fontWeight: "600" }}>
                               Email
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography style={{ fontWeight: "600" }}>
-                              Rollno
-                            </Typography>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.email}</Typography>;
+                            })}
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid item xs={12}>
-                        {members.map(member => {
-                          return (
-                            <Grid container key={member.rollno}>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.name}</Typography>
-                              </Grid>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.email}</Typography>
-                              </Grid>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.rollno}</Typography>
-                              </Grid>
-                            </Grid>
-                          );
-                        })}
+
+                      <Grid item xs={12} sm={3}>
+                        <Grid container>
+                          <Grid item xs={12}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Roll-no
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.rollno}</Typography>;
+                            })}
+                          </Grid>
+                        </Grid>
                       </Grid>
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
@@ -445,41 +464,49 @@ export default function ControlledAccordions(props) {
                   </AccordionSummary>
                   <AccordionDetails className={classes.accordet}>
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sm={4}>
                         <Grid container>
-                          <Grid item xs={12} sm={4}>
+                          <Grid item xs={12}>
                             <Typography style={{ fontWeight: "600" }}>
                               Name
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={4}>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.name}</Typography>;
+                            })}
+                          </Grid>
+                        </Grid>
+                      </Grid>
+
+                      <Grid item xs={12} sm={5}>
+                        <Grid container>
+                          <Grid item xs={12}>
                             <Typography style={{ fontWeight: "600" }}>
                               Email
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography style={{ fontWeight: "600" }}>
-                              Rollno
-                            </Typography>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.email}</Typography>;
+                            })}
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid item xs={12}>
-                        {members.map(member => {
-                          return (
-                            <Grid container key={member.rollno}>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.name}</Typography>
-                              </Grid>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.email}</Typography>
-                              </Grid>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.rollno}</Typography>
-                              </Grid>
-                            </Grid>
-                          );
-                        })}
+
+                      <Grid item xs={12} sm={3}>
+                        <Grid container>
+                          <Grid item xs={12}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Roll no
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.rollno}</Typography>;
+                            })}
+                          </Grid>
+                        </Grid>
                       </Grid>
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
@@ -552,43 +579,49 @@ export default function ControlledAccordions(props) {
                       spacing={3}
                       style={{ width: "100%", padding: "auto" }}
                     >
-                      <Grid item xs={12}>
-                        <Grid container style={{ width: "100%" }}>
-                          <Grid item xs={12} sm={4}>
-                            <div>
-                              <Typography style={{ fontWeight: "600" }}>
-                                Name
-                              </Typography>
-                            </div>
+                      <Grid item xs={12} sm={4}>
+                        <Grid container>
+                          <Grid item xs={12}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Name
+                            </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={4}>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.name}</Typography>;
+                            })}
+                          </Grid>
+                        </Grid>
+                      </Grid>
+
+                      <Grid item xs={12} sm={5}>
+                        <Grid container>
+                          <Grid item xs={12}>
                             <Typography style={{ fontWeight: "600" }}>
                               Email
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography style={{ fontWeight: "600" }}>
-                              Rollno
-                            </Typography>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.email}</Typography>;
+                            })}
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid item xs={12}>
-                        {members.map(member => {
-                          return (
-                            <Grid container key={member.rollno}>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.name}</Typography>
-                              </Grid>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.email}</Typography>
-                              </Grid>
-                              <Grid item xs={12} sm={4}>
-                                <Typography>{member.rollno}</Typography>
-                              </Grid>
-                            </Grid>
-                          );
-                        })}
+
+                      <Grid item xs={12} sm={3}>
+                        <Grid container>
+                          <Grid item xs={12}>
+                            <Typography style={{ fontWeight: "600" }}>
+                              Roll-no
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            {members.map(member => {
+                              return <Typography>{member.rollno}</Typography>;
+                            })}
+                          </Grid>
+                        </Grid>
                       </Grid>
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (

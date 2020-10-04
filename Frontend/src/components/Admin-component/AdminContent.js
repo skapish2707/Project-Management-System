@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
 import SERVER_URL from "../../Pages/URL";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -19,6 +19,31 @@ import {
 import Profile from "../Profile";
 import ProjectList from "./ProjectList";
 import MuiAlert from "@material-ui/lab/Alert";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider
+} from "@material-ui/pickers";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+
+function appendLeadingZeroes(n) {
+  if (n <= 9) {
+    return "0" + n;
+  }
+  return n;
+}
+
+//getting todays date
+var tempDate = new Date();
+var date =
+  tempDate.getFullYear() +
+  "-" +
+  appendLeadingZeroes(tempDate.getMonth() + 1) +
+  "-" +
+  appendLeadingZeroes(tempDate.getDate());
+console.log(date);
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -97,17 +122,46 @@ class AdminContent extends Component {
       hod: "",
       hodName: "",
       student_file: null,
-      // pic: "",
-      // picName: "",
-      // ig: "",
-      // igName: "",
       adData: null,
       filled,
       openSuccess: false,
       openFailure: false,
-      loading: false
+      loading: false,
+      prefDueDate: date,
+      Academicyear: "2020-2021"
     };
   }
+
+  //to change format of the month
+  appendLeadingZeroes(n) {
+    if (n <= 9) {
+      return "0" + n;
+    }
+    return n;
+  }
+
+  handleDateChange = date => {
+    let current_datetime = date;
+    let formatted_date =
+      current_datetime.getFullYear() +
+      "-" +
+      this.appendLeadingZeroes(current_datetime.getMonth() + 1) +
+      "-" +
+      this.appendLeadingZeroes(current_datetime.getDate());
+    this.setState({ prefDueDate: formatted_date });
+    let a = new Date("2020-12-01");
+    if (current_datetime < a) {
+      console.log("success");
+    } else if (current_datetime > a) {
+      console.log("failed");
+    }
+    console.log(a);
+  };
+
+  //function to handle Academic Year
+  handleAcademicYear = e => {
+    this.setState({ Academicyear: e.target.value });
+  };
 
   hodHandler = e => {
     this.setState({ hod: e.target.value });
@@ -148,11 +202,9 @@ class AdminContent extends Component {
     var formData = new FormData();
     formData.append("hodName", this.state.hodName);
     formData.append("hodEmail", this.state.hod);
-    // formData.append("igName", this.state.igName);
-    // formData.append("igEmail", this.state.ig);
-    // formData.append("picName", this.state.picName);
-    // formData.append("picEmail", this.state.pic);
     formData.append("student_file", this.state.student_file);
+    formData.append("dueDate", this.state.prefDueDate);
+    formData.append("acadYear", this.state.Academicyear);
     this.setState({ loading: true });
     axios({
       method: "post",
@@ -220,6 +272,9 @@ class AdminContent extends Component {
   }
 
   render() {
+    console.log(this.state.prefDueDate);
+    let academicYear=this.state.Academicyear
+    //console.log(academicYear);
     const { classes } = this.props;
     if (this.state.loading) {
       return (
@@ -309,6 +364,76 @@ class AdminContent extends Component {
                       Upload Student List File:
                     </Typography>
                   </Grid> */}
+                  <Grid item xs={12} sm={12} md={6}>
+                    <Grid container>
+                      <Grid item xs={12} className={classes.gridField}>
+                        <Typography className={classes.InputTitle}>
+                          Enter Academic Year:
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        {" "}
+                        <FormControl
+                          variant="outlined"
+                          label="Academic Year"
+                          style={{ width: "60%", padding: "8px" }}
+                        >
+                          <Select
+                            required
+                            value={this.state.Academicyear}
+                            onChange={this.handleAcademicYear}
+                            name="Academic Year"
+                          >
+                            <MenuItem value="2020-2021">2020-2021</MenuItem>
+                            <MenuItem value="2021-2022">2021-2022</MenuItem>
+                            <MenuItem value="2022-2023">2022-2023</MenuItem>
+                            <MenuItem value="2023-2024">2023-2024</MenuItem>
+                            <MenuItem value="2024-2025">2024-2025</MenuItem>
+                            <MenuItem value="2025-2026">2025-2026</MenuItem>
+                            <MenuItem value="2026-2027">2026-2027</MenuItem>
+                            <MenuItem value="2027-2028">2027-2028</MenuItem>
+                            <MenuItem value="2028-2029">2028-2029</MenuItem>
+                            <MenuItem value="2029-2030">2029-2030</MenuItem>
+                            <MenuItem value="2030-2031">2030-2031</MenuItem>
+                            <MenuItem value="2031-2032">2031-2032</MenuItem>
+                            <MenuItem value="2032-2033">2032-2033</MenuItem>
+                            <MenuItem value="2033-2034">2033-2034</MenuItem>
+                            <MenuItem value="2034-2035">2034-2035</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={6}>
+                    <Grid container>
+                      <Grid item xs={12} className={classes.gridField}>
+                        <Typography className={classes.InputTitle}>
+                          Enter Due Date for Proposal Submission:
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <KeyboardDatePicker
+                            autoOk
+                            required
+                            variant="inline"
+                            inputVariant="outlined"
+                            format="yyyy/MM/dd"
+                            value={this.state.prefDueDate}
+                            InputAdornmentProps={{ position: "start" }}
+                            onChange={this.handleDateChange}
+                            style={{ width: "60%", padding: "8px" }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item xs={12} sm={12}>
+                    <Typography className={classes.InputTitle}>
+                      Upload Student Group List:
+                    </Typography>
+                  </Grid>
                   <Grid
                     item
                     xs={12}
@@ -322,6 +447,10 @@ class AdminContent extends Component {
                       id="file"
                       name="student_file"
                       onChange={this.fileValidation}
+                      style={{
+                        width: "60%",
+                        padding: "12px"
+                      }}
                       required
                     />
                   </Grid>
@@ -375,7 +504,7 @@ class AdminContent extends Component {
         return (
           <React.Fragment>
             <LoggedNavbar />
-            <Profile userInfo={userInfo} />
+            <Profile academicYear={academicYear} userInfo={userInfo} />
             <div
               style={{
                 width: "90%",

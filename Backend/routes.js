@@ -76,7 +76,7 @@ router.post('/yami',function(req,res){
 	email = req.body.email;
 	department = req.body.department;
 	dbm.addToDatabase(null,name,null,email,department,"admin");
-	res.status(200).send("Done") ;
+	res.status(200).send("OK") ;
 });
 
 
@@ -86,8 +86,8 @@ router.post('/admin',async function(req,res){
 	
 	// filename : student_file
 	// hod : hod 
-	// projectIncharge : pic
-	// internal guide : ig
+	// dueDate 
+	// acadYear 
 
 	if (!req.files)
 		return res.send("No File Selected ");
@@ -131,8 +131,8 @@ router.post('/admin',async function(req,res){
 	// dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
 	// dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
 	try{
-		groups = await dbm.generateGroups(req.user);
-		res.status(200).send("Done");
+		groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear);
+		res.status(200).send("OK");
 	}catch{
 		res.status(500).send();
 	}
@@ -215,10 +215,51 @@ router.post('/addmember',async function(req,res){
 	try {
 		student =  await dbm.addToDatabase(req.user,req.body.name,req.body.rollno,req.body.email,req.body.department,"student",req.body.groupName);
 		await dbm.addMemberToGroup(req.body.id.trim(),student);
-		return res.status(200).send();
+		return res.status(200).send("OK");
 	}catch{
 		return res.status(500).send();
 	}
 })
+
+router.post('/updateDueDate',async function(req,res){
+	if (!req.user) return res.status(404).send()
+	if (req.user.type != 'admin') return res.status(404).send()
+	try {
+		await dbm.updateDueDate(req.user,req.body.dueDate);
+		return res.status(200).send("OK");
+	}
+	catch{
+		return res.status(500).send("OK");
+	}
+})
+
+//serverURL/addGuide?type=new
+router.post('/addGuide',async function(req,res){
+	if (!req.user) return res.status(404).send();
+	if (req.user.type != 'admin') return res.status(404).send();
+	// email 
+	// name
+	// groupId
+	try {
+		if (req.query.type == "new"){
+			await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email.trim(),req.user.department,'guide');
+		}
+		await dbm.addGuide(req.body.email.trim(),req.body.name.trim(),req.body.groupId.trim())
+		return res.status(200).send("OK");
+	}catch {
+		return res.status(500).send();
+	}
+})
+router.get('/getGuide',async function(req,res){
+	if (!req.user) return res.status(404).send();
+	if (req.user.type != 'admin') return res.status(404).send();
+	try {
+		guides = await dbm.getGuide(req.user);
+		return res.status(200).send(guides);
+	}catch{
+		return res.status(500).send();
+	}
+})
+
 
 module.exports = router;

@@ -17,9 +17,9 @@ mongoose.connect(process.env.uri,{
 	}else{
 		console.log("Connected to database");
 		// CUSTOM CHANGE TO DATABASE HERE 
-
+    
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
-        // User.findOne({email:"trial@admin.com"},function(err,admin){
+        // User.findOne({email:"newTrial@admin.com"},function(err,admin){
         //   if(err) throw err ;
         //   User.deleteMany({admin:admin.id},function(err){
         //       if (err) throw err
@@ -31,9 +31,7 @@ mongoose.connect(process.env.uri,{
         //   })  
         // })
     //DELETE PROPOSAL BY EMAIL OF ANY MEMBER
-      // Group.findOneAndUpdate({members.email:"trialNew1@gmail.com"},{proposals:[]})
-      
-  
+      // Group.findOneAndUpdate({members.email:"trialNew1@gmail.com"},{proposals:[]})  
 	}
 });
 
@@ -68,7 +66,7 @@ function saveLocallyForDevelopment(email, password) {
   });
 }
 
-async function generateGroups(admin) {
+async function generateGroups(admin,dueDate,acadYear) {
     users = await User.find({ type: "student", admin: admin.id })
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
@@ -79,6 +77,8 @@ async function generateGroups(admin) {
           department : user.department,
           members: [],
           admin: admin.id,
+          dueDate:dueDate,
+          acadYear:acadYear
         });
       }
       group.members.push({
@@ -120,6 +120,17 @@ async function addMemberToGroup(groupId,student){
   group.members.push(member) ;
   await group.save();
 }
+
+async function updateDueDate(admin,dueDate){
+  Group.find({admin:admin.id},function(err,groups){
+    if (err) throw err ;
+    groups.forEach(function(group){
+      group.dueDate = dueDate;
+      group.save();
+    })    
+  })
+}
+
 async function getStudents(user,by){
 	let admin = null;
 	if (user.type == 'admin') admin = user.id;
@@ -141,7 +152,10 @@ async function getStudents(user,by){
                 name : groups[i].name,
                 members : groups[i].members,
                 comments : groups[i].comments,
-                proposals :groups[i].proposals
+                proposals :groups[i].proposals,
+                dueDate : groups[i].dueDate,
+                acadYear : groups[i].acadYear,
+                guide : groups[i].guide
             })
         }
 	}
@@ -159,6 +173,22 @@ async function addComment(staff,groupId,msg){
         text : msg.trim(),
     });
     await group.save();
+}
+
+async function addGuide(email,name,groupId){
+  await Group.findByIdAndUpdate(groupId,{name:"groupname 1",guide:{name : name.trim() ,email : email.trim()}});
+}
+
+async function getGuide(admin){
+  guides = await User.find({admin:admin.id,type:"guide"});
+  let custom_guides = []
+  for (let i = 0 ; i < guides.length; i++) {
+    custom_guides.push({
+      "name" :guides[i].name,
+      "email" : guides[i].email
+    })
+  }
+  return custom_guides
 }
 
 async function approve(groupId,proposalId,staff){
@@ -190,7 +220,9 @@ async function getGroup(student){
         name : group.name,
         members : group.members,
         comments : group.comments,
-        proposals :group.proposals
+        proposals :group.proposals,
+        dueDate:group.dueDate,
+        acadYear:group.acadYear
     }
 }
 
@@ -233,4 +265,7 @@ module.exports = {
   getGroup : getGroup,
   approve : approve,
   addMemberToGroup : addMemberToGroup,
+  updateDueDate : updateDueDate,
+  addGuide : addGuide,
+  getGuide : getGuide,
 };
