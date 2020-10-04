@@ -124,13 +124,14 @@ export default function ControlledAccordions(props) {
                 state: { Group: Group }
               });
             };
+            let DueDate = Group.dueDate.split("T")[0];
             let members = Group.members;
             let Gname = Group.name;
             let id = Group.id;
             let pref1 = [];
             let pref2 = [];
             let pref3 = [];
-
+            let AppliedOn = null;
             let pref1AdminApproval = false;
             let pref2AdminApproval = false;
             let pref3AdminApproval = false;
@@ -143,6 +144,8 @@ export default function ControlledAccordions(props) {
               pref2 = Group.proposals[1];
               pref3 = Group.proposals[2];
 
+              AppliedOn = pref1.applied.split("T")[0];
+              console.log(AppliedOn, DueDate);
               pref1AdminApproval = pref1.approval.admin;
               pref2AdminApproval = pref2.approval.admin;
               pref3AdminApproval = pref3.approval.admin;
@@ -231,6 +234,17 @@ export default function ControlledAccordions(props) {
                         </Grid>
                       </Grid>
                       <Grid item xs={12}>
+                        {DueDate >= AppliedOn ? (
+                          <Typography style={{ color: "green" }} variant="h5">
+                            Proposals Submitted On Time
+                          </Typography>
+                        ) : (
+                          <Typography style={{ color: "red" }} variant="h5">
+                            Proposals Submitted LATE
+                          </Typography>
+                        )}
+                      </Grid>
+                      <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
                           <div>
                             <Button
@@ -270,12 +284,14 @@ export default function ControlledAccordions(props) {
                 state: { Group: Group }
               });
             };
+            let DueDate = Group.dueDate.split("T")[0];
             let members = Group.members;
             let Gname = Group.name;
             let id = Group.id;
             let pref1 = [];
             let pref2 = [];
             let pref3 = [];
+            let AppliedOn = null;
 
             let pref1AdminApproval = false;
             let pref2AdminApproval = false;
@@ -289,6 +305,8 @@ export default function ControlledAccordions(props) {
               pref2 = Group.proposals[1];
               pref3 = Group.proposals[2];
 
+              AppliedOn = pref1.applied.split("T")[0];
+              console.log(DueDate, AppliedOn);
               pref1AdminApproval = pref1.approval.admin;
               pref2AdminApproval = pref2.approval.admin;
               pref3AdminApproval = pref3.approval.admin;
@@ -377,6 +395,17 @@ export default function ControlledAccordions(props) {
                         </Grid>
                       </Grid>
                       <Grid item xs={12}>
+                        {DueDate >= AppliedOn ? (
+                          <Typography style={{ color: "green" }} variant="h5">
+                            Proposals Submitted On Time
+                          </Typography>
+                        ) : (
+                          <Typography style={{ color: "red" }} variant="h5">
+                            Proposals Submitted LATE
+                          </Typography>
+                        )}
+                      </Grid>
+                      <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
                           <div>
                             <Button
@@ -409,13 +438,15 @@ export default function ControlledAccordions(props) {
                 state: { Group: Group }
               });
             };
+            let DueDate = Group.dueDate.split("T")[0];
+
             let members = Group.members;
             let Gname = Group.name;
             let id = Group.id;
             let pref1 = [];
             let pref2 = [];
             let pref3 = [];
-
+            let AppliedOn = null;
             let pref1Approval = false;
             let pref2Approval = false;
             let pref3Approval = false;
@@ -425,6 +456,7 @@ export default function ControlledAccordions(props) {
               pref2 = Group.proposals[1];
               pref3 = Group.proposals[2];
 
+              AppliedOn = pref1.applied.split("T")[0];
               pref1Approval = pref1.approval.admin;
               pref2Approval = pref2.approval.admin;
               pref3Approval = pref3.approval.admin;
@@ -473,7 +505,11 @@ export default function ControlledAccordions(props) {
                           </Grid>
                           <Grid item xs={12}>
                             {members.map(member => {
-                              return <Typography>{member.name}</Typography>;
+                              return (
+                                <Typography key={member.name}>
+                                  {member.name}
+                                </Typography>
+                              );
                             })}
                           </Grid>
                         </Grid>
@@ -488,7 +524,11 @@ export default function ControlledAccordions(props) {
                           </Grid>
                           <Grid item xs={12}>
                             {members.map(member => {
-                              return <Typography>{member.email}</Typography>;
+                              return (
+                                <Typography key={member.email}>
+                                  {member.email}
+                                </Typography>
+                              );
                             })}
                           </Grid>
                         </Grid>
@@ -503,10 +543,25 @@ export default function ControlledAccordions(props) {
                           </Grid>
                           <Grid item xs={12}>
                             {members.map(member => {
-                              return <Typography>{member.rollno}</Typography>;
+                              return (
+                                <Typography key={member.rollno}>
+                                  {member.rollno}
+                                </Typography>
+                              );
                             })}
                           </Grid>
                         </Grid>
+                      </Grid>
+                      <Grid item xs={12}>
+                        {DueDate >= AppliedOn ? (
+                          <Typography style={{ color: "green" }} variant="h5">
+                            Proposals Submitted On Time
+                          </Typography>
+                        ) : (
+                          <Typography style={{ color: "red" }} variant="h5">
+                            Proposals Submitted LATE
+                          </Typography>
+                        )}
                       </Grid>
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
@@ -542,6 +597,7 @@ export default function ControlledAccordions(props) {
                 state: { Group: Group }
               });
             };
+            let DueDate = Group.dueDate.split("T")[0];
             let members = Group.members;
             let Gname = Group.name;
             let id = Group.id;
@@ -588,7 +644,11 @@ export default function ControlledAccordions(props) {
                           </Grid>
                           <Grid item xs={12}>
                             {members.map(member => {
-                              return <Typography>{member.name}</Typography>;
+                              return (
+                                <Typography key={member.name}>
+                                  {member.name}
+                                </Typography>
+                              );
                             })}
                           </Grid>
                         </Grid>
@@ -603,7 +663,11 @@ export default function ControlledAccordions(props) {
                           </Grid>
                           <Grid item xs={12}>
                             {members.map(member => {
-                              return <Typography>{member.email}</Typography>;
+                              return (
+                                <Typography key={member.email}>
+                                  {member.email}
+                                </Typography>
+                              );
                             })}
                           </Grid>
                         </Grid>
@@ -618,10 +682,20 @@ export default function ControlledAccordions(props) {
                           </Grid>
                           <Grid item xs={12}>
                             {members.map(member => {
-                              return <Typography>{member.rollno}</Typography>;
+                              return (
+                                <Typography key={member.rollno}>
+                                  {member.rollno}
+                                </Typography>
+                              );
                             })}
                           </Grid>
                         </Grid>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography>
+                          <b>Due Date for Submitting Proposals:</b>&nbsp;&nbsp;
+                          {DueDate}
+                        </Typography>
                       </Grid>
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
