@@ -5,6 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
 
 const theme = createMuiTheme();
 
@@ -55,9 +56,16 @@ export default function Profile(props) {
     >
       <CardContent>
         <ThemeProvider theme={theme}>
-          <Typography variant="h3" style={{ fontWeight: "600", paddingBottom:"20px", }}>
-            User Details -
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={0.5}>
+              <AccountBoxRoundedIcon style={{ fontSize: 50 }} />
+            </Grid>
+            <Grid item xs={11.5}>
+              <Typography variant="h3" style={{ fontWeight: "600", paddingBottom:"20px", }}>
+                User Details -
+              </Typography>
+            </Grid>
+          </Grid>
         </ThemeProvider>
           <Grid container spacing={1}>
             <Grid item xs={12} sm={6} md={4}>

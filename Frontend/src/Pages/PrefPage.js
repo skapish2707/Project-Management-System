@@ -118,19 +118,25 @@ class ControlledExpansionPanels extends React.Component {
   //axios request to send comments
   sendComment(Gid) {
     const { comment } = this.state;
-    axios({
-      method: "post",
-      url: SERVER_URL + "/comment",
-      credentials: "include",
-      withCredentials: true,
-      data: qs.stringify({
-        id: Gid,
-        msg: comment
-      }),
-      headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
-      }
-    })
+    if(comment === ""){
+      this.setState({
+        openFailure:true
+      })
+    }
+    else{
+      axios({
+        method: "post",
+        url: SERVER_URL + "/comment",
+        credentials: "include",
+        withCredentials: true,
+        data: qs.stringify({
+          id: Gid,
+          msg: comment
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        }
+      })
       .then(response => {
         this.setState({ openSuccess: true, loading: false });
         console.log(response);
@@ -144,6 +150,8 @@ class ControlledExpansionPanels extends React.Component {
         this.setState({ openFailure: true, loading: false });
         console.log(err);
       });
+    }
+    
   }
 
   checkData() {
@@ -473,7 +481,7 @@ class ControlledExpansionPanels extends React.Component {
                           onClose={this.handleClose}
                         >
                           <Alert onClose={this.handleClose} severity="error">
-                            Unsuccessful comment
+                            Unsuccessful. Comment cannot be empty
                           </Alert>
                         </Snackbar>
                       </Grid>
