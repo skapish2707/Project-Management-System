@@ -273,7 +273,8 @@ class AdminContent extends Component {
 
   render() {
     console.log(this.state.prefDueDate);
-    console.log(this.state.Academicyear);
+    let academicYear=this.state.Academicyear
+    //console.log(academicYear);
     const { classes } = this.props;
     if (this.state.loading) {
       return (
@@ -503,7 +504,7 @@ class AdminContent extends Component {
         return (
           <React.Fragment>
             <LoggedNavbar />
-            <Profile userInfo={userInfo} />
+            <Profile academicYear={academicYear} userInfo={userInfo} />
             <div
               style={{
                 width: "90%",

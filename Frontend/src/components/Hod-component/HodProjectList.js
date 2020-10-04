@@ -149,7 +149,7 @@ const HodProjectList = (props) => {
                             (pref2AdminApproval && pref2HodApproval) ||
                             (pref3AdminApproval && pref3HodApproval && Group.proposals.length !== 0)
                         ){
-                            console.log(Group.name);
+                            //console.log(Group.name);
                             return(
                                 <Accordion
                                 expanded={expanded === Gname}
@@ -350,6 +350,7 @@ const HodProjectList = (props) => {
                                         onClick={routeChange}
                                         variant="outlined"
                                         color="primary"
+                                        Designation={props.Designation}
                                         >
                                         Show Preferences
                                         </Button>
@@ -474,6 +475,7 @@ const HodProjectList = (props) => {
                                       onClick={routeChange}
                                       variant="outlined"
                                       color="primary"
+                                      Designation={props.Designation}
                                     >
                                       Show Preferences
                                     </Button>
@@ -582,6 +584,7 @@ const HodProjectList = (props) => {
                                         onClick={routeChange}
                                         variant="outlined"
                                         color="primary"
+                                        Designation={props.Designation}
                                         >
                                         Show Preferences
                                         </Button>

@@ -91,7 +91,7 @@ class HodPrefPage extends Component {
       openFailure: false,
     };
   }
-
+  
   commentHandler = e => {
     let comment = e.target.value;
     this.setState(
@@ -133,9 +133,9 @@ class HodPrefPage extends Component {
     })
       .then(response => {
         this.setState({ openSuccess: true, loading: false });
-        window.location.reload(false);
         console.log(response);
         this.setState({
+          comment:"",
           adData: null
         });
       })
