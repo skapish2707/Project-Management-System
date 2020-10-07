@@ -43,7 +43,7 @@ export default function Profile(props) {
   const classes = useStyles();
   const userInfo = props;
   const academicYear=props.academicYear;
-  console.log(userInfo)
+  console.log(props)
   return (
     <Card
       className={classes.root}
@@ -57,10 +57,10 @@ export default function Profile(props) {
       <CardContent>
         <ThemeProvider theme={theme}>
           <Grid container spacing={2}>
-            <Grid item xs={0.5}>
+            <Grid item xs={1}>
               <AccountBoxRoundedIcon style={{ fontSize: 50 }} />
             </Grid>
-            <Grid item xs={11.5}>
+            <Grid item xs={11}>
               <Typography variant="h3" style={{ fontWeight: "600", paddingBottom:"20px", }}>
                 User Details -
               </Typography>
