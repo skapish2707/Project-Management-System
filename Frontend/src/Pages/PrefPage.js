@@ -335,7 +335,8 @@ class ControlledExpansionPanels extends React.Component {
                               <Grid item xs={12}>
                                 <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
-                                  {proposal.applied}
+                                  {/* {proposal.applied.split("T")[0]} */}
+                                  {proposal.applied.substr(0,10)}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>

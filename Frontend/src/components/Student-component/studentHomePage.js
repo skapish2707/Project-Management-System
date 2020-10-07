@@ -53,7 +53,10 @@ const StudentHomePage = () => {
       .then(res => {
         Group = res.data;
         DueDate = Group.dueDate.split("T")[0];
-        AppliedOn = Group.proposals[0].applied.split("T")[0];
+        if(Group.proposals.length!==0)
+        {
+          AppliedOn = Group.proposals[0].applied.split("T")[0];
+        }
         if (Group.proposals.length > 0) {
           setPropFilled(true);
           propF = propFilled;
@@ -79,7 +82,8 @@ const StudentHomePage = () => {
           Proposal Submitted On time
         </Typography>
       );
-    } else {
+    }
+    if (DueDate <= AppliedOn) {
       return (
         <Typography color="secondary" variant="h4">
           Proposal Submitted Late
