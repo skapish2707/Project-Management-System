@@ -79,7 +79,8 @@ const StudentHomePage = () => {
           Proposal Submitted On time
         </Typography>
       );
-    } else {
+    }
+    if (DueDate <= AppliedOn) {
       return (
         <Typography color="secondary" variant="h4">
           Proposal Submitted Late
