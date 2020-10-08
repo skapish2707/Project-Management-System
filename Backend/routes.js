@@ -244,7 +244,9 @@ router.post('/addGuide',async function(req,res){
 		if (req.query.type == "new"){
 			await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email.trim(),req.user.department,'guide');
 		}
-		await dbm.addGuide(req.body.email.trim(),req.body.name.trim(),req.body.groupId.trim())
+		else{
+			await dbm.addGuide(req.body.email.trim(),req.body.name.trim(),req.body.groupId.trim())
+		}
 		return res.status(200).send("OK");
 	}catch {
 		return res.status(500).send();
