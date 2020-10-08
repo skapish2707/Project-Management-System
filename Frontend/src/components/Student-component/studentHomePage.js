@@ -73,21 +73,6 @@ const StudentHomePage = () => {
     let approved = false;
     let propTitle = "";
 
-    if (DueDate >= AppliedOn) {
-      return (
-        <Typography color="primary" variant="h4">
-          Proposal Submitted On time
-        </Typography>
-      );
-    }
-    if (DueDate <= AppliedOn) {
-      return (
-        <Typography color="secondary" variant="h4">
-          Proposal Submitted Late
-        </Typography>
-      );
-    }
-
     proposals.map(proposal => {
       if (proposal.approval.admin && proposal.approval.hod) {
         approved = true;
@@ -96,18 +81,55 @@ const StudentHomePage = () => {
     });
 
     if (approved) {
-      return (
-        <Typography style={{ marginBottom: "40px" }} variant="h4">
-          Your Proposal {propTitle} has been approved. Please start working on
-          it.
-        </Typography>
-      );
+      if (DueDate >= AppliedOn) {
+        return (
+          <React.Fragment>
+            <Typography color="primary" variant="h4">
+              Proposal Submitted On time
+            </Typography>
+            <Typography style={{ marginBottom: "40px" }} variant="h4">
+              Your Proposal <b>{propTitle}</b> has been approved. Please start
+              working on it.
+            </Typography>
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <React.Fragment>
+            <Typography color="secondary" variant="h4">
+              Proposal Submitted Late
+            </Typography>
+            <Typography style={{ marginBottom: "40px" }} variant="h4">
+              Your Proposal <b>{propTitle}</b> has been approved. Please start
+              working on it.
+            </Typography>
+          </React.Fragment>
+        );
+      }
     } else {
-      return (
-        <Typography style={{ marginBottom: "40px" }} variant="h5">
-          Your Proposals are yet to be approved. Please check again later.
-        </Typography>
-      );
+      if (DueDate >= AppliedOn) {
+        return (
+          <React.Fragment>
+            <Typography color="primary" variant="h4">
+              Proposal Submitted On time
+            </Typography>
+            <Typography style={{ marginBottom: "40px" }} variant="h5">
+              Your Proposals are yet to be approved. Please check again later.
+            </Typography>
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <React.Fragment>
+            <Typography color="secondary" variant="h4">
+              Proposal Submitted Late
+            </Typography>
+            <Typography style={{ marginBottom: "40px" }} variant="h5">
+              Your Proposals are yet to be approved. Please check again later.
+            </Typography>
+          </React.Fragment>
+        );
+      }
     }
   }
   // console.log(propF)
