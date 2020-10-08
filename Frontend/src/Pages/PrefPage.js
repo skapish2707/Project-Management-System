@@ -118,12 +118,11 @@ class ControlledExpansionPanels extends React.Component {
   //axios request to send comments
   sendComment(Gid) {
     const { comment } = this.state;
-    if(comment === ""){
+    if (comment === "") {
       this.setState({
-        openFailure:true
-      })
-    }
-    else{
+        openFailure: true
+      });
+    } else {
       axios({
         method: "post",
         url: SERVER_URL + "/comment",
@@ -137,21 +136,20 @@ class ControlledExpansionPanels extends React.Component {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8"
         }
       })
-      .then(response => {
-        this.setState({ openSuccess: true, loading: false });
-        console.log(response);
-        this.setState({
-          adData: null,
-          comment: ""
-        });
-      })
+        .then(response => {
+          this.setState({ openSuccess: true, loading: false });
+          console.log(response);
+          this.setState({
+            adData: null,
+            comment: ""
+          });
+        })
 
-      .catch(err => {
-        this.setState({ openFailure: true, loading: false });
-        console.log(err);
-      });
+        .catch(err => {
+          this.setState({ openFailure: true, loading: false });
+          console.log(err);
+        });
     }
-    
   }
 
   checkData() {
@@ -230,6 +228,14 @@ class ControlledExpansionPanels extends React.Component {
             {Groups.map(group => {
               if (group.id === Group.id) {
                 let Proposals = group.proposals;
+                let Proposal1 = Proposals[0];
+                let Proposal2 = Proposals[1];
+                let Proposal3 = Proposals[2];
+                console.log(
+                  Proposal1.approval,
+                  Proposal2.approval,
+                  Proposal3.approval
+                );
                 let Comments = group.comments;
                 return (
                   <div key={group.id}>
@@ -336,7 +342,7 @@ class ControlledExpansionPanels extends React.Component {
                                 <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
                                   {/* {proposal.applied.split("T")[0]} */}
-                                  {proposal.applied.substr(0,10)}
+                                  {proposal.applied.substr(0, 10)}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
@@ -386,7 +392,10 @@ class ControlledExpansionPanels extends React.Component {
                                 sm={6}
                                 style={{ textAlign: "right" }}
                               >
-                                {!proposal.approval.admin ? (
+                                {!proposal.approval.admin &&
+                                !Proposal1.approval.hod &&
+                                !Proposal2.approval.hod &&
+                                !Proposal3.approval.hod ? (
                                   <Button
                                     variant="contained"
                                     color="primary"
@@ -402,10 +411,18 @@ class ControlledExpansionPanels extends React.Component {
                                     {proposal.approval.hod ? (
                                       <Button
                                         variant="contained"
+                                        color="primary"
+                                        size="large"
+                                      >
+                                        This Proposal is Selected
+                                      </Button>
+                                    ) : proposal.approval.admin ? (
+                                      <Button
+                                        variant="contained"
                                         color="secondary"
                                         size="large"
                                       >
-                                        Approval Done
+                                        Waiting For Hod Approval
                                       </Button>
                                     ) : (
                                       <Button
@@ -413,7 +430,7 @@ class ControlledExpansionPanels extends React.Component {
                                         color="secondary"
                                         size="large"
                                       >
-                                        Already Approved
+                                        Approved Another Proposal
                                       </Button>
                                     )}
                                   </div>
