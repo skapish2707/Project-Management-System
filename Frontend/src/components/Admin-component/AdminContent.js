@@ -256,6 +256,7 @@ class AdminContent extends Component {
     })
       .then(res => {
         Ad = res.data.length;
+        // console.log(res.data)
         Groups = res.data;
         this.setState({
           adData: "new",
