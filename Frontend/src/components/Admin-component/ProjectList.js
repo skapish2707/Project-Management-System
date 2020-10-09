@@ -4,7 +4,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@material-ui/core";
+import { CircularProgress, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Menu, MenuItem, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -78,6 +78,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+let Guides = null;
+let guideIndex=null;
+
 export default function ControlledAccordions(props) {
   const histor = useHistory();
   const classes = useStyles();
@@ -88,11 +91,78 @@ export default function ControlledAccordions(props) {
   const [guideName,setGuideName] = React.useState("");
   const [guideEmail,setGuideEmail] =React.useState("");
   const [loading,setLoading]=React.useState(false)
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [menuLoading,setMenuLoading]=React.useState(false)
+  const [assignLoading,setAssignLoading]=React.useState(false)
 
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setMenuLoading(true)
+    axios({
+      method: "get",
+      url: SERVER_URL + "/getGuide",
+      withCredentials: true
+    })
+    .then(res => {
+      Guides = res.data;
+      setMenuLoading(false)
+      console.log(Guides);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  };
+
+  const handleMenuClose = (event,index1) => {
+    if(index1==="backdropClick"){
+      console.log(index1)
+      setAnchorEl(null);
+    }else{
+      guideIndex=index1;
+      console.log(index1)
+      setAnchorEl(null);
+    }
+  };
   
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const assignGuide = (e,id) => {
+    
+    if(guideIndex===null){
+      alert("Please select a guide first")
+    }else{
+      setAssignLoading(true)
+      // console.log(Guides[guideIndex].name);
+      // console.log(Guides[guideIndex].email);
+      // console.log(id);
+      axios({
+        method: "post",
+        url: SERVER_URL + "/addGuide",
+        credentials: "include",
+        withCredentials: true,
+        data: qs.stringify({
+          name:Guides[guideIndex].name,
+          email:Guides[guideIndex].email,
+          groupId:id
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        }
+      })
+      .then(res => {
+        console.log("submitted")
+        setAssignLoading(false)
+      })
+
+      .catch(err => {
+        alert("Guide not assigned")
+        setAssignLoading(false)
+        console.log(err);
+      });
+    }
+  }
 
   const handleCloseSubmit = () => {
     setLoading(true)
@@ -307,7 +377,7 @@ export default function ControlledAccordions(props) {
                             </Grid>
                             <Grid item xs={12}>
                               {members.map(member => {
-                                return <Typography>{member.name}</Typography>;
+                                return <Typography key={member.email}>{member.name}</Typography>;
                               })}
                             </Grid>
                           </Grid>
@@ -322,7 +392,7 @@ export default function ControlledAccordions(props) {
                             </Grid>
                             <Grid item xs={12}>
                               {members.map(member => {
-                                return <Typography>{member.email}</Typography>;
+                                return <Typography key={member.email}>{member.email}</Typography>;
                               })}
                             </Grid>
                           </Grid>
@@ -337,7 +407,7 @@ export default function ControlledAccordions(props) {
                             </Grid>
                             <Grid item xs={12}>
                               {members.map(member => {
-                                return <Typography>{member.rollno}</Typography>;
+                                return <Typography key={member.email}>{member.rollno}</Typography>;
                               })}
                             </Grid>
                           </Grid>
@@ -363,13 +433,53 @@ export default function ControlledAccordions(props) {
                               >
                                 Show Preferences
                               </Button>
-                              <Button
-                                style={{ marginLeft: "15px" }}
-                                variant="outlined"
-                                color="primary"
-                              >
-                                Guide
-                              </Button>
+                              
+                                <Button style={{marginLeft : "20px"}} aria-controls="simple-menu" variant="outlined" color="primary" aria-haspopup="true" onClick={handleMenuClick}>
+                                  Guide
+                                </Button>
+                                
+                                <Menu
+                                  id="simple-menu"
+                                  anchorEl={anchorEl}
+                                  keepMounted
+                                  open={Boolean(anchorEl)}
+                                  onClose={handleMenuClose}
+                                  style={{minWidth:"500px"}}
+                                >
+                                  { anchorEl ? (
+                                    <div>
+                                      { !menuLoading ? (
+                                        <div>
+                                          {Guides.map((Guide,index) => {
+                                            return(
+                                              <div key={Guide.email}>
+                                                {/* <ClickAwayListener onClickAway={()=>{setClicked(true)}}> */}
+                                                  <MenuItem onClick={(e) => {handleMenuClose(e,index)}}>{Guide.name}</MenuItem>
+                                                {/* </ClickAwayListener> */}
+                                              </div>
+                                            )
+                                          })}
+                                      </div>
+                                      ) : (
+                                        <div>
+                                          <CircularProgress style={{margin:"auto"}}/>
+                                        </div>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    null
+                                  )}
+                                </Menu>
+                              { (guideIndex!==null) ? (
+                                  <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">{Guides[guideIndex].name}</Button>
+                              ) : (
+                                <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">Guide not selected</Button>
+                              )}
+                              { !assignLoading ? (
+                                  <Button variant="contained" color="secondary" onClick={(e)=>assignGuide(e,id)}>Assign Guide</Button>
+                              ) : (
+                                  <CircularProgress />
+                              )}
                             </div>
                           ) : (
                             <Button disabled variant="outlined" color="secondary">
