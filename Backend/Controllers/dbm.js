@@ -174,7 +174,7 @@ async function addComment(staff,groupId,msg){
 }
 
 async function addGuide(email,name,groupId){
-  await Group.findByIdAndUpdate(groupId,{name:"groupname 1",guide:{name : name.trim() ,email : email.trim()}});
+  await Group.findByIdAndUpdate(groupId,{guide:{name : name.trim() ,email : email.trim()}});
 }
 
 async function getGuide(admin){

@@ -3,6 +3,21 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import { Grid } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
+
+const theme = createMuiTheme();
+
+theme.typography.h3 = {
+  fontSize: '1.5rem',
+  '@media (min-width:600px)': {
+    fontSize: '2rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '2.4rem',
+  },
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +42,8 @@ const useStyles = makeStyles(theme => ({
 export default function Profile(props) {
   const classes = useStyles();
   const userInfo = props;
+  const academicYear=props.academicYear;
+  console.log(props)
   return (
     <Card
       className={classes.root}
@@ -38,16 +55,45 @@ export default function Profile(props) {
       }}
     >
       <CardContent>
-        <Typography variant="h4" style={{ fontWeight: "600" }}>
-          User Details -
-        </Typography>
-        <Typography className={classes.title}>
-          <b> Name:</b> {userInfo.userInfo.name} &nbsp;&nbsp;&nbsp;&nbsp;
-          <b> Designation:</b> {userInfo.userInfo.type} &nbsp;&nbsp;&nbsp;&nbsp;
-          <b> Department:</b> {userInfo.userInfo.department}{" "}
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <b>Email:</b> {userInfo.userInfo.email}
-        </Typography>
+        <ThemeProvider theme={theme}>
+          <Grid container spacing={2}>
+            <Grid item xs={1}>
+              <AccountBoxRoundedIcon style={{ fontSize: 50 }} />
+            </Grid>
+            <Grid item xs={11}>
+              <Typography variant="h3" style={{ fontWeight: "600", paddingBottom:"20px", }}>
+                User Details -
+              </Typography>
+            </Grid>
+          </Grid>
+        </ThemeProvider>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography className={classes.title}>
+                <b> Name:</b> {userInfo.userInfo.name}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography className={classes.title}>
+                <b> Designation:</b> {userInfo.userInfo.type}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography className={classes.title}>
+                <b> Department:</b> {userInfo.userInfo.department}
+              </Typography>
+            </Grid>            
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography className={classes.title}>
+                <b>Email:</b> {userInfo.userInfo.email}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography className={classes.title}>
+                <b>Academic Year:</b> {academicYear}
+              </Typography>
+            </Grid>
+          </Grid>
       </CardContent>
     </Card>
   );

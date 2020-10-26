@@ -15,6 +15,8 @@ import StudentContent from "./StudentContent";
 import Profile from "../Profile";
 import StudentHomePage from "./studentHomePage";
 import StudentCommentPage from "./StudentCommentPage";
+import axios from "axios";
+import SERVER_URL from "../../Pages/URL";
 
 let userInfo = [];
 
@@ -95,9 +97,28 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+let Group=null;
+
 const StudentWholePage = props => {
   userInfo = props.userInfo;
   //console.log(userInfo.name);
+
+  const [academicYear,setAcademicYear] = React.useState("");
+
+  function checkData() {
+    axios({
+      method: "get",
+      url: SERVER_URL + "/group",
+      withCredentials: true
+    })
+      .then(res => {
+        Group = res.data;
+        setAcademicYear(Group.acadYear);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -107,7 +128,8 @@ const StudentWholePage = props => {
   };
   return (
     <React.Fragment>
-      <Profile userInfo={userInfo} />
+      {checkData()}
+      <Profile academicYear={academicYear} userInfo={userInfo} />
       <div
         style={{
           boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
