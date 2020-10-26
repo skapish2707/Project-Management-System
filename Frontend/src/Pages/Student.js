@@ -24,12 +24,18 @@ export default class Admin extends Component {
   }
 
   getStat = () => {
+    let access_token = localStorage.getItem("access_token")
+    console.log("before axios ",access_token)
     axios({
       method: "get",
       url: SERVER_URL + "/user",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+access_token
+      }
     })
       .then(res => {
+        console.log(res.data);
         this.setState({
           loggedIn: true,
           user: res.data
@@ -38,6 +44,7 @@ export default class Admin extends Component {
       .catch(err => {
         this.setState({ user: "NO user" });
         localStorage.removeItem("token");
+        localStorage.removeItem("access_token");
       });
   };
 

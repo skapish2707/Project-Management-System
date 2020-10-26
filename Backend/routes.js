@@ -1,11 +1,24 @@
+require('dotenv').config();
 var express = require('express')
 var router = express.Router();
 var dbm = require('./Controllers/dbm');
 var xlsx = require('node-xlsx');
 var passport = dbm.passport;
-require('dotenv').config();
+var jwt = require('jsonwebtoken');
 
-router.get('/user',function(req,res){
+
+function authenticateToken(req,res,next){
+	const authHeader = req.headers['authorization'];
+	const token =authHeader && authHeader.split(' ')[1];
+	if (token==null) return res.sendStatus(401);
+	jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,function(err,user){
+		if(err) return res.sendStatus(403);
+		req.user = user;
+		next();
+	})
+}
+
+router.get('/user',authenticateToken,function(req,res){
 	if (!req.user) return res.status(404).send(null);
 	if (req.user) return res.json({
 		email : req.user.email,
@@ -16,37 +29,26 @@ router.get('/user',function(req,res){
 		rollno : req.user.rollno,
 	});
 });
-
-router.get('/group',async function(req,res){
-	if(!req.user) return res.status(404).send();
-	if(req.user.type != 'student') return res.status(404).send();
-	try {
-		group =  await dbm.getGroup(req.user);
-		return res.status(200).send(group);
-	}catch{
-		return res.status(500).send();
-	}
-
-});
-
-router.post('/login',passport.authenticate('local'),function(req,res){
+router.post('/login',passport.authenticate('local',{session: false}),function(req,res){
 	if (!req.user) return res.status(404).send(null);
+
+	const user = {id:req.user.id,email : req.user.email,type : req.user.type,department : req.user.department,groupName : req.user.groupName,name : req.user.name,rollno : req.user.rollno,admin:req.user.admin}
+	const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn: '5m'});
 	return res.json({
-		email : req.user.email,
-		type : req.user.type,
-		department : req.user.department,
-		groupName : req.user.groupName,
-		name : req.user.name,
-		rollno : req.user.rollno,
+		access_token:access_token,
+		// email : req.user.email,
+		 type : req.user.type
+		// department : req.user.department,
+		// groupName : req.user.groupName,
+		// name : req.user.name,
+		// rollno : req.user.rollno,
 	});
 });
-
 router.get('/logout', function(req, res){
 	if (!req.user) return res.status(404).send(null);
 	req.logout();
 	return res.status(200).send("logout Out Successfully");
 });
-
 router.post('/changePassword',function(req,res){
 	if (!req.isAuthenticated()) return res.status(404).send();
 
@@ -60,10 +62,22 @@ router.post('/changePassword',function(req,res){
 		return res.status(200).send("Your password was changed please login again");
 	}
 	else 
-		return res.status(500).send();
-				
+		return res.status(500).send();			
 });
 
+
+
+router.get('/group',authenticateToken,async function(req,res){
+	if(!req.user) return res.status(404).send();
+	if(req.user.type != 'student') return res.status(404).send();
+	try {
+		group =  await dbm.getGroup(req.user);
+		return res.status(200).send(group);
+	}catch{
+		return res.status(500).send();
+	}
+
+});
 
 router.post('/yami',function(req,res){
 	if (!req.user) return res.status(404).send();
