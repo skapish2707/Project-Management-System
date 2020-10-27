@@ -92,27 +92,14 @@ export default function ControlledAccordions(props) {
   const [guideEmail,setGuideEmail] =React.useState("");
   const [loading,setLoading]=React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [menuLoading,setMenuLoading]=React.useState(false)
   const [assignLoading,setAssignLoading]=React.useState(false)
 
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setMenuLoading(true)
-    axios({
-      method: "get",
-      url: SERVER_URL + "/getGuide",
-      withCredentials: true
-    })
-    .then(res => {
-      Guides = res.data;
-      setMenuLoading(false)
-      console.log(Guides);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-  };
 
+//Guide Menu
+  const handleMenuClick = (event) => {
+    //console.log(Guides)
+    setAnchorEl(event.currentTarget);
+  };
   const handleMenuClose = (event,index1) => {
     if(index1==="backdropClick"){
       console.log(index1)
@@ -123,47 +110,15 @@ export default function ControlledAccordions(props) {
       setAnchorEl(null);
     }
   };
-  
+
+  //Add Guide Button & different options in Dialog Box
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const assignGuide = (e,id) => {
-    
-    if(guideIndex===null){
-      alert("Please select a guide first")
-    }else{
-      setAssignLoading(true)
-      // console.log(Guides[guideIndex].name);
-      // console.log(Guides[guideIndex].email);
-      // console.log(id);
-      axios({
-        method: "post",
-        url: SERVER_URL + "/addGuide",
-        credentials: "include",
-        withCredentials: true,
-        data: qs.stringify({
-          name:Guides[guideIndex].name,
-          email:Guides[guideIndex].email,
-          groupId:id
-        }),
-        headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
-        }
-      })
-      .then(res => {
-        console.log("submitted")
-        setAssignLoading(false)
-      })
-
-      .catch(err => {
-        alert("Guide not assigned")
-        setAssignLoading(false)
-        console.log(err);
-      });
-    }
-  }
-
+  const handleCloseCancel = () => {
+    console.log("CANCEL")
+    setOpen(false);
+  };
   const handleCloseSubmit = () => {
     setLoading(true)
     if(guideName==="" || guideEmail===""){
@@ -179,7 +134,8 @@ export default function ControlledAccordions(props) {
           email:guideEmail
         }),
         headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization : 'Bearer '+ localStorage.getItem("access_token")
         }
       })
       .then(res => {
@@ -188,6 +144,7 @@ export default function ControlledAccordions(props) {
         setGuideName("")
         setGuideEmail("")
         setOpen(false);
+        window.location.reload(false);
       })
 
       .catch(err => {
@@ -197,13 +154,46 @@ export default function ControlledAccordions(props) {
         setOpen(false);
       });
     }
-    
   };
 
-  const handleCloseCancel = () => {
-    console.log("CANCEL")
-    setOpen(false);
-  };
+// Assign Guide button
+
+  const assignGuide = (e,id) => {  
+    if(guideIndex===null){
+      alert("Please select a guide first")
+    }else{
+      setAssignLoading(true)
+      axios({
+        method: "post",
+        url: SERVER_URL + "/addGuide",
+        credentials: "include",
+        withCredentials: true,
+        data: qs.stringify({
+          name:Guides[guideIndex].name,
+          email:Guides[guideIndex].email,
+          groupId:id
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          "Authorization" : 'Bearer '+ localStorage.getItem("access_token")
+        }
+      })
+      .then(res => {
+        console.log("submitted")
+        setAssignLoading(false)
+        window.location.reload(false);
+      })
+
+      .catch(err => {
+        alert("Guide not assigned")
+        setAssignLoading(false)
+        console.log(err);
+      });
+    }
+  }
+
+
+// Dialog box Guide name and email
 
   const handleGNameChange = (e) => {
     setGuideName(e.target.value)
@@ -213,19 +203,26 @@ export default function ControlledAccordions(props) {
     setGuideEmail(e.target.value)
   }
 
+  // Tabs handleChange
 
   const handleChangeT = (event, newValue) => {
     setValue(newValue);
   };
 
+  // SwipeableView index changing
+
   const handleChangeIndex = index => {
     setValue(index);
   };
+
+// Accordion handleChange
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
   const Groups = props.Groups;
+  const Guides = props.Guides;
+  let e={}
 
   return (
     <div>
@@ -250,7 +247,6 @@ export default function ControlledAccordions(props) {
                   required
                 />
                 <TextField
-                  autoFocus
                   margin="dense"
                   id="guideEmail"
                   label="Guide Email"
@@ -382,7 +378,6 @@ export default function ControlledAccordions(props) {
                             </Grid>
                           </Grid>
                         </Grid>
-
                         <Grid item xs={12} sm={5}>
                           <Grid container>
                             <Grid item xs={12}>
@@ -397,7 +392,6 @@ export default function ControlledAccordions(props) {
                             </Grid>
                           </Grid>
                         </Grid>
-
                         <Grid item xs={12} sm={3}>
                           <Grid container>
                             <Grid item xs={12}>
@@ -426,18 +420,18 @@ export default function ControlledAccordions(props) {
                         <Grid item xs={12}>
                           {Group.proposals.length === 3 ? (
                             <div>
-                              <Button
-                                onClick={routeChange}
-                                variant="outlined"
-                                color="primary"
-                              >
-                                Show Preferences
-                              </Button>
-                              
-                                <Button style={{marginLeft : "20px"}} aria-controls="simple-menu" variant="outlined" color="primary" aria-haspopup="true" onClick={handleMenuClick}>
-                                  Guide
+                                <Button
+                                  onClick={routeChange}
+                                  variant="outlined"
+                                  color="primary"
+                                >
+                                  Show Preferences
                                 </Button>
-                                
+                                {(Group.guide.name===null)?(
+                                  <div>
+                                    <Button style={{marginLeft : "20px"}} aria-controls="simple-menu" variant="outlined" color="primary" aria-haspopup="true" onClick={handleMenuClick}>
+                                  Assign Guide
+                                </Button>          
                                 <Menu
                                   id="simple-menu"
                                   anchorEl={anchorEl}
@@ -448,38 +442,37 @@ export default function ControlledAccordions(props) {
                                 >
                                   { anchorEl ? (
                                     <div>
-                                      { !menuLoading ? (
-                                        <div>
-                                          {Guides.map((Guide,index) => {
-                                            return(
-                                              <div key={Guide.email}>
-                                                {/* <ClickAwayListener onClickAway={()=>{setClicked(true)}}> */}
-                                                  <MenuItem onClick={(e) => {handleMenuClose(e,index)}}>{Guide.name}</MenuItem>
-                                                {/* </ClickAwayListener> */}
-                                              </div>
-                                            )
-                                          })}
-                                      </div>
-                                      ) : (
-                                        <div>
-                                          <CircularProgress style={{margin:"auto"}}/>
-                                        </div>
-                                      )}
+                                        {Guides.map((Guide,index) => {
+                                          return(
+                                            <div key={Guide.email}>
+                                              {/* <ClickAwayListener onClickAway={()=>{setClicked(true)}}> */}
+                                                <MenuItem onClick={(e) => {handleMenuClose(e,index)}}>{Guide.name}</MenuItem>
+                                              {/* </ClickAwayListener> */}
+                                            </div>
+                                          )
+                                        })}
                                     </div>
                                   ) : (
                                     null
                                   )}
                                 </Menu>
-                              { (guideIndex!==null) ? (
-                                  <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">{Guides[guideIndex].name}</Button>
-                              ) : (
-                                <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">Guide not selected</Button>
+                                { (guideIndex!==null) ? (
+                                    <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">{Guides[guideIndex].name}</Button>
+                                ) : (
+                                  <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">Guide not selected</Button>
+                                )}
+                                { !assignLoading ? (
+                                    <Button style={{marginLeft:"20px"}} variant="contained" color="secondary" onClick={(e)=>assignGuide(e,id)}>Assign Guide</Button>
+                                ) : (
+                                    <CircularProgress />
+                                )}
+                              </div>
+                              ):(
+                                <div>
+                                  <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">{Group.guide.name}</Button>
+                                </div>
                               )}
-                              { !assignLoading ? (
-                                  <Button variant="contained" color="secondary" onClick={(e)=>assignGuide(e,id)}>Assign Guide</Button>
-                              ) : (
-                                  <CircularProgress />
-                              )}
+                              
                             </div>
                           ) : (
                             <Button disabled variant="outlined" color="secondary">
