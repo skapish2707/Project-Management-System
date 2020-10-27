@@ -16,12 +16,10 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
-		// CUSTOM CHANGE TO DATABASE HERE 
-    
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
-        // User.findOne({email:"newTrial@admin.com"},function(err,admin){
+        // User.findOne({email:"Baburao@admin.com"},function(err,admin){          
         //   if(err) throw err ;
-        //   User.deleteMany({admin:admin.id},function(err){
+        //   User.deleteMany({admin:admin.id,type:"guide"},function(err){
         //       if (err) throw err
         //           console.log('deleted all user created by ', admin.email)
         //   })
@@ -78,7 +76,11 @@ async function generateGroups(admin,dueDate,acadYear) {
           members: [],
           admin: admin.id,
           dueDate:dueDate,
-          acadYear:acadYear
+          acadYear:acadYear,
+          guide : {
+            name :null,
+            email : null
+          }
         });
       }
       group.members.push({
@@ -244,15 +246,15 @@ passport.use(
     });
   })
 );
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    if (err) return done(err);
-    else return done(null, user);
-  });
-});
+// passport.serializeUser(function (user, done) {
+//   done(null, user.id);
+// });
+// passport.deserializeUser(function (id, done) {
+//   User.findById(id, function (err, user) {
+//     if (err) return done(err);
+//     else return done(null, user);
+//   });
+// });
 
 module.exports = {
   addToDatabase: addToDatabase,

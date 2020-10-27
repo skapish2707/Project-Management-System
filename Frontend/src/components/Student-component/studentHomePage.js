@@ -38,19 +38,23 @@ let fill = false;
 let Group = null;
 
 const StudentHomePage = () => {
-  const [propFilled, setPropFilled] = useState(false);
-  const [stuData, setStuData] = useState(null);
-  const [filled, setFilled] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const classes = useStyles();
-  function checkData() {
-    setLoading(true);
-    axios({
-      method: "get",
-      url: SERVER_URL + "/group",
-      withCredentials: true
-    })
-      .then(res => {
+
+    const [propFilled,setPropFilled] = useState(false)
+    const [stuData, setStuData] = useState(null);
+    const [filled, setFilled ] = useState(false);
+    const [loading,setLoading] = useState(false);
+    const classes = useStyles();
+    function checkData() {
+        setLoading(true);
+        axios({
+            method: "get",
+            url: SERVER_URL + "/group",
+            withCredentials: true,
+            headers : {
+                Authorization : 'Bearer '+localStorage.getItem("access_token"),
+            }
+        })
+        .then(res => {
         Group = res.data;
         DueDate = Group.dueDate.split("T")[0];
         AppliedOn = Group.proposals[0].applied.split("T")[0];

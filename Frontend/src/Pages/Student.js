@@ -24,12 +24,17 @@ export default class Admin extends Component {
   }
 
   getStat = () => {
+    
     axios({
       method: "get",
       url: SERVER_URL + "/user",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
+        console.log(res.data);
         this.setState({
           loggedIn: true,
           user: res.data
@@ -38,6 +43,7 @@ export default class Admin extends Component {
       .catch(err => {
         this.setState({ user: "NO user" });
         localStorage.removeItem("token");
+        localStorage.removeItem("access_token");
       });
   };
 

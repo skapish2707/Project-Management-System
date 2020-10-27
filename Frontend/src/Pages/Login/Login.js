@@ -20,6 +20,7 @@ function Alert(props) {
 }
 
 let Data = "";
+let data_access = "";
 let Ad = [];
 var today = new Date(),
   date =
@@ -96,7 +97,6 @@ class Login extends Component {
 
     if (token == null) {
       loggedIn = false;
-
       console.log("token is null");
     }
     this.state = {
@@ -145,7 +145,8 @@ class Login extends Component {
         function (response) {
           console.log(response.data);
           Data = response.data.type;
-
+          data_access = response.data.access_token;
+          localStorage.setItem("access_token", response.data.access_token);
           this.setState({
             user: response.data.type,
             loggedIn: true,
@@ -153,8 +154,7 @@ class Login extends Component {
             getResponse: false
           });
           console.log(this.state.msg, this.state.user);
-          // localStorage.setItem("token", response.data.type);
-        }.bind(this)
+                  }.bind(this)
       )
 
       .catch(err => {
@@ -218,7 +218,10 @@ class Login extends Component {
       localStorage.setItem("token", "hod");
       Data = "";
     }
-    if (Data === "student") localStorage.setItem("token", "student");
+    if (Data === "student") {
+      localStorage.setItem("token", "student");
+      localStorage.setItem("access_token",data_access);
+    }
     Data = "";
     if (this.state.loggedIn) {
       const token = localStorage.getItem("token");
