@@ -45,12 +45,12 @@ router.post('/login',passport.authenticate('local',{session: false}),function(re
 	});
 });
 router.get('/logout', function(req, res){
-	if (!req.user) return res.status(404).send(null);
-	req.logout();
+	if (!req.user) return res.status(404).send();
+	//req.logout();
 	return res.status(200).send("logout Out Successfully");
 });
-router.post('/changePassword',function(req,res){
-	if (!req.isAuthenticated()) return res.status(404).send();
+router.post('/changePassword',authenticateToken,function(req,res){
+	if (!req.user) return res.status(404).send();
 
 	// newPassword , confirmPassword
 	if (req.body.newPassword !== req.body.confirmPassword)
