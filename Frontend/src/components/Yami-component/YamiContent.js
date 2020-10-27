@@ -99,7 +99,8 @@ class YamiContent extends Component {
         department: dept
       }),
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
       }
     })
       .then(response => {

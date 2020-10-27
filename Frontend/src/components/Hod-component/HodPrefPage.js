@@ -133,7 +133,9 @@ class HodPrefPage extends Component {
           msg: comment
         }),
         headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+           Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+          
         }
       })
       .then(response => {
@@ -157,7 +159,10 @@ class HodPrefPage extends Component {
     axios({
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         Ad = res.data.length;
@@ -185,7 +190,9 @@ class HodPrefPage extends Component {
         pid: pid
       }),
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+
       }
     })
       .then(response => {
