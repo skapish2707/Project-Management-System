@@ -44,7 +44,7 @@ router.post('/login',passport.authenticate('local',{session: false}),function(re
 		// rollno : req.user.rollno,
 	});
 });
-router.get('/logout', function(req, res){
+router.get('/logout',authenticateToken, function(req, res){
 	if (!req.user) return res.status(404).send();
 	//req.logout();
 	return res.status(200).send("logout Out Successfully");
