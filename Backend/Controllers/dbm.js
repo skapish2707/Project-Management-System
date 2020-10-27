@@ -76,7 +76,11 @@ async function generateGroups(admin,dueDate,acadYear) {
           members: [],
           admin: admin.id,
           dueDate:dueDate,
-          acadYear:acadYear
+          acadYear:acadYear,
+          guide : {
+            name :null,
+            email : null
+          }
         });
       }
       group.members.push({
