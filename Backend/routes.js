@@ -79,7 +79,7 @@ router.get('/group',authenticateToken,async function(req,res){
 
 });
 
-router.post('/yami',function(req,res){
+router.post('/yami',authenticateToken,function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type!="yami") return res.status(404).send();
 	
@@ -94,7 +94,7 @@ router.post('/yami',function(req,res){
 });
 
 
-router.post('/admin',async function(req,res){
+router.post('/admin',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin') return res.status(404).send();
 	
@@ -153,7 +153,7 @@ router.post('/admin',async function(req,res){
 });
 
 //getStudents?by=name
-router.get('/getStudents',async function(req,res){
+router.get('/getStudents',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type == 'student') return res.status(404).send();
 	let items = await dbm.getStudents(req.user,req.query.by);
@@ -161,7 +161,7 @@ router.get('/getStudents',async function(req,res){
 });
 
 
-router.post('/student', async function(req,res){
+router.post('/student',authenticateToken, async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'student') return res.status(404).send();
 	if (!req.files) return res.status(422).send();
@@ -189,7 +189,7 @@ router.post('/student', async function(req,res){
 	}
 });
 
-router.post('/comment',async function(req,res){
+router.post('/comment',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type =='student') return res.status(404).send();
 	// id => group id
@@ -202,7 +202,7 @@ router.post('/comment',async function(req,res){
 	}
 });
 
-router.post('/approve',async function(req,res){	
+router.post('/approve',authenticateToken,async function(req,res){	
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin' && req.user.type != 'hod') return res.status(404).send();
 	// id => group id
@@ -215,7 +215,7 @@ router.post('/approve',async function(req,res){
 	}
 })
 
-router.post('/addmember',async function(req,res){
+router.post('/addmember',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin') return res.status(404).send();
 
@@ -235,7 +235,7 @@ router.post('/addmember',async function(req,res){
 	}
 })
 
-router.post('/updateDueDate',async function(req,res){
+router.post('/updateDueDate',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send()
 	if (req.user.type != 'admin') return res.status(404).send()
 	try {
@@ -248,7 +248,7 @@ router.post('/updateDueDate',async function(req,res){
 })
 
 //serverURL/addGuide?type=new
-router.post('/addGuide',async function(req,res){
+router.post('/addGuide',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin') return res.status(404).send();
 	// email 
@@ -266,7 +266,7 @@ router.post('/addGuide',async function(req,res){
 		return res.status(500).send();
 	}
 })
-router.get('/getGuide',async function(req,res){
+router.get('/getGuide',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin') return res.status(404).send();
 	try {
