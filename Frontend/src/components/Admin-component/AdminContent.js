@@ -214,7 +214,8 @@ class AdminContent extends Component {
       withCredentials: true,
       data: formData,
       headers: {
-        "Content-Type": "multipart/form-data"
+        "Content-Type": "multipart/form-data",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token")
       }
     })
       .then(res => {
@@ -253,7 +254,10 @@ class AdminContent extends Component {
     axios({
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         Ad = res.data.length;
@@ -273,7 +277,10 @@ class AdminContent extends Component {
     axios({
       method: "get",
       url: SERVER_URL + "/getGuide",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
     .then(res => {
       Guides = res.data;

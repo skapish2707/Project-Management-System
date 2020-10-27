@@ -134,7 +134,8 @@ export default function ControlledAccordions(props) {
           email:guideEmail
         }),
         headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization : 'Bearer '+ localStorage.getItem("access_token")
         }
       })
       .then(res => {
@@ -173,7 +174,8 @@ export default function ControlledAccordions(props) {
           groupId:id
         }),
         headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          "Authorization" : 'Bearer '+ localStorage.getItem("access_token")
         }
       })
       .then(res => {
@@ -425,7 +427,6 @@ export default function ControlledAccordions(props) {
                                 >
                                   Show Preferences
                                 </Button>
-                                {console.log(Group.guide)}
                                 {(Group.guide.name===null)?(
                                   <div>
                                     <Button style={{marginLeft : "20px"}} aria-controls="simple-menu" variant="outlined" color="primary" aria-haspopup="true" onClick={handleMenuClick}>
