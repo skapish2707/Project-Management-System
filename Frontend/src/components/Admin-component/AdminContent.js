@@ -27,6 +27,7 @@ import {
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import SideMenu from "./SideMenu"
 
 function appendLeadingZeroes(n) {
   if (n <= 9) {
@@ -524,6 +525,7 @@ class AdminContent extends Component {
         return (
           <React.Fragment>
             <LoggedNavbar />
+            <SideMenu/>
             <Profile academicYear={academicYear} userInfo={userInfo} />
             <div
               style={{

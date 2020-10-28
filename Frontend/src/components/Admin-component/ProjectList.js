@@ -18,7 +18,7 @@ import { toFirstCharUppercase } from "../ToUpper";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
-/* eslint no-restricted-globals:0 */
+
 
 
 function TabPanel(props) {

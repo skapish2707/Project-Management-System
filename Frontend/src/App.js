@@ -12,6 +12,9 @@ import NotFound from "./components/NotFound";
 import PrefPage from "./Pages/PrefPage";
 import Hod from "./Pages/Hod";
 import HodPrefPage from "./components/Hod-component/HodPrefPage";
+import AdminGroupsPage from "./components/Admin-component/AdminGroupsPage";
+import AdminGuidePage from "./components/Admin-component/AdminGuidePage";
+import AdminArchives from "./components/Admin-component/AdminArchives"
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
         <Route path="/cp@2707user" exact component={ChangePassword} />
         <Route path="/admin/prefs/:id" exact component={PrefPage} />
         <Route path="/hod/prefs/:id" exact component={HodPrefPage} />
+        <Route path="/admin/groups" exact component={AdminGroupsPage}/>
+        <Route path="/admin/guides" exact component={AdminGuidePage}/>
+        <Route path="/admin/archives" exact component={AdminArchives}/>
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>

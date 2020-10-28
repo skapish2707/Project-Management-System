@@ -33,7 +33,7 @@ router.post('/login',passport.authenticate('local',{session: false}),function(re
 	if (!req.user) return res.status(404).send(null);
 
 	const user = {id:req.user.id,email : req.user.email,type : req.user.type,department : req.user.department,groupName : req.user.groupName,name : req.user.name,rollno : req.user.rollno,admin:req.user.admin}
-	const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn: '5m'});
+	const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn: '60m'});
 	return res.json({
 		access_token:access_token,
 		// email : req.user.email,
