@@ -18,7 +18,10 @@ export default class Yami extends Component {
     axios({
       method: "get",
       url: SERVER_URL + "/user",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         this.setState({ user: res.data });

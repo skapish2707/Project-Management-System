@@ -24,14 +24,13 @@ export default class Admin extends Component {
   }
 
   getStat = () => {
-    let access_token = localStorage.getItem("access_token")
-    console.log("before axios ",access_token)
+    
     axios({
       method: "get",
       url: SERVER_URL + "/user",
       withCredentials: true,
       headers : {
-        Authorization : 'Bearer '+access_token
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
       }
     })
       .then(res => {

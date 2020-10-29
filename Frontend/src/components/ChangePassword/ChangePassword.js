@@ -75,7 +75,10 @@ class ChangePassword extends Component {
     axios({
       method: "get",
       url: SERVER_URL + "/user",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         this.setState({ user: res.data });
@@ -97,7 +100,8 @@ class ChangePassword extends Component {
         confirmPassword: this.state.confirmPassword
       }),
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
       }
     })
       .then(res => {

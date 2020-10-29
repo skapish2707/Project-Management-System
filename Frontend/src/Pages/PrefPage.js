@@ -133,7 +133,8 @@ class ControlledExpansionPanels extends React.Component {
           msg: comment
         }),
         headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization : 'Bearer '+ localStorage.getItem("access_token") 
         }
       })
         .then(response => {
@@ -156,7 +157,10 @@ class ControlledExpansionPanels extends React.Component {
     axios({
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         Ad = res.data.length;
@@ -186,7 +190,8 @@ class ControlledExpansionPanels extends React.Component {
         pid: pid
       }),
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
       }
     })
       .then(response => {

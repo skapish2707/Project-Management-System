@@ -18,7 +18,10 @@ const kickUser = () => {
   axios({
     method: "get",
     url: SERVER_URL + "/logout",
-    withCredentials: true
+    withCredentials: true,
+    headers : {
+      Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+    }
   })
     .then(function (res) {
       console.log(res.data);

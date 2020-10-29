@@ -109,7 +109,10 @@ const StudentWholePage = props => {
     axios({
       method: "get",
       url: SERVER_URL + "/group",
-      withCredentials: true
+      withCredentials: true,
+      headers:{
+        Authorization : 'Bearer '+ localStorage.getItem("access_token")
+      }
     })
       .then(res => {
         Group = res.data;
