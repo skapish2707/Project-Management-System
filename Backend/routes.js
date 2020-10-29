@@ -33,7 +33,7 @@ router.post('/login',passport.authenticate('local',{session: false}),function(re
 	if (!req.user) return res.status(404).send(null);
 
 	const user = {id:req.user.id,email : req.user.email,type : req.user.type,department : req.user.department,groupName : req.user.groupName,name : req.user.name,rollno : req.user.rollno,admin:req.user.admin}
-	const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn: '5m'});
+	const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn: '60m'});
 	return res.json({
 		access_token:access_token,
 		// email : req.user.email,
@@ -111,19 +111,14 @@ router.post('/admin',authenticateToken,async function(req,res){
 		return res.send("Please select A .csv file or a .xlsx file");
 
 	department = req.user.department.trim();
+	students = []
 	if (file.name.slice(-4,file.name.length) == ".csv")
 	{
 		lines = file.data.toString('utf8').split('\n');
-		for ( i = 0 ; i < lines.length ; i++ )
-		{
-			if (lines[i].trim() != ""){
+		for ( i = 0 ; i < lines.length ; i++ ){
+			if (lines[i].trim() != "" && lines[i].split(',').length == 4){
 				atributes = lines[i].split(',');
-				name = atributes[0].trim();
-				rollno = atributes[1].trim();
-				email = atributes[2].trim();
-				groupName = atributes[3].trim();
-				console.log(name,rollno,email,groupName);
-				await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
+				students.push([atributes[0].trim(),atributes[1].trim(),atributes[2].trim(),atributes[3].trim()])
 			}
 		 }
 	}
@@ -131,26 +126,31 @@ router.post('/admin',authenticateToken,async function(req,res){
 	{
 		lines = xlsx.parse(file.data)[0].data; // parses a buffer
 		for (i = 0 ; i < lines.length ; i++){
-			name = lines[i][0];
-			rollno = lines[i][1];
-			email = lines[i][2];
-			groupName = lines[i][3];
-
-			console.log(name,rollno,email,groupName);
-			await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
+			if(lines[i].length==4)
+				students.push(lines[i]);
 		}
-		
 	}
-	dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
-	// dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
-	// dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
-	try{
-		groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear);
+	// sconsole.log(students);
+	try {
+		groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear,students);
+		students.forEach(function(student){
+			dbm.addToDatabase(req.user,student[0],student[1],student[2],department,"student", student[3])
+		})
+		dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
 		res.status(200).send("OK");
 	}catch{
 		res.status(500).send();
 	}
+	
+
+	// await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
+	// dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
+	// dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
+	// dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
+	// groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear);
+		
 });
+
 
 //getStudents?by=name
 router.get('/getStudents',authenticateToken,async function(req,res){

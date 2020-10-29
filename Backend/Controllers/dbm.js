@@ -6,6 +6,7 @@ var fs = require("fs");
 require("dotenv").config();
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
+var sendmail = require('./sendmail');
 
 mongoose.connect(process.env.uri,{
 	useNewUrlParser : true,
@@ -17,9 +18,9 @@ mongoose.connect(process.env.uri,{
 	}else{
 		console.log("Connected to database");
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
-        // User.findOne({email:"Baburao@admin.com"},function(err,admin){          
+        // User.findOne({email:"newtest@admin.com"},function(err,admin){          
         //   if(err) throw err ;
-        //   User.deleteMany({admin:admin.id,type:"guide"},function(err){
+        //   User.deleteMany({admin:admin.id},function(err){
         //       if (err) throw err
         //           console.log('deleted all user created by ', admin.email)
         //   })
@@ -64,14 +65,14 @@ function saveLocallyForDevelopment(email, password) {
   });
 }
 
-async function generateGroups(admin,dueDate,acadYear) {
-    users = await User.find({ type: "student", admin: admin.id })
+async function generateGroups(admin,dueDate,acadYear,users) {
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
-      let group = await Group.findOne({ name: user.groupName,admin:admin.id });
+      let groupName = user[3].toLowerCase().trim().replace(/ /g, "")
+      let group = await Group.findOne({ name: groupName,admin:admin.id });
       if (!group) {
         group = await Group({
-          name: user.groupName,
+          name: groupName,
           department : user.department,
           members: [],
           admin: admin.id,
@@ -84,17 +85,24 @@ async function generateGroups(admin,dueDate,acadYear) {
         });
       }
       group.members.push({
-        name : user.name ,
-        email : user.email ,
-        rollno : user.rollno 
+        name : user[0],
+        email : user[2],
+        rollno : user[1]
       });
       await group.save();
     }
 }
 
 async function addToDatabase(admin,name,rollno,email, department, type, groupName = null) {
+    if(await User.findOne({email:email}))
+    {
+      console.log("a user with that email already exist")
+      return;
+    } 
     password = makePassword(8);
-    saveLocallyForDevelopment(email, password);//sendMailInProduction();
+    saveLocallyForDevelopment(email, password);
+    data = {admin_name:admin.name,email:email,password:password,name:name}
+    // sendmail(data,"registeration");
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     var user = User();
@@ -110,6 +118,7 @@ async function addToDatabase(admin,name,rollno,email, department, type, groupNam
     user.groupName = name;
     }
     await user.save();
+    console.log(user);
     return user;
 }
 async function addMemberToGroup(groupId,student){
