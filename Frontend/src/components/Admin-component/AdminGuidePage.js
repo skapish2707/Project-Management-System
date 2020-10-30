@@ -16,9 +16,11 @@ export default class AdminGuidePage extends Component {
 
     this.state = {
       loggedIn,
-      user: ""
+      user: "",
+      groupDetails:null
     };
   }
+
   getStat = () => {
     axios({
       method: "get",

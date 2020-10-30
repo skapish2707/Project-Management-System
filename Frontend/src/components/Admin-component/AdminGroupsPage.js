@@ -16,8 +16,9 @@ export default class AdminGuidePage extends Component {
 
     this.state = {
       loggedIn,
-      user: ""
-    };
+      user: "",
+      groupDetails:null
+      };
   }
   getStat = () => {
     axios({
@@ -43,7 +44,32 @@ export default class AdminGuidePage extends Component {
         localStorage.removeItem("token");
       });
   };
+  checkData() {
+    axios({
+      method: "get",
+      url: SERVER_URL + "/getStudents?by=group",
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
+    })
+      .then(res => {
+        console.log(res.data)
+        this.setState({
+          groupDetails:res.data
+          
+        },console.log(this.state.groupDetails));
+      })
+
+      .catch(function (err) {
+        console.log(err);
+      });
+      
+  }
   render() {
+    if (this.state.groupDetails === null){
+      this.checkData();
+    } 
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
