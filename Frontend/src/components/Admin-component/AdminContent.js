@@ -314,7 +314,7 @@ class AdminContent extends Component {
       if (Ad === 0) {
         return (
           <div className={classes.root}>
-            <LoggedNavbar />
+            <SideMenu/>
             <Profile userInfo={userInfo} />
             <AdminInstructions />
             <div
@@ -524,7 +524,6 @@ class AdminContent extends Component {
       if (Ad !== 0) {
         return (
           <React.Fragment>
-            <LoggedNavbar />
             <SideMenu/>
             <Profile academicYear={academicYear} userInfo={userInfo} />
             <div
