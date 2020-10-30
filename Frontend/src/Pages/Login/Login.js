@@ -208,7 +208,10 @@ class Login extends Component {
       localStorage.setItem("token", "admin");
       Data = "";
     }
-
+    if (Data === "guide") {
+      localStorage.setItem("token", "guide");
+      Data = "";
+    }
     if (Data === "ig") {
       localStorage.setItem("token", "faculty");
       Data = "";
@@ -235,6 +238,7 @@ class Login extends Component {
       if (token === "student") return <Redirect to="/student" exact />;
       if (token === "faculty") return <Redirect to="/faculty" exact />;
       if (token === "hod") return <Redirect to="/hod" exact />;
+      if (token === "guide") return <Redirect to="/guide" exact />;
     }
     const handleClose = (event, reason) => {
       if (reason === "clickaway") {
