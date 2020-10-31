@@ -15,6 +15,7 @@ import HodPrefPage from "./components/Hod-component/HodPrefPage";
 import AdminGroupsPage from "./components/Admin-component/AdminGroupsPage";
 import AdminGuidePage from "./components/Admin-component/AdminGuidePage";
 import AdminArchives from "./components/Admin-component/AdminArchives"
+import Guide from "./Pages/Guide"
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/faculty" exact component={Faculty} />
         <Route path="/student" exact component={Student} />
         <Route path="/yami" exact component={Yami} />
+        <Route path="/guide" exact component={Guide}/>
         <Route path="/cp@2707user" exact component={ChangePassword} />
         <Route path="/admin/prefs/:id" exact component={PrefPage} />
         <Route path="/hod/prefs/:id" exact component={HodPrefPage} />

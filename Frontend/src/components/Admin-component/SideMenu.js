@@ -109,8 +109,7 @@ export default function SideMenu(props) {
     bottom: false,
     right: false,
   });
-    console.log(histor)
-  const itemsList = [
+   const itemsList = [
     {
       text: "Home",
       icon: <HomeIcon />,
