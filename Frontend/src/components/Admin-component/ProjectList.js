@@ -417,9 +417,10 @@ export default function ControlledAccordions(props) {
                             </Typography>
                           )}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item container xs={12}>
                           {Group.proposals.length === 3 ? (
-                            <div>
+                            <React.Fragment>
+                              <Grid item xs={3}>
                                 <Button
                                   onClick={routeChange}
                                   variant="outlined"
@@ -427,53 +428,70 @@ export default function ControlledAccordions(props) {
                                 >
                                   Show Preferences
                                 </Button>
+                              </Grid>
+                              <Grid container item xs={9}>
                                 {(Group.guide.name===null)?(
-                                  <div>
-                                    <Button style={{marginLeft : "20px"}} aria-controls="simple-menu" variant="outlined" color="primary" aria-haspopup="true" onClick={handleMenuClick}>
-                                  Assign Guide
-                                </Button>          
-                                <Menu
-                                  id="simple-menu"
-                                  anchorEl={anchorEl}
-                                  keepMounted
-                                  open={Boolean(anchorEl)}
-                                  onClose={handleMenuClose}
-                                  style={{minWidth:"500px"}}
-                                >
-                                  { anchorEl ? (
-                                    <div>
-                                        {Guides.map((Guide,index) => {
-                                          return(
-                                            <div key={Guide.email}>
-                                              {/* <ClickAwayListener onClickAway={()=>{setClicked(true)}}> */}
-                                                <MenuItem onClick={(e) => {handleMenuClose(e,index)}}>{Guide.name}</MenuItem>
-                                              {/* </ClickAwayListener> */}
-                                            </div>
-                                          )
-                                        })}
-                                    </div>
-                                  ) : (
-                                    null
-                                  )}
-                                </Menu>
-                                { (guideIndex!==null) ? (
-                                    <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">{Guides[guideIndex].name}</Button>
-                                ) : (
-                                  <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">Guide not selected</Button>
-                                )}
-                                { !assignLoading ? (
-                                    <Button style={{marginLeft:"20px"}} variant="contained" color="secondary" onClick={(e)=>assignGuide(e,id)}>Assign Guide</Button>
-                                ) : (
-                                    <CircularProgress />
-                                )}
-                              </div>
+                                  <React.Fragment>
+                                    <Grid item xs={5} />
+                                    <Grid item xs={2}>
+                                      <Button style={{marginLeft : "20px"}} aria-controls="simple-menu" variant="outlined" color="primary" aria-haspopup="true" onClick={handleMenuClick}>
+                                        Select Guide
+                                      </Button>          
+                                      <Menu
+                                        id="simple-menu"
+                                        anchorEl={anchorEl}
+                                        keepMounted
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleMenuClose}
+                                        style={{minWidth:"500px"}}
+                                      >
+                                        { anchorEl ? (
+                                          <React.Fragment>
+                                              {Guides.map((Guide,index) => {
+                                                return(
+                                                  <React.Fragment key={Guide.email}>
+                                                    {/* <ClickAwayListener onClickAway={()=>{setClicked(true)}}> */}
+                                                      <MenuItem onClick={(e) => {handleMenuClose(e,index)}}>{Guide.name}</MenuItem>
+                                                    {/* </ClickAwayListener> */}
+                                                  </React.Fragment>
+                                                )
+                                              })}
+                                          </React.Fragment>
+                                        ) : (
+                                          null
+                                        )}
+                                      </Menu>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                      { (guideIndex!==null) ? (
+                                          <Button variant="outlined" color="secondary">{Guides[guideIndex].name}</Button>
+                                      ) : (
+                                        <Button variant="outlined" color="secondary">Guide not selected</Button>
+                                      )}
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                      { !assignLoading ? (
+                                          <Button style={{marginRight:"20px"}} variant="contained" color="secondary" onClick={(e)=>assignGuide(e,id)}>Assign Guide</Button>
+                                      ) : (
+                                          <CircularProgress />
+                                      )}
+                                    </Grid>
+                                 </React.Fragment>
                               ):(
-                                <div>
-                                  <Button style={{marginLeft:"20px"}} variant="outlined" color="secondary">{Group.guide.name}</Button>
-                                </div>
+                                <React.Fragment>
+                                  <Grid item xs={6} />
+                                  <Grid item xs={3}>
+                                    <Typography variant="h6" color="secondary">
+                                      Guide Assigned: 
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={3}>
+                                    <Typography variant="h6" color="secondary">{Group.guide.name}</Typography>
+                                  </Grid>
+                                </React.Fragment>
                               )}
-                              
-                            </div>
+                            </Grid> 
+                            </React.Fragment>
                           ) : (
                             <Button disabled variant="outlined" color="secondary">
                               <Typography>Preferences not filled</Typography>
