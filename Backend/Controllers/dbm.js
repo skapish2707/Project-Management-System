@@ -17,6 +17,12 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
+    // User.findOne({email:"ritvij@gmail.com"},function(err,user){
+    //   if (err) throw err;
+    //   console.log(user);
+    //   getGuideGroups(user);      
+    // })
+  
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
         // User.findOne({email:"newtest@admin.com"},function(err,admin){          
         //   if(err) throw err ;
@@ -201,6 +207,24 @@ async function getGuide(admin){
   }
   return custom_guides
 }
+async function getGuideGroups(user){
+  groups =  await Group.find({admin:user.admin,guide:{name:user.name,email:user.email}})
+  list_groups = []
+  for (let i=0; i<groups.length ; ++i){
+    // if(groups[i].guide.email && groups[i].guide.email.trim() == user.email.trim())
+      list_groups.push({
+        id : groups[i].id,
+        department : groups[i].department,
+        name : groups[i].name,
+        members : groups[i].members,
+        proposals :groups[i].proposals,
+        dueDate:groups[i].dueDate,
+        acadYear:groups[i].acadYear
+      })
+  }
+  console.log(list_groups)
+  return list_groups
+}
 
 async function approve(groupId,proposalId,staff){
     group =  await Group.findById(groupId.trim());
@@ -279,4 +303,5 @@ module.exports = {
   updateDueDate : updateDueDate,
   addGuide : addGuide,
   getGuide : getGuide,
+  getGuideGroups : getGuideGroups,
 };

@@ -277,5 +277,16 @@ router.get('/getGuide',authenticateToken,async function(req,res){
 	}
 })
 
+router.get('/guideGroup',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'guide') return res.sendStatus(401)
+	try{
+		groups =  await dbm.getGuideGroups(req.user)
+		return res.status(200).send(groups)
+	}
+	catch{
+		return res.sendStatus(500)
+	}
+})
 
 module.exports = router;

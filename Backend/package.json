@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app",
+    "start":"node app.js",
+    "start_dev": "nodemon app",
     "dev": "concurrently \"npm start\" \"(cd ..\\Frontend && npm start )\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
