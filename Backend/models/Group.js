@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 var groupSchema  = new mongoose.Schema({
 	name : String,
 	admin : {type : mongoose.Schema.Types.ObjectId,ref : 'User'},
+	dueDate : {type : Date},
+	acadYear : String,
+	department : String,
 	members : [{
-		// id : {type : mongoose.Schema.Types.ObjectId,ref : 'User'},
 		name : String,
 		email : String,
 		rollno : String,
 	}],
-	department : String,
 	comments : [{
 		author : String,
 		text : String,
@@ -33,12 +34,15 @@ var groupSchema  = new mongoose.Schema({
 			default: Date.now 
 		},
 	}],
-	dueDate : {type : Date},
-	acadYear : String,
 	guide : {
 		name : String,
 		email : String,
-	}
+	},
+	presentation : [{
+		number : Number,
+		scheduled_date : {type :Date },
+		marks : String,
+	}]
 });
 
 var Group = mongoose.model('Group',groupSchema);
