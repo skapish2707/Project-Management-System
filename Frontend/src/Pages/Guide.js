@@ -5,8 +5,11 @@ import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
 import Footer from "../components/Footer/Footer";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
+import GuideDetails from "../components/Guide Component/GuideDetail"
+import GuideGroupList from "../components/Guide Component/GroupList";
 
 
+let Groups=null;
 export default class Hod extends Component {
   constructor(props) {
     super(props);
@@ -45,8 +48,8 @@ export default class Hod extends Component {
       });
   };
 
+
   render() {
-    //groups = this.state.Groups;
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
@@ -55,7 +58,9 @@ export default class Hod extends Component {
         <div>
           <React.Fragment>
             <LoggedNavbar />
+            <GuideDetails userInfo={this.state.user} />
             <h1>GUIDE PAGE!</h1>
+            <GuideGroupList userInfo={this.state.user} />
           </React.Fragment>
         </div>
       );
