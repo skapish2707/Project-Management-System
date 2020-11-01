@@ -1,22 +1,23 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import AdminContent from "../components/Admin-component/AdminContent";
 import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
+import Footer from "../components/Footer/Footer";
+import LoggedNavbar from "../components/Navbar/LoggedNavbar";
+import GuideDetails from "../components/Guide Component/GuideDetail"
+import GuideGroupList from "../components/Guide Component/GroupList";
 
-var today = new Date(),
-  date = today.getDate();
 
-export default class Admin extends Component {
+let Groups=null;
+export default class Hod extends Component {
   constructor(props) {
     super(props);
     const token = localStorage.getItem("token");
     let loggedIn = false;
-    if (token === "admin") {
+    if (token === "guide") {
       loggedIn = true;
     }
-
     this.state = {
       loggedIn,
       user: ""
@@ -38,7 +39,6 @@ export default class Admin extends Component {
           user: res.data
         });
       })
-
       .catch(err => {
         this.setState({
           loggedIn: false,
@@ -47,15 +47,20 @@ export default class Admin extends Component {
         localStorage.removeItem("token");
       });
   };
+
+
   render() {
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
-    } else if (this.state.user.type === "admin") {
+    } else if (this.state.user.type === "guide") {
       return (
         <div>
           <React.Fragment>
-            <AdminContent userInfo={this.state.user} />
+            <LoggedNavbar />
+            <GuideDetails userInfo={this.state.user} />
+            <h1>GUIDE PAGE!</h1>
+            <GuideGroupList userInfo={this.state.user} />
           </React.Fragment>
         </div>
       );

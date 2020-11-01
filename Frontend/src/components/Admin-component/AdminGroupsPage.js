@@ -1,28 +1,25 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import AdminContent from "../components/Admin-component/AdminContent";
+import React, { Component } from 'react'
+import SideMenu from './SideMenu'
 import axios from "axios";
-import SERVER_URL from "./URL";
+import SERVER_URL from "../../Pages/URL";
+import { Redirect } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 
-var today = new Date(),
-  date = today.getDate();
-
-export default class Admin extends Component {
+export default class AdminGuidePage extends Component {
   constructor(props) {
     super(props);
     const token = localStorage.getItem("token");
-    let loggedIn = false;
+    let loggedIn = true;
     if (token === "admin") {
       loggedIn = true;
     }
 
     this.state = {
       loggedIn,
-      user: ""
-    };
+      user: "",
+      groupDetails:null
+      };
   }
-
   getStat = () => {
     axios({
       method: "get",
@@ -47,20 +44,45 @@ export default class Admin extends Component {
         localStorage.removeItem("token");
       });
   };
+  checkData() {
+    axios({
+      method: "get",
+      url: SERVER_URL + "/getStudents?by=group",
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
+    })
+      .then(res => {
+        console.log(res.data)
+        this.setState({
+          groupDetails:res.data
+          
+        },console.log(this.state.groupDetails));
+      })
+
+      .catch(function (err) {
+        console.log(err);
+      });
+      
+  }
   render() {
+    if (this.state.groupDetails === null){
+      this.checkData();
+    } 
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
     } else if (this.state.user.type === "admin") {
       return (
         <div>
-          <React.Fragment>
-            <AdminContent userInfo={this.state.user} />
-          </React.Fragment>
+         <SideMenu/>
+        <h1>GROUPS</h1>
         </div>
       );
     } else {
       return <Redirect to="/" />;
     }
-  }
+      }
 }
+

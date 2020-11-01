@@ -348,7 +348,8 @@ class StudentContent extends Component {
       withCredentials: true,
       data: formData,
       headers: {
-        "Content-Type": "multipart/form-data"
+        "Content-Type": "multipart/form-data",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token")
       }
     })
       .then(res => {
@@ -367,7 +368,10 @@ class StudentContent extends Component {
     axios({
       method: "get",
       url: SERVER_URL + "/group",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+                Authorization : 'Bearer '+localStorage.getItem("access_token"),
+            }
     })
       .then(res => {
         Stu = res.data.proposals.length;

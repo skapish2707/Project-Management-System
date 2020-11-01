@@ -15,9 +15,9 @@ import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import { toFirstCharUppercase } from "../components/ToUpper";
 import Navbar from "../components/Navbar/Navbar";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-import AdminCommentPage from "../components/Admin-component/AdminCommentPage"
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import AdminCommentPage from "../components/Admin-component/AdminCommentPage";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -30,9 +30,9 @@ let Groups = null;
 const styles = theme => ({
   root: {
     width: "100%",
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
+    "& > * + *": {
+      marginTop: theme.spacing(2)
+    }
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
@@ -92,21 +92,19 @@ class ControlledExpansionPanels extends React.Component {
       comment: "",
       approved: false,
       openSuccess: false,
-      openFailure: false,
+      openFailure: false
     };
   }
 
   commentHandler = e => {
     let comment = e.target.value;
-    this.setState(
-      {
-        comment: comment
-      },
-    );
+    this.setState({
+      comment: comment
+    });
   };
 
   handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -114,56 +112,65 @@ class ControlledExpansionPanels extends React.Component {
       openSuccess: false,
       openFailure: false,
       adData: null
-    })
+    });
   };
 
   //axios request to send comments
   sendComment(Gid) {
     const { comment } = this.state;
-    axios({
-      method: "post",
-      url: SERVER_URL + "/comment",
-      credentials: "include",
-      withCredentials: true,
-      data: qs.stringify({
-        id: Gid,
-        msg: comment
-      }),
-      headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
-      }
-    })
-      .then(response => {
-        this.setState({ openSuccess: true, loading: false });
-        console.log(response);
-        this.setState({
-          adData: null,
-          comment:""
-        });
-      })
-
-      .catch(err => {
-        this.setState({ openFailure: true, loading: false });
-        console.log(err);
+    if (comment === "") {
+      this.setState({
+        openFailure: true
       });
+    } else {
+      axios({
+        method: "post",
+        url: SERVER_URL + "/comment",
+        credentials: "include",
+        withCredentials: true,
+        data: qs.stringify({
+          id: Gid,
+          msg: comment
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+        }
+      })
+        .then(response => {
+          this.setState({ openSuccess: true, loading: false });
+          console.log(response);
+          this.setState({
+            adData: null,
+            comment: ""
+          });
+        })
+
+        .catch(err => {
+          this.setState({ openFailure: true, loading: false });
+          console.log(err);
+        });
+    }
   }
 
   checkData() {
     axios({
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
-        console.log(typeof Groups[0].comments[0].time);
-        
+        console.log(Groups[3].comments);
+
         this.setState({
           adData: "new",
           filled: true
         });
-        
       })
       .catch(function (err) {
         console.log(err);
@@ -183,7 +190,8 @@ class ControlledExpansionPanels extends React.Component {
         pid: pid
       }),
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
       }
     })
       .then(response => {
@@ -225,7 +233,15 @@ class ControlledExpansionPanels extends React.Component {
             {Groups.map(group => {
               if (group.id === Group.id) {
                 let Proposals = group.proposals;
-                let Comments =group.comments;
+                let Proposal1 = Proposals[0];
+                let Proposal2 = Proposals[1];
+                let Proposal3 = Proposals[2];
+                console.log(
+                  Proposal1.approval,
+                  Proposal2.approval,
+                  Proposal3.approval
+                );
+                let Comments = group.comments;
                 return (
                   <div key={group.id}>
                     <Grid container spacing={2} className={classes.grid}>
@@ -241,7 +257,8 @@ class ControlledExpansionPanels extends React.Component {
                       let pid = proposal._id;
                       let Gid = Group.id;
                       return (
-                        <Accordion key={proposal._id}
+                        <Accordion
+                          key={proposal._id}
                           expanded={expanded === panel}
                           onChange={this.handleChange(panel)}
                         >
@@ -329,7 +346,8 @@ class ControlledExpansionPanels extends React.Component {
                               <Grid item xs={12}>
                                 <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
-                                  {proposal.applied}
+                                  {/* {proposal.applied.split("T")[0]} */}
+                                  {proposal.applied.substr(0, 10)}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
@@ -379,7 +397,10 @@ class ControlledExpansionPanels extends React.Component {
                                 sm={6}
                                 style={{ textAlign: "right" }}
                               >
-                                {!proposal.approval.admin ? (
+                                {!proposal.approval.admin &&
+                                !Proposal1.approval.hod &&
+                                !Proposal2.approval.hod &&
+                                !Proposal3.approval.hod ? (
                                   <Button
                                     variant="contained"
                                     color="primary"
@@ -395,10 +416,18 @@ class ControlledExpansionPanels extends React.Component {
                                     {proposal.approval.hod ? (
                                       <Button
                                         variant="contained"
+                                        color="primary"
+                                        size="large"
+                                      >
+                                        This Proposal is Selected
+                                      </Button>
+                                    ) : proposal.approval.admin ? (
+                                      <Button
+                                        variant="contained"
                                         color="secondary"
                                         size="large"
                                       >
-                                        Approval Done
+                                        Waiting For Hod Approval
                                       </Button>
                                     ) : (
                                       <Button
@@ -406,7 +435,7 @@ class ControlledExpansionPanels extends React.Component {
                                         color="secondary"
                                         size="large"
                                       >
-                                        Already Approved
+                                        Approved Another Proposal
                                       </Button>
                                     )}
                                   </div>
@@ -461,26 +490,26 @@ class ControlledExpansionPanels extends React.Component {
                           Send Comment
                         </Button>
                         <Snackbar
-                        open={this.state.openSuccess}
-                        autoHideDuration={6000}
-                        onClose={this.handleClose}
-                      >
-                        <Alert onClose={this.handleClose} severity="success">
-                          Successful comment
-                        </Alert>
-                      </Snackbar>
-                      <Snackbar
-                        open={this.state.openFailure}
-                        autoHideDuration={6000}
-                        onClose={this.handleClose}
-                      >
-                        <Alert onClose={this.handleClose} severity="error">
-                          Unsuccessful comment
-                        </Alert>
-                      </Snackbar>
+                          open={this.state.openSuccess}
+                          autoHideDuration={6000}
+                          onClose={this.handleClose}
+                        >
+                          <Alert onClose={this.handleClose} severity="success">
+                            Successful comment
+                          </Alert>
+                        </Snackbar>
+                        <Snackbar
+                          open={this.state.openFailure}
+                          autoHideDuration={6000}
+                          onClose={this.handleClose}
+                        >
+                          <Alert onClose={this.handleClose} severity="error">
+                            Unsuccessful. Comment cannot be empty
+                          </Alert>
+                        </Snackbar>
                       </Grid>
                       <Grid item xs={12} sm={12} md={12}>
-                        <AdminCommentPage Comments={Comments}/>
+                        <AdminCommentPage Comments={Comments} />
                       </Grid>
                     </Grid>
                   </div>

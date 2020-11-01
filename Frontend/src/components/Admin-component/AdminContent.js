@@ -27,6 +27,7 @@ import {
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import SideMenu from "./SideMenu"
 
 function appendLeadingZeroes(n) {
   if (n <= 9) {
@@ -52,6 +53,7 @@ let userInfo = [];
 let Ad = null;
 let filled = false;
 let Groups = null;
+let Guides=null;
 
 const useStyles = theme => ({
   root: {
@@ -213,7 +215,8 @@ class AdminContent extends Component {
       withCredentials: true,
       data: formData,
       headers: {
-        "Content-Type": "multipart/form-data"
+        "Content-Type": "multipart/form-data",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token")
       }
     })
       .then(res => {
@@ -252,23 +255,40 @@ class AdminContent extends Component {
     axios({
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         Ad = res.data.length;
+        // console.log(res.data)
         Groups = res.data;
         this.setState({
           adData: "new",
           filled: true
         });
       })
-      // .then(() => {
-      //   localStorage.setItem("data", "set");
-      // })
 
       .catch(function (err) {
         console.log(err);
       });
+  }
+  checkGuides(){
+    axios({
+      method: "get",
+      url: SERVER_URL + "/getGuide",
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
+    })
+    .then(res => {
+      Guides = res.data;
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
   }
 
   render() {
@@ -286,6 +306,7 @@ class AdminContent extends Component {
     }
     if (this.state.adData === null) {
       this.checkData();
+      this.checkGuides();
     }
     userInfo = this.props.userInfo;
 
@@ -293,7 +314,7 @@ class AdminContent extends Component {
       if (Ad === 0) {
         return (
           <div className={classes.root}>
-            <LoggedNavbar />
+            <SideMenu/>
             <Profile userInfo={userInfo} />
             <AdminInstructions />
             <div
@@ -503,7 +524,7 @@ class AdminContent extends Component {
       if (Ad !== 0) {
         return (
           <React.Fragment>
-            <LoggedNavbar />
+            <SideMenu/>
             <Profile academicYear={academicYear} userInfo={userInfo} />
             <div
               style={{
@@ -516,7 +537,7 @@ class AdminContent extends Component {
               }}
               className={classes.root}
             >
-              <ProjectList Groups={Groups} />
+              <ProjectList Groups={Groups} Guides={Guides} />
             </div>
             <footer className={classes.footer}>
               <Footer />

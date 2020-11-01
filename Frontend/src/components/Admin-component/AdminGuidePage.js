@@ -1,25 +1,23 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import AdminContent from "../components/Admin-component/AdminContent";
+import React, { Component } from 'react'
+import SideMenu from './SideMenu'
 import axios from "axios";
-import SERVER_URL from "./URL";
+import SERVER_URL from "../../Pages/URL";
+import { Redirect } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 
-var today = new Date(),
-  date = today.getDate();
-
-export default class Admin extends Component {
+export default class AdminGuidePage extends Component {
   constructor(props) {
     super(props);
     const token = localStorage.getItem("token");
-    let loggedIn = false;
+    let loggedIn = true;
     if (token === "admin") {
       loggedIn = true;
     }
 
     this.state = {
       loggedIn,
-      user: ""
+      user: "",
+      groupDetails:null
     };
   }
 
@@ -54,13 +52,13 @@ export default class Admin extends Component {
     } else if (this.state.user.type === "admin") {
       return (
         <div>
-          <React.Fragment>
-            <AdminContent userInfo={this.state.user} />
-          </React.Fragment>
+         <SideMenu/>
+        <h1>GUIDES</h1>
         </div>
       );
     } else {
       return <Redirect to="/" />;
     }
-  }
+      }
 }
+

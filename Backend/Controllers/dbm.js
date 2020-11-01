@@ -6,6 +6,7 @@ var fs = require("fs");
 require("dotenv").config();
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
+var sendmail = require('./sendmail');
 
 mongoose.connect(process.env.uri,{
 	useNewUrlParser : true,
@@ -16,10 +17,14 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
-		// CUSTOM CHANGE TO DATABASE HERE 
-    
+    // User.findOne({email:"ritvij@gmail.com"},function(err,user){
+    //   if (err) throw err;
+    //   console.log(user);
+    //   getGuideGroups(user);      
+    // })
+  
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
-        // User.findOne({email:"newTrial@admin.com"},function(err,admin){
+        // User.findOne({email:"newtest@admin.com"},function(err,admin){          
         //   if(err) throw err ;
         //   User.deleteMany({admin:admin.id},function(err){
         //       if (err) throw err
@@ -66,33 +71,44 @@ function saveLocallyForDevelopment(email, password) {
   });
 }
 
-async function generateGroups(admin,dueDate,acadYear) {
-    users = await User.find({ type: "student", admin: admin.id })
+async function generateGroups(admin,dueDate,acadYear,users) {
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
-      let group = await Group.findOne({ name: user.groupName,admin:admin.id });
+      let groupName = user[3].toLowerCase().trim().replace(/ /g, "")
+      let group = await Group.findOne({ name: groupName,admin:admin.id });
       if (!group) {
         group = await Group({
-          name: user.groupName,
+          name: groupName,
           department : user.department,
           members: [],
           admin: admin.id,
           dueDate:dueDate,
-          acadYear:acadYear
+          acadYear:acadYear,
+          guide : {
+            name :null,
+            email : null
+          }
         });
       }
       group.members.push({
-        name : user.name ,
-        email : user.email ,
-        rollno : user.rollno 
+        name : user[0],
+        email : user[2],
+        rollno : user[1]
       });
       await group.save();
     }
 }
 
 async function addToDatabase(admin,name,rollno,email, department, type, groupName = null) {
+    if(await User.findOne({email:email}))
+    {
+      console.log("a user with that email already exist")
+      return;
+    } 
     password = makePassword(8);
-    saveLocallyForDevelopment(email, password);//sendMailInProduction();
+    saveLocallyForDevelopment(email, password);
+    data = {admin_name:admin.name,email:email,password:password,name:name}
+    // sendmail(data,"registeration");
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     var user = User();
@@ -108,6 +124,7 @@ async function addToDatabase(admin,name,rollno,email, department, type, groupNam
     user.groupName = name;
     }
     await user.save();
+    console.log(user);
     return user;
 }
 async function addMemberToGroup(groupId,student){
@@ -176,7 +193,7 @@ async function addComment(staff,groupId,msg){
 }
 
 async function addGuide(email,name,groupId){
-  await Group.findByIdAndUpdate(groupId,{name:"groupname 1",guide:{name : name.trim() ,email : email.trim()}});
+  await Group.findByIdAndUpdate(groupId,{guide:{name : name.trim() ,email : email.trim()}});
 }
 
 async function getGuide(admin){
@@ -189,6 +206,24 @@ async function getGuide(admin){
     })
   }
   return custom_guides
+}
+async function getGuideGroups(user){
+  groups =  await Group.find({admin:user.admin,guide:{name:user.name,email:user.email}})
+  list_groups = []
+  for (let i=0; i<groups.length ; ++i){
+    // if(groups[i].guide.email && groups[i].guide.email.trim() == user.email.trim())
+      list_groups.push({
+        id : groups[i].id,
+        department : groups[i].department,
+        name : groups[i].name,
+        members : groups[i].members,
+        proposals :groups[i].proposals,
+        dueDate:groups[i].dueDate,
+        acadYear:groups[i].acadYear
+      })
+  }
+  console.log(list_groups)
+  return list_groups
 }
 
 async function approve(groupId,proposalId,staff){
@@ -244,15 +279,15 @@ passport.use(
     });
   })
 );
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    if (err) return done(err);
-    else return done(null, user);
-  });
-});
+// passport.serializeUser(function (user, done) {
+//   done(null, user.id);
+// });
+// passport.deserializeUser(function (id, done) {
+//   User.findById(id, function (err, user) {
+//     if (err) return done(err);
+//     else return done(null, user);
+//   });
+// });
 
 module.exports = {
   addToDatabase: addToDatabase,
@@ -268,4 +303,5 @@ module.exports = {
   updateDueDate : updateDueDate,
   addGuide : addGuide,
   getGuide : getGuide,
+  getGuideGroups : getGuideGroups,
 };

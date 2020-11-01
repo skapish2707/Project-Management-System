@@ -1,11 +1,24 @@
+require('dotenv').config();
 var express = require('express')
 var router = express.Router();
 var dbm = require('./Controllers/dbm');
 var xlsx = require('node-xlsx');
 var passport = dbm.passport;
-require('dotenv').config();
+var jwt = require('jsonwebtoken');
 
-router.get('/user',function(req,res){
+
+function authenticateToken(req,res,next){
+	const authHeader = req.headers['authorization'];
+	const token =authHeader && authHeader.split(' ')[1];
+	if (token==null) return res.sendStatus(401);
+	jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,function(err,user){
+		if(err) return res.sendStatus(403);
+		req.user = user;
+		next();
+	})
+}
+
+router.get('/user',authenticateToken,function(req,res){
 	if (!req.user) return res.status(404).send(null);
 	if (req.user) return res.json({
 		email : req.user.email,
@@ -16,39 +29,28 @@ router.get('/user',function(req,res){
 		rollno : req.user.rollno,
 	});
 });
-
-router.get('/group',async function(req,res){
-	if(!req.user) return res.status(404).send();
-	if(req.user.type != 'student') return res.status(404).send();
-	try {
-		group =  await dbm.getGroup(req.user);
-		return res.status(200).send(group);
-	}catch{
-		return res.status(500).send();
-	}
-
-});
-
-router.post('/login',passport.authenticate('local'),function(req,res){
+router.post('/login',passport.authenticate('local',{session: false}),function(req,res){
 	if (!req.user) return res.status(404).send(null);
+
+	const user = {id:req.user.id,email : req.user.email,type : req.user.type,department : req.user.department,groupName : req.user.groupName,name : req.user.name,rollno : req.user.rollno,admin:req.user.admin}
+	const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn: '60m'});
 	return res.json({
-		email : req.user.email,
-		type : req.user.type,
-		department : req.user.department,
-		groupName : req.user.groupName,
-		name : req.user.name,
-		rollno : req.user.rollno,
+		access_token:access_token,
+		// email : req.user.email,
+		 type : req.user.type
+		// department : req.user.department,
+		// groupName : req.user.groupName,
+		// name : req.user.name,
+		// rollno : req.user.rollno,
 	});
 });
-
-router.get('/logout', function(req, res){
-	if (!req.user) return res.status(404).send(null);
-	req.logout();
+router.get('/logout',authenticateToken, function(req, res){
+	if (!req.user) return res.status(404).send();
+	//req.logout();
 	return res.status(200).send("logout Out Successfully");
 });
-
-router.post('/changePassword',function(req,res){
-	if (!req.isAuthenticated()) return res.status(404).send();
+router.post('/changePassword',authenticateToken,function(req,res){
+	if (!req.user) return res.status(404).send();
 
 	// newPassword , confirmPassword
 	if (req.body.newPassword !== req.body.confirmPassword)
@@ -60,12 +62,24 @@ router.post('/changePassword',function(req,res){
 		return res.status(200).send("Your password was changed please login again");
 	}
 	else 
-		return res.status(500).send();
-				
+		return res.status(500).send();			
 });
 
 
-router.post('/yami',function(req,res){
+
+router.get('/group',authenticateToken,async function(req,res){
+	if(!req.user) return res.status(404).send();
+	if(req.user.type != 'student') return res.status(404).send();
+	try {
+		group =  await dbm.getGroup(req.user);
+		return res.status(200).send(group);
+	}catch{
+		return res.status(500).send();
+	}
+
+});
+
+router.post('/yami',authenticateToken,function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type!="yami") return res.status(404).send();
 	
@@ -80,7 +94,7 @@ router.post('/yami',function(req,res){
 });
 
 
-router.post('/admin',async function(req,res){
+router.post('/admin',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin') return res.status(404).send();
 	
@@ -97,19 +111,14 @@ router.post('/admin',async function(req,res){
 		return res.send("Please select A .csv file or a .xlsx file");
 
 	department = req.user.department.trim();
+	students = []
 	if (file.name.slice(-4,file.name.length) == ".csv")
 	{
 		lines = file.data.toString('utf8').split('\n');
-		for ( i = 0 ; i < lines.length ; i++ )
-		{
-			if (lines[i].trim() != ""){
+		for ( i = 0 ; i < lines.length ; i++ ){
+			if (lines[i].trim() != "" && lines[i].split(',').length == 4){
 				atributes = lines[i].split(',');
-				name = atributes[0].trim();
-				rollno = atributes[1].trim();
-				email = atributes[2].trim();
-				groupName = atributes[3].trim();
-				console.log(name,rollno,email,groupName);
-				await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
+				students.push([atributes[0].trim(),atributes[1].trim(),atributes[2].trim(),atributes[3].trim()])
 			}
 		 }
 	}
@@ -117,29 +126,34 @@ router.post('/admin',async function(req,res){
 	{
 		lines = xlsx.parse(file.data)[0].data; // parses a buffer
 		for (i = 0 ; i < lines.length ; i++){
-			name = lines[i][0];
-			rollno = lines[i][1];
-			email = lines[i][2];
-			groupName = lines[i][3];
-
-			console.log(name,rollno,email,groupName);
-			await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
+			if(lines[i].length==4)
+				students.push(lines[i]);
 		}
-		
 	}
-	dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
-	// dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
-	// dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
-	try{
-		groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear);
+	// sconsole.log(students);
+	try {
+		groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear,students);
+		students.forEach(function(student){
+			dbm.addToDatabase(req.user,student[0],student[1],student[2],department,"student", student[3])
+		})
+		dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
 		res.status(200).send("OK");
 	}catch{
 		res.status(500).send();
 	}
+	
+
+	// await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
+	// dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
+	// dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
+	// dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
+	// groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear);
+		
 });
 
+
 //getStudents?by=name
-router.get('/getStudents',async function(req,res){
+router.get('/getStudents',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type == 'student') return res.status(404).send();
 	let items = await dbm.getStudents(req.user,req.query.by);
@@ -147,7 +161,7 @@ router.get('/getStudents',async function(req,res){
 });
 
 
-router.post('/student', async function(req,res){
+router.post('/student',authenticateToken, async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'student') return res.status(404).send();
 	if (!req.files) return res.status(422).send();
@@ -175,7 +189,7 @@ router.post('/student', async function(req,res){
 	}
 });
 
-router.post('/comment',async function(req,res){
+router.post('/comment',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type =='student') return res.status(404).send();
 	// id => group id
@@ -188,7 +202,7 @@ router.post('/comment',async function(req,res){
 	}
 });
 
-router.post('/approve',async function(req,res){	
+router.post('/approve',authenticateToken,async function(req,res){	
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin' && req.user.type != 'hod') return res.status(404).send();
 	// id => group id
@@ -201,7 +215,7 @@ router.post('/approve',async function(req,res){
 	}
 })
 
-router.post('/addmember',async function(req,res){
+router.post('/addmember',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin') return res.status(404).send();
 
@@ -221,7 +235,7 @@ router.post('/addmember',async function(req,res){
 	}
 })
 
-router.post('/updateDueDate',async function(req,res){
+router.post('/updateDueDate',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send()
 	if (req.user.type != 'admin') return res.status(404).send()
 	try {
@@ -234,7 +248,7 @@ router.post('/updateDueDate',async function(req,res){
 })
 
 //serverURL/addGuide?type=new
-router.post('/addGuide',async function(req,res){
+router.post('/addGuide',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin') return res.status(404).send();
 	// email 
@@ -244,13 +258,15 @@ router.post('/addGuide',async function(req,res){
 		if (req.query.type == "new"){
 			await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email.trim(),req.user.department,'guide');
 		}
-		await dbm.addGuide(req.body.email.trim(),req.body.name.trim(),req.body.groupId.trim())
+		else{
+			await dbm.addGuide(req.body.email.trim(),req.body.name.trim(),req.body.groupId.trim())
+		}
 		return res.status(200).send("OK");
 	}catch {
 		return res.status(500).send();
 	}
 })
-router.get('/getGuide',async function(req,res){
+router.get('/getGuide',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'admin') return res.status(404).send();
 	try {
@@ -261,5 +277,16 @@ router.get('/getGuide',async function(req,res){
 	}
 })
 
+router.get('/guideGroup',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'guide') return res.sendStatus(401)
+	try{
+		groups =  await dbm.getGuideGroups(req.user)
+		return res.status(200).send(groups)
+	}
+	catch{
+		return res.sendStatus(500)
+	}
+})
 
 module.exports = router;

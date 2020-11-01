@@ -69,6 +69,7 @@ const useStyles = theme => ({
 
 let userInfo = [];
 let Groups = null;
+let academicYear=""
 let Ad = null;
 let filled = false;
 
@@ -85,11 +86,16 @@ class HodContent extends Component {
     axios({
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
+        academicYear=Groups[0].acadYear
+        //console.log(academicYear);
         this.setState({
           adData: "new",
           filled: true
@@ -106,12 +112,12 @@ class HodContent extends Component {
       this.getGroup();
     }
     userInfo = this.props.userInfo;
-    console.log(userInfo);
+    //console.log(userInfo);
     if (this.state.filled) {
       if (Ad !== 0) {
         return (
           <React.Fragment>
-            <Profile userInfo={userInfo} />
+            <Profile academicYear={academicYear} userInfo={userInfo} />
             <div
               style={{
                 width: "90%",

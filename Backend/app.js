@@ -4,7 +4,8 @@ var routes = require('./routes');
 var passport = require('passport');
 var flash = require('express-flash');
 var fileUpload = require('express-fileupload');
-var cookieSession = require('cookie-session');
+// var cookieSession = require('cookie-session');
+// var session = require('express-session')
 require('dotenv').config();
 
 var app = express();
@@ -22,15 +23,20 @@ app.use(fileUpload());
 app.use(flash());
 
 // Session 
-app.use(cookieSession({
-	maxAge : 45*60*1000,
-	keys : [process.env.SESSION_SECRET],
-}));
+// app.use(session({
+// 	secret : process.env.SESSION_SECRET,
+// 	resave: false,
+// 	sameSite : null,
+//     saveUninitialized: true,
+//     cookie : {
+//     	maxAge : 45*60*1000,
+//     }
+// }));
 
 
 // passport middleware
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 // Cross Origin Resource Sharing
 app.use(cors({
@@ -42,6 +48,6 @@ app.use(cors({
 app.use('/',routes);
 
 
-var port = 8000;
+const port = process.env.port || 8000;
 app.listen(port);
 console.log("Server Is Online at port "+port);

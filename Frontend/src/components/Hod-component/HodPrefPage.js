@@ -118,19 +118,26 @@ class HodPrefPage extends Component {
 
   sendComment(Gid) {
     const { comment } = this.state;
-    axios({
-      method: "post",
-      url: SERVER_URL + "/comment",
-      credentials: "include",
-      withCredentials: true,
-      data: qs.stringify({
-        id: Gid,
-        msg: comment
-      }),
-      headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
-      }
-    })
+    if(comment===""){
+      this.setState({
+        openFailure:true
+      })
+    }else{
+      axios({
+        method: "post",
+        url: SERVER_URL + "/comment",
+        credentials: "include",
+        withCredentials: true,
+        data: qs.stringify({
+          id: Gid,
+          msg: comment
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+           Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+          
+        }
+      })
       .then(response => {
         this.setState({ openSuccess: true, loading: false });
         console.log(response);
@@ -144,13 +151,18 @@ class HodPrefPage extends Component {
         this.setState({ openFailure: true, loading: false });
         console.log(err);
       });
+    }
+    
   }
 
   checkData() {
     axios({
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
-      withCredentials: true
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
     })
       .then(res => {
         Ad = res.data.length;
@@ -178,7 +190,9 @@ class HodPrefPage extends Component {
         pid: pid
       }),
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+
       }
     })
       .then(response => {
@@ -480,7 +494,7 @@ class HodPrefPage extends Component {
                         onClose={this.handleClose}
                       >
                         <Alert onClose={this.handleClose} severity="error">
-                          Unsuccessful comment
+                          Unsuccessful. Comment cannot be empty
                         </Alert>
                       </Snackbar>
                       </Grid>

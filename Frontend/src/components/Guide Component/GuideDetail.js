@@ -39,10 +39,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Profile(props) {
+export default function GuideDetails(props) {
   const classes = useStyles();
   const userInfo = props;
-  const academicYear=props.academicYear;
+  //const academicYear=props.academicYear;
   console.log(props)
   return (
     <Card
@@ -86,11 +86,6 @@ export default function Profile(props) {
             <Grid item xs={12} sm={6} md={4}>
               <Typography className={classes.title}>
                 <b>Email:</b> {userInfo.userInfo.email}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Typography className={classes.title}>
-                <b>Academic Year:</b> {academicYear}
               </Typography>
             </Grid>
           </Grid>
