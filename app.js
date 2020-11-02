@@ -53,7 +53,7 @@ if(process.env.NODE_ENV == "production"){
 	app.use(express.static(path.join('Frontend','build')));
 
 	app.get('*',function(req,res){
-		res.sendFile(path.join(__dirname+'Frontend','public','index.html'));
+		res.sendFile(path.join(__dirname+'Frontend','build','index.html'));
 	});
 }
 const port = process.env.port || 8000;
