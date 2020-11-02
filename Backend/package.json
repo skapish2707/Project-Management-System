@@ -5,9 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start":"node app.js",
-    "start_dev": "nodemon app",
-    "dev": "concurrently \"npm start\" \"(cd ..\\Frontend && npm start )\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start_dev": "nodemon -r dotenv/config app",
+    "dev": "concurrently \"npm start_dev\" \"(cd ..\\Frontend && npm start )\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild":"cd ..\\Frontend && npm install && npm run build"
   },
   "author": "abhishek",
   "license": "ISC",
