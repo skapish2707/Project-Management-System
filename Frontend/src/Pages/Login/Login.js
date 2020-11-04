@@ -131,7 +131,7 @@ class Login extends Component {
 
     axios({
       method: "post",
-      url: SERVER_URL + "/login",
+      url: "/login",
       credentials: "include",
       withCredentials: true,
       data: qs.stringify({
@@ -159,6 +159,7 @@ class Login extends Component {
       )
 
       .catch(err => {
+        console.log("process.env.NODE_ENV");
         console.log(process.env.NODE_ENV);
         console.log(err);
         this.setState({ invalidCredentials: true, getResponse: false });
