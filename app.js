@@ -59,7 +59,7 @@ if(process.env.NODE_ENV == "production"){
 // app.get('*',function(req,res){
 // 		res.sendFile(path.resolve(__dirname+'Frontend','public','index.html'));
 // });
-const port = process.env.port || 8000;
+const port = process.env.PORT || 8000;
 app.listen(port);
 console.log("Server Is Online at port "+port);
 console.log("NODE_ENV ka values ",process.env.NODE_ENV);
