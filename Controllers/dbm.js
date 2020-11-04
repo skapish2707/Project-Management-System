@@ -3,7 +3,7 @@ var User = require("../models/User");
 var Group = require("../models/Group");
 var bcrypt = require("bcrypt");
 var fs = require("fs");
-require("dotenv").config();
+// require("dotenv").config();
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
 var sendmail = require('./sendmail');

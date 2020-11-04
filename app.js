@@ -4,9 +4,10 @@ var routes = require('./routes');
 var passport = require('passport');
 var flash = require('express-flash');
 var fileUpload = require('express-fileupload');
+var path = require('path');
 // var cookieSession = require('cookie-session');
 // var session = require('express-session')
-require('dotenv').config();
+// require('dotenv').config();
 
 var app = express();
 
@@ -47,7 +48,17 @@ app.use(cors({
 //routes
 app.use('/',routes);
 
-
-const port = process.env.port || 8000;
+//
+if(process.env.NODE_ENV == "production"){
+	app.use(express.static(path.join('Frontend','build')));
+	
+	app.get('*',(req,res) => {
+		res.sendFile(path.resolve(__dirname+'Frontend','build','index.html'));
+	});
+}
+// app.get('*',function(req,res){
+// 		res.sendFile(path.resolve(__dirname+'Frontend','public','index.html'));
+// });
+const port = process.env.PORT || 8000;
 app.listen(port);
 console.log("Server Is Online at port "+port);

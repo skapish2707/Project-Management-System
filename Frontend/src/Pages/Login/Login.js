@@ -130,7 +130,7 @@ class Login extends Component {
 
     axios({
       method: "post",
-      url: SERVER_URL + "/login",
+      url: SERVER_URL+"/login",
       credentials: "include",
       withCredentials: true,
       data: qs.stringify({
