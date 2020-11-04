@@ -15,7 +15,7 @@ var app = express();
 app.use(express.urlencoded({ extended: true }));
 
 // static files
-app.use(express.static('./public'))
+app.use(express.static('./proposal'))
 
 // file fileUpload middleware
 app.use(fileUpload());
