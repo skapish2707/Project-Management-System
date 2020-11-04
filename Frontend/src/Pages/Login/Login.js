@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import SERVER_URL from "../URL";
-// import SERVER_URL from "../../../../Config.js";
 import axios from "axios";
 import qs from "qs";
 import Avatar from "@material-ui/core/Avatar";
@@ -131,7 +130,7 @@ class Login extends Component {
 
     axios({
       method: "post",
-      url: "/login",
+      url: SERVER_URL+"/login",
       credentials: "include",
       withCredentials: true,
       data: qs.stringify({
@@ -159,8 +158,6 @@ class Login extends Component {
       )
 
       .catch(err => {
-        console.log("process.env.NODE_ENV");
-        console.log(process.env.NODE_ENV);
         console.log(err);
         this.setState({ invalidCredentials: true, getResponse: false });
       });
