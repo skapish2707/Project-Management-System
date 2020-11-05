@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
-import Footer from "../components/Footer/Footer";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 import HodContent from "../components/Hod-component/HodContent";
 

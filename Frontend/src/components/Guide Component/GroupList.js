@@ -1,13 +1,12 @@
-import React,{Component} from 'react';
+import React from 'react';
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
-import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Grid, makeStyles, TextField, Typography, useTheme } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core';
 import { toFirstCharUppercase } from "../ToUpper";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useHistory } from 'react-router-dom';
-import qs from "qs";
 
-let Ad=null;
+
 let Groups=null;
 
 const useStyles = makeStyles(theme => ({
@@ -34,9 +33,6 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-  let currentDate=new Date();
-//   let date = "Last Sync: " + currentDate.getDate() + "-" + (currentDate.getMonth()+1)  + "-" + currentDate.getFullYear();
-  let curTime = currentDate.getHours() + ":"  + currentDate.getMinutes(); 
 
                 
 
@@ -47,9 +43,7 @@ const GuideGroupList = (props) => {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const [loading,setLoading] = React.useState(false);
-    const [scheduleLoading,setScheduleLoading] = React.useState(false);
-    const [dateTime,setDateTime] = React.useState("");
-    const theme = useTheme();
+
 
     function checkData() {
         setLoading(true);
@@ -62,7 +56,6 @@ const GuideGroupList = (props) => {
         }
         })
         .then(res => {
-            Ad = res.data.length;
             Groups = res.data;
             setAdData("new");
             setFilled(true);
@@ -108,14 +101,14 @@ const GuideGroupList = (props) => {
                     let Gname = Group.name;
                     let id = Group.id;
                     let pref1 = [];
-                    let pref2 = [];
-                    let pref3 = [];
+                    // let pref2 = [];
+                    // let pref3 = [];
                     let AppliedOn = null;
 
                     if (Group.proposals.length !== 0) {
                         pref1 = Group.proposals[0];
-                        pref2 = Group.proposals[1];
-                        pref3 = Group.proposals[2];
+                        // pref2 = Group.proposals[1];
+                        // pref3 = Group.proposals[2];
 
                         AppliedOn = pref1.applied.split("T")[0];
                         //console.log(AppliedOn, DueDate);

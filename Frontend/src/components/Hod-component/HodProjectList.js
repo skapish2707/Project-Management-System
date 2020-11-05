@@ -13,7 +13,6 @@ import {
   Accordion,
   AccordionDetails
 } from "@material-ui/core";
-import Profile from "../Profile";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useHistory } from "react-router-dom";

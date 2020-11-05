@@ -27,8 +27,8 @@ let filled = false;
 let Ad = null;
 let Groups = null;
 const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-const months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-let pd= new Date()
+// const months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+// let pd= new Date()
 
 const styles = theme => ({
   root: {
@@ -566,7 +566,7 @@ handleDateTimeChange = (e) =>{
                                                     <Grid item xs={6} />
                                                     <Grid item xs={3}>
                                                         <Typography>
-                                                            Marks: 
+                                                            Marks: {presentation.marks}
                                                         </Typography>
                                                     </Grid>
                                                 </React.Fragment>
