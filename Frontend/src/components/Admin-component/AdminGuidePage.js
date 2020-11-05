@@ -4,13 +4,9 @@ import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import { Redirect } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core"
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {Card,Button,CircularProgress, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Menu, MenuItem, TextField } from "@material-ui/core";
+import {Card,Button,CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@material-ui/core";
 import qs from "qs";
 import DeleteIcon from '@material-ui/icons/Delete';
 

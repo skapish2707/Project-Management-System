@@ -4,7 +4,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { CircularProgress, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Menu, MenuItem, TextField } from "@material-ui/core";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Menu, MenuItem, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-let Guides = null;
+// let Guides = null;
 let guideIndex=null;
 
 export default function ControlledAccordions(props) {
@@ -222,7 +222,7 @@ export default function ControlledAccordions(props) {
   };
   const Groups = props.Groups;
   const Guides = props.Guides;
-  let e={}
+  // let e={}
 
   return (
     <div>

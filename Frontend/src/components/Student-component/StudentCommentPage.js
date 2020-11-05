@@ -10,8 +10,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-let sData = null;
-let fill = false;
 let Group = null;
 
 const StudentCommentPage = () => {
