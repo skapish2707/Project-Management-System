@@ -10,8 +10,9 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {Button,CircularProgress, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Menu, MenuItem, TextField } from "@material-ui/core";
+import {Card,Button,CircularProgress, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Menu, MenuItem, TextField } from "@material-ui/core";
 import qs from "qs";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const useStyles = (theme => ({
@@ -27,6 +28,26 @@ const useStyles = (theme => ({
     margin:"auto",
     marginTop:"50px"
 
+  },
+  guideList:{
+    padding:"10px",
+    margin:"0px auto",
+    marginTop:"2px",
+    borderRadius:"0px",
+    textAlign:"left",
+  },
+  guideListHolder:{
+    width:"60%",
+    margin:"auto",
+    marginTop:"50px",
+    padding:"20px",
+    //backgroundColor:"#fff"
+  },
+  deleteIconStyle:{
+    cursor:"pointer",
+    "&:hover": {
+      color: 'red'
+    }
   }
 }));
 
@@ -232,24 +253,18 @@ this.setState({
       ) : (
         <div><CircularProgress /></div>
       )}
-        <div className={classes.accorStyle}>
-        {guideData !== null?guideData.map(guide=>{
-        return <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>{guide.name}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Email:{guide.email}
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-        }):<LinearProgress/>}
-        </div> 
+      <div className={classes.guideListHolder}>
+        {guideData !== null? guideData.map(guide=>{
+          return <Card className={classes.guideList}>
+          <Grid container>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={4}><Typography>{guide.name}</Typography></Grid>
+            <Grid item xs={5}><Typography>{guide.email}</Typography></Grid>
+            <Grid item xs={2}><DeleteIcon className={classes.deleteIconStyle}/> </Grid>
+          </Grid>
+          </Card>
+          
+        }) :<LinearProgress/>}</div>
       </React.Fragment>
         
       );

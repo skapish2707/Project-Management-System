@@ -41,7 +41,7 @@ var groupSchema  = new mongoose.Schema({
 	presentation : [{
 		number : Number,
 		scheduled_date : {type :Date },
-		marks : String,
+		marks : {type:String,default:null},
 	}]
 });
 
