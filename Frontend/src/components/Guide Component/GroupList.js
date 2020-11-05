@@ -5,6 +5,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress
 import { toFirstCharUppercase } from "../ToUpper";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useHistory } from 'react-router-dom';
+import qs from "qs";
 
 let Ad=null;
 let Groups=null;
@@ -74,31 +75,31 @@ const GuideGroupList = (props) => {
         });
     }
     
-     const sche_pres = () => {
-        let  dt = new Date(dateTime);
+     const sche_pres = (e,id) => {
         console.log(dateTime)
-        console.log(dt.toString());  
-        //setScheduleLoading(true);
-        // axios({
-        // method: "post",
-        // url: SERVER_URL + "/presentation",
-        // withCredentials: true,
-        // data: qs.stringify({
-            
-        //   }),
-        // headers : {
-        //     Authorization : 'Bearer '+ localStorage.getItem("access_token") 
-        // }
-        // })
-        // .then(res => {
-
-        //     setScheduleLoading(false);
-        // })
+        setScheduleLoading(true);
+        axios({
+        method: "post",
+        url: SERVER_URL + "/presentation",
+        withCredentials: true,
+        data: qs.stringify({
+            datetime:dateTime,
+            gid:id
+          }),
+        headers : {
+            "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+            Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+        }
+        })
+        .then(res => {
+            console.log("SCHEDULED")
+            setScheduleLoading(false);
+        })
     
-        // .catch(function (err) {
-        //     console.log(err);
-        //     setScheduleLoading(false);
-        // });
+        .catch(function (err) {
+            console.log(err);
+            setScheduleLoading(false);
+        });
     }
 
     const handleDateTimeChange = (e) =>{
@@ -131,6 +132,7 @@ const GuideGroupList = (props) => {
                         state: { Group: Group }
                         });
                     };
+                    console.log(Group);
                     let DueDate = Group.dueDate.split("T")[0];
                     let members = Group.members;
                     let Gname = Group.name;
@@ -260,7 +262,7 @@ const GuideGroupList = (props) => {
                                                 id="datetime-local"
                                                 label="Next appointment"
                                                 type="datetime-local"
-                                                defaultValue="2017-05-24T10:30"
+                                                defaultValue={new Date()}
                                                 className={classes.textField}
                                                 InputLabelProps={{
                                                 shrink: true,
@@ -271,7 +273,7 @@ const GuideGroupList = (props) => {
                                             <Grid item xs={3}>
                                                 {
                                                     (!scheduleLoading)?(
-                                                        <Button onClick={sche_pres} variant="contained" color="secondary">Schedule</Button>
+                                                        <Button onClick={(e)=>{sche_pres(e,id)}} variant="contained" color="secondary">Schedule</Button>
                                                     ):(
                                                         <CircularProgress />
                                                     )
