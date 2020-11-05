@@ -143,7 +143,6 @@ class Login extends Component {
     })
       .then(
         function (response) {
-          console.log(response.data);
           Data = response.data.type;
           data_access = response.data.access_token;
           localStorage.setItem("access_token", response.data.access_token);
@@ -153,8 +152,7 @@ class Login extends Component {
             msg: "set",
             getResponse: false
           });
-          console.log(this.state.msg, this.state.user);
-                  }.bind(this)
+        }.bind(this)
       )
 
       .catch(err => {
