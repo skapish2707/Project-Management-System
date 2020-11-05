@@ -338,4 +338,15 @@ router.post('/addhod',authenticateToken,async function(req,res){
 		return res.sendStatus(500)
 	}
 })
+router.post('/presentationMarks',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'guide') return res.sendStatus(401)
+	try{
+		await dbm.updateMarks(req.body.gid.trim(),req.body.pno,req.body.marks);
+		return res.sendStatus(200)
+	}catch{
+		return res.sendStatus(500)
+	}
+})
+
 module.exports = router;
