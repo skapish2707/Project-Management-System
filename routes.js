@@ -304,4 +304,38 @@ router.post('/presentation',authenticateToken,async function(req,res){
 		res.sendStatus(500)
 	}
 })
+
+router.post('/deleteUser',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)	
+	if(req.query.type == 'guide')
+	{
+		try{
+			await dbm.deleteguide(req.body.id.trim(),{name:req.body.name.trim(),email:req.body.email.trim()})
+			return res.sendStatus(200)
+		}catch{
+			return res.sendStatus(500)
+		}
+	}
+	else if (req.query.type == 'hod')
+	{
+		try{
+			await dbm.deletehod(req.body.id.trim());
+			return res.sendStatus(200)
+		}catch{
+			return res.sendStatus(500)
+		}
+	}
+})
+
+router.post('/addhod',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)
+	try{
+		await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email,req.user.department,"hod") ;
+		return res.sendStatus(200)
+	}catch{
+		return res.sendStatus(500)
+	}
+})
 module.exports = router;

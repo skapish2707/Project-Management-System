@@ -17,10 +17,26 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
-    // User.findOne({email:"ritvij@gmail.com"},function(err,user){
+    // User.findOne({email:"new@guide.com"},function(err,user){
     //   if (err) throw err;
     //   console.log(user);
-    //   getGuideGroups(user);      
+    //   // getGuideGroups(user);      
+    // })
+    User.find({type:"hod"},function(err,data){
+      data.forEach(function(user){
+        console.log(user)
+      })
+    })
+    // Group.find({},function(err,data){
+    //   data.forEach(function(grp){
+    //   // for (var i = 0; i< grp.presentation.length ; i++) {
+    //   //   grp.presentation[i].marks = null;
+    //   //   }  
+    //   // grp.save(function(err){
+    //   //   if (err) throw err;
+    //   // })
+    //   console.log(grp.presentation)
+    //   })
     // })
 
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
@@ -251,6 +267,24 @@ async function presentation(gid,datetime){
   await grp.save()
 }
 
+async function deleteguide(id,guide){
+  await User.findByIdAndDelete(id);
+  console.log(`DELETED GUIDE name :${guide.name} email ${guide.email}`);
+  Group.find({guide:guide},function(err,data){
+    if(err) throw err ;
+    data.forEach(function(grp){
+      grp.guide = {name:null,email:null}
+      grp.save(function(err){
+        if(err) throw err;
+      })
+    })
+  })
+}
+
+async function deletehod(id){
+  await User.findByIdAndDelete(id);
+}
+
 async function approve(groupId,proposalId,staff){
     group =  await Group.findById(groupId.trim());
     for (let i = 0 ; i < group.proposals.length ; i++){
@@ -330,4 +364,6 @@ module.exports = {
   getGuide : getGuide,
   getGuideGroups : getGuideGroups,
   presentation : presentation,
+  deleteguide:deleteguide,
+  deletehod:deletehod,
 };
