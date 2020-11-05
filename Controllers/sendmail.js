@@ -27,7 +27,7 @@ async function sendmail(data,type){
         subject : "Registeration email for project management system ",
         html : `<h3>Hi ${data.name},</h3>
                 <p>Your new account for managing your project was created on 
-                https://project-management-system-ark.herokuapp.com/ by 
+                https://project-management-system-ark.herokuapp.com/ 
                 ${data.admin_name}<br/>
                 Your login password is  ${data.password}
                 <br/>
