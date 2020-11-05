@@ -177,7 +177,8 @@ async function getStudents(user,by){
                 proposals :groups[i].proposals,
                 dueDate : groups[i].dueDate,
                 acadYear : groups[i].acadYear,
-                guide : groups[i].guide
+                guide : groups[i].guide,
+                presentation:groups[i].presentation
             })
         }
 	}
