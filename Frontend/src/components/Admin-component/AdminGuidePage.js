@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 let dguideId=null
 let dguideEmail=null
 let dguideName=null
+let checkHod=false
 
 const useStyles = (theme => ({
   root: {
@@ -255,6 +256,8 @@ this.setState({
       return (
         <React.Fragment>
          <SideMenu/>
+
+        {/* MANAGE GUIDE UI START */}
         <Typography variant="h2" style={{margin:"20px auto"}}>Manage Guide </Typography> 
         { !this.state.Loading ? (
         <div>
@@ -302,7 +305,7 @@ this.setState({
       )}
       <div className={classes.guideListHolder}>
         {guideData !== null? guideData.map(guide=>{
-          return <Card className={classes.guideList}>
+          if(guide.type ==="guide") return <Card className={classes.guideList}>
           <Grid container>
             <Grid item xs={1}></Grid>
             <Grid item xs={4}><Typography>{guide.name}</Typography></Grid>
@@ -310,6 +313,7 @@ this.setState({
             <Grid item xs={2}><DeleteIcon className={classes.deleteIconStyle} onClick={()=>this.handleDeleteDialogOpen(guide.id,guide.name,guide.email)}/></Grid>
           </Grid>
           </Card>
+          else return null
           
         }) :<LinearProgress/>}</div>
       {/* Dialog box for delete confirmation   */}
@@ -336,8 +340,34 @@ this.setState({
         </DialogActions>
       </Dialog>
     </div>
+    {/* MANAGE GUIDE UI END */}
+    {/* MANAGE HOD UI START */}
+    <div>
+      <Typography variant='h2' style={{margin:"30px auto"}}>Manage Hod</Typography>
+      <div>{checkHod?<Button variant="contained" color="primary">Delete HOD</Button>:<Button variant="contained" color="primary">Assign HOD </Button>}</div>  
+      <div className={classes.guideListHolder}>
+      {guideData!==null? guideData.map(hod=>{
+        if(hod.type==="hod"){
+        checkHod= true;
+        console.log(checkHod)
+        return <Card className={classes.guideList}>
+          <Grid container>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={4}><Typography>{hod.name}</Typography></Grid>
+            <Grid item xs={5}><Typography>{hod.email}</Typography></Grid>
+          </Grid>
+          </Card>
+        }  
+          else
+          return null 
+      }):<LinearProgress/>}
+      </div>
+
+     
+    </div>
+    {/* MANAGE HOD UI END */}
       </React.Fragment>
-        
+     
       );
     } else {
       return <Redirect to="/" />;
