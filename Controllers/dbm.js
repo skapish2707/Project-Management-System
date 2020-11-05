@@ -22,7 +22,7 @@ mongoose.connect(process.env.uri,{
     //   console.log(user);
     //   getGuideGroups(user);      
     // })
-  
+
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
         // User.findOne({email:"newtest@admin.com"},function(err,admin){          
         //   if(err) throw err ;
@@ -106,9 +106,14 @@ async function addToDatabase(admin,name,rollno,email, department, type, groupNam
       return;
     } 
     password = makePassword(8);
-    saveLocallyForDevelopment(email, password);
-    data = {admin_name:admin.name,email:email,password:password,name:name}
-    // sendmail(data,"registeration");
+    if (admin)
+      data = {admin_name:"by "+admin.name,email:email,password:password,name:name}
+    else 
+      data = {admin_name:"",email:email,password:password,name:name}
+    if(process.env.NODE_ENV == 'production')
+      sendmail(data,"registeration");
+    else
+      saveLocallyForDevelopment(email, password);
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     var user = User();
@@ -172,7 +177,8 @@ async function getStudents(user,by){
                 proposals :groups[i].proposals,
                 dueDate : groups[i].dueDate,
                 acadYear : groups[i].acadYear,
-                guide : groups[i].guide
+                guide : groups[i].guide,
+                presentation:groups[i].presentation
             })
         }
 	}
@@ -201,10 +207,19 @@ async function getGuide(admin){
   let custom_guides = []
   for (let i = 0 ; i < guides.length; i++) {
     custom_guides.push({
+      "id":guides[i].id,
       "name" :guides[i].name,
-      "email" : guides[i].email
+      "email" : guides[i].email,
+      "type":"guide"
     })
   }
+  hod = await User.findOne({admin:admin.id,type:"hod"});
+  custom_guides.push({
+    id:hod.id,
+    name:hod.name,
+    email :hod.email ,
+    type : "hod"
+  })
   return custom_guides
 }
 async function getGuideGroups(user){
@@ -224,6 +239,16 @@ async function getGuideGroups(user){
   }
   console.log(list_groups)
   return list_groups
+}
+
+async function presentation(gid,datetime){
+  grp = await Group.findById(gid);
+  let p_no = grp.presentation.length + 1
+  grp.presentation.push({
+    number:p_no,
+    scheduled_date:datetime
+  })
+  await grp.save()
 }
 
 async function approve(groupId,proposalId,staff){
@@ -304,4 +329,5 @@ module.exports = {
   addGuide : addGuide,
   getGuide : getGuide,
   getGuideGroups : getGuideGroups,
+  presentation : presentation,
 };
