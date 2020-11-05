@@ -75,39 +75,7 @@ const GuideGroupList = (props) => {
         });
     }
     
-     const sche_pres = (e,id) => {
-        let dt= new Date(dateTime);
-        console.log(dt.toISOString());
-        console.log(dateTime)
-        setScheduleLoading(true);
-        axios({
-        method: "post",
-        url: SERVER_URL + "/presentation",
-        withCredentials: true,
-        data: qs.stringify({
-            datetime:dt.toISOString(),
-            gid:id
-          }),
-        headers : {
-            "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-            Authorization : 'Bearer '+ localStorage.getItem("access_token") 
-        }
-        })
-        .then(res => {
-            console.log("SCHEDULED")
-            setScheduleLoading(false);
-        })
     
-        .catch(function (err) {
-            console.log(err);
-            setScheduleLoading(false);
-        });
-    }
-
-    const handleDateTimeChange = (e) =>{
-        setDateTime(e.target.value);
-        console.log(dateTime)
-    }
 
     //accordion handleChange
     const handleChange = panel => (event, isExpanded) => {
@@ -124,17 +92,17 @@ const GuideGroupList = (props) => {
     }
     if(filled)
     {
-        console.log(Groups);
+        //console.log(Groups);
         return(
             <React.Fragment >
                 {Groups.map(Group => {
                     const routeChange = () => {
                         histor.push({
-                        pathname: `/admin/prefs/${id}`,
+                        pathname: `/guide/prefs/${id}`,
                         state: { Group: Group }
                         });
                     };
-                    console.log(Group);
+                    //console.log(Group);
                     let DueDate = Group.dueDate.split("T")[0];
                     let members = Group.members;
                     let Gname = Group.name;
@@ -254,33 +222,6 @@ const GuideGroupList = (props) => {
                                             >
                                             More Details
                                             </Button>
-                                        </Grid>
-                                        <Grid container item xs={9}>
-                                            <Grid item xs={3}>
-                                                <Typography>Schedule Presentation: </Typography>
-                                            </Grid>
-                                            <Grid item xs={6}>
-                                            <TextField
-                                                id="datetime-local"
-                                                label="Next appointment"
-                                                type="datetime-local"
-                                                defaultValue={new Date()}
-                                                className={classes.textField}
-                                                InputLabelProps={{
-                                                shrink: true,
-                                                }}
-                                                onChange={handleDateTimeChange}
-                                            />
-                                            </Grid>
-                                            <Grid item xs={3}>
-                                                {
-                                                    (!scheduleLoading)?(
-                                                        <Button onClick={(e)=>{sche_pres(e,id)}} variant="contained" color="secondary">Schedule</Button>
-                                                    ):(
-                                                        <CircularProgress />
-                                                    )
-                                                }
-                                            </Grid>
                                         </Grid>
                                     </React.Fragment>
                                 ) : (
