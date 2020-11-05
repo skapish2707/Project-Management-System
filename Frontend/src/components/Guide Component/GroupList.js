@@ -76,6 +76,8 @@ const GuideGroupList = (props) => {
     }
     
      const sche_pres = (e,id) => {
+        let dt= new Date(dateTime);
+        console.log(dt.toISOString());
         console.log(dateTime)
         setScheduleLoading(true);
         axios({
@@ -83,7 +85,7 @@ const GuideGroupList = (props) => {
         url: SERVER_URL + "/presentation",
         withCredentials: true,
         data: qs.stringify({
-            datetime:dateTime,
+            datetime:dt.toISOString(),
             gid:id
           }),
         headers : {
