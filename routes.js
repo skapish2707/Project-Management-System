@@ -165,13 +165,13 @@ router.post('/student',authenticateToken, async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'student') return res.status(404).send();
 	if (!req.files) return res.status(422).send();
-	req.files.file1.mv('public/'+req.user.id.trim()+"pref1"+req.files.file1.name,function(err){
+	req.files.file1.mv('proposal/'+req.user.id.trim()+"pref1"+req.files.file1.name,function(err){
 		if (err) throw (err);
 	})
-	req.files.file2.mv('public/'+req.user.id.trim()+"pref2"+req.files.file2.name,function(err){
+	req.files.file2.mv('proposal/'+req.user.id.trim()+"pref2"+req.files.file2.name,function(err){
 		if (err) throw (err);
 	})
-	req.files.file3.mv('public/'+req.user.id.trim()+"pref3"+req.files.file3.name,function(err){
+	req.files.file3.mv('proposal/'+req.user.id.trim()+"pref3"+req.files.file3.name,function(err){
 		if (err) throw (err);
 	})
 
@@ -289,4 +289,19 @@ router.get('/guideGroup',authenticateToken,async function(req,res){
 	}
 })
 
+router.post('/presentation',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'guide') return res.sendStatus(401)
+
+	// gid 
+	// datetime
+	let datetime = new Date(req.body.datetime.trim())
+	let gid = req.body.gid.trim()
+	try{
+		await dbm.presentation(gid,datetime)
+		res.sendStatus(200)
+	}catch{
+		res.sendStatus(500)
+	}
+})
 module.exports = router;
