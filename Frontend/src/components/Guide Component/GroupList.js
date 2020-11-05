@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
-import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Grid, makeStyles, Typography, useTheme } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Grid, makeStyles, TextField, Typography, useTheme } from '@material-ui/core';
 import { toFirstCharUppercase } from "../ToUpper";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useHistory } from 'react-router-dom';
@@ -33,6 +33,12 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
+  let currentDate=new Date();
+//   let date = "Last Sync: " + currentDate.getDate() + "-" + (currentDate.getMonth()+1)  + "-" + currentDate.getFullYear();
+  let curTime = currentDate.getHours() + ":"  + currentDate.getMinutes(); 
+
+                
+
 const GuideGroupList = (props) => {
     const [adData,setAdData] = React.useState(null);
     const [filled,setFilled] = React.useState(false)
@@ -40,6 +46,8 @@ const GuideGroupList = (props) => {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const [loading,setLoading] = React.useState(false);
+    const [scheduleLoading,setScheduleLoading] = React.useState(false);
+    const [dateTime,setDateTime] = React.useState("");
     const theme = useTheme();
 
     function checkData() {
@@ -66,6 +74,38 @@ const GuideGroupList = (props) => {
         });
     }
     
+     const sche_pres = () => {
+        let  dt = new Date(dateTime);
+        console.log(dateTime)
+        console.log(dt.toString());  
+        //setScheduleLoading(true);
+        // axios({
+        // method: "post",
+        // url: SERVER_URL + "/presentation",
+        // withCredentials: true,
+        // data: qs.stringify({
+            
+        //   }),
+        // headers : {
+        //     Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+        // }
+        // })
+        // .then(res => {
+
+        //     setScheduleLoading(false);
+        // })
+    
+        // .catch(function (err) {
+        //     console.log(err);
+        //     setScheduleLoading(false);
+        // });
+    }
+
+    const handleDateTimeChange = (e) =>{
+        setDateTime(e.target.value);
+        console.log(dateTime)
+    }
+
     //accordion handleChange
     const handleChange = panel => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -208,8 +248,35 @@ const GuideGroupList = (props) => {
                                             variant="outlined"
                                             color="primary"
                                             >
-                                            Show Preferences
+                                            More Details
                                             </Button>
+                                        </Grid>
+                                        <Grid container item xs={9}>
+                                            <Grid item xs={3}>
+                                                <Typography>Schedule Presentation: </Typography>
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                            <TextField
+                                                id="datetime-local"
+                                                label="Next appointment"
+                                                type="datetime-local"
+                                                defaultValue="2017-05-24T10:30"
+                                                className={classes.textField}
+                                                InputLabelProps={{
+                                                shrink: true,
+                                                }}
+                                                onChange={handleDateTimeChange}
+                                            />
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                {
+                                                    (!scheduleLoading)?(
+                                                        <Button onClick={sche_pres} variant="contained" color="secondary">Schedule</Button>
+                                                    ):(
+                                                        <CircularProgress />
+                                                    )
+                                                }
+                                            </Grid>
                                         </Grid>
                                     </React.Fragment>
                                 ) : (

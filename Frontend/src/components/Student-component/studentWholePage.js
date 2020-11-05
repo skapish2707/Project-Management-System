@@ -19,6 +19,8 @@ import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 
 let userInfo = [];
+let DueDate = null;
+let AppliedOn = null;
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
@@ -116,6 +118,8 @@ const StudentWholePage = props => {
     })
       .then(res => {
         Group = res.data;
+        DueDate = Group.dueDate.split("T")[0];
+        AppliedOn = Group.proposals[0].applied.split("T")[0];
         setAcademicYear(Group.acadYear);
       })
       .catch(err => {
@@ -169,7 +173,7 @@ const StudentWholePage = props => {
           </ThemeProvider>
           <Grid className={classes.TabPanel} item xs={12}>
             <TabPanel value={value} index={0}>
-              <StudentHomePage />
+              <StudentHomePage Group={Group} DueDate={DueDate} AppliedOn={AppliedOn}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
               <StudentContent />
@@ -214,7 +218,7 @@ const StudentWholePage = props => {
           </ThemeProvider>
           <Grid className={classes.TabPanel} item xs={9}>
             <TabPanel value={value} index={0}>
-              <StudentHomePage />
+              <StudentHomePage Group={Group} DueDate={DueDate} AppliedOn={AppliedOn}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
               <StudentContent />
