@@ -10,6 +10,9 @@ import {Card,Button,CircularProgress, Dialog, DialogActions, DialogContent, Dial
 import qs from "qs";
 import DeleteIcon from '@material-ui/icons/Delete';
 
+let dguideId=null
+let dguideEmail=null
+let dguideName=null
 
 const useStyles = (theme => ({
   root: {
@@ -49,9 +52,7 @@ const useStyles = (theme => ({
 
 let guideData = null;
 
- 
-
-class AdminGuidePage extends Component {
+ class AdminGuidePage extends Component {
  //Add Guide Button & different options in Dialog Box
  handleClickOpen = () => {
   this.setState({
@@ -108,6 +109,55 @@ handleCloseSubmit = () => {
   }
 };
 
+//Delete DialogBOX
+
+handleDeleteDialogOpen=(id,name,email)=>{
+  console.log(id)
+  dguideEmail=email
+  dguideId=id
+  dguideName=name
+  this.setState({
+    deleteOpen:true
+  })
+}
+handleDeleteDialogClose=()=>{
+  this.setState({
+    deleteOpen:false
+  })
+}
+
+handleDeleteGuide=(id,name,email)=>{
+  console.log("id:",id,"name:",name,"email:",email)
+  
+  this.handleDeleteDialogClose()
+  axios({
+    method: "post",
+    url: SERVER_URL + "/deleteUser?type=guide",
+    credentials: "include",
+    withCredentials: true,
+    data: qs.stringify({
+      id:id,
+      name:name,
+      email:email
+    }),
+    headers: {
+      "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      Authorization : 'Bearer '+ localStorage.getItem("access_token")
+    }
+  })
+  .then(res => {
+    console.log("guide deleted!!!!")
+    dguideEmail=null
+    dguideId=null
+    dguideName=null
+    window.location.reload(false);
+  })
+
+  .catch(err => {
+    console.log(err);
+    });
+}
+
 
 // Dialog box Guide name and email
 
@@ -138,8 +188,9 @@ this.setState({
       Open:false,
       Loading:false,
       guideName:'',
-      guideEmail:''
-    };
+      guideEmail:'',
+      deleteOpen:false,
+      };
   }
 
   getStat = () => {
@@ -180,7 +231,7 @@ this.setState({
         guideData= res.data;
         this.setState({
           guideDetails:res.data
-          },console.log(this.state.guideDetails,guideData));
+          },console.log(res));
       })
 
       .catch(err => {
@@ -256,11 +307,35 @@ this.setState({
             <Grid item xs={1}></Grid>
             <Grid item xs={4}><Typography>{guide.name}</Typography></Grid>
             <Grid item xs={5}><Typography>{guide.email}</Typography></Grid>
-            <Grid item xs={2}><DeleteIcon className={classes.deleteIconStyle}/> </Grid>
+            <Grid item xs={2}><DeleteIcon className={classes.deleteIconStyle} onClick={()=>this.handleDeleteDialogOpen(guide.id,guide.name,guide.email)}/></Grid>
           </Grid>
           </Card>
           
         }) :<LinearProgress/>}</div>
+      {/* Dialog box for delete confirmation   */}
+      <div>
+      <Dialog
+        open={this.state.deleteOpen}
+        onClose={this.handleDeleteDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete Guide"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this guide? If this guide is assigned to any groups,then you need to assign guides for that group again
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleDeleteDialogClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={()=>this.handleDeleteGuide(dguideId,dguideName,dguideEmail)} color="primary" >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
       </React.Fragment>
         
       );
