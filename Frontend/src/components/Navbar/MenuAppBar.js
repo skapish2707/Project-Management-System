@@ -13,6 +13,7 @@ import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
+import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
 
 const kickUser = () => {
   axios({
@@ -68,89 +69,186 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static" style={{ backgroundColor: "#000" }}>
-        <Toolbar>
-          <Typography variant="h5" className={classes.title}>
-            Project Management System
-          </Typography>
-          {auth && (
-            <div className={classes.profIcon}>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
+  const pres_url = window.location.href;
+  if(pres_url==="http://localhost:3000/cp@2707user"){
+    return (
+      <div className={classes.root}>
+        <AppBar position="static" style={{ backgroundColor: "#000" }}>
+          <Toolbar>
+            <Link
+              to="/"
+              style={{ textDecoration: "none", color: "#000", marginRight:"5px" }}
+            >
+              <Button color="inherit" variant="contained">
+                <ArrowBackRoundedIcon />
+              </Button>
+            </Link>
+            <Typography variant="h5" className={classes.title}>
+              Project Management System
+            </Typography>
+            {auth && (
+              <div className={classes.profIcon}>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle style={{ fontSize: 40 }} />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <Link
+                      to="/cp@2707user"
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      Change Password
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link
+                      to="/logout"
+                      onClick={kickUser}
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      Logout
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </div>
+            )}
+            <Link
+              to="/cp@2707user"
+              className={classes.navMenu}
+              style={{ textDecoration: "none", color: "#000" }}
+            >
+              <Button
                 color="inherit"
+                variant="contained"
+                startIcon={<AssignmentIndIcon />}
               >
-                <AccountCircle style={{ fontSize: 40 }} />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                open={open}
-                onClose={handleClose}
+                Change Password
+              </Button>
+            </Link>
+            <Link
+              to="/logout"
+              onClick={kickUser}
+              className={classes.navMenu}
+              style={{ textDecoration: "none", color: "#000" }}
+            >
+              <Button
+                color="inherit"
+                variant="contained"
+                style={{ marginLeft: "20px" }}
+                startIcon={<ExitToAppIcon />}
               >
-                <MenuItem onClick={handleClose}>
-                  <Link
-                    to="/cp@2707user"
-                    style={{ textDecoration: "none", color: "#000" }}
-                  >
-                    Change Password
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <Link
-                    to="/logout"
-                    onClick={kickUser}
-                    style={{ textDecoration: "none", color: "#000" }}
-                  >
-                    Logout
-                  </Link>
-                </MenuItem>
-              </Menu>
-            </div>
-          )}
-          <Link
-            to="/cp@2707user"
-            className={classes.navMenu}
-            style={{ textDecoration: "none", color: "#000" }}
-          >
-            <Button
-              color="inherit"
-              variant="contained"
-              startIcon={<AssignmentIndIcon />}
+                Logout
+              </Button>
+            </Link>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }else{
+    return (
+      <div className={classes.root}>
+        <AppBar position="static" style={{ backgroundColor: "#000" }}>
+          <Toolbar>
+            <Typography variant="h5" className={classes.title}>
+              Project Management System
+            </Typography>
+            {auth && (
+              <div className={classes.profIcon}>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle style={{ fontSize: 40 }} />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <Link
+                      to="/cp@2707user"
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      Change Password
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link
+                      to="/logout"
+                      onClick={kickUser}
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      Logout
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </div>
+            )}
+            <Link
+              to="/cp@2707user"
+              className={classes.navMenu}
+              style={{ textDecoration: "none", color: "#000" }}
             >
-              Change Password
-            </Button>
-          </Link>
-          <Link
-            to="/logout"
-            onClick={kickUser}
-            className={classes.navMenu}
-            style={{ textDecoration: "none", color: "#000" }}
-          >
-            <Button
-              color="inherit"
-              variant="contained"
-              style={{ marginLeft: "20px" }}
-              startIcon={<ExitToAppIcon />}
+              <Button
+                color="inherit"
+                variant="contained"
+                startIcon={<AssignmentIndIcon />}
+              >
+                Change Password
+              </Button>
+            </Link>
+            <Link
+              to="/logout"
+              onClick={kickUser}
+              className={classes.navMenu}
+              style={{ textDecoration: "none", color: "#000" }}
             >
-              Logout
-            </Button>
-          </Link>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+              <Button
+                color="inherit"
+                variant="contained"
+                style={{ marginLeft: "20px" }}
+                startIcon={<ExitToAppIcon />}
+              >
+                Logout
+              </Button>
+            </Link>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
