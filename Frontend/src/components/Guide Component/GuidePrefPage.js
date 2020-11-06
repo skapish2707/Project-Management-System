@@ -637,7 +637,8 @@ handleDateTimeChange = (e) =>{
                                                     </Typography>
                                                 )}
                                             </Grid>
-                                            <Grid item container xs={12} style={{ textAlign: "left" }}>
+                                            {presentation.marks===null?(
+                                              <Grid item container xs={12} style={{ textAlign: "left" }}>
                                                 <Grid item xs={3}>
                                                     <TextField type="number" value={this.state.marks} variant="outlined" label="Marks obtained" onChange={this.handleMarks}/>
                                                 </Grid>
@@ -648,7 +649,8 @@ handleDateTimeChange = (e) =>{
                                                     <Button size="large" variant="outlined" color="primary" onClick={(e)=>{this.handleMarkSubmit(e,Gid,presentation.number)}} >Submit Marks</Button>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item xs={12} style={{textAllign:"right"}}>
+                                            ):(null)}
+                                            <Grid item xs={12} style={{alignContent: "flex-end"}}>
                                               <Button variant="outlined" color="default" onClick={(e)=>{this.handleDeletePresentation(e,panel,Gid)}}>Delete presentation</Button>
                                             </Grid>
                                         </Grid>
