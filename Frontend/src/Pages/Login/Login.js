@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SERVER_URL from "../URL";
 import axios from "axios";
 import qs from "qs";
@@ -302,6 +303,12 @@ class Login extends Component {
                 Log In
               </Button>
             </form>
+            <Link
+              to="/forgetPassword"
+              style={{ textDecoration: "underline", color: "#fff", marginRight:"5px" }}
+            >
+            forgot password ? reset now
+            </Link>
             <Snackbar
               open={this.state.invalidCredentials}
               autoHideDuration={6000}
