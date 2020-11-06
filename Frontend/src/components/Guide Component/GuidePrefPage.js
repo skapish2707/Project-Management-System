@@ -593,21 +593,34 @@ handleDateTimeChange = (e) =>{
                                                     <b>Presentation {presentation.number}</b>
                                                 </Typography>
                                             </Grid>
-                                            {(presentation.marks!==null)?(
+                                            {(presentation.marks===null)?(
+                                                <React.Fragment>
+                                                  {d.getTime()>Date.now()?(
+                                                    <React.Fragment>
+                                                      <Grid item xs={4} />
+                                                      <Grid item xs={5}>
+                                                        <Typography>
+                                                            Marks: Presentation Not conducted
+                                                        </Typography>
+                                                      </Grid>
+                                                    </React.Fragment>
+                                                  ):(
+                                                    <React.Fragment>
+                                                      <Grid item xs={4} />
+                                                      <Grid item xs={5}>
+                                                        <Typography color="secondary">
+                                                            Presentation missed
+                                                        </Typography>
+                                                      </Grid>
+                                                    </React.Fragment>
+                                                  )}
+                                                </React.Fragment>
+                                            ):(
                                                 <React.Fragment>
                                                     <Grid item xs={6} />
                                                     <Grid item xs={3}>
                                                         <Typography>
                                                             Marks: {presentation.marks}
-                                                        </Typography>
-                                                    </Grid>
-                                                </React.Fragment>
-                                            ):(
-                                                <React.Fragment>
-                                                    <Grid item xs={4} />
-                                                    <Grid item xs={5}>
-                                                        <Typography>
-                                                            Marks: Presentation Not conducted
                                                         </Typography>
                                                     </Grid>
                                                 </React.Fragment>
