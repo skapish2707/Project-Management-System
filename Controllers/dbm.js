@@ -3,7 +3,7 @@ var User = require("../models/User");
 var Group = require("../models/Group");
 var bcrypt = require("bcrypt");
 var fs = require("fs");
-// require("dotenv").config();
+var crypto = require('crypto');
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
 var sendmail = require('./sendmail');
@@ -334,7 +334,37 @@ async function getGroup(student){
     }
 }
 
-
+async function forgetPassword(email){
+  user = await User.findOne({email:email})
+  if(user == null)
+    return "A user with that email doesn't exist"
+  else{
+    let token = crypto.randomBytes(16).toString('hex')
+    user.resetPasswordToken =  token
+    user.resetPasswordExpires = new Date()
+    user.save(function(err){
+      if (err) throw err;
+    })
+    data = {email:user.email,link:process.env.HOST+"/resetPassword/"+token}
+    if(process.env.NODE_ENV == "production")
+      sendmail(data,"forgetPassword");
+    else
+      console.log(data)
+    return "Details to reset password has been mailed to this email please check your inbox"
+  }
+}
+async function resetPassword(token,newPassword){
+  user = await  User.findOne({resetPasswordToken:token})
+  now = new Date()
+  if(now-user.resetPasswordExpires>10*60*1000)
+    return "no"
+  const hash =  bcrypt.hashSync(newPassword,bcrypt.genSaltSync(10));
+  user.password = hash
+  user.resetPasswordToken=null
+  user.resetPasswordExpires=null
+  await user.save()
+  return "yes"
+}
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
     email,
@@ -381,4 +411,6 @@ module.exports = {
   deleteguide:deleteguide,
   deletehod:deletehod,
   updateMarks:updateMarks,
+  forgetPassword:forgetPassword,
+  resetPassword:resetPassword,
 };
