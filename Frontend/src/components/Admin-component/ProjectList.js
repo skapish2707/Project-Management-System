@@ -79,23 +79,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // let Guides = null;
-let guideIndex=null;
+
 
 export default function ControlledAccordions(props) {
+  let Groups = props.Groups;
+  let Guides = props.Guides;
   console.log(props)
   const histor = useHistory();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const [open,setOpen] = React.useState(false);
-  const [guideName,setGuideName] = React.useState("");
-  const [guideEmail,setGuideEmail] =React.useState("");
-  const [loading,setLoading]=React.useState(false)
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [assignLoading,setAssignLoading]=React.useState(false);
-  const [guide,setGuide] = React.useState("");
-  const [guideE,setGuideE] = React.useState("");
+  const [guide,setGuide] = React.useState(null);
+  const [guideE,setGuideE] = React.useState(null);
 
 
 //Guide Menu
@@ -118,63 +115,21 @@ export default function ControlledAccordions(props) {
     setGuide(e.target.value);
     Guides.map(Guide=>{
       if(Guide.name===e.target.value){
-        guideE=Guide.email;
+        setGuideE(Guide.email)
       }
     })
   }
 
 
 
-  //Add Guide Button & different options in Dialog Box
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleCloseCancel = () => {
-    console.log("CANCEL")
-    setOpen(false);
-  };
-  const handleCloseSubmit = () => {
-    setLoading(true)
-    if(guide===""){
-      alert("Guide name or email cannot be empty")
-    }else{
-      axios({
-        method: "post",
-        url: SERVER_URL + "/addGuide?type=new",
-        credentials: "include",
-        withCredentials: true,
-        data: qs.stringify({
-          name:guideName,
-          email:guideEmail
-        }),
-        headers: {
-          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-          Authorization : 'Bearer '+ localStorage.getItem("access_token")
-        }
-      })
-      .then(res => {
-        console.log("submitted")
-        setLoading(false)
-        setGuideName("")
-        setGuideEmail("")
-        setOpen(false);
-        window.location.reload(false);
-      })
 
-      .catch(err => {
-        alert("Guide not added")
-        setLoading(false)
-        console.log(err);
-        setOpen(false);
-      });
-    }
-  };
+  
 
 // Assign Guide button
 
   const assignGuide = (e,id) => {  
     console.log(guide,guideE)
-    if(guideIndex===null){
+    if(guide===null){
       alert("Please select a guide first")
     }else{
       setAssignLoading(true)
@@ -208,15 +163,16 @@ export default function ControlledAccordions(props) {
   }
 
 
-// Dialog box Guide name and email
+ const handleChangeGuide = (id) => {
+  Groups.map(Group=>{
+    if(Group.id===id){
+      Group.guide.name=null;
+      Group.guide.email=null;
+    }
+  })
+  setGuide(null)
+ }
 
-  const handleGNameChange = (e) => {
-    setGuideName(e.target.value)
-  }
-
-  const handleGEmailChange = (e) => {
-    setGuideEmail(e.target.value)
-  }
 
   // Tabs handleChange
 
@@ -235,58 +191,16 @@ export default function ControlledAccordions(props) {
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  let Groups = props.Groups;
-  let Guides = props.Guides;
+
   // let e={}
 
   console.log(props.Guides,Guides)
   if(Guides!==null){
+    if(guide===null){
+      setGuide(Guides[0].name)
+    }
     return (
       <div>
-        { !loading ? (
-          <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>Add Guide</Button>
-            <Dialog open={open} onClose={handleCloseCancel} aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">Add Guide</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Please add name and email of Guide.
-                </DialogContentText>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="guideName"
-                    label="Guide Name"
-                    type="text"
-                    value={guideName}
-                    onChange={handleGNameChange}
-                    fullWidth
-                    required
-                  />
-                  <TextField
-                    margin="dense"
-                    id="guideEmail"
-                    label="Guide Email"
-                    type="text"
-                    value={guideEmail}
-                    onChange={handleGEmailChange}
-                    fullWidth
-                    required
-                  />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseCancel} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={handleCloseSubmit} color="primary">
-                  Submit
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </div>
-        ) : (
-          <div><CircularProgress /></div>
-        )}
         <div className={classes.root}>
           <AppBar position="static" color="default">
             <Tabs
@@ -450,39 +364,11 @@ export default function ControlledAccordions(props) {
                                   {(Group.guide.name===null)?(
                                     <React.Fragment>
                                       <Grid item xs={5} />
-                                      <Grid item xs={2}>
-                                        {/* <Button style={{marginLeft : "20px"}} aria-controls="simple-menu" variant="outlined" color="primary" aria-haspopup="true" onClick={handleMenuClick}>
-                                          Select Guide
-                                        </Button>
-                                        <Menu
-                                            id="simple-menu"
-                                            anchorEl={anchorEl}
-                                            keepMounted
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleMenuClose}
-                                            style={{minWidth:"500px"}}
-                                          >
-                                            { anchorEl ? (
-                                              <React.Fragment>
-                                                  {Guides.map((Guide,index) => {
-                                                    return(
-                                                      <React.Fragment key={Guide.email}>
-  
-                                                          <MenuItem onClick={(e) => {handleMenuClose(e,index)}}>{Guide.name}</MenuItem>
-  
-                                                      </React.Fragment>
-                                                    )
-                                                  })}
-                                              </React.Fragment>
-                                            ) : (
-                                              null
-                                            )}
-                                          </Menu> */}
+                                      <Grid item xs={3}>
                                         <TextField
-                                          size="large"
+                                          size="medium"
                                           id="selectGuide"
                                           select
-                                          label="Select"
                                           value={guide}
                                           onChange={handleGuideChange}
                                           helperText="Please select Guide"
@@ -494,15 +380,8 @@ export default function ControlledAccordions(props) {
                                           })}
                                         </TextField> 
                                       </Grid>
-                                      {/* <Grid item xs={3}>
-                                        { (guideIndex!==null) ? (
-                                            <Button variant="outlined" color="secondary">{Guides[guideIndex].name}</Button>
-                                        ) : (
-                                          <Button variant="outlined" color="secondary">Guide not selected</Button>
-                                        )}
-                                      </Grid> */}
-                                      <Grid item xs ={3} />
-                                      <Grid item xs={2}>
+                                      <Grid item xs ={1} />
+                                      <Grid item xs={3}>
                                         { !assignLoading ? (
                                             <Button style={{marginRight:"20px"}} variant="contained" color="secondary" onClick={(e)=>assignGuide(e,id)}>Assign Guide</Button>
                                         ) : (
@@ -512,7 +391,7 @@ export default function ControlledAccordions(props) {
                                    </React.Fragment>
                                 ):(
                                   <React.Fragment>
-                                    <Grid item xs={6} />
+                                    <Grid item xs={2} />
                                     <Grid item xs={3}>
                                       <Typography variant="h6" color="secondary">
                                         Guide Assigned: 
@@ -520,6 +399,9 @@ export default function ControlledAccordions(props) {
                                     </Grid>
                                     <Grid item xs={3}>
                                       <Typography variant="h6" color="secondary">{Group.guide.name}</Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                      <Button variant="contained" color="primary" onClick={()=>{handleChangeGuide(id)}}>Change Guide</Button>
                                     </Grid>
                                   </React.Fragment>
                                 )}

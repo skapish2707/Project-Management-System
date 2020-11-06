@@ -10,7 +10,7 @@ import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { Grid, Button, TextField, CircularProgress } from "@material-ui/core";
+import { Grid, Button, TextField, CircularProgress, Card } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import { toFirstCharUppercase } from "../ToUpper";
@@ -295,6 +295,30 @@ handleDateTimeChange = (e) =>{
     this.setState({totalMarks:e.target.value})
 }
 
+  handleDeletePresentation=(e,PNO,GID)=>{
+    axios({
+      method: "post",
+      url: SERVER_URL + "/deletePresentation",
+      withCredentials: true,
+      data: qs.stringify({
+          pno:PNO,
+          gid:GID
+      }),
+      headers : {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
+      })
+      .then(res => {
+          console.log("Deleted");
+          window.location.reload();
+      })
+
+      .catch(function (err) {
+          console.log(err);
+  });
+  }
+
   render() {
     const { location } = this.props;
     const { classes } = this.props;
@@ -329,6 +353,7 @@ handleDateTimeChange = (e) =>{
                       let approval = proposal.approval;
                       let pid = proposal._id;
                       let Gid = Group.id;
+                      let appliedDate = new Date(proposal.applied)
                       return (
                         <Accordion key={proposal._id}
                           expanded={expanded === panel}
@@ -355,6 +380,7 @@ handleDateTimeChange = (e) =>{
                             <Typography className={classes.secondaryHeading}>
                               {proposal.title}
                             </Typography>
+                            
                             {proposal.approval.admin ? (
                               <Typography
                                 style={{
@@ -380,45 +406,51 @@ handleDateTimeChange = (e) =>{
                             >
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Title:&nbsp;&nbsp;</b>
+                                  <b>Title of Proposal:&nbsp;&nbsp;</b>
                                   {proposal.title}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Details:&nbsp;&nbsp;</b>
+                                  <b>Detailed Statement of Problem:&nbsp;&nbsp;</b>
                                   {proposal.details}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Method:&nbsp;&nbsp;</b>
+                                  <b>Internal Agency/External Agency/CTL/Mastek/or any other:&nbsp;&nbsp;</b>
+                                  {proposal.agency}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Methods/Technique/Algorithm proposed:&nbsp;&nbsp;</b>
                                   {proposal.method}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Requirements:&nbsp;&nbsp;</b>
+                                  <b>Software/Hardware Requirements:&nbsp;&nbsp;</b>
                                   {proposal.requirements}
                                 </Typography>
                               </Grid>
 
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Specialization:&nbsp;&nbsp;</b>
+                                  <b>Domain of Specialization:&nbsp;&nbsp;</b>
                                   {proposal.specialization}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Result:&nbsp;&nbsp;</b>
+                                  <b>Result Expected:&nbsp;&nbsp;</b>
                                   {proposal.result}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
-                                  {proposal.applied}
+                                  {appliedDate.getDate()}/{appliedDate.getMonth()+1}/{appliedDate.getFullYear()}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
@@ -430,22 +462,22 @@ handleDateTimeChange = (e) =>{
                               <Grid item xs={12}>
                                 {approval.admin ? (
                                   <Typography>
-                                    <b>Admin approval status:</b>Approved
+                                    <b>Admin approval status:&nbsp;&nbsp;</b>Approved
                                   </Typography>
                                 ) : (
                                   <Typography>
-                                    <b>Admin approval status:</b>not approved
+                                    <b>Admin approval status:&nbsp;&nbsp;</b>not approved
                                   </Typography>
                                 )}
                               </Grid>
                               <Grid item xs={12}>
                                 {approval.hod ? (
                                   <Typography>
-                                    <b>HOD approval status:</b>Approved
+                                    <b>HOD approval status:&nbsp;&nbsp;</b>Approved
                                   </Typography>
                                 ) : (
                                   <Typography>
-                                    <b>HOD approval status:</b>not approved
+                                    <b>HOD approval status:&nbsp;&nbsp;</b>not approved
                                   </Typography>
                                 )}
                               </Grid>
@@ -518,9 +550,9 @@ handleDateTimeChange = (e) =>{
                         </Accordion>
                       );
                     })}
-                    
+                    <Card style={{marginTop:"20px"}}>
                     <Grid style={{marginTop:"20px"}} container item xs={12}>
-                        <Grid item xs={12}>
+                        <Grid style={{backgroundColor:"#fff"}} item xs={12}>
                             <Typography style={{marginBottom:"20px"}} variant="h3">Presentation Details</Typography>
                         </Grid>
                         <Grid item xs={3}>
@@ -616,6 +648,9 @@ handleDateTimeChange = (e) =>{
                                                     <Button size="large" variant="outlined" color="primary" onClick={(e)=>{this.handleMarkSubmit(e,Gid,presentation.number)}} >Submit Marks</Button>
                                                 </Grid>
                                             </Grid>
+                                            <Grid item xs={12} style={{textAllign:"right"}}>
+                                              <Button variant="outlined" color="default" onClick={(e)=>{this.handleDeletePresentation(e,panel,Gid)}}>Delete presentation</Button>
+                                            </Grid>
                                         </Grid>
                                     </AccordionDetails>
                                 </Accordion>
@@ -623,6 +658,7 @@ handleDateTimeChange = (e) =>{
                             })}
                         </Grid>
                     </Grid>
+                    </Card>
                     <Grid container className={classes.comment}>
                       <Grid
                         item
