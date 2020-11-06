@@ -14,6 +14,7 @@ let dguideId=null
 let dguideEmail=null
 let dguideName=null
 let checkHod=false
+let dHodId=false
 
 const useStyles = (theme => ({
   root: {
@@ -26,7 +27,7 @@ const useStyles = (theme => ({
   accorStyle:{
     width:"80%",
     margin:"auto",
-    marginTop:"50px"
+    marginTop:"30px"
 
   },
   guideList:{
@@ -39,7 +40,7 @@ const useStyles = (theme => ({
   guideListHolder:{
     width:"60%",
     margin:"auto",
-    marginTop:"50px",
+    marginTop:"30px",
     padding:"20px",
     //backgroundColor:"#fff"
   },
@@ -54,6 +55,139 @@ const useStyles = (theme => ({
 let guideData = null;
 
  class AdminGuidePage extends Component {
+
+  constructor(props) {
+    super(props);
+    const token = localStorage.getItem("token");
+    let loggedIn = true;
+    if (token === "admin") {
+      loggedIn = true;
+    }
+
+    this.state = {
+      loggedIn,
+      user: "",
+      guideDetails:null,
+      Open:false,
+      Loading:false,
+      guideName:'',
+      guideEmail:'',
+      hodName:'',
+      hodEmail:'',
+      deleteOpen:false,
+      deleteHodOpen:false,
+      addHodOpen:false
+      };
+  }
+
+//Delete Hod SEction
+handleDeleteHodDialogOpen=(id)=>{  
+  dHodId=id
+  this.setState({
+    deleteHodOpen:true
+  })
+}
+handleDeleteHodDialogClose=()=>{
+  this.setState({
+    deleteHodOpen:false
+  })
+}
+
+handleDeleteHod=(id)=>{
+  this.handleDeleteHodDialogClose()
+  axios({
+    method: "post",
+    url: SERVER_URL + "/deleteUser?type=hod",
+    credentials: "include",
+    withCredentials: true,
+    data: qs.stringify({
+      id:id
+    }),
+    headers: {
+      "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      Authorization : 'Bearer '+ localStorage.getItem("access_token")
+    }
+  })
+  .then(res => {
+    console.log("Hod deleted!!!!")
+    dHodId=null
+    window.location.reload(false);
+  })
+
+  .catch(err => {
+    console.log(err);
+    });
+}
+
+
+
+
+//Add Hod Section
+handleAddHodDialogOpen=()=>{  
+  this.setState({
+    addHodOpen:true
+  })
+}
+handleAddHodDialogClose=()=>{
+  this.setState({
+    addHodOpen:false
+  })
+}
+
+handleHodNameChange = (e) => {
+  this.setState({
+    hodName:e.target.value
+  })
+  }
+  
+  handleHodEmailChange = (e) => {
+  this.setState({
+    hodEmail:e.target.value
+  })
+  }
+
+  //axios for addHod
+  handleAddHod=()=>{
+    if(this.state.hodName==="" || this.state.hodEmail===""){
+      alert("HOD name or email cannot be empty")
+    }else{
+      axios({
+        method: "post",
+        url: SERVER_URL + "/addhod",
+        credentials: "include",
+        withCredentials: true,
+        data: qs.stringify({
+          name:this.state.hodName,
+          email:this.state.hodEmail
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization : 'Bearer '+ localStorage.getItem("access_token")
+        }
+      })
+      .then(res => {
+        console.log("HOD Assigned Successfully!!!!!")
+        this.setState({
+          hodName:"",
+          hodEmail:"",
+          addHodOpen:false
+        })
+       
+        window.location.reload(false);
+      })
+  
+      .catch(err => {
+        alert("HOD not assigned")
+        this.setState({
+          addHodOpen:false
+        })
+        console.log(err);
+        });
+    }
+  }
+
+
+
  //Add Guide Button & different options in Dialog Box
  handleClickOpen = () => {
   this.setState({
@@ -110,10 +244,9 @@ handleCloseSubmit = () => {
   }
 };
 
-//Delete DialogBOX
+//Delete guide DialogBOX
 
 handleDeleteDialogOpen=(id,name,email)=>{
-  console.log(id)
   dguideEmail=email
   dguideId=id
   dguideName=name
@@ -127,9 +260,7 @@ handleDeleteDialogClose=()=>{
   })
 }
 
-handleDeleteGuide=(id,name,email)=>{
-  console.log("id:",id,"name:",name,"email:",email)
-  
+handleDeleteGuide=(id,name,email)=>{ 
   this.handleDeleteDialogClose()
   axios({
     method: "post",
@@ -174,28 +305,8 @@ this.setState({
 })
 }
 
-  constructor(props) {
-    super(props);
-    const token = localStorage.getItem("token");
-    let loggedIn = true;
-    if (token === "admin") {
-      loggedIn = true;
-    }
-
-    this.state = {
-      loggedIn,
-      user: "",
-      guideDetails:null,
-      Open:false,
-      Loading:false,
-      guideName:'',
-      guideEmail:'',
-      deleteOpen:false,
-      };
-  }
-
-  getStat = () => {
-    axios({
+getStat = () => {
+  axios({
       method: "get",
       url: SERVER_URL + "/user",
       withCredentials: true,
@@ -246,129 +357,192 @@ this.setState({
 
   render() {
     const { classes } = this.props;
-    if(this.state.guideDetails === null){
+    if(guideData === null){
       this.getGuide()
     }
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
     } else if (this.state.user.type === "admin") {
-      return (
-        <React.Fragment>
-         <SideMenu/>
-
-        {/* MANAGE GUIDE UI START */}
-        <Typography variant="h2" style={{margin:"20px auto"}}>Manage Guide </Typography> 
-        { !this.state.Loading ? (
-        <div>
-          <Button variant="contained" color="primary" onClick={this.handleClickOpen}>Add Guide</Button>
-          <Dialog open={this.state.Open} onClose={this.handleCloseCancel} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Add Guide</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Please add name and email of Guide.
-              </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="guideName"
-                  label="Guide Name"
-                  type="text"
-                  value={this.state.guideName}
-                  onChange={this.handleGNameChange}
-                  fullWidth
-                  required
-                />
-                <TextField
-                  margin="dense"
-                  id="guideEmail"
-                  label="Guide Email"
-                  type="text"
-                  value={this.state.guideEmail}
-                  onChange={this.handleGEmailChange}
-                  fullWidth
-                  required
-                />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleCloseCancel} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={this.handleCloseSubmit} color="primary">
-                Submit
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-      ) : (
-        <div><CircularProgress /></div>
-      )}
-      <div className={classes.guideListHolder}>
-        {guideData !== null? guideData.map(guide=>{
-          if(guide.type ==="guide") return <Card className={classes.guideList}>
-          <Grid container>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={4}><Typography>{guide.name}</Typography></Grid>
-            <Grid item xs={5}><Typography>{guide.email}</Typography></Grid>
-            <Grid item xs={2}><DeleteIcon className={classes.deleteIconStyle} onClick={()=>this.handleDeleteDialogOpen(guide.id,guide.name,guide.email)}/></Grid>
-          </Grid>
-          </Card>
-          else return null
-          
-        }) :<CircularProgress/>}</div>
-      {/* Dialog box for delete confirmation   */}
-      <div>
-      <Dialog
-        open={this.state.deleteOpen}
-        onClose={this.handleDeleteDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Delete Guide"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this guide? If this guide is assigned to any groups,then you need to assign guides for that group again
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.handleDeleteDialogClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={()=>this.handleDeleteGuide(dguideId,dguideName,dguideEmail)} color="primary" >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-    {/* MANAGE GUIDE UI END */}
-    {/* MANAGE HOD UI START */}
-    <div>
-      <Typography variant='h2' style={{margin:"30px auto"}}>Manage Hod</Typography>
-      <div>{checkHod?<Button variant="contained" color="primary">Delete HOD</Button>:<Button variant="contained" color="primary">Assign HOD </Button>}</div>  
-      <div className={classes.guideListHolder}>
-      {guideData!==null? guideData.map(hod=>{
-        if(hod.type==="hod"){
-        checkHod= true;
-        console.log(checkHod)
-        return <Card className={classes.guideList}>
-          <Grid container>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={4}><Typography>{hod.name}</Typography></Grid>
-            <Grid item xs={5}><Typography>{hod.email}</Typography></Grid>
-          </Grid>
-          </Card>
-        }  
-          else
-          return null 
-      }):<CircularProgress/>}
-      </div>
-
-     
-    </div>
-    {/* MANAGE HOD UI END */}
-      </React.Fragment>
-     
-      );
+      if(guideData!==null){
+        return (<React.Fragment>
+          <SideMenu/>
+         {/* MANAGE GUIDE UI START */}
+         <Typography variant="h2" style={{margin:"20px auto"}}>Manage Guide </Typography> 
+         { !this.state.Loading ? (
+         <div>
+           <Button variant="contained" color="primary" onClick={this.handleClickOpen}>Add Guide</Button>
+           <Dialog open={this.state.Open} onClose={this.handleCloseCancel} aria-labelledby="form-dialog-title">
+             <DialogTitle id="form-dialog-title">Add Guide</DialogTitle>
+             <DialogContent>
+               <DialogContentText>
+                 Please add name and email of Guide.
+               </DialogContentText>
+                 <TextField
+                   autoFocus
+                   margin="dense"
+                   id="guideName"
+                   label="Guide Name"
+                   type="text"
+                   value={this.state.guideName}
+                   onChange={this.handleGNameChange}
+                   fullWidth
+                   required
+                 />
+                 <TextField
+                   margin="dense"
+                   id="guideEmail"
+                   label="Guide Email"
+                   type="text"
+                   value={this.state.guideEmail}
+                   onChange={this.handleGEmailChange}
+                   fullWidth
+                   required
+                 />
+             </DialogContent>
+             <DialogActions>
+               <Button onClick={this.handleCloseCancel} color="primary">
+                 Cancel
+               </Button>
+               <Button onClick={this.handleCloseSubmit} color="primary">
+                 Submit
+               </Button>
+             </DialogActions>
+           </Dialog>
+         </div>
+       ) : (
+         <div><CircularProgress /></div>
+       )}
+       <div className={classes.guideListHolder}>
+         {guideData !== null? guideData.map(guide=>{
+           if(guide.type==="hod"){checkHod=true}
+           if(guide.type ==="guide") return <Card className={classes.guideList}>
+           <Grid container>
+             <Grid item xs={1}></Grid>
+             <Grid item xs={4}><Typography>{guide.name}</Typography></Grid>
+             <Grid item xs={5}><Typography>{guide.email}</Typography></Grid>
+             <Grid item xs={2}><DeleteIcon className={classes.deleteIconStyle} onClick={()=>this.handleDeleteDialogOpen(guide.id,guide.name,guide.email)}/></Grid>
+           </Grid>
+           </Card>
+           else return null
+           
+         }) :<CircularProgress/>}</div>
+       {/* Dialog box for delete confirmation of Guide   */}
+       <div>
+       <Dialog
+         open={this.state.deleteOpen}
+         onClose={this.handleDeleteDialogClose}
+         aria-labelledby="alert-dialog-title"
+         aria-describedby="alert-dialog-description"
+       >
+         <DialogTitle id="alert-dialog-title">{"Delete Guide"}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">
+             Are you sure you want to delete this guide? If this guide is assigned to any groups,then you need to assign guides for that group again
+           </DialogContentText>
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.handleDeleteDialogClose} color="primary">
+             Cancel
+           </Button>
+           <Button onClick={()=>this.handleDeleteGuide(dguideId,dguideName,dguideEmail)} color="primary" >
+             Delete
+           </Button>
+         </DialogActions>
+       </Dialog>
+     </div>
+     {/* MANAGE GUIDE UI END */}
+     {/* MANAGE HOD UI START */}
+     <div>
+       <Typography variant='h2' style={{margin:"30px auto"}}>Manage Hod</Typography>
+       <div>{checkHod?null:<Button variant="contained" color="primary" onClick={this.handleAddHodDialogOpen}>Assign HOD </Button>}</div>  
+       <div className={classes.guideListHolder}>  
+      
+       {guideData!==null? guideData.map(hod=>{
+         if(hod.type==="hod"){
+         checkHod= true;
+         return <Card className={classes.guideList}>
+           <Grid container>
+             <Grid item xs={1}></Grid>
+             <Grid item xs={4}><Typography>{hod.name}</Typography></Grid>
+             <Grid item xs={5}><Typography>{hod.email}</Typography></Grid>
+             <Grid item xs={2}><DeleteIcon className={classes.deleteIconStyle} onClick={()=>this.handleDeleteHodDialogOpen(hod.id)}/></Grid>
+           </Grid>
+           </Card>
+         }  
+           else
+           return null 
+       }):<CircularProgress/>}
+       </div>
+       {/* Dialog for Delete hod */}
+       <div>
+       <Dialog
+         open={this.state.deleteHodOpen}
+         onClose={this.handleDeleteHodDialogClose}
+         aria-labelledby="alert-dialog-title"
+         aria-describedby="alert-dialog-description"
+       >
+         <DialogTitle id="alert-dialog-title">{"Delete HOD"}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">
+             Are you sure you want to delete this HOD? 
+           </DialogContentText>
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.handleDeleteHodDialogClose} color="primary">
+             Cancel
+           </Button>
+           <Button onClick={()=>this.handleDeleteHod(dHodId)} color="primary" >
+             Delete
+           </Button>
+         </DialogActions>
+       </Dialog>
+     </div>
+     {/* Add HOD DIALOG */}
+     <div>
+     <Dialog open={this.state.addHodOpen} onClose={this.handleAddHodDialogClose} aria-labelledby="form-dialog-title">
+             <DialogTitle id="form-dialog-title">Add HOD</DialogTitle>
+             <DialogContent>
+               <DialogContentText>
+                 Please add name and email of HOD
+               </DialogContentText>
+                 <TextField
+                   autoFocus
+                   margin="dense"
+                   id="HodName"
+                   label="HOD Name"
+                   type="text"
+                   value={this.state.hodName}
+                   onChange={this.handleHodNameChange}
+                   fullWidth
+                   required
+                 />
+                 <TextField
+                   margin="dense"
+                   id="HodEmail"
+                   label="HOD Email"
+                   type="text"
+                   value={this.state.hodEmail}
+                   onChange={this.handleHodEmailChange}
+                   fullWidth
+                   required
+                 />
+             </DialogContent>
+             <DialogActions>
+               <Button onClick={this.handleAddHodDialogClose} color="primary">
+                 Cancel
+               </Button>
+               <Button onClick={this.handleAddHod} color="primary">
+                 Submit
+               </Button>
+             </DialogActions>
+           </Dialog>
+         </div>
+     </div>
+     {/* MANAGE HOD UI END */}
+       </React.Fragment>)
+      }
+      else return <LinearProgress/>  
     } else {
       return <Redirect to="/" />;
     }

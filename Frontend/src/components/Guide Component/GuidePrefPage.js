@@ -323,7 +323,7 @@ handleDateTimeChange = (e) =>{
     const { location } = this.props;
     const { classes } = this.props;
     const { expanded } = this.state;
-    const Group = location.state.Group;
+    const Group = location.state.Group; 
     const Gid = Group.id;
 
     if (this.state.adData === null) {
