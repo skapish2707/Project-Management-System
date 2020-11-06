@@ -277,7 +277,6 @@ class Login extends Component {
                 value={this.state.username}
                 onChange={this.handleChange("username")}
                 className={classes.fields}
-                autoFocus
               />
               <TextField
                 variant="filled"
