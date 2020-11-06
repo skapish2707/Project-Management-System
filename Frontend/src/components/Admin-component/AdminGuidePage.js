@@ -315,7 +315,7 @@ this.setState({
           </Card>
           else return null
           
-        }) :<LinearProgress/>}</div>
+        }) :<CircularProgress/>}</div>
       {/* Dialog box for delete confirmation   */}
       <div>
       <Dialog
@@ -360,7 +360,7 @@ this.setState({
         }  
           else
           return null 
-      }):<LinearProgress/>}
+      }):<CircularProgress/>}
       </div>
 
      

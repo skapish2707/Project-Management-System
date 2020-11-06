@@ -285,6 +285,7 @@ class AdminContent extends Component {
     })
     .then(res => {
       Guides = res.data;
+      console.log(res,Guides)
     })
     .catch(function (err) {
       console.log(err);
@@ -304,7 +305,7 @@ class AdminContent extends Component {
         </div>
       );
     }
-    if (this.state.adData === null) {
+    if (this.state.adData === null || Guides===null) {
       this.checkData();
       this.checkGuides();
     }
@@ -537,6 +538,7 @@ class AdminContent extends Component {
               }}
               className={classes.root}
             >
+            {}
               <ProjectList Groups={Groups} Guides={Guides} />
             </div>
             <footer className={classes.footer}>

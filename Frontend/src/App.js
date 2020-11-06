@@ -17,6 +17,8 @@ import AdminGuidePage from "./components/Admin-component/AdminGuidePage";
 import AdminArchives from "./components/Admin-component/AdminArchives"
 import Guide from "./Pages/Guide"
 import GuidePrefPage from "./components/Guide Component/GuidePrefPage";
+import forgetPassword from "./Pages/forgetPassword";
+import resetPassword from "./Pages/resetPassword";
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
         <Route path="/admin/groups" exact component={AdminGroupsPage}/>
         <Route path="/admin/guides" exact component={AdminGuidePage}/>
         <Route path="/admin/archives" exact component={AdminArchives}/>
+        <Route path="/forgetPassword" exact component={forgetPassword}/>
+        <Route path="/resetPassword/:id" exact component={resetPassword}/>
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>

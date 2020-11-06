@@ -121,7 +121,7 @@ const GuideGroupList = (props) => {
                                 width: "90%",
                                 margin: "auto",
                                 textAlign: "left",
-                                marginTop: "50px",
+                                marginTop: "2px",
                                 boxShadow:
                                 "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
                             }}

@@ -82,6 +82,7 @@ const useStyles = makeStyles(theme => ({
 let guideIndex=null;
 
 export default function ControlledAccordions(props) {
+  console.log(props)
   const histor = useHistory();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -224,6 +225,7 @@ export default function ControlledAccordions(props) {
   const Guides = props.Guides;
   // let e={}
 
+  console.log(props.Guides,Guides)
   return (
     <div>
       { !loading ? (
