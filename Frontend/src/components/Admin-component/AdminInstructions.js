@@ -6,18 +6,21 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // minWidth: 275,
     textAlign: "left",
-    width: "90%",
+    width: "87%",
     marginLeft: "auto",
     marginRight: "auto",
-    // height: "220px",
+    padding: "20px",
+    "borderLeftColor": "blue",
+    "border-left-style": "solid",
+    "border-left-width": "10px",
 
     [theme.breakpoints.down("sm")]: {}
   },
   title: {
-    fontSize: "16px",
-    letterSpacing: "1px"
+    fontSize: "20px",
+    letterSpacing: "1px",
+    marginBottom:"3px"
   },
   pos: {
     marginBottom: 12
@@ -37,22 +40,23 @@ export default function Profile(props) {
       }}
     >
       <CardContent>
-        <Typography variant="h4" style={{ fontWeight: "600" }}>
+        <Typography variant="h4" style={{ fontWeight: "600",fontFamily:"sans-serif",marginBottom:"10px" }}>
           Instructions -
         </Typography>
+
+        
         <Typography className={classes.title}>
-          1.Please fill the below form to create project list of your department
+          1. Please fill the below form to create project list of your department          
         </Typography>
         <Typography className={classes.title}>
-          2.Project list file should be of .csv format
+          2. Project list file should be of .csv  or .xlsx format          
         </Typography>
         <Typography className={classes.title}>
-          3.Adding email of respective authorities will give them access
-          according to their designation
+          3. the file should contain name,rollno,email,group_name
+           and the first row itself should be values e.g tim drake,1,tim@drake.com,group1 
         </Typography>
         <Typography className={classes.title}>
-          {" "}
-          4.On submitting the form you will create a list mentioned in the file
+          4. On submitting the form you will create a list mentioned in the file
           and will give authorities to emails mentioned by you
         </Typography>
       </CardContent>

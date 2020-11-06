@@ -280,7 +280,11 @@ async function updateMarks(gid,pno,marks){
   grp.presentation[pno-1].marks = marks
   await grp.save()
 }
-
+async function deletePresentation(gid,pno){
+  grp = await Group.findById(gid)
+  grp.presentation.splice(pno-1,1)
+  await grp.save()
+}
 async function deleteguide(id,guide){
   await User.findByIdAndDelete(id);
   console.log(`DELETED GUIDE name :${guide.name} email ${guide.email}`);
@@ -411,6 +415,7 @@ module.exports = {
   deleteguide:deleteguide,
   deletehod:deletehod,
   updateMarks:updateMarks,
+  deletePresentation:deletePresentation,
   forgetPassword:forgetPassword,
   resetPassword:resetPassword,
 };
