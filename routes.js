@@ -58,7 +58,7 @@ router.post('/changePassword',authenticateToken,function(req,res){
 
 	let result = dbm.changePassword(req.user,req.body.newPassword);
 	if (result) {
-		req.logout();
+		// req.logout();
 		return res.status(200).send("Your password was changed please login again");
 	}
 	else 
@@ -332,7 +332,7 @@ router.post('/addhod',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'admin') return res.sendStatus(401)
 	try{
-		await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email,req.user.department,"hod") ;
+		await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email.trim(),req.user.department,"hod") ;
 		return res.sendStatus(200)
 	}catch{
 		return res.sendStatus(500)
@@ -348,5 +348,22 @@ router.post('/presentationMarks',authenticateToken,async function(req,res){
 		return res.sendStatus(500)
 	}
 })
-
+router.post('/forgetPassword',async function(req,res){
+	try{
+		msg = await dbm.forgetPassword(req.body.email.trim())
+		res.status(200).send(msg)
+	}catch{
+		res.sendStatus(500)
+	}
+	
+})
+router.post('/resetPassword/:token',async function(req,res){
+	try{
+		msg = await dbm.resetPassword(req.params.token.trim(),req.body.newPassword.trim())
+		res.status(200).send(msg)
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+})
 module.exports = router;

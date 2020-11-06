@@ -9,14 +9,6 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-PasswordReset = {
-  subject : "password reset for project management system",
-  text : `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
-          Please click on the following link, or paste this into your browser to complete the process:\n\n
-          http:// + req.headers.host + /reset/ +token + \n\n 
-          If you did not request this, please ignore this email and your password will remain unchanged.\n 
-          the above link will automatically expire after 10 minutes `
-}
 
 async function sendmail(data,type){
   if(type === "registeration")
@@ -46,6 +38,22 @@ async function sendmail(data,type){
         console.log(e)
       }
   }
+  else if (type == "forgetPassword"){
+    passwordResetOption = {
+        from: 'pms.messenger@gmail.com',
+        to:data.email,
+        subject : "password reset for project management system",
+        html : `<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.<br/><br/>
+                Please click on the following link, or paste this into your browser to complete the process:<br/><br/>
+                ${data.link}
+                <br/>
+                If you did not request this, please ignore this email and your password will remain unchanged.\n 
+                the above link will automatically expire after 10 minutes </p>
+                <h3>Sincerely,<br/>
+                project management system <br/>
+                Development Team</h3>`
+      }
+        }
 }
 
 module.exports = sendmail
