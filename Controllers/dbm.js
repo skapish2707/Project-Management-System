@@ -285,7 +285,7 @@ async function updateMarks(gid,pid,marks){
   }
   await grp.save()
 }
-async function deletePresentation(gid,pno){
+async function deletePresentation(gid,pid){
   grp = await Group.findById(gid)
   let index = null
   for(let i = 0 ;i < grp.presentation.length ; ++i){
