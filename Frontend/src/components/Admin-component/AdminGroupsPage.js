@@ -12,7 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {Card,Button,CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@material-ui/core";
+import qs from "qs";
 
+let department=null
+let Gname=null
 let Groupid=null
 let deleteMemberEmail=null
 let groupData=null
@@ -60,7 +63,12 @@ class AdminGroupsPage extends Component {
       loggedIn,
       user: "",
       groupDetails:null,
-      deleteMemberOpen:false
+      deleteMemberOpen:false,
+      addMemberOpen:false,
+      memberName:"",
+      memberEmail:"",
+      memberRollno:"",
+      deleteProposalsOpen:false,
       };
   }
 
@@ -99,6 +107,7 @@ class AdminGroupsPage extends Component {
       }
     })
       .then(res => {
+        console.log(res)
         groupData=res.data
         this.setState({
           groupDetails:res.data
@@ -110,7 +119,8 @@ class AdminGroupsPage extends Component {
       });
       
   }
-  //DELETE MEMBERS
+
+  //DELETE MEMBERS---------------------------------------------
   handleDeleteMemberDialogOpen=(id,email)=>{  
     deleteMemberEmail=email
     Groupid=id
@@ -124,9 +134,162 @@ class AdminGroupsPage extends Component {
       deleteMemberOpen:false
     })
   }
+  handleDeleteMember=(gid,email)=>{
+    this.handleDeleteMemberDialogClose()
+    axios({
+      method: "post",
+      url: SERVER_URL + "/deleteUser?type=student",
+      credentials: "include",
+      withCredentials: true,
+      data: qs.stringify({
+        gid:gid,
+        email:email
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization : 'Bearer '+ localStorage.getItem("access_token")
+      }
+    })
+    .then(res => {
+      console.log("Member deleted!!!!")
+      deleteMemberEmail=null
+      Groupid=null
+      window.location.reload(false);
+    })
+  
+    .catch(err => {
+      console.log(err);
+      });
+  }
 
+//DELETE PROPOSALS SECTION--------------------------------
+handleDeleteProposalsDialogOpen(e,gid){  
+    e.stopPropagation();
+    e.preventDefault()
+    Groupid=gid
+    console.log(Groupid)
+  this.setState({
+    deleteProposalsOpen:true
+  })
+}
+handleDeleteProposalsDialogClose=()=>{
+  this.setState({
+    deleteProposalsOpen:false
+  })
+}
+handleDeleteProposals=(gid)=>{
+  this.handleDeleteProposalsDialogClose()
+  axios({
+    method: "post",
+    url: SERVER_URL + "/deleteProposal",
+    credentials: "include",
+    withCredentials: true,
+    data: qs.stringify({
+      gid:gid,
+      }),
+    headers: {
+      "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      Authorization : 'Bearer '+ localStorage.getItem("access_token")
+    }
+  })
+  .then(res => {
+    console.log("Proposals deleted!!!!")
+    Groupid=null
+    window.location.reload(false);
+  })
 
+  .catch(err => {
+    console.log(err);
+    });
+}  
 
+//ADD MEMBER SECTION ------------------------------------
+handleAddMemberDialogOpen=(gid,dept,gname)=>{  
+  Groupid=gid
+  department=dept
+  Gname=gname
+  console.log(Groupid,department,Gname)
+  this.setState({
+    addMemberOpen:true
+  })
+}
+handleAddMemberDialogClose=()=>{
+  this.setState({
+    addMemberOpen:false
+  })
+}
+
+handleMemberNameChange = (e) => {
+  this.setState({
+    memberName:e.target.value
+  })
+  }
+  
+  handleMemberEmailChange = (e) => {
+  this.setState({
+    memberEmail:e.target.value
+  })
+  }
+  handleMemberRollnoChange = (e) => {
+    this.setState({
+      memberRollno:e.target.value
+    })
+    }
+
+  handleAddMember=(id,department,groupName)=>{
+    console.log(id,this.state.memberName,this.state.memberRollno,this.state.memberEmail,department,groupName)
+    if(this.state.memberName==="" || this.state.memberEmail==="" || this.state.memberRollno===""){
+      alert("Member name,email or rollno cannot be empty")
+    }else{
+      axios({
+        method: "post",
+        url: SERVER_URL + "/addmember",
+        credentials: "include",
+        withCredentials: true,
+        data: qs.stringify({
+          id:id,
+          name:this.state.memberName,
+          email:this.state.memberEmail,
+          rollno:this.state.memberRollno,
+          department:department,
+          groupName:groupName
+          
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization : 'Bearer '+ localStorage.getItem("access_token")
+        }
+      })
+      .then(res => {
+        console.log("Member Added Successfully!!!!!")
+        Groupid=null
+        department=null
+        Gname=null
+        this.setState({
+          memberEmail:'',
+          memberRollno:"",
+          memberName:"",
+          addMemberOpen:false
+        })
+       
+        window.location.reload(false);
+      })
+  
+      .catch(err => {
+        alert("Member not added")
+        this.setState({
+          addHodOpen:false
+        })
+        console.log(err);
+        });
+    }
+  }  
+
+  handleChildClick=(e)=> {
+    e.stopPropagation();
+
+    console.log('handleChildClick');
+  }
 
   render() {
     const {classes} = this.props;
@@ -159,16 +322,106 @@ class AdminGroupsPage extends Component {
            <Button onClick={this.handleDeleteMemberDialogClose} color="primary">
              Cancel
            </Button>
-           <Button  color="primary" >
+           <Button onClick={()=>this.handleDeleteMember(Groupid,deleteMemberEmail)} color="primary" >
              Delete
            </Button>
          </DialogActions>
        </Dialog>
      </div> 
+
+     {/*------------------------ ADD MEMBER DIALOG ---------------------*/}
+     <div>
+     <Dialog open={this.state.addMemberOpen} onClose={()=>this.handleAddMemberDialogClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please add name,email and Rollno of Student
+          </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="MemberName"
+              label="Member Name"
+              type="text"
+              value={this.state.memberName}
+              onChange={this.handleMemberNameChange}
+              fullWidth
+              required
+            />
+            <TextField
+              margin="dense"
+              id="MemberEmail"
+              label="Member Email"
+              type="text"
+              value={this.state.memberEmail}
+              onChange={this.handleMemberEmailChange}
+              fullWidth
+              required
+            />
+            <TextField
+              margin="dense"
+              id="MemberRoll"
+              label="Member Roll"
+              type="text"
+              value={this.state.memberRollno}
+              onChange={this.handleMemberRollnoChange}
+              fullWidth
+              required
+            />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleAddMemberDialogClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={()=>this.handleAddMember(Groupid,department,Gname)} color="primary">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </div>
+    
+    {/* -----------------DELETE PROPOSALS DIALOG---------------------- */}
+    <div>
+       <Dialog
+         open={this.state.deleteProposalsOpen}
+         onClose={this.handleDeleteProposalsDialogClose}
+         aria-labelledby="alert-dialog-title"
+         aria-describedby="alert-dialog-description"
+       >
+         <DialogTitle id="alert-dialog-title">{"Delete Proposals"}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">
+             Are you sure you want to delete Submitted Proposals? If you delete the Proposals then student will have to fill the proposals again
+           </DialogContentText>
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={this.handleDeleteProposalsDialogClose} color="primary">
+             Cancel
+           </Button>
+           <Button onClick={()=>this.handleDeleteProposals(Groupid)} color="primary" >
+             Delete
+           </Button>
+         </DialogActions>
+       </Dialog>
+     </div> 
+
+
          
-        {groupData?groupData.map(group=>{
+    {/* ----------------MEMBER ACCORDION-------------------     */}
+    {groupData?groupData.map(group=>{
+      let proposal1Stat=null
+      let proposal2Stat=null
+      let proposal3Stat=null
+        if(group.proposals.length===3){
+          proposal1Stat = group.proposals[0].approval.admin
+          proposal2Stat = group.proposals[1].approval.admin
+          proposal3Stat = group.proposals[2].approval.admin
+          }
+          
           let gid = group.id
-          return <Accordion className={classes.mainAccor}>
+          let dept = group.department
+          let gname = group.name
+        return <Accordion className={classes.mainAccor}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -188,16 +441,16 @@ class AdminGroupsPage extends Component {
           id="panel1a-header"
         >
           <Typography className={classes.heading}>Members</Typography>
-        </AccordionSummary>
+          </AccordionSummary>
         <AccordionDetails>
         <div style={{width:"100%"}}>
          <Card className={classes.groupCard}>
            <Grid container>
              <Grid item xs={1}></Grid>
-             <Grid item xs={4}><Typography>Name</Typography></Grid>
-             <Grid item xs={4}><Typography>Email</Typography></Grid>
+             <Grid item xs={3}><Typography>Name</Typography></Grid>
+             <Grid item xs={3}><Typography>Email</Typography></Grid>
              <Grid item xs={2}><Typography>Rollno</Typography></Grid>
-             <Grid item xs={1}></Grid>
+             <Grid item xs={2}>{group.members.length < 3 ?<Button onClick={()=>this.handleAddMemberDialogOpen(gid,dept,gname)} variant="contained" color="primary">Add Member</Button>:null}</Grid>
            </Grid>
            </Card>
           {group.members.map(member=>{
@@ -205,10 +458,10 @@ class AdminGroupsPage extends Component {
             return<Card className={classes.groupCard}>
            <Grid container>
              <Grid item xs={1}></Grid>
-             <Grid item xs={4}><Typography>{member.name}</Typography></Grid>
-             <Grid item xs={4}><Typography>{member.email}</Typography></Grid>
+             <Grid item xs={3}><Typography>{member.name}</Typography></Grid>
+             <Grid item xs={3}><Typography>{member.email}</Typography></Grid>
              <Grid item xs={2}><Typography>{member.rollno}</Typography></Grid>
-             <Grid item xs={1}><DeleteIcon className={classes.deleteIconStyle} onClick={()=>this.handleDeleteMemberDialogOpen(gid,dmemberEmail)}/></Grid>
+             <Grid item xs={2}><DeleteIcon className={classes.deleteIconStyle} onClick={()=>this.handleDeleteMemberDialogOpen(gid,dmemberEmail)}/></Grid>
            </Grid>
            </Card>
             })}
@@ -224,6 +477,7 @@ class AdminGroupsPage extends Component {
           id="panel2a-header"
         >
           <Typography className={classes.heading}>Proposals</Typography>
+          {group.proposals.length!==0 && !proposal1Stat && !proposal2Stat && !proposal3Stat ?<Button onClick={(e) => {this.handleDeleteProposalsDialogOpen(e, gid)}} variant="outlined" color="primary">Delete All Proposals</Button>:null}
         </AccordionSummary>
         <AccordionDetails>
         <div className={classes.root}>
