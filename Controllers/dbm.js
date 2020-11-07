@@ -3,6 +3,7 @@ var User = require("../models/User");
 var Group = require("../models/Group");
 var bcrypt = require("bcrypt");
 var fs = require("fs");
+var path = require('path');
 var crypto = require('crypto');
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
@@ -316,6 +317,33 @@ async function deleteguide(id,guide){
 async function deletehod(id){
   await User.findByIdAndDelete(id);
 }
+async function deleteStudent(gid,email){
+  await User.findOneAndDelete({email:email})
+  grp =  await Group.findById(gid)
+  let index = null
+  for(let i = 0 ;i < grp.members.length ; ++i){
+    if(grp.members[i].email== email){
+      index = i
+      break
+    }
+  }
+  grp.members.splice(index,1)
+  grp.save(function(err){
+    if (err) throw err;
+  })
+}
+
+async function deleteProposal(gid){
+  grp =  await Group.findById(gid)
+  grp.proposals.forEach(function(proposal){
+    fs.unlink(path.join('.','proposal',proposal.attachPrints),function(err){
+      if (err) console.log(err) 
+      console.log("deleted proposals")
+    })
+  })
+  grp.proposals = []
+  await grp.save()
+}
 
 async function approve(groupId,proposalId,staff){
     group =  await Group.findById(groupId.trim());
@@ -432,4 +460,6 @@ module.exports = {
   deletePresentation:deletePresentation,
   forgetPassword:forgetPassword,
   resetPassword:resetPassword,
+  deleteStudent:deleteStudent,
+  deleteProposal:deleteProposal,
 };

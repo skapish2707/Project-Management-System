@@ -356,6 +356,7 @@ getStat = () => {
   };
 
   render() {
+    console.log(this.props)
     const { classes } = this.props;
     if(guideData === null){
       this.getGuide()
