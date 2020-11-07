@@ -49,7 +49,7 @@ const GuideGroupList = (props) => {
         setLoading(true);
         axios({
         method: "get",
-        url: SERVER_URL + "/getStudents?by=group",
+        url: SERVER_URL + "/guideGroup",
         withCredentials: true,
         headers : {
             Authorization : 'Bearer '+ localStorage.getItem("access_token") 
@@ -92,7 +92,6 @@ const GuideGroupList = (props) => {
                     const routeChange = () => {
                         histor.push({
                         pathname: `/guide/prefs/${id}`,
-                        state: { Group: Group }
                         });
                     };
                     //console.log(Group);
@@ -113,8 +112,7 @@ const GuideGroupList = (props) => {
                         AppliedOn = pref1.applied.split("T")[0];
                         //console.log(AppliedOn, DueDate);
                     }
-                    let userInfo=props.userInfo;
-                    if (Group.guide.name===userInfo.name) {
+                    // if (Group.guide.name===userInfo.name) {
                         return (
                         <Accordion
                             style={{
@@ -227,8 +225,8 @@ const GuideGroupList = (props) => {
                             </AccordionDetails>
                         </Accordion>
                         );
-                    }
-                    return null;
+                    // }
+                    // return null;
                     })}
             </React.Fragment>
         )
