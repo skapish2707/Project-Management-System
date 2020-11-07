@@ -552,12 +552,12 @@ handleDateTimeChange = (e) =>{
                     })}
                     <Card style={{marginTop:"20px"}}>
                     <Grid style={{marginTop:"20px"}} container item xs={12}>
-                        <Grid style={{backgroundColor:"#fff"}} item xs={12}>
+                        <Grid style={{backgroundColor:"#fff"}} item xs={3}>
                             <Typography style={{marginBottom:"20px"}} variant="h3">Presentation</Typography>
                         </Grid>
                         <form onSubmit={(e)=>{this.sche_pres(e,Gid)}}>
-                        <Grid item container xs={12}>
-                          <Grid item xs={3}>
+                        <Grid item container xs={9}>
+                          <Grid item xs={2}>
                               <Typography>Schedule Presentation: </Typography>
                           </Grid>
                           <Grid item xs={6}>
@@ -583,7 +583,6 @@ handleDateTimeChange = (e) =>{
                                   )
                               }
                           </Grid>
-                        {/* onClick={(e)=>{this.sche_pres(e,Gid)}} */}
                         </Grid>
                         </form>
                         <Grid item xs={12}>
