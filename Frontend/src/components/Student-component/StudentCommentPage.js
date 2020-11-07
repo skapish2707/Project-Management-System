@@ -12,67 +12,19 @@ const useStyles = makeStyles((theme) => ({
 
 let Group = null;
 
-const StudentCommentPage = () => {
-
+const StudentCommentPage = (props) => {
+    Group = props.Group
     const classes = useStyles();
-    const [stuData,setStuData] = useState(null);
-    const [filled,setFilled] = useState(false);
-    const [loading,setLoading] = useState(false);
 
-    function checkData() {
-        setLoading(true);
-        axios({
-            method: "get",
-            url: SERVER_URL + "/group",
-            withCredentials: true,
-            headers : {
-                Authorization : 'Bearer '+localStorage.getItem("access_token"),
-            }
-        })
-        .then(res => {
-        Group = res.data;
-        //console.log(Group.comments.length);
-        setStuData("new");
-        setFilled(true);
-        setLoading(false);
-        })
-        .catch((err) => {
-        console.log(err);
-        });
-    }
 
-    if (loading) {
-        console.log("LOADING")
+    if(Group === null){
         return (
             <div style={{ margin: "auto" }}>
                 <CircularProgress />
             </div>
         );
-    }
-    if(stuData === null){
-        checkData();
-        console.log("sData : ",stuData);
-        console.log("fill : ",filled);
-    }
-    // if(fill && Group.comments.length===0){
-    //     return(
-    //         <React.Fragment>
-    //             <Typography variant="h4">No comments have been added</Typography>
-    //         </React.Fragment>
-    //     )
-    // }
-    // if(fill && Group.comments.length!==0){
-    //     Group.comments.map(comment => {
-    //         return(
-    //             <React.Fragment>
-    //                 <Typography variant="h4">{comment.text}</Typography>
-    //             </React.Fragment>
-    //         )
-    //     })
-    // }
-    if(filled){
+    }else{
         const {comments} = Group;
-        console.log(stuData,filled);
         if(comments.length === 0){
             console.log(comments.length);
             return(
@@ -105,11 +57,6 @@ const StudentCommentPage = () => {
             }))
         }
     }
-    return(
-        <div style={{ margin: "auto" }}>
-            <CircularProgress />
-        </div>
-    )
 }
  
 export default StudentCommentPage;
