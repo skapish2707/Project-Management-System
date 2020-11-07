@@ -19,9 +19,10 @@ mongoose.connect(process.env.uri,{
 		console.log("Connected to database");
     // Group.find({},function(err,data){
     //   data.forEach(function(grp){
-    //     if (grp.proposals.length == 0){
-    //       console.log(grp.members)
-    //     }
+    //     grp.presentation = []
+    //     grp.save(function(err){
+    //       if(err) throw err;
+    //     })
     //   })
     // })
     // User.findOne({email:"new@guide.com"},function(err,user){
@@ -40,9 +41,10 @@ mongoose.connect(process.env.uri,{
     //   console.log(grp.presentation)
     //   })
     // })
-    // Group.findById("5f7574af59bffd36583e41f9",function(err,grp){
+    // Group.findById("5f7574b159bffd36583e41fd",function(err,grp){
     //   if (err) throw err;
     //   console.log(grp.presentation)
+    //   console.log(grp.presentation[0]._id)
     // })
 
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
@@ -268,21 +270,31 @@ async function getGuideGroups(user){
 
 async function presentation(gid,datetime){
   grp = await Group.findById(gid);
-  let p_no = grp.presentation.length + 1
   grp.presentation.push({
-    number:p_no,
     scheduled_date:datetime
-  })
+  }) 
   await grp.save()
 }
-async function updateMarks(gid,pno,marks){
+async function updateMarks(gid,pid,marks){
   grp = await Group.findById(gid)
-  grp.presentation[pno-1].marks = marks
+  for(let i = 0 ;i < grp.presentation.length ; ++i){
+    if(grp.presentation[i]._id == pid){
+      grp.presentation[i].marks = marks
+      break
+    }
+  }
   await grp.save()
 }
 async function deletePresentation(gid,pno){
   grp = await Group.findById(gid)
-  grp.presentation.splice(pno-1,1)
+  let index = null
+  for(let i = 0 ;i < grp.presentation.length ; ++i){
+    if(grp.presentation[i]._id == pid){
+      index = i
+      break
+    }
+  }
+  grp.presentation.splice(index,1)
   await grp.save()
 }
 async function deleteguide(id,guide){
