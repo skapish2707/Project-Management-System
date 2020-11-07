@@ -23,10 +23,11 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+let Group=null;
 let filled = false;
 let Ad = null;
 let Groups = null;
-const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 // const months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 // let pd= new Date()
 
@@ -98,34 +99,35 @@ class HodPrefPage extends Component {
       totalMarks:""
     };
   }
+    
     sche_pres = (e,id) => {
-        let dt= new Date(this.state.dateTime);
-        console.log(dt.toISOString());
-        console.log(this.state.dateTime);
-        this.setState({scheduleLoading:true})
-        axios({
-        method: "post",
-        url: SERVER_URL + "/presentation",
-        withCredentials: true,
-        data: qs.stringify({
-            datetime:dt.toISOString(),
-            gid:id
-        }),
-        headers : {
-            "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-            Authorization : 'Bearer '+ localStorage.getItem("access_token") 
-        }
-        })
-        .then(res => {
-            console.log("SCHEDULED")
-            this.setState({scheduleLoading:false})
-            window.location.reload();
-        })
+      let dt= new Date(this.state.dateTime);
+      console.log(dt.toISOString());
+      console.log(this.state.dateTime);
+      this.setState({scheduleLoading:true})
+      axios({
+      method: "post",
+      url: SERVER_URL + "/presentation",
+      withCredentials: true,
+      data: qs.stringify({
+          datetime:dt.toISOString(),
+          gid:id
+      }),
+      headers : {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
+      })
+      .then(res => {
+          console.log("SCHEDULED")
+          this.setState({scheduleLoading:false})
+          // window.location.reload();
+      })
 
-        .catch(function (err) {
-            console.log(err);
-            this.setState({scheduleLoading:false})
-    });
+      .catch(function (err) {
+          console.log(err);
+          this.setState({scheduleLoading:false})
+  });
 }
 
 handleDateTimeChange = (e) =>{
@@ -199,7 +201,7 @@ handleDateTimeChange = (e) =>{
   checkData() {
     axios({
       method: "get",
-      url: SERVER_URL + "/getStudents?by=group",
+      url: SERVER_URL + "/guideGroup",
       withCredentials: true,
       headers : {
         Authorization : 'Bearer '+ localStorage.getItem("access_token") 
@@ -208,7 +210,6 @@ handleDateTimeChange = (e) =>{
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
-        console.log(Groups);
         this.setState({
           adData: "new",
           filled: true
@@ -255,7 +256,7 @@ handleDateTimeChange = (e) =>{
     });
   };
 
-  handleMarkSubmit = (e,groupID,presentationNO) => {
+  handleMarkSubmit = (e,groupID,presentationID) => {
     console.log(this.state.marks);
     console.log(this.state.totalMarks)
       if(parseInt(this.state.marks,10)>parseInt(this.state.totalMarks,10)){
@@ -269,7 +270,7 @@ handleDateTimeChange = (e) =>{
                 withCredentials: true,
                 data: qs.stringify({
                 gid:groupID,
-                pno:presentationNO,
+                pid:presentationID,
                 marks:this.state.marks+"/"+this.state.totalMarks
                 }),
                 headers: {
@@ -296,13 +297,13 @@ handleDateTimeChange = (e) =>{
     this.setState({totalMarks:e.target.value})
 }
 
-  handleDeletePresentation=(e,PNO,GID)=>{
+  handleDeletePresentation=(e,PID,GID)=>{
     axios({
       method: "post",
       url: SERVER_URL + "/deletePresentation",
       withCredentials: true,
       data: qs.stringify({
-          pno:PNO,
+          pid:PID,
           gid:GID
       }),
       headers : {
@@ -312,7 +313,7 @@ handleDateTimeChange = (e) =>{
       })
       .then(res => {
           console.log("Deleted");
-          //window.location.reload();
+          window.location.reload();
       })
 
       .catch(function (err) {
@@ -324,9 +325,6 @@ handleDateTimeChange = (e) =>{
     const { location } = this.props;
     const { classes } = this.props;
     const { expanded } = this.state;
-    const Group = location.state.Group; 
-    const Gid = Group.id;
-
     if (this.state.adData === null) {
       this.checkData();
     }
@@ -336,19 +334,18 @@ handleDateTimeChange = (e) =>{
           <Navbar />
           <div style={{ width: "90%", margin: "auto" }}>
             {Groups.map(group => {
-              if (group.id === Group.id) {
+              let Gid = group.id;
+              if (group.id===this.props.match.params.id) {
                 let Presentations = group.presentation;
                 let Proposals = group.proposals;
                 let Comments =group.comments;
-                // console.log(Presentations)
                 Presentations.sort((a,b)=>(new Date(a.scheduled_date).getTime()>new Date(b.scheduled_date).getTime())?1:-1)
-                // console.log(Presentations)
                 return (
                   <div key={group.id}>
                     <Grid container spacing={2} className={classes.grid}>
                       <Grid item xs={12}>
                         <Typography variant="h3">
-                          <b>{toFirstCharUppercase(Group.name)}</b>
+                          <b>{toFirstCharUppercase(group.name)}</b>
                         </Typography>
                       </Grid>
                     </Grid>
@@ -356,7 +353,6 @@ handleDateTimeChange = (e) =>{
                       const panel = proposal.title;
                       let approval = proposal.approval;
                       let pid = proposal._id;
-                      let Gid = Group.id;
                       let appliedDate = new Date(proposal.applied)
                       return (
                         <Accordion key={proposal._id}
@@ -556,37 +552,44 @@ handleDateTimeChange = (e) =>{
                     })}
                     <Card style={{marginTop:"20px"}}>
                     <Grid style={{marginTop:"20px"}} container item xs={12}>
-                        <Grid style={{backgroundColor:"#fff"}} item xs={12}>
-                            <Typography style={{marginBottom:"20px"}} variant="h3">Presentation Details</Typography>
+                        <Grid style={{backgroundColor:"#fff"}} item xs={3}>
+                            <Typography style={{marginBottom:"20px"}} variant="h3">Presentation</Typography>
                         </Grid>
-                        <Grid item xs={3}>
-                            <Typography>Schedule Presentation: </Typography>
+                        <form onSubmit={(e)=>{this.sche_pres(e,Gid)}}>
+                        <Grid item container xs={9}>
+                          <Grid item xs={2}>
+                              <Typography>Schedule Presentation: </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                          <TextField
+                              id="datetime-local"
+                              label="Next Presentation"
+                              type="datetime-local"
+                              defaultValue={new Date().toISOString()}
+                              className={classes.textField}
+                              required
+                              InputLabelProps={{
+                              shrink: true,
+                              }}
+                              onChange={this.handleDateTimeChange}
+                          />
+                          </Grid>
+                          <Grid item xs={3}>
+                              {
+                                  (!this.state.scheduleLoading)?(
+                                      <Button type="submit"  variant="contained" color="secondary">Schedule</Button>
+                                  ):(
+                                      <CircularProgress />
+                                  )
+                              }
+                          </Grid>
                         </Grid>
-                        <Grid item xs={6}>
-                        <TextField
-                            id="datetime-local"
-                            label="Next Presentation"
-                            type="datetime-local"
-                            defaultValue={new Date().toISOString()}
-                            className={classes.textField}
-                            InputLabelProps={{
-                            shrink: true,
-                            }}
-                            onChange={this.handleDateTimeChange}
-                        />
-                        </Grid>
-                        <Grid item xs={3}>
-                            {
-                                (!this.state.scheduleLoading)?(
-                                    <Button onClick={(e)=>{this.sche_pres(e,Gid)}} variant="contained" color="secondary">Schedule</Button>
-                                ):(
-                                    <CircularProgress />
-                                )
-                            }
-                        </Grid>
+                        </form>
                         <Grid item xs={12}>
-                        {Presentations.map((presentation, index) => {
-                            const panel = presentation.number;
+                        {(Presentations.length!==0)?(
+                          <React.Fragment>
+                            {Presentations.map((presentation, index) => {
+                            const panel = presentation._id;
                             let d=new Date(presentation.scheduled_date)
                             return (
                                 <Accordion key={presentation._id} expanded={expanded === panel} onChange={this.handleChange(panel)}>
@@ -594,7 +597,7 @@ handleDateTimeChange = (e) =>{
                                     <Grid container>
                                             <Grid item xs={3}>
                                                 <Typography>
-                                                    <b>Presentation {presentation.number}</b>
+                                                    <b>Presentation {index+1}</b>
                                                 </Typography>
                                             </Grid>
                                             {(presentation.marks===null)?(
@@ -663,18 +666,28 @@ handleDateTimeChange = (e) =>{
                                                     <TextField size="small" type="number" value={this.state.totalMarks} variant="outlined" label="Total Marks" onChange={this.handleTotalMarks} />
                                                 </Grid>
                                                 <Grid item xs={4}>
-                                                    <Button size="large" variant="outlined" color="primary" onClick={(e)=>{this.handleMarkSubmit(e,Gid,presentation.number)}} >Submit Marks</Button>
+                                                    <Button size="large" variant="outlined" color="primary" onClick={(e)=>{this.handleMarkSubmit(e,Gid,presentation._id)}} >Submit Marks</Button>
                                                 </Grid>
                                             </Grid>
                                             ):(null)}
                                             <Grid item xs={12} style={{alignContent: "flex-end"}}>
-                                              <Button variant="outlined" color="default" onClick={(e)=>{this.handleDeletePresentation(e,panel,Gid)}}>Delete presentation</Button>
+                                              <Button variant="outlined" color="default" onClick={(e)=>{this.handleDeletePresentation(e,presentation._id,Gid)}}>Delete presentation</Button>
                                             </Grid>
                                         </Grid>
                                     </AccordionDetails>
                                 </Accordion>
                             );
                             })}
+                          </React.Fragment>
+                        ):(
+                          <React.Fragment>
+
+                            <Typography>
+                              No presentation scheduled
+                            </Typography>
+                          </React.Fragment>
+                        )}
+                        
                         </Grid>
                     </Grid>
                     </Card>

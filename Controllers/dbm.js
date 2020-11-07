@@ -262,7 +262,9 @@ async function getGuideGroups(user){
         members : groups[i].members,
         proposals :groups[i].proposals,
         dueDate:groups[i].dueDate,
-        acadYear:groups[i].acadYear
+        acadYear:groups[i].acadYear,
+        presentation:groups[i].presentation,
+        comments:groups[i].comments
       })
   }
   console.log(list_groups)
