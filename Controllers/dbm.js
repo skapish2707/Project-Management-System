@@ -3,6 +3,7 @@ var User = require("../models/User");
 var Group = require("../models/Group");
 var bcrypt = require("bcrypt");
 var fs = require("fs");
+var path = require('path');
 var crypto = require('crypto');
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
@@ -329,6 +330,19 @@ async function deleteStudent(gid,email){
     if (err) throw err;
   })
 }
+
+async function deleteProposal(gid){
+  grp =  await Group.findById(gid)
+  grp.proposals.forEach(function(proposal){
+    fs.unlink(path.join('.','proposal',proposal.attachPrints),function(err){
+      if (err) console.log(err) 
+      console.log("deleted proposals")
+    })
+  })
+  grp.proposals = []
+  await grp.save()
+}
+
 async function approve(groupId,proposalId,staff){
     group =  await Group.findById(groupId.trim());
     for (let i = 0 ; i < group.proposals.length ; i++){
@@ -445,4 +459,5 @@ module.exports = {
   forgetPassword:forgetPassword,
   resetPassword:resetPassword,
   deleteStudent:deleteStudent,
+  deleteProposal:deleteProposal,
 };
