@@ -300,7 +300,8 @@ router.post('/presentation',authenticateToken,async function(req,res){
 	try{
 		await dbm.presentation(gid,datetime)
 		res.sendStatus(200)
-	}catch{
+	}catch(e){
+		console.log(e)
 		res.sendStatus(500)
 	}
 })
@@ -352,7 +353,7 @@ router.post('/deletePresentation',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'guide') return res.sendStatus(401)
 	try{
-		await dbm.deletePresentation(req.body.gid.trim(),req.body.pno);
+		await dbm.updateMarks(req.body.gid.trim(),req.body.pno);
 		return res.sendStatus(200)
 	}catch{
 		return res.sendStatus(500)

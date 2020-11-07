@@ -39,7 +39,6 @@ var groupSchema  = new mongoose.Schema({
 		email : String,
 	},
 	presentation : [{
-		number : Number,
 		scheduled_date : {type :Date },
 		marks : {type:String,default:null},
 	}]
