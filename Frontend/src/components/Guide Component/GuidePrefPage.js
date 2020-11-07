@@ -119,6 +119,7 @@ class HodPrefPage extends Component {
         .then(res => {
             console.log("SCHEDULED")
             this.setState({scheduleLoading:false})
+            window.location.reload();
         })
 
         .catch(function (err) {
@@ -339,6 +340,9 @@ handleDateTimeChange = (e) =>{
                 let Presentations = group.presentation;
                 let Proposals = group.proposals;
                 let Comments =group.comments;
+                // console.log(Presentations)
+                Presentations.sort((a,b)=>(new Date(a.scheduled_date).getTime()>new Date(b.scheduled_date).getTime())?1:-1)
+                // console.log(Presentations)
                 return (
                   <div key={group.id}>
                     <Grid container spacing={2} className={classes.grid}>
@@ -563,7 +567,7 @@ handleDateTimeChange = (e) =>{
                             id="datetime-local"
                             label="Next Presentation"
                             type="datetime-local"
-                            defaultValue={Date.now()}
+                            defaultValue={new Date().toISOString()}
                             className={classes.textField}
                             InputLabelProps={{
                             shrink: true,
@@ -631,7 +635,7 @@ handleDateTimeChange = (e) =>{
                                         <Grid container className={classes.content} spacing={1} >
                                             <Grid item xs={12} style={{ textAlign: "left" }}>
                                                 <Typography>
-                                                    Date: {d.getDate()}/{d.getMonth()}/{d.getFullYear()}
+                                                    Date: {d.getDate()}/{d.getMonth()+1}/{d.getFullYear()}
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs={12} style={{ textAlign: "left" }}>
@@ -642,21 +646,21 @@ handleDateTimeChange = (e) =>{
                                             <Grid item xs={12} style={{ textAlign: "left" }}>
                                                 {(d.getHours()>12)?(
                                                     <Typography>
-                                                        Time: {d.getHours()-12}:{d.getMinutes()}
+                                                        Time: {d.getHours()-12}:{d.getMinutes()} pm
                                                     </Typography>
                                                 ):(
                                                     <Typography>
-                                                        Time: {d.getHours()}:{d.getMinutes()}
+                                                        Time: {d.getHours()}:{d.getMinutes()} am
                                                     </Typography>
                                                 )}
                                             </Grid>
                                             {(presentation.marks===null && d.getTime()>Date.now())?(
                                               <Grid item container xs={12} style={{ textAlign: "left" }}>
                                                 <Grid item xs={3}>
-                                                    <TextField type="number" value={this.state.marks} variant="outlined" label="Marks obtained" onChange={this.handleMarks}/>
+                                                    <TextField size="small" type="number" value={this.state.marks} variant="outlined" label="Marks obtained" onChange={this.handleMarks}/>
                                                 </Grid>
                                                 <Grid item xs={3}>
-                                                    <TextField type="number" value={this.state.totalMarks} variant="outlined" label="Total Marks" onChange={this.handleTotalMarks} />
+                                                    <TextField size="small" type="number" value={this.state.totalMarks} variant="outlined" label="Total Marks" onChange={this.handleTotalMarks} />
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Button size="large" variant="outlined" color="primary" onClick={(e)=>{this.handleMarkSubmit(e,Gid,presentation.number)}} >Submit Marks</Button>
