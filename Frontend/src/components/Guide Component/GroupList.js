@@ -233,7 +233,7 @@ const GuideGroupList = (props) => {
         }else{
             return(
                 <Typography>
-                    No group has been assined to you yet.
+                    No group has been assigned to you yet.
                 </Typography>
             )
         }
