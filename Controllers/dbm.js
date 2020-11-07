@@ -3,6 +3,7 @@ var User = require("../models/User");
 var Group = require("../models/Group");
 var bcrypt = require("bcrypt");
 var fs = require("fs");
+var path = require('path');
 var crypto = require('crypto');
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
@@ -19,9 +20,10 @@ mongoose.connect(process.env.uri,{
 		console.log("Connected to database");
     // Group.find({},function(err,data){
     //   data.forEach(function(grp){
-    //     if (grp.proposals.length == 0){
-    //       console.log(grp.members)
-    //     }
+    //     grp.presentation = []
+    //     grp.save(function(err){
+    //       if(err) throw err;
+    //     })
     //   })
     // })
     // User.findOne({email:"new@guide.com"},function(err,user){
@@ -40,9 +42,10 @@ mongoose.connect(process.env.uri,{
     //   console.log(grp.presentation)
     //   })
     // })
-    // Group.findById("5f7574af59bffd36583e41f9",function(err,grp){
+    // Group.findById("5f7574b159bffd36583e41fd",function(err,grp){
     //   if (err) throw err;
     //   console.log(grp.presentation)
+    //   console.log(grp.presentation[0]._id)
     // })
 
     //DELETE  STUDENT GROUPS HOD PIC IG by admin email
@@ -268,19 +271,33 @@ async function getGuideGroups(user){
 
 async function presentation(gid,datetime){
   grp = await Group.findById(gid);
-  let p_no = grp.presentation.length + 1
   grp.presentation.push({
-    number:p_no,
     scheduled_date:datetime
-  })
+  }) 
   await grp.save()
 }
-async function updateMarks(gid,pno,marks){
+async function updateMarks(gid,pid,marks){
   grp = await Group.findById(gid)
-  grp.presentation[pno-1].marks = marks
+  for(let i = 0 ;i < grp.presentation.length ; ++i){
+    if(grp.presentation[i]._id == pid){
+      grp.presentation[i].marks = marks
+      break
+    }
+  }
   await grp.save()
 }
-
+async function deletePresentation(gid,pid){
+  grp = await Group.findById(gid)
+  let index = null
+  for(let i = 0 ;i < grp.presentation.length ; ++i){
+    if(grp.presentation[i]._id == pid){
+      index = i
+      break
+    }
+  }
+  grp.presentation.splice(index,1)
+  await grp.save()
+}
 async function deleteguide(id,guide){
   await User.findByIdAndDelete(id);
   console.log(`DELETED GUIDE name :${guide.name} email ${guide.email}`);
@@ -297,6 +314,33 @@ async function deleteguide(id,guide){
 
 async function deletehod(id){
   await User.findByIdAndDelete(id);
+}
+async function deleteStudent(gid,email){
+  await User.findOneAndDelete({email:email})
+  grp =  await Group.findById(gid)
+  let index = null
+  for(let i = 0 ;i < grp.members.length ; ++i){
+    if(grp.members[i].email== email){
+      index = i
+      break
+    }
+  }
+  grp.members.splice(index,1)
+  grp.save(function(err){
+    if (err) throw err;
+  })
+}
+
+async function deleteProposal(gid){
+  grp =  await Group.findById(gid)
+  grp.proposals.forEach(function(proposal){
+    fs.unlink(path.join('.','proposal',proposal.attachPrints),function(err){
+      if (err) console.log(err) 
+      console.log("deleted proposals")
+    })
+  })
+  grp.proposals = []
+  await grp.save()
 }
 
 async function approve(groupId,proposalId,staff){
@@ -411,6 +455,9 @@ module.exports = {
   deleteguide:deleteguide,
   deletehod:deletehod,
   updateMarks:updateMarks,
+  deletePresentation:deletePresentation,
   forgetPassword:forgetPassword,
   resetPassword:resetPassword,
+  deleteStudent:deleteStudent,
+  deleteProposal:deleteProposal,
 };

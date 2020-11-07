@@ -300,7 +300,8 @@ router.post('/presentation',authenticateToken,async function(req,res){
 	try{
 		await dbm.presentation(gid,datetime)
 		res.sendStatus(200)
-	}catch{
+	}catch(e){
+		console.log(e)
 		res.sendStatus(500)
 	}
 })
@@ -326,6 +327,17 @@ router.post('/deleteUser',authenticateToken,async function(req,res){
 			return res.sendStatus(500)
 		}
 	}
+	else if (req.query.type == 'student')
+	{
+		try{
+			await dbm.deleteStudent(req.body.gid.trim(),req.body.email.trim());
+			return res.sendStatus(200)
+		}catch(e){
+			console.log(e)
+			return res.sendStatus(500)
+		}
+	}
+
 })
 
 router.post('/addhod',authenticateToken,async function(req,res){
@@ -342,7 +354,17 @@ router.post('/presentationMarks',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'guide') return res.sendStatus(401)
 	try{
-		await dbm.updateMarks(req.body.gid.trim(),req.body.pno,req.body.marks);
+		await dbm.updateMarks(req.body.gid.trim(),req.body.pid.trim(),req.body.marks);
+		return res.sendStatus(200)
+	}catch{
+		return res.sendStatus(500)
+	}
+})
+router.post('/deletePresentation',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'guide') return res.sendStatus(401)
+	try{
+		await dbm.deletePresentation(req.body.gid.trim(),req.body.pid.trim());
 		return res.sendStatus(200)
 	}catch{
 		return res.sendStatus(500)
@@ -361,6 +383,18 @@ router.post('/resetPassword/:token',async function(req,res){
 	try{
 		msg = await dbm.resetPassword(req.params.token.trim(),req.body.newPassword.trim())
 		res.status(200).send(msg)
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+})
+
+router.post('/deleteProposal',authenticateToken,async function (req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)
+	try{
+		await dbm.deleteProposal(req.body.gid)
+		res.sendStatus(200)
 	}catch(e){
 		console.log(e)
 		res.sendStatus(500)

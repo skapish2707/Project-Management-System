@@ -105,7 +105,7 @@ class forgetPassword extends Component {
 			"content-type": "application/x-www-form-urlencoded;charset=utf-8"
 			}})
 			.then((res)=>{
-				if(res.data[0]=="A")
+				if(res.data[0]==="A")
 					this.setState({
 						msg:res.data,
 						loading:false,
