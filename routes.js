@@ -327,6 +327,17 @@ router.post('/deleteUser',authenticateToken,async function(req,res){
 			return res.sendStatus(500)
 		}
 	}
+	else if (req.query.type == 'student')
+	{
+		try{
+			await dbm.deleteStudent(req.body.gid.trim(),req.body.email.trim());
+			return res.sendStatus(200)
+		}catch(e){
+			console.log(e)
+			return res.sendStatus(500)
+		}
+	}
+
 })
 
 router.post('/addhod',authenticateToken,async function(req,res){
