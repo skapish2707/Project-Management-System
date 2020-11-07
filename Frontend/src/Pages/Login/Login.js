@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SERVER_URL from "../URL";
 import axios from "axios";
 import qs from "qs";
@@ -130,7 +131,7 @@ class Login extends Component {
 
     axios({
       method: "post",
-      url: SERVER_URL + "/login",
+      url: SERVER_URL+"/login",
       credentials: "include",
       withCredentials: true,
       data: qs.stringify({
@@ -143,7 +144,6 @@ class Login extends Component {
     })
       .then(
         function (response) {
-          console.log(response.data);
           Data = response.data.type;
           data_access = response.data.access_token;
           localStorage.setItem("access_token", response.data.access_token);
@@ -153,8 +153,7 @@ class Login extends Component {
             msg: "set",
             getResponse: false
           });
-          console.log(this.state.msg, this.state.user);
-                  }.bind(this)
+        }.bind(this)
       )
 
       .catch(err => {
@@ -278,7 +277,6 @@ class Login extends Component {
                 value={this.state.username}
                 onChange={this.handleChange("username")}
                 className={classes.fields}
-                autoFocus
               />
               <TextField
                 variant="filled"
@@ -304,6 +302,12 @@ class Login extends Component {
                 Log In
               </Button>
             </form>
+            <Link
+              to="/forgetPassword"
+              style={{ textDecoration: "underline", color: "#fff", marginRight:"5px" }}
+            >
+            forgot password ? reset now
+            </Link>
             <Snackbar
               open={this.state.invalidCredentials}
               autoHideDuration={6000}

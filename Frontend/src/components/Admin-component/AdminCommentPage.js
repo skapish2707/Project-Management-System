@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   makeStyles,
   Typography,
-  CircularProgress,
   Grid,
   Paper,
-  Box,
   createMuiTheme,
   ThemeProvider
 } from "@material-ui/core";
@@ -80,7 +78,7 @@ const AdminCommentPage = props => {
                   //comment.time = new Date(d.getTime() + 330*60000);
                   // console.log(d)
                   // console.log(comment.time)
-                  let author = comment.author;
+                  //let author = comment.author;
                   // if(author.includes("admin"))
                   return (
                     <React.Fragment key={comment._id}>

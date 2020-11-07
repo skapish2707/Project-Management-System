@@ -5,8 +5,8 @@ import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
 
-var today = new Date(),
-  date = today.getDate();
+// var today = new Date(),
+//   date = today.getDate();
 
 export default class Admin extends Component {
   constructor(props) {

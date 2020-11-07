@@ -3,13 +3,12 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
-import Footer from "../components/Footer/Footer";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 import GuideDetails from "../components/Guide Component/GuideDetail"
 import GuideGroupList from "../components/Guide Component/GroupList";
 
 
-let Groups=null;
+
 export default class Hod extends Component {
   constructor(props) {
     super(props);

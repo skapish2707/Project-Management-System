@@ -9,6 +9,8 @@ var userSchema = new mongoose.Schema({
 	admin : {type : mongoose.Schema.Types.ObjectId,ref : 'User'},
 	department : String,
 	groupName : String,
+	resetPasswordToken: String,
+	resetPasswordExpires: Date
 });
 
 var User = mongoose.model('User',userSchema);

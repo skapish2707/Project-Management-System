@@ -408,22 +408,6 @@ class StudentContent extends Component {
     });
   };
 
-  /*
-   * the functions for our button
-   */
-  // previousButton() {
-  //   const classes=useStyles();
-  //   let currentStep = this.state.currentStep;
-  //   if (currentStep !== 1) {
-  //     return (
-  //       <Button className={classes.buttonprop} variant="contained" component={'span'} onClick={this._prev}>
-  //         Previous
-  //       </Button>
-  //     );
-  //   }
-  //   return null;
-  // }
-
   handleNext = e => {
     e.preventDefault();
     let currentStep = this.state.currentStep;
