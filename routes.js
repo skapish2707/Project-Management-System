@@ -352,7 +352,7 @@ router.post('/deletePresentation',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'guide') return res.sendStatus(401)
 	try{
-		await dbm.updateMarks(req.body.gid.trim(),req.body.pno);
+		await dbm.deletePresentation(req.body.gid.trim(),req.body.pno);
 		return res.sendStatus(200)
 	}catch{
 		return res.sendStatus(500)
