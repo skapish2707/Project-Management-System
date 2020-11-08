@@ -17,6 +17,7 @@ import StudentHomePage from "./studentHomePage";
 import StudentCommentPage from "./StudentCommentPage";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
+import StudentPresentation from "./StudentPresentation";
 
 let userInfo = [];
 let DueDate = null;
@@ -169,6 +170,11 @@ const StudentWholePage = props => {
                   label="Comments"
                   {...a11yProps(2)}
                 />
+                <Tab
+                  className={classes.tab}
+                  label="Presentations"
+                  {...a11yProps(3)}
+                />
               </Tabs>
             </Grid>
             {/* <Grid item xs={2} /> */}
@@ -181,7 +187,10 @@ const StudentWholePage = props => {
               <StudentContent />
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <StudentCommentPage />
+              <StudentCommentPage Group={Group} />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <StudentPresentation Group={Group} />
             </TabPanel>
           </Grid>
           {/* <Grid item xs={1}></Grid> */}
@@ -215,6 +224,11 @@ const StudentWholePage = props => {
                   label="Comments"
                   {...a11yProps(2)}
                 />
+                <Tab
+                  className={classes.tab}
+                  label="Presentations"
+                  {...a11yProps(3)}
+                />
               </Tabs>
             </Grid>
           </ThemeProvider>
@@ -226,7 +240,10 @@ const StudentWholePage = props => {
               <StudentContent />
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <StudentCommentPage />
+              <StudentCommentPage Group={Group} />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <StudentPresentation Group={Group} />
             </TabPanel>
           </Grid>
           {/* <Grid item xs={1}></Grid> */}

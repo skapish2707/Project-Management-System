@@ -204,7 +204,8 @@ async function getStudents(user,by){
                 dueDate : groups[i].dueDate,
                 acadYear : groups[i].acadYear,
                 guide : groups[i].guide,
-                presentation:groups[i].presentation
+                presentation:groups[i].presentation,
+                department:groups[i].department
             })
         }
 	}
