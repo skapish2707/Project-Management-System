@@ -33,7 +33,7 @@ router.post('/login',passport.authenticate('local',{session: false}),function(re
 	if (!req.user) return res.status(404).send(null);
 
 	const user = {id:req.user.id,email : req.user.email,type : req.user.type,department : req.user.department,groupName : req.user.groupName,name : req.user.name,rollno : req.user.rollno,admin:req.user.admin}
-	const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn: '60m'});
+	const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn: '720m'});
 	return res.json({
 		access_token:access_token,
 		// email : req.user.email,
@@ -440,16 +440,16 @@ router.get('/excel',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'admin') return res.sendStatus(401)
 	try {
-		// var fileName = 'Project List.xlsx';
-		// res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		// res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-		// workbook = await dbm.excel(req.user.id)
-		// await workbook.xlsx.write(res);
-		// res.end();
-		res.download('proposal/5f7574ab59bffd36583e41f1pref1Dice Combinations.cpp')
+		var fileName = 'Project List.xlsx';
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+		workbook = await dbm.excel(req.user.id)
+		await workbook.xlsx.write(res);
+		res.end();
 	}catch(e){
 		console.log(e)
 		res.sendStatus(500)
-	}	
+	}
 })
+
 module.exports = router;
