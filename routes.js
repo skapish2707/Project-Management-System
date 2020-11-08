@@ -435,4 +435,21 @@ router.post('/deleteAllUsers',authenticateToken,async function(req,res){
 		res.sendStatus(500)
 	}
 })
+
+router.get('/excel',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)
+	try {
+		// var fileName = 'Project List.xlsx';
+		// res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		// res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+		// workbook = await dbm.excel(req.user.id)
+		// await workbook.xlsx.write(res);
+		// res.end();
+		res.download('proposal/5f7574ab59bffd36583e41f1pref1Dice Combinations.cpp')
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}	
+})
 module.exports = router;
