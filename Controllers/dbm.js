@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var User = require("../models/User");
 var Group = require("../models/Group");
+var Archive = require("../models/Archive")
 var bcrypt = require("bcrypt");
 var fs = require("fs");
 var path = require('path');
@@ -377,7 +378,8 @@ async function getGroup(student){
         comments : group.comments,
         proposals :group.proposals,
         dueDate:group.dueDate,
-        acadYear:group.acadYear
+        acadYear:group.acadYear,
+        presentation:group.presentation
     }
 }
 
@@ -412,6 +414,76 @@ async function resetPassword(token,newPassword){
   await user.save()
   return "yes"
 }
+
+async function archive(admin_id){
+  grps = await Group.find({admin:admin_id})
+  if(grps.length == 0)
+    return 
+  acadYear =  grps[0].acadYear
+  arc  = await Archive.findOne({admin:admin_id})
+  if (arc == null)
+    arc = Archive({admin:admin_id})
+  let arc_grps = []
+  grps.forEach(function(grp){
+    members = []
+    for(let j = 0; j < grp.members.length ;++j )
+      members.push({
+        name:grp.members[j].name,
+        email:grp.members[j].email,
+        rollno:grp.members[j].rollno
+      })
+    proposals = []
+    for(let j = 0; j < grp.proposals.length ;++j )
+      proposals.push({
+        title : grp.proposals[j].title,
+        specialization : grp.proposals[j].specialization,
+        details : grp.proposals[j].details,
+        agency : grp.proposals[j].agency,
+        method : grp.proposals[j].method,
+        result : grp.proposals[j].result,
+        requirements : grp.proposals[j].requirements,
+        attachPrints : grp.proposals[j].attachPrints, 
+        approval : {
+          admin : grp.proposals[j].approval.admin,
+          hod : grp.proposals[j].approval.hod,
+        },
+        applied : grp.proposals[j].applied ,
+      })
+    presentation = []
+    for(let j = 0; j < grp.presentation.length ;++j )
+      presentation.push({
+        scheduled_date : grp.presentation[j].scheduled_date,
+        marks : grp.presentation[j].marks
+      })
+    guide = {
+      name:grp.guide.name,
+      email : grp.guide.email
+    }
+    arc_grps.push({members:members,proposals:proposals,guide:guide,presentation:presentation})
+  })
+  let data1 = {acadYear:acadYear,groups:arc_grps}
+  arc.data.push(data1)
+  arc.save(function(err){
+    if (err) throw err;
+  })
+}
+async function getArchive(admin_id){
+  arc = await Archive.findOne({admin:admin_id})
+  return arc
+}
+
+async function deleteAllUsers(admin_id){
+  User.deleteMany({admin:admin_id,type:{$ne:"guide"}},function(err){
+    if (err) throw err
+    console.log('deleted all users')
+  })
+  Group.deleteMany({admin:admin_id},function(err){
+    if (err) throw err
+    console.log('deleted all groups')
+  })
+}
+
+
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
     email,
@@ -463,4 +535,7 @@ module.exports = {
   resetPassword:resetPassword,
   deleteStudent:deleteStudent,
   deleteProposal:deleteProposal,
+  archive:archive,
+  getArchive:getArchive,
+  deleteAllUsers:deleteAllUsers,
 };

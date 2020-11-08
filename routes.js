@@ -391,9 +391,44 @@ router.post('/resetPassword/:token',async function(req,res){
 
 router.post('/deleteProposal',authenticateToken,async function (req,res){
 	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'admin') return res.sendStatus(401)
+	if (req.user.type != 'admin' && req.user.type != 'student') return res.sendStatus(401)
 	try{
 		await dbm.deleteProposal(req.body.gid)
+		res.sendStatus(200)
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+})
+
+router.post('/archive',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)
+	try{
+		await dbm.archive(req.user.id)
+		res.sendStatus(200)
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+})
+router.get('/archive',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)
+	try{
+		arc = await dbm.getArchive(req.user.id)
+		res.status(200).send(arc)
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+})
+
+router.post('/deleteAllUsers',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)
+	try {
+		await dbm.deleteAllUsers(req.user.id)
 		res.sendStatus(200)
 	}catch(e){
 		console.log(e)
