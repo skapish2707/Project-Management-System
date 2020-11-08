@@ -14,8 +14,6 @@ import {
   createMuiTheme,
   responsiveFontSizes
 } from "@material-ui/core";
-import axios from "axios";
-import SERVER_URL from "../../Pages/URL";
 
 let DueDate = null;
 let AppliedOn = null;
@@ -37,46 +35,24 @@ let sData = null;
 let fill = false;
 let Group = null;
 
-const StudentHomePage = () => {
+const StudentHomePage = (props) => {
 
-    const [propFilled,setPropFilled] = useState(false)
-    const [stuData, setStuData] = useState(null);
-    const [filled, setFilled ] = useState(false);
+    Group=props.Group;
+    AppliedOn=props.AppliedOn;
+    DueDate=props.DueDate;
+    const [stuData, setStuData] = useState("new");
+    const [filled, setFilled ] = useState(true);
     const [loading,setLoading] = useState(false);
     const classes = useStyles();
-    function checkData() {
-        setLoading(true);
-        axios({
-            method: "get",
-            url: SERVER_URL + "/group",
-            withCredentials: true,
-            headers : {
-                Authorization : 'Bearer '+localStorage.getItem("access_token"),
-            }
-        })
-        .then(res => {
-        Group = res.data;
-        DueDate = Group.dueDate.split("T")[0];
-        if (Group.proposals.length > 0) {
-          setPropFilled(true);
-          propF = propFilled;
-          AppliedOn = Group.proposals[0].applied.split("T")[0];
-        }
-        setStuData("new");
-        setFilled(true);
-        setLoading(false);
-        sData = stuData;
-        fill = filled;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+    if(Group.proposals.length!==0){
+      propF=true
+    }
+    sData = stuData;
+    fill = filled;
 
   function propApproved(proposals) {
     let approved = false;
     let propTitle = "";
-
     proposals.map(proposal => {
       if (proposal.approval.admin && proposal.approval.hod) {
         approved = true;
@@ -144,9 +120,9 @@ const StudentHomePage = () => {
       </div>
     );
   }
-  if (sData === null) {
-    checkData();
-  }
+  // if (sData === null) {
+  //   checkData();
+  // }
   if (fill && propF) {
     let i = 1;
     const { department, name, members, proposals } = Group;
