@@ -42,7 +42,7 @@ app.use(passport.initialize());
 // Cross Origin Resource Sharing
 app.use(cors({
 	credentials: true,
-	origin: '*'
+	origin: 'http://localhost:3000'
 }));
 
 //routes
