@@ -57,7 +57,7 @@ const StudentPresentation = (props) => {
                                 <TableBody>
                                     {Presentations.map((Presentation,index) => (
                                     <TableRow key={Presentation._id}>
-                                        <TableCell align="center">{index}</TableCell>
+                                        <TableCell align="center">{index+1}</TableCell>
                                         <TableCell align="center">{new Date(Presentation.scheduled_date).getDate()}/{new Date(Presentation.scheduled_date).getMonth()+1}/{new Date(Presentation.scheduled_date).getFullYear()}</TableCell>
                                         <TableCell align="center">{days[new Date(Presentation.scheduled_date).getDay()]}</TableCell>
                                         {(new Date(Presentation.scheduled_date).getHours()>12)?(

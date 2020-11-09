@@ -10,7 +10,7 @@ import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { Grid, Button, TextField } from "@material-ui/core";
+import { Grid, Button, TextField, TableContainer, Table, TableHead, TableRow, TableCell, ThemeProvider, Paper, TableBody, createMuiTheme, responsiveFontSizes } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import { toFirstCharUppercase } from "../ToUpper";
@@ -22,6 +22,9 @@ import HodCommentPage from "./HodCommentPage";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
 
 let filled = false;
 let Ad = null;
@@ -76,8 +79,17 @@ const styles = theme => ({
     [theme.breakpoints.down("sm")]: {
       textAlign: "right"
     }
+  },
+  tableContainer: {
+    marginTop: "10px",
+    marginBottom: "50px"
+  },
+  table: {
+    minWidth: 650
   }
 });
+
+const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 class HodPrefPage extends Component {
   constructor(props) {
@@ -167,7 +179,6 @@ class HodPrefPage extends Component {
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
-        console.log(Groups);
         this.setState({
           adData: "new",
           filled: true
@@ -220,6 +231,8 @@ class HodPrefPage extends Component {
     const { expanded } = this.state;
     const Group = location.state.Group;
     const Gid = Group.id;
+    let Presentations = Group.presentation
+    Presentations.sort((a,b)=>(new Date(a.scheduled_date).getTime()>new Date(b.scheduled_date).getTime())?1:-1)
 
     if (this.state.adData === null) {
       this.checkData();
@@ -443,6 +456,80 @@ class HodPrefPage extends Component {
                         </Accordion>
                       );
                     })}
+                    {(Presentations.length!==0)?(
+                        <React.Fragment>
+                          <ThemeProvider theme={theme}>
+                              <Typography style={{marginTop:"20px"}} variant="h4">Presentation Details</Typography>
+                              <TableContainer
+                                  style={{ backgroundColor: "#d3d3d3" }}
+                                  className={classes.tableContainer}
+                                  component={Paper}
+                              >
+                                  <Table
+                                  className={classes.table}
+                                  size="small"
+                                  aria-label="a dense table"
+                                  >
+                                      <TableHead>
+                                          <TableRow>
+                                          <TableCell align="center">No.</TableCell>
+                                          <TableCell align="center">Date</TableCell>
+                                          <TableCell align="center">Day</TableCell>
+                                          <TableCell align="center">Time</TableCell>
+                                          <TableCell align="center">Marks</TableCell>
+                                          </TableRow>
+                                      </TableHead>
+                                      <TableBody>
+                                          {Presentations.map((Presentation,index) => (
+                                          <TableRow key={Presentation._id}>
+                                              <TableCell align="center">{index+1}</TableCell>
+                                              <TableCell align="center">{new Date(Presentation.scheduled_date).getDate()}/{new Date(Presentation.scheduled_date).getMonth()+1}/{new Date(Presentation.scheduled_date).getFullYear()}</TableCell>
+                                              <TableCell align="center">{days[new Date(Presentation.scheduled_date).getDay()]}</TableCell>
+                                              {(new Date(Presentation.scheduled_date).getHours()>12)?(
+                                                  <TableCell align="center">
+                                                      {new Date(Presentation.scheduled_date).getHours()-12}:{new Date(Presentation.scheduled_date).getMinutes()} pm 
+                                                  </TableCell>
+                                              ):(
+                                                  <TableCell align="center">
+                                                      {new Date(Presentation.scheduled_date).getHours()}:{new Date(Presentation.scheduled_date).getMinutes()} am 
+                                                  </TableCell>
+                                              )}
+                                              {(Presentation.marks===null)?(
+                                                  <React.Fragment>
+                                                      {new Date(Presentation.scheduled_date).getTime()>Date.now()?(
+                                                          <TableCell align="center">
+                                                              Presentation Not conducted
+                                                          </TableCell>
+                                                      ):(
+                                                          <TableCell align="center">
+                                                              <Typography style={{fontSize:"12"}} color="secondary">
+                                                                  Presentation missed
+                                                              </Typography>
+                                                          </TableCell>
+                                                      )}
+                                                  </React.Fragment>
+                                              ):(
+                                                  <TableCell align="center">
+                                                      {Presentation.marks}
+                                                  </TableCell>
+                                              )}
+                                          </TableRow>
+                                          ))}
+                                      </TableBody>
+                                  </Table>
+                              </TableContainer>
+                          </ThemeProvider>
+                        </React.Fragment>
+                    ):(
+                        <React.Fragment>
+                          <Typography style={{marginTop:"20px"}} variant="h4">
+                            Presentations
+                          </Typography>
+                          <Typography>
+                              No Presentations have been scheduled.
+                          </Typography>
+                        </React.Fragment>
+                    )}
                     <Grid container className={classes.comment}>
                       <Grid
                         item
