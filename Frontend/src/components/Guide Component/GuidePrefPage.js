@@ -657,7 +657,7 @@ handleDateTimeChange = (e) =>{
                                                     </Typography>
                                                 )}
                                             </Grid>
-                                            {(presentation.marks===null && d.getTime()>Date.now())?(
+                                            {(presentation.marks===null && d.getTime()<=Date.now())?(
                                               <Grid item container xs={12} style={{ textAlign: "left" }}>
                                                 <Grid item xs={3}>
                                                     <TextField size="small" type="number" value={this.state.marks} variant="outlined" label="Marks obtained" onChange={this.handleMarks}/>

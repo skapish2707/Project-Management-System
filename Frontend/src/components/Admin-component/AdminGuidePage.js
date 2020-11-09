@@ -122,6 +122,7 @@ handleDeleteHod=(id)=>{
 
 
 
+
 //Add Hod Section
 handleAddHodDialogOpen=()=>{  
   this.setState({
@@ -185,8 +186,6 @@ handleHodNameChange = (e) => {
         });
     }
   }
-
-
 
  //Add Guide Button & different options in Dialog Box
  handleClickOpen = () => {

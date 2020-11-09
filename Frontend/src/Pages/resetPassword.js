@@ -104,6 +104,7 @@ class resetPassword extends Component {
 		  this.setState({msg : "Please Enter a Password with length greater than 8"});
 		}
 		else{
+			this.setState({loading:true})
 			axios({
 			method: "post",
 			url: SERVER_URL+"/resetPassword/"+this.props.match.params.id,
@@ -202,9 +203,9 @@ class resetPassword extends Component {
 	              </Button>
 	             
 	            </form>
-				<Snackbar open={this.state.openSuccees} onClose={handleClose}>
-					<Alert onClose={handleClose} severity="success">
-					Your Password was changed successfully You can go ahead and login
+				<Snackbar open={this.state.openSuccees} onClose={handleClose} autoHideDuration={6000}>
+					<Alert onClose={handleClose} severity="success" >
+					Your Password was changed successfully You will be redirect to login page
 					</Alert>
 				</Snackbar>
 				<Snackbar open={this.state.openInfo} onClose={handleClose}>

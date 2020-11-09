@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid, Container } from "@material-ui/core";
+import { Grid, Container, CircularProgress } from "@material-ui/core";
 import {
   makeStyles,
   createMuiTheme,
@@ -17,6 +17,7 @@ import StudentHomePage from "./studentHomePage";
 import StudentCommentPage from "./StudentCommentPage";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
+import StudentPresentation from "./StudentPresentation";
 
 let userInfo = [];
 let DueDate = null;
@@ -103,11 +104,14 @@ let Group=null;
 
 const StudentWholePage = props => {
   userInfo = props.userInfo;
+  const [obtained,setObtained] = React.useState(false)
+  const [academicYear,setAcademicYear] = React.useState("")
+  const [reqSent,setReqSent] = React.useState(false)
   //console.log(userInfo.name);
 
-  const [academicYear,setAcademicYear] = React.useState("");
 
   function checkData() {
+    setReqSent(true);
     axios({
       method: "get",
       url: SERVER_URL + "/group",
@@ -118,11 +122,12 @@ const StudentWholePage = props => {
     })
       .then(res => {
         Group = res.data;
+        setObtained(true);
         DueDate = Group.dueDate.split("T")[0];
         if(Group.proposals.length!==0){
           AppliedOn = Group.proposals[0].applied.split("T")[0];
         }
-        setAcademicYear(Group.acadYear);
+        setAcademicYear(Group.academicYear)
       })
       .catch(err => {
         console.log(err);
@@ -135,9 +140,12 @@ const StudentWholePage = props => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  if(obtained===false && reqSent===false){
+    checkData()
+  }
+  if(obtained===true)
   return (
     <React.Fragment>
-      {checkData()}
       <Profile academicYear={academicYear} userInfo={userInfo} />
       <div
         style={{
@@ -169,6 +177,11 @@ const StudentWholePage = props => {
                   label="Comments"
                   {...a11yProps(2)}
                 />
+                <Tab
+                  className={classes.tab}
+                  label="Presentations"
+                  {...a11yProps(3)}
+                />
               </Tabs>
             </Grid>
             {/* <Grid item xs={2} /> */}
@@ -181,7 +194,10 @@ const StudentWholePage = props => {
               <StudentContent />
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <StudentCommentPage />
+              <StudentCommentPage Group={Group} />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <StudentPresentation Group={Group} />
             </TabPanel>
           </Grid>
           {/* <Grid item xs={1}></Grid> */}
@@ -215,6 +231,11 @@ const StudentWholePage = props => {
                   label="Comments"
                   {...a11yProps(2)}
                 />
+                <Tab
+                  className={classes.tab}
+                  label="Presentations"
+                  {...a11yProps(3)}
+                />
               </Tabs>
             </Grid>
           </ThemeProvider>
@@ -226,7 +247,10 @@ const StudentWholePage = props => {
               <StudentContent />
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <StudentCommentPage />
+              <StudentCommentPage Group={Group} />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <StudentPresentation Group={Group} />
             </TabPanel>
           </Grid>
           {/* <Grid item xs={1}></Grid> */}
@@ -234,6 +258,11 @@ const StudentWholePage = props => {
       </div>
     </React.Fragment>
   );
+  else{
+    return(
+      <CircularProgress />
+    )
+  }
 };
 
 export default StudentWholePage;

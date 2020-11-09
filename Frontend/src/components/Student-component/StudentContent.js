@@ -5,6 +5,11 @@ import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Tabs, Tab, Box, AppBar, createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
@@ -144,8 +149,21 @@ class StudentContent extends Component {
       openSuccess: false,
       openFailure: false,
       formFilled: false,
-      loading: false
+      loading: false,
+      open:false
     };
+  }
+
+  handleClickOpen = () => {
+    this.setState({open:true})
+  };
+
+  handleAgreeClickClose = () => {
+    Stu=0;
+    this.setState({open:false})
+  }
+  handleCancelClickClose = () => {
+    this.setState({open:false})
   }
 
   handleClose = (event, reason) => {
@@ -521,6 +539,34 @@ class StudentContent extends Component {
         let value=this.state.tabValue;
           return (
             <React.Fragment>
+              {!(pref1.approval.admin||pref2.approval.admin||pref3.approval.admin)?(
+                <React.Fragment>
+                  <Button onClick={this.handleClickOpen} variant="outlined" color="primary">
+                    Re-enter Proposals
+                  </Button>
+                  <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClickClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">{"Re-enter the proposals?"}</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        If you click ok then you have to re-enter the proposals completely. If you refresh the page or close the tabs then all your changes will be lost. 
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleCancelClickClose} color="primary" autoFocus>
+                        Cancel
+                      </Button>
+                      <Button onClick={this.handleAgreeClickClose} color="primary" autoFocus>
+                        Agree
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </React.Fragment>
+              ):(null)}
               <div className={classes.largeWinTabs}>
                 <AppBar position="static" color="primary">
                   <Tabs value={value} onChange={this.handleChange} aria-label="simple tabs example" indicatorColor="secondary" textColor="secondary" centered>
