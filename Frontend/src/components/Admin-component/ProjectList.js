@@ -4,7 +4,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Menu, MenuItem, TextField } from "@material-ui/core";
+import { CircularProgress,Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Menu, MenuItem, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -18,6 +18,12 @@ import { toFirstCharUppercase } from "../ToUpper";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
+import MuiAlert from "@material-ui/lab/Alert";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider
+} from "@material-ui/pickers";
 
 
 
@@ -75,6 +81,9 @@ const useStyles = makeStyles(theme => ({
   accordet: {
     width: "100%",
     margin: "auto"
+  },
+  dueDateContainer:{
+    borderRadius:"0px"
   }
 }));
 
@@ -83,8 +92,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function ControlledAccordions(props) {
   let Groups = props.Groups;
+  let dueDate = Groups[0].dueDate
   let Guides = props.Guides;
-  console.log(props)
   const histor = useHistory();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -93,6 +102,8 @@ export default function ControlledAccordions(props) {
   const [assignLoading,setAssignLoading]=React.useState(false);
   const [guide,setGuide] = React.useState(null);
   const [guideE,setGuideE] = React.useState(null);
+  const [changeDuedate,setDueDate] = React.useState(new Date());
+  const [DueDateOpen,setDOpen] = React.useState(false)
 
 
 //Guide Menu
@@ -122,7 +133,57 @@ export default function ControlledAccordions(props) {
 
 
 
+//Change DueDate-------------------------------
+  //to change format of the month
+const appendLeadingZeroes=(n)=> {
+  if (n <= 9) {
+    return "0" + n;
+  }
+  return n;
+}
 
+
+const handleChangeDueDateDialogOpen=()=>{
+  setDOpen(true)
+}
+const handleChangeDueDateDialogClose=()=>{
+  setDOpen(false)
+}
+const handleChangeDueDate=()=>{
+  console.log(changeDuedate)
+  axios({
+    method: "post",
+    url: SERVER_URL + "/updateDueDate",
+    credentials: "include",
+    withCredentials: true,
+    data: qs.stringify({
+      dueDate:changeDuedate
+    }),
+    headers: {
+      "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      "Authorization" : 'Bearer '+ localStorage.getItem("access_token")
+    }
+  })
+  .then(res => {
+    console.log("Due Changed")
+    window.location.reload(false);
+  })
+
+  .catch(err => {
+    alert("DueDate didnt Change")
+    console.log(err);
+  });
+}
+const handleSetDueDate=(date)=>{
+  let current_datetime = date;
+    let formatted_date =
+      current_datetime.getFullYear() +
+      "-" +
+      appendLeadingZeroes(current_datetime.getMonth() + 1) +
+      "-" +
+      appendLeadingZeroes(current_datetime.getDate());
+  setDueDate(formatted_date)
+}
   
 
 // Assign Guide button
@@ -194,15 +255,61 @@ export default function ControlledAccordions(props) {
 
   // let e={}
 
-  console.log(props.Guides,Guides)
   if(Guides!==null){
     if(guide===null){
       setGuide(Guides[0].name)
     }
     return (
       <div>
+      {/* DIALOG FOR CHANGE DUEDATE */}
+      <Dialog open={DueDateOpen} onClose={handleChangeDueDateDialogClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title" style={{margin:"auto 100px"}}>Change DueDate</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Select a new DueDate
+          </DialogContentText>
+            <TextField
+              id="DueDate"
+              type="date"
+              fullWidth
+              required
+            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                autoOk
+                required
+                variant="inline"
+                inputVariant="outlined"
+                format="yyyy/MM/dd"
+                value={changeDuedate}
+                onChange={handleSetDueDate}
+                InputAdornmentProps={{ position: "start" }}
+              />
+            </MuiPickersUtilsProvider>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleChangeDueDateDialogClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleChangeDueDate} color="primary">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <div>
+
+      </div>
+      {/* DIALOG END */}
         <div className={classes.root}>
           <AppBar position="static" color="default">
+          <div >
+          <Card className={classes.dueDateContainer}>
+            <Grid container  style={{padding:"5px"}}>
+              <Grid item xs={8} style={{margin:"auto"}}><Typography variant="h6">&nbsp;&nbsp;<b>DueDate for Submitting Proposals:&nbsp;{dueDate.split("T")[0]}</b></Typography></Grid>
+              <Grid item xs={4} style={{textAlign:"right"}}><Button onClick={handleChangeDueDateDialogOpen} variant="contained" color="primary">Change DueDate</Button></Grid>
+            </Grid>
+          </Card>
+          </div>
             <Tabs
               value={value}
               onChange={handleChangeT}

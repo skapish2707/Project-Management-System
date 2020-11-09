@@ -29,7 +29,6 @@ const useStyles = (theme => ({
    mainAccor:{
     color:"#303030",
     margin:'auto' ,
-    borderRadius:"none"
   },
   mainAccorContainer:{
     width:"80%",
@@ -45,7 +44,6 @@ const useStyles = (theme => ({
     width:"100%",
     padding:"8px 0px",
     marginTop:"2px",
-    borderRadius:"0px",
     textAlign:"left",
   },
   accorStyle:{
