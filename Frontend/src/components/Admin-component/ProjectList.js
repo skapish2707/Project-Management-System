@@ -268,12 +268,6 @@ const handleSetDueDate=(date)=>{
           <DialogContentText>
             Select a new DueDate
           </DialogContentText>
-            <TextField
-              id="DueDate"
-              type="date"
-              fullWidth
-              required
-            />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 autoOk
