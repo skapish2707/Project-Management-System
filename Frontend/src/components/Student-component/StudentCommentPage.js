@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles, Typography, CircularProgress, Grid, Paper } from '@material-ui/core';
-import axios from 'axios';
-import SERVER_URL from "../../Pages/URL"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +24,6 @@ const StudentCommentPage = (props) => {
     }else{
         const {comments} = Group;
         if(comments.length === 0){
-            console.log(comments.length);
             return(
                 <React.Fragment>
                     <Typography variant="h4">No comments have been added</Typography>
