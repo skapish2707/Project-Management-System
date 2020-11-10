@@ -27,44 +27,23 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     
   },
-   mainAccor:{
-    color:"#303030",
-    margin:'auto' ,
+  heading: {
+    fontSize: theme.typography.pxToRem(16),
+    fontWeight: "600",
+    flexBasis: "33.33%",
+    flexShrink: 0
   },
-  mainAccorContainer:{
-    width:"80%",
-    margin:"2px auto",
-    marginTop:"30px"
-
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(16),
+    color: theme.palette.text.secondary
   },
-  memberHolder:{
-    width:"10%",
-    backgroundColor:"#909090"
+  accor: {
+    width: "100%",
+    margin: "auto"
   },
-  groupCard:{
-    width:"100%",
-    padding:"8px 0px",
-    marginTop:"2px",
-    textAlign:"left",
-  },
-  accorStyle:{
-    backgroundColor:"#d3d3d3"
-  },
-  heading:{
-    fontWeight:"bold"
-  },
-  deleteIconStyle:{
-    cursor:"pointer",
-    "&:hover": {
-      color: 'red'
-    }
-  },
-  presCard:{
-    width:"100%",
-    padding:"8px 0px",
-    marginTop:"2px",
-    borderRadius:"0px",
-    textAlign:"left",
+  accordet: {
+    width: "100%",
+    margin: "auto"
   }
   }));
 

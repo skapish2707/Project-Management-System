@@ -356,12 +356,6 @@ class ControlledExpansionPanels extends React.Component {
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
-                                <Typography>
-                                  <b>Attached Print:&nbsp;&nbsp;</b>
-                                  {proposal.attachPrints}
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12}>
                                 {approval.admin ? (
                                   <Typography>
                                     <b>Admin approval status:&nbsp;&nbsp;</b>Approved
