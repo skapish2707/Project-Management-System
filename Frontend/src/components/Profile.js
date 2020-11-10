@@ -43,7 +43,6 @@ export default function Profile(props) {
   const classes = useStyles();
   const userInfo = props;
   const academicYear=props.academicYear;
-  console.log(props)
   return (
     <Card
       className={classes.root}
@@ -89,9 +88,11 @@ export default function Profile(props) {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <Typography className={classes.title}>
-                <b>Academic Year:</b> {academicYear}
-              </Typography>
+              {academicYear!==null?(
+                <Typography className={classes.title}>
+                  <b>Academic Year:</b> {academicYear}
+                </Typography>
+              ):(null)}
             </Grid>
           </Grid>
       </CardContent>
