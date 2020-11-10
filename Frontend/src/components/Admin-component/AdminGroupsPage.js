@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+  import React, { Component } from 'react'
 import SideMenu from './SideMenu'
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
@@ -86,6 +86,7 @@ class AdminGroupsPage extends Component {
       memberEmail:"",
       memberRollno:"",
       deleteProposalsOpen:false,
+      deleteAllUserDialog : false,
       };
   }
 
@@ -124,7 +125,6 @@ class AdminGroupsPage extends Component {
       }
     })
       .then(res => {
-        console.log(res)
         groupData=res.data
         this.setState({
           groupDetails:res.data
@@ -219,6 +219,24 @@ handleDeleteProposals=(gid)=>{
     console.log(err);
     });
 }  
+
+handleDeleteAllUser = () => {
+  axios({
+        method: "post",
+        url: SERVER_URL + "/deleteAllUsers",
+        credentials: "include",
+        withCredentials: true,
+        headers: {
+          Authorization : 'Bearer '+ localStorage.getItem("access_token")
+        }
+      })
+      .then(res => {
+        window.location.reload()
+      })
+      .catch(err => {
+        console.log(err)
+      });
+}
 
 //ADD MEMBER SECTION ------------------------------------
 handleAddMemberDialogOpen=(gid,dept,gname)=>{  
@@ -422,11 +440,41 @@ handleMemberNameChange = (e) => {
        </Dialog>
      </div> 
 
+     {/* -----------------DELETE ALL USER DIALOG---------------------- */}
+    <div>
+       <Dialog
+         open={this.state.deleteAllUserDialog}
+         onClose={()=>{this.setState({deleteAllUserDialog:false})}}
+         aria-labelledby="alert-dialog-title"
+         aria-describedby="alert-dialog-description"
+       >
+         <DialogTitle id="alert-dialog-title">{"Delete ALL User"}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">
+             Are you sure you want to delete All users and groups? All the students,HOD,guides will be removed from the database as well as the details of all groups will also be deleted before deleting make sure you  have archived the groups
+           </DialogContentText>
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={()=>{this.setState({deleteAllUserDialog:false})}} color="primary">
+             Cancel
+           </Button>
+           <Button onClick ={this.handleDeleteAllUser}  color="primary" >
+             Delete
+           </Button>
+         </DialogActions>
+       </Dialog>
+     </div> 
+
 
          
     {/* -----------------------MEMBER ACCORDION------------------------*/}
     {groupData?<div className={classes.mainAccorContainer}>
-    <div><Typography variant="h2" style={{marginBottom:"30px"}}>Manage Groups</Typography></div>
+    <br/>
+    <Grid container  style={{padding:"5px"}}>
+      <Grid item xs={8} style={{margin:"auto"}}><Typography variant="h3" style={{marginBottom:"18px"}}>Manage Groups</Typography></Grid>
+      <Grid item xs={4} style={{textAlign:"right",margin:"auto"}}><Button  variant="contained" onClick = {()=>{this.setState({deleteAllUserDialog:true})}}  color="primary">Delete All Users</Button></Grid>
+    </Grid>
+    
     {groupData.map(group=>{
       let proposal1Stat=null
       let proposal2Stat=null

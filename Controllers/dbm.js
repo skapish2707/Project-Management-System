@@ -19,9 +19,10 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
-	// Group.find({},function(err,data){
+	// Group.find({admin:"5fa37f9632124422c8e28785"},function(err,data){
 	//   data.forEach(function(grp){
-	//     grp.presentation = []
+	//     grp.proposals[0].approval.hod = true
+	//     grp.proposals[0].approval.admin = true
 	//     grp.save(function(err){
 	//       if(err) throw err;
 	//     })
@@ -49,8 +50,9 @@ mongoose.connect(process.env.uri,{
 	//   console.log(grp.presentation[0]._id)
 	// })
 
+
 	//DELETE  STUDENT GROUPS HOD PIC IG by admin email
-		// User.findOne({email:"newtest@admin.com"},function(err,admin){          
+		// User.findOne({email:"thursday@admin.com"},function(err,admin){          
 		//   if(err) throw err ;
 		//   User.deleteMany({admin:admin.id},function(err){
 		//       if (err) throw err
@@ -106,7 +108,7 @@ async function generateGroups(admin,dueDate,acadYear,users) {
 	  if (!group) {
 		group = await Group({
 		  name: groupName,
-		  department : user.department,
+		  department : admin.department,
 		  members: [],
 		  admin: admin.id,
 		  dueDate:dueDate,
@@ -473,7 +475,7 @@ async function getArchive(admin_id){
 }
 
 async function deleteAllUsers(admin_id){
-  User.deleteMany({admin:admin_id,type:{$ne:"guide"}},function(err){
+  User.deleteMany({admin:admin_id},function(err){
 	if (err) throw err
 	console.log('deleted all users')
   })

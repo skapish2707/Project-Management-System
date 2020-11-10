@@ -165,7 +165,6 @@ class ControlledExpansionPanels extends React.Component {
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
-        console.log(Groups[3].comments);
 
         this.setState({
           adData: "new",
