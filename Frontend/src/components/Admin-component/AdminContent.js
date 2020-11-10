@@ -14,7 +14,6 @@ import {
   Button,
   Input,
   Snackbar,
-  CircularProgress
 } from "@material-ui/core";
 import Profile from "../Profile";
 import ProjectList from "./ProjectList";
@@ -300,7 +299,7 @@ class AdminContent extends Component {
       return (
         <div style={{ margin: "auto" }}>
           <LoggedNavbar />
-          <CircularProgress />
+          <LinearProgress />
         </div>
       );
     }
