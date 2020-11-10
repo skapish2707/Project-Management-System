@@ -73,7 +73,8 @@ router.get('/group',authenticateToken,async function(req,res){
 	try {
 		group =  await dbm.getGroup(req.user);
 		return res.status(200).send(group);
-	}catch{
+	}catch(e){
+		console.log(e)
 		return res.status(500).send();
 	}
 
@@ -138,17 +139,10 @@ router.post('/admin',authenticateToken,async function(req,res){
 		})
 		dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
 		res.status(200).send("OK");
-	}catch{
+	}catch(e){
+		console.log(e)
 		res.status(500).send();
-	}
-	
-
-	// await dbm.addToDatabase(req.user,name,rollno,email,department,"student", groupName);
-	// dbm.addToDatabase(req.user,req.body.hodName.trim(),null,req.body.hodEmail,department,"hod") ;
-	// dbm.addToDatabase(req.user,req.body.picName.trim(),null,req.body.picEmail,department,"pic") ;
-	// dbm.addToDatabase(req.user,req.body.igName.trim(),null,req.body.igEmail,department,"ig");
-	// groups = await dbm.generateGroups(req.user,req.body.dueDate,req.body.acadYear);
-		
+	}	
 });
 
 
@@ -156,8 +150,13 @@ router.post('/admin',authenticateToken,async function(req,res){
 router.get('/getStudents',authenticateToken,async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type == 'student') return res.status(404).send();
-	let items = await dbm.getStudents(req.user,req.query.by);
-	res.send(JSON.stringify(items));
+	try{
+		let items = await dbm.getStudents(req.user,req.query.by);
+		res.send(JSON.stringify(items));
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
 });
 
 
@@ -183,7 +182,8 @@ router.post('/student',authenticateToken, async function(req,res){
 			proposals[2].attachPrints = req.user.id.trim()+"pref3"+req.files.file3.name;
 			await dbm.addProposals(req.user,proposals);
 			return res.status(200).send("Your Proposals was recorded Successfully!..");
-		}catch{
+		}catch(e){
+			console.log(e)
 			return res.status(500).send()
 		}
 	}
@@ -197,7 +197,8 @@ router.post('/comment',authenticateToken,async function(req,res){
 	try{
 		await dbm.addComment(req.user,req.body.id,req.body.msg);
 		return res.status(200).send();
-	}catch{
+	}catch(e){
+		console.log(e)
 		res.status(500).send();
 	}
 });
@@ -210,7 +211,8 @@ router.post('/approve',authenticateToken,async function(req,res){
 	try {
 		await dbm.approve(req.body.id,req.body.pid,req.user.type);
 		return res.status(200).send();
-	}catch{
+	}catch(e){
+		console.log(e)
 		res.status(500).send();
 	}
 })
@@ -230,7 +232,8 @@ router.post('/addmember',authenticateToken,async function(req,res){
 		student =  await dbm.addToDatabase(req.user,req.body.name,req.body.rollno,req.body.email,req.body.department,"student",req.body.groupName);
 		await dbm.addMemberToGroup(req.body.id.trim(),student);
 		return res.status(200).send("OK");
-	}catch{
+	}catch(e){
+		console.log(e)
 		return res.status(500).send();
 	}
 })
@@ -242,7 +245,8 @@ router.post('/updateDueDate',authenticateToken,async function(req,res){
 		await dbm.updateDueDate(req.user,req.body.dueDate);
 		return res.status(200).send("OK");
 	}
-	catch{
+	catch(e){
+		console.log(e)
 		return res.status(500).send("OK");
 	}
 })
@@ -262,7 +266,8 @@ router.post('/addGuide',authenticateToken,async function(req,res){
 			await dbm.addGuide(req.body.email.trim(),req.body.name.trim(),req.body.groupId.trim())
 		}
 		return res.status(200).send("OK");
-	}catch {
+	}catch(e){
+		console.log(e)
 		return res.status(500).send();
 	}
 })
@@ -272,19 +277,21 @@ router.get('/getGuide',authenticateToken,async function(req,res){
 	try {
 		guides = await dbm.getGuide(req.user);
 		return res.status(200).send(guides);
-	}catch{
+	}catch(e){
+		console.log(e)
 		return res.status(500).send();
 	}
 })
 
 router.get('/guideGroup',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide') return res.sendStatus(401)
+	if (req.user.type == 'student') return res.sendStatus(401)
 	try{
 		groups =  await dbm.getGuideGroups(req.user)
 		return res.status(200).send(groups)
 	}
-	catch{
+	catch(e){
+		console.log(e)
 		return res.sendStatus(500)
 	}
 })
@@ -314,7 +321,8 @@ router.post('/deleteUser',authenticateToken,async function(req,res){
 		try{
 			await dbm.deleteguide(req.body.id.trim(),{name:req.body.name.trim(),email:req.body.email.trim()})
 			return res.sendStatus(200)
-		}catch{
+		}catch(e){
+			console.log(e)
 			return res.sendStatus(500)
 		}
 	}
@@ -323,7 +331,8 @@ router.post('/deleteUser',authenticateToken,async function(req,res){
 		try{
 			await dbm.deletehod(req.body.id.trim());
 			return res.sendStatus(200)
-		}catch{
+		}catch(e){
+			console.log(e)
 			return res.sendStatus(500)
 		}
 	}
@@ -346,7 +355,8 @@ router.post('/addhod',authenticateToken,async function(req,res){
 	try{
 		await dbm.addToDatabase(req.user,req.body.name.trim(),null,req.body.email.trim(),req.user.department,"hod") ;
 		return res.sendStatus(200)
-	}catch{
+	}catch(e){
+		console.log(e)
 		return res.sendStatus(500)
 	}
 })
@@ -356,7 +366,8 @@ router.post('/presentationMarks',authenticateToken,async function(req,res){
 	try{
 		await dbm.updateMarks(req.body.gid.trim(),req.body.pid.trim(),req.body.marks);
 		return res.sendStatus(200)
-	}catch{
+	}catch(e){
+		console.log(e)
 		return res.sendStatus(500)
 	}
 })
@@ -366,7 +377,8 @@ router.post('/deletePresentation',authenticateToken,async function(req,res){
 	try{
 		await dbm.deletePresentation(req.body.gid.trim(),req.body.pid.trim());
 		return res.sendStatus(200)
-	}catch{
+	}catch(e){
+		console.log(e)
 		return res.sendStatus(500)
 	}
 })
@@ -374,7 +386,8 @@ router.post('/forgetPassword',async function(req,res){
 	try{
 		msg = await dbm.forgetPassword(req.body.email.trim())
 		res.status(200).send(msg)
-	}catch{
+	}catch(e){
+		console.log(e)
 		res.sendStatus(500)
 	}
 	
