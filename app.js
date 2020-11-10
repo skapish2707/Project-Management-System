@@ -53,12 +53,9 @@ if(process.env.NODE_ENV == "production"){
 	app.use(express.static(path.join('Frontend','build')));
 	
 	app.get('*',(req,res) => {
-		res.sendFile(path.resolve(__dirname+'Frontend','build','index.html'));
+		res.sendFile(path.resolve(process.env.PWD+'Frontend','build','index.html'));
 	});
 }
-// app.get('*',function(req,res){
-// 		res.sendFile(path.resolve(__dirname+'Frontend','public','index.html'));
-// });
 const port = process.env.PORT || 8000;
 app.listen(port);
 console.log("Server Is Online at port "+port);
