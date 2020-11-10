@@ -58,7 +58,6 @@ export default class Hod extends Component {
           <React.Fragment>
             <LoggedNavbar />
             <GuideDetails userInfo={this.state.user} />
-            <h1>GUIDE PAGE!</h1>
             <GuideGroupList userInfo={this.state.user} />
           </React.Fragment>
         </div>
