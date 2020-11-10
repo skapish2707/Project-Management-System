@@ -270,7 +270,6 @@ async function getGuideGroups(user){
 		comments:groups[i].comments
 	  })
   }
-  console.log(list_groups)
   return list_groups
 }
 
