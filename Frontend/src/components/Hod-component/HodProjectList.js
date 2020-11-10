@@ -127,7 +127,6 @@ const HodProjectList = props => {
                 state: { Group: Group }
               });
             };
-            // console.log(Group);
             let DueDate = Group.dueDate.split("T")[0];
             let members = Group.members;
             let Gname = Group.name;
