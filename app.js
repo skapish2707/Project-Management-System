@@ -59,4 +59,3 @@ if(process.env.NODE_ENV == "production"){
 const port = process.env.PORT || 8000;
 app.listen(port);
 console.log("Server Is Online at port "+port);
-console.log(path.resolve(process.env.PWD+'Frontend','build','index.html'))

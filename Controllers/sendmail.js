@@ -53,7 +53,14 @@ async function sendmail(data,type){
                 project management system <br/>
                 Development Team</h3>`
       }
-        }
+      try{
+        await transporter.sendMail(passwordResetOption);
+        console.log('send mail to '+data.email );
+      }
+      catch(e){
+        console.log(e)
+      }
+  }
 }
 
 module.exports = sendmail
