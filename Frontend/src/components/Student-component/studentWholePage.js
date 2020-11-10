@@ -122,12 +122,13 @@ const StudentWholePage = props => {
     })
       .then(res => {
         Group = res.data;
+        console.log(Group)
         setObtained(true);
         DueDate = Group.dueDate.split("T")[0];
         if(Group.proposals.length!==0){
           AppliedOn = Group.proposals[0].applied.split("T")[0];
         }
-        setAcademicYear(Group.academicYear)
+        setAcademicYear(Group.acadYear)
       })
       .catch(err => {
         console.log(err);
@@ -143,122 +144,123 @@ const StudentWholePage = props => {
   if(obtained===false && reqSent===false){
     checkData()
   }
-  if(obtained===true)
-  return (
-    <React.Fragment>
-      <Profile academicYear={academicYear} userInfo={userInfo} />
-      <div
-        style={{
-          boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
-        }}
-        className={classes.small_win_tabs}
-      >
-        <Grid container className={classes.root}>
-          <ThemeProvider theme={theme}>
-            <Grid item xs={12} className={classes.hor_tab_grid}>
-              <Tabs
-                orientation="horizontal"
-                value={value}
-                onChange={handleChange}
-                aria-label="horizontal tabs"
-                variant="fullWidth"
-                //scrollButtons="on"
-                indicatorColor="primary"
-                textColor="primary"
-              >
-                <Tab className={classes.tab} label="Home" {...a11yProps(0)} />
-                <Tab
-                  className={classes.tab}
-                  label="Preferences"
-                  {...a11yProps(1)}
-                />
-                <Tab
-                  className={classes.tab}
-                  label="Comments"
-                  {...a11yProps(2)}
-                />
-                <Tab
-                  className={classes.tab}
-                  label="Presentations"
-                  {...a11yProps(3)}
-                />
-              </Tabs>
+  if(obtained===true){
+    console.log(academicYear)
+    return (
+      <React.Fragment>
+        <Profile academicYear={academicYear} userInfo={userInfo} />
+        <div
+          style={{
+            boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+          }}
+          className={classes.small_win_tabs}
+        >
+          <Grid container className={classes.root}>
+            <ThemeProvider theme={theme}>
+              <Grid item xs={12} className={classes.hor_tab_grid}>
+                <Tabs
+                  orientation="horizontal"
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="horizontal tabs"
+                  variant="fullWidth"
+                  //scrollButtons="on"
+                  indicatorColor="primary"
+                  textColor="primary"
+                >
+                  <Tab className={classes.tab} label="Home" {...a11yProps(0)} />
+                  <Tab
+                    className={classes.tab}
+                    label="Preferences"
+                    {...a11yProps(1)}
+                  />
+                  <Tab
+                    className={classes.tab}
+                    label="Comments"
+                    {...a11yProps(2)}
+                  />
+                  <Tab
+                    className={classes.tab}
+                    label="Presentations"
+                    {...a11yProps(3)}
+                  />
+                </Tabs>
+              </Grid>
+              {/* <Grid item xs={2} /> */}
+            </ThemeProvider>
+            <Grid className={classes.TabPanel} item xs={12}>
+              <TabPanel value={value} index={0}>
+                <StudentHomePage Group={Group} DueDate={DueDate} AppliedOn={AppliedOn}/>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <StudentContent />
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                <StudentCommentPage Group={Group} />
+              </TabPanel>
+              <TabPanel value={value} index={3}>
+                <StudentPresentation Group={Group} />
+              </TabPanel>
             </Grid>
-            {/* <Grid item xs={2} /> */}
-          </ThemeProvider>
-          <Grid className={classes.TabPanel} item xs={12}>
-            <TabPanel value={value} index={0}>
-              <StudentHomePage Group={Group} DueDate={DueDate} AppliedOn={AppliedOn}/>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <StudentContent />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <StudentCommentPage Group={Group} />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              <StudentPresentation Group={Group} />
-            </TabPanel>
+            {/* <Grid item xs={1}></Grid> */}
           </Grid>
-          {/* <Grid item xs={1}></Grid> */}
-        </Grid>
-      </div>
-      <div
-        style={{
-          boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
-        }}
-        className={classes.large_win_tabs}
-      >
-        <Grid style={{ marginTop: "3px" }} container className={classes.root}>
-          <ThemeProvider theme={theme}>
-            <Grid item xs={3} className={classes.vert_tab_grid}>
-              <Tabs
-                orientation="vertical"
-                value={value}
-                onChange={handleChange}
-                aria-label="Vertical tabs"
-                indicatorColor="primary"
-                textColor="primary"
-              >
-                <Tab className={classes.tab} label="Home" {...a11yProps(0)} />
-                <Tab
-                  className={classes.tab}
-                  label="Preferences"
-                  {...a11yProps(1)}
-                />
-                <Tab
-                  className={classes.tab}
-                  label="Comments"
-                  {...a11yProps(2)}
-                />
-                <Tab
-                  className={classes.tab}
-                  label="Presentations"
-                  {...a11yProps(3)}
-                />
-              </Tabs>
+        </div>
+        <div
+          style={{
+            boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+          }}
+          className={classes.large_win_tabs}
+        >
+          <Grid style={{ marginTop: "3px" }} container className={classes.root}>
+            <ThemeProvider theme={theme}>
+              <Grid item xs={3} className={classes.vert_tab_grid}>
+                <Tabs
+                  orientation="vertical"
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="Vertical tabs"
+                  indicatorColor="primary"
+                  textColor="primary"
+                >
+                  <Tab className={classes.tab} label="Home" {...a11yProps(0)} />
+                  <Tab
+                    className={classes.tab}
+                    label="Preferences"
+                    {...a11yProps(1)}
+                  />
+                  <Tab
+                    className={classes.tab}
+                    label="Comments"
+                    {...a11yProps(2)}
+                  />
+                  <Tab
+                    className={classes.tab}
+                    label="Presentations"
+                    {...a11yProps(3)}
+                  />
+                </Tabs>
+              </Grid>
+            </ThemeProvider>
+            <Grid className={classes.TabPanel} item xs={9}>
+              <TabPanel value={value} index={0}>
+                <StudentHomePage Group={Group} DueDate={DueDate} AppliedOn={AppliedOn}/>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <StudentContent />
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                <StudentCommentPage Group={Group} />
+              </TabPanel>
+              <TabPanel value={value} index={3}>
+                <StudentPresentation Group={Group} />
+              </TabPanel>
             </Grid>
-          </ThemeProvider>
-          <Grid className={classes.TabPanel} item xs={9}>
-            <TabPanel value={value} index={0}>
-              <StudentHomePage Group={Group} DueDate={DueDate} AppliedOn={AppliedOn}/>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <StudentContent />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <StudentCommentPage Group={Group} />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              <StudentPresentation Group={Group} />
-            </TabPanel>
+            {/* <Grid item xs={1}></Grid> */}
           </Grid>
-          {/* <Grid item xs={1}></Grid> */}
-        </Grid>
-      </div>
-    </React.Fragment>
-  );
-  else{
+        </div>
+      </React.Fragment>
+    );
+  }else{
     return(
       <CircularProgress />
     )

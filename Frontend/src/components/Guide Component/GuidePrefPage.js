@@ -737,7 +737,7 @@ class HodPrefPage extends Component {
                                             backgroundColor: "#d3d3d3"
                                           }}
                                         >
-                                          <Typography>
+                                          <React.Fragment>
                                             {d.getHours() > 12 ? (
                                               <Typography variant="h5">
                                                 {d.getHours() - 12}:
@@ -751,7 +751,7 @@ class HodPrefPage extends Component {
                                             )}
                                             {days[d.getDay()]} {d.getDate()}/
                                             {d.getMonth() + 1}/{d.getFullYear()}
-                                          </Typography>
+                                          </React.Fragment>
                                         </Grid>
                                         {presentation.marks === null &&
                                         d.getTime() <= Date.now() ? (

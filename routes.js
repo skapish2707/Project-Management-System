@@ -298,7 +298,7 @@ router.get('/guideGroup',authenticateToken,async function(req,res){
 
 router.post('/presentation',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide') return res.sendStatus(401)
+	if (req.user.type != 'guide' && req.user.type !='hod') return res.sendStatus(401)
 
 	// gid 
 	// datetime
@@ -362,7 +362,7 @@ router.post('/addhod',authenticateToken,async function(req,res){
 })
 router.post('/presentationMarks',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide') return res.sendStatus(401)
+	if (req.user.type != 'guide' && req.user.type != 'hod') return res.sendStatus(401)
 	try{
 		await dbm.updateMarks(req.body.gid.trim(),req.body.pid.trim(),req.body.marks);
 		return res.sendStatus(200)
@@ -373,7 +373,7 @@ router.post('/presentationMarks',authenticateToken,async function(req,res){
 })
 router.post('/deletePresentation',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide') return res.sendStatus(401)
+	if (req.user.type != 'guide' && req.user.type !='hod') return res.sendStatus(401)
 	try{
 		await dbm.deletePresentation(req.body.gid.trim(),req.body.pid.trim());
 		return res.sendStatus(200)
