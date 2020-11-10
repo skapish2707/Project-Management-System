@@ -293,7 +293,6 @@ class AdminContent extends Component {
   }
 
   render() {
-    console.log(this.state.prefDueDate);
     let academicYear=this.state.Academicyear
     //console.log(academicYear);
     const { classes } = this.props;
@@ -316,7 +315,7 @@ class AdminContent extends Component {
         return (
           <div className={classes.root}>
             <SideMenu/>
-            <Profile userInfo={userInfo} />
+            <Profile userInfo={userInfo} academicYear={null} />
             <AdminInstructions />
             <div
               style={{

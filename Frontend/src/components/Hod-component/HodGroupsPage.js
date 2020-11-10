@@ -1,107 +1,171 @@
-import React from 'react';
+import React from 'react'
+import HodSideMenu from './HodSideMenu'
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
-import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core';
-import { toFirstCharUppercase } from "../ToUpper";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Redirect } from "react-router-dom";
+import { LinearProgress, makeStyles } from "@material-ui/core";
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {Button,CircularProgress,Grid} from "@material-ui/core";
+import { toFirstCharUppercase } from "../ToUpper"
+import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from 'react-router-dom';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
-let Groups=null;
+let Ad=null;
+let groupData=null
+
 
 const useStyles = makeStyles(theme => ({
-    root: {
-      width: "100%"
-    },
-    heading: {
-      fontSize: theme.typography.pxToRem(16),
-      fontWeight: "600",
-      flexBasis: "33.33%",
-      flexShrink: 0
-    },
-    secondaryHeading: {
-      fontSize: theme.typography.pxToRem(16),
-      color: theme.palette.text.secondary
-    },
-    accor: {
-      width: "100%",
-      margin: "auto"
-    },
-    accordet: {
-      width: "100%",
-      margin: "auto"
+  root: {
+    width: '100%',
+    
+  },
+   mainAccor:{
+    color:"#303030",
+    margin:'auto' ,
+  },
+  mainAccorContainer:{
+    width:"80%",
+    margin:"2px auto",
+    marginTop:"30px"
+
+  },
+  memberHolder:{
+    width:"10%",
+    backgroundColor:"#909090"
+  },
+  groupCard:{
+    width:"100%",
+    padding:"8px 0px",
+    marginTop:"2px",
+    textAlign:"left",
+  },
+  accorStyle:{
+    backgroundColor:"#d3d3d3"
+  },
+  heading:{
+    fontWeight:"bold"
+  },
+  deleteIconStyle:{
+    cursor:"pointer",
+    "&:hover": {
+      color: 'red'
     }
+  },
+  presCard:{
+    width:"100%",
+    padding:"8px 0px",
+    marginTop:"2px",
+    borderRadius:"0px",
+    textAlign:"left",
+  }
   }));
 
+const HodgroupsPage = (props) => {
 
-                
+  const [user,setUser] = React.useState("")
+  const [groupDetails,setGroupDetails] = React.useState(null)
+  const [loading,setLoading] = React.useState(false)
+  const [filled,setFilled] = React.useState(false)
+  const [loggedIn,setLoggedIn] = React.useState(false)
+  const histor = useHistory();
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  const [reqSent,setReqSent] = React.useState(false);
+  
+  function getStat(){
+    axios({
+      method: "get",
+      url: SERVER_URL + "/user",
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
+    })
+      .then(res => {
+        setLoggedIn(true);
+        setUser(res.data);
+      })
 
-const GuideGroupList = (props) => {
-    const [adData,setAdData] = React.useState(null);
-    const [filled,setFilled] = React.useState(false)
-    const histor = useHistory();
-    const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
-    const [loading,setLoading] = React.useState(false);
+      .catch(err => {
+        setLoggedIn(false);
+        setUser("No User");
+        localStorage.removeItem("token");
+      });
+  };
 
+  
+  function checkData() {
+    setReqSent(true);
+    axios({
+      method: "get",
+      url: SERVER_URL + "/guideGroup",
+      withCredentials: true,
+      headers : {
+        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      }
+    })
+      .then(res => {
+        setReqSent(false);
+        console.log(res)
+        Ad = res.data.length;
+        groupData=res.data
+        setGroupDetails(res.data);
+        setFilled(true)
+      })
+      .catch(function (err) {
+        setReqSent(false);
+        console.log(err);
+      });
+  }
 
-    function checkData() {
-        setLoading(true);
-        axios({
-        method: "get",
-        url: SERVER_URL + "/guideGroup",
-        withCredentials: true,
-        headers : {
-            Authorization : 'Bearer '+ localStorage.getItem("access_token") 
-        }
-        })
-        .then(res => {
-            Groups = res.data;
-            setAdData("new");
-            setFilled(true);
-            setLoading(false);
-            console.log(Groups)
-        })
-    
-        .catch(function (err) {
-            console.log(err);
-            setLoading(false);
-        });
-    }
-    
-    
+  const handleChange = panel => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
-    //accordion handleChange
-    const handleChange = panel => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-    if(loading){
+  // function handleChildClick(e){
+  //   e.stopPropagation();
+  //   console.log('handleChildClick');
+  // }
+    if (groupDetails === null && reqSent === false){
+      checkData();
+    } 
+    if (user === "") {
+      getStat();
+      return <LinearProgress />;
+    } else if (user.type === "hod") {
+      if(loading){
         return(
             <CircularProgress />
         )
     }
-    if(adData===null){
-        checkData();
-    }
     if(filled)
     {
-        if(Groups.length!==0){
+        if(groupData.length!==0){
             return(
                 <React.Fragment >
-                    {Groups.map(Group => {
+                    <HodSideMenu style={{marginBottom:"10px"}}/>
+                    <Typography style={{margin:"20px"}} variant = "h3">
+                      Assigned Groups
+                    </Typography>
+                    {groupData.map(Group => {
                         const routeChange = () => {
                             histor.push({
-                            pathname: `/guide/prefs/${id}`,
+                            pathname: `/hod/groups/prefs/${id}`,
                             });
                         };
-                        //console.log(Group);
                         let DueDate = Group.dueDate.split("T")[0];
                         let members = Group.members;
                         let Gname = Group.name;
                         let id = Group.id;
                         let pref1 = [];
-                        // let pref2 = [];
-                        // let pref3 = [];
                         let AppliedOn = null;
     
                         if (Group.proposals.length !== 0) {
@@ -232,9 +296,12 @@ const GuideGroupList = (props) => {
             )
         }else{
             return(
-                <Typography>
+                <React.Fragment>
+                  <HodSideMenu />
+                  <Typography>
                     No group has been assigned to you yet.
-                </Typography>
+                  </Typography>
+                </React.Fragment>
             )
         }
     }
@@ -243,7 +310,10 @@ const GuideGroupList = (props) => {
             <CircularProgress />
         )
     }
-}
- 
- 
-export default GuideGroupList;
+    } else {
+      return <Redirect to="/" />;
+    }
+      }
+
+
+export default HodgroupsPage;
