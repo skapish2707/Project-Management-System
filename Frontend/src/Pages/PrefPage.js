@@ -134,7 +134,7 @@ class ControlledExpansionPanels extends React.Component {
         }),
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-          Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+          Authorization: "Bearer " + localStorage.getItem("access_token")
         }
       })
         .then(response => {
@@ -158,8 +158,8 @@ class ControlledExpansionPanels extends React.Component {
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
       withCredentials: true,
-      headers : {
-        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     })
       .then(res => {
@@ -190,7 +190,7 @@ class ControlledExpansionPanels extends React.Component {
       }),
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+        Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     })
       .then(response => {
@@ -255,7 +255,7 @@ class ControlledExpansionPanels extends React.Component {
                       let approval = proposal.approval;
                       let pid = proposal._id;
                       let Gid = Group.id;
-                      let appliedDate=new Date(proposal.applied)
+                      let appliedDate = new Date(proposal.applied);
                       return (
                         <Accordion
                           key={proposal._id}
@@ -306,7 +306,7 @@ class ControlledExpansionPanels extends React.Component {
                               className={classes.content}
                               spacing={1}
                             >
-                             <Grid item xs={12}>
+                              <Grid item xs={12}>
                                 <Typography>
                                   <b>Title of Proposal:&nbsp;&nbsp;</b>
                                   {proposal.title}
@@ -314,25 +314,35 @@ class ControlledExpansionPanels extends React.Component {
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Detailed Statement of Problem:&nbsp;&nbsp;</b>
+                                  <b>
+                                    Detailed Statement of Problem:&nbsp;&nbsp;
+                                  </b>
                                   {proposal.details}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Internal Agency/External Agency/CTL/Mastek/or any other:&nbsp;&nbsp;</b>
+                                  <b>
+                                    Internal Agency/External
+                                    Agency/CTL/Mastek/or any other:&nbsp;&nbsp;
+                                  </b>
                                   {proposal.agency}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Methods/Technique/Algorithm proposed:&nbsp;&nbsp;</b>
+                                  <b>
+                                    Methods/Technique/Algorithm
+                                    proposed:&nbsp;&nbsp;
+                                  </b>
                                   {proposal.method}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Software/Hardware Requirements:&nbsp;&nbsp;</b>
+                                  <b>
+                                    Software/Hardware Requirements:&nbsp;&nbsp;
+                                  </b>
                                   {proposal.requirements}
                                 </Typography>
                               </Grid>
@@ -352,28 +362,34 @@ class ControlledExpansionPanels extends React.Component {
                               <Grid item xs={12}>
                                 <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
-                                  {appliedDate.getDate()}/{appliedDate.getMonth()+1}/{appliedDate.getFullYear()}
+                                  {appliedDate.getDate()}/
+                                  {appliedDate.getMonth() + 1}/
+                                  {appliedDate.getFullYear()}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 {approval.admin ? (
                                   <Typography>
-                                    <b>Admin approval status:&nbsp;&nbsp;</b>Approved
+                                    <b>Admin approval status:&nbsp;&nbsp;</b>
+                                    Approved
                                   </Typography>
                                 ) : (
                                   <Typography>
-                                    <b>Admin approval status:&nbsp;&nbsp;</b>not approved
+                                    <b>Admin approval status:&nbsp;&nbsp;</b>not
+                                    approved
                                   </Typography>
                                 )}
                               </Grid>
                               <Grid item xs={12}>
                                 {approval.hod ? (
                                   <Typography>
-                                    <b>HOD approval status:&nbsp;&nbsp;</b>Approved
+                                    <b>HOD approval status:&nbsp;&nbsp;</b>
+                                    Approved
                                   </Typography>
                                 ) : (
                                   <Typography>
-                                    <b>HOD approval status:&nbsp;&nbsp;</b>not approved
+                                    <b>HOD approval status:&nbsp;&nbsp;</b>not
+                                    approved
                                   </Typography>
                                 )}
                               </Grid>
