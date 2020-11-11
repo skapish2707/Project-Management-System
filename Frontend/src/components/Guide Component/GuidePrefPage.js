@@ -29,7 +29,6 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-let Group = null;
 let filled = false;
 let Ad = null;
 let Groups = null;
@@ -135,7 +134,6 @@ class HodPrefPage extends Component {
       .then(res => {
         console.log("SCHEDULED");
         this.setState({ scheduleLoading: false });
-        // window.location.reload();
       })
 
       .catch(function (err) {
@@ -333,7 +331,6 @@ class HodPrefPage extends Component {
   };
 
   render() {
-    const { location } = this.props;
     const { classes } = this.props;
     const { expanded } = this.state;
     if (this.state.adData === null) {

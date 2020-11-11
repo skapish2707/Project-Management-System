@@ -43,7 +43,6 @@ export default function GuideDetails(props) {
   const classes = useStyles();
   const userInfo = props;
   //const academicYear=props.academicYear;
-  console.log(props)
   return (
     <Card
       className={classes.root}

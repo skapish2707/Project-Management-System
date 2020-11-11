@@ -18,6 +18,7 @@ import StudentCommentPage from "./StudentCommentPage";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import StudentPresentation from "./StudentPresentation";
+import Footer from "../Footer/Footer";
 
 let userInfo = [];
 let DueDate = null;
@@ -122,7 +123,6 @@ const StudentWholePage = props => {
     })
       .then(res => {
         Group = res.data;
-        console.log(Group)
         setObtained(true);
         DueDate = Group.dueDate.split("T")[0];
         if(Group.proposals.length!==0){
@@ -145,7 +145,7 @@ const StudentWholePage = props => {
     checkData()
   }
   if(obtained===true){
-    console.log(academicYear)
+    // console.log(academicYear)
     return (
       <React.Fragment>
         <Profile academicYear={academicYear} userInfo={userInfo} />
@@ -258,6 +258,9 @@ const StudentWholePage = props => {
             {/* <Grid item xs={1}></Grid> */}
           </Grid>
         </div>
+        <footer>
+          <Footer />
+        </footer>
       </React.Fragment>
     );
   }else{

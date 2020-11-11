@@ -4,7 +4,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { CircularProgress,Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Menu, MenuItem, TextField } from "@material-ui/core";
+import { CircularProgress,Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, MenuItem, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -18,7 +18,6 @@ import { toFirstCharUppercase } from "../ToUpper";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
-import MuiAlert from "@material-ui/lab/Alert";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   KeyboardDatePicker,
@@ -114,21 +113,7 @@ export default function ControlledAccordions(props) {
   let showButton = false
 
 
-//Guide Menu
-  // const handleMenuClick = (event) => {
-  //   //console.log(Guides)
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleMenuClose = (event,index1) => {
-  //   if(index1==="backdropClick"){
-  //     console.log(index1)
-  //     setAnchorEl(null);
-  //   }else{
-  //     guideIndex=index1;
-  //     console.log(index1)
-  //     setAnchorEl(null);
-  //   }
-  // };
+
 
   const handleGuideChange = (e) =>{
     setGuide(e.target.value);

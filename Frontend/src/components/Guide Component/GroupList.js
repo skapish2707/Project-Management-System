@@ -61,7 +61,6 @@ const GuideGroupList = (props) => {
             setAdData("new");
             setFilled(true);
             setLoading(false);
-            console.log(Groups)
         })
     
         .catch(function (err) {
