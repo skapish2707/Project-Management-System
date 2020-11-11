@@ -5,7 +5,6 @@ import axios from "axios";
 import SERVER_URL from "./URL";
 import StudentWholePage from "../components/Student-component/studentWholePage";
 import { LinearProgress } from "@material-ui/core";
-import Footer from "../components/Footer/Footer";
 
 //import StudentContent from "../components/Student-component/StudentContent";
 
@@ -56,9 +55,6 @@ export default class Admin extends Component {
         <div>
           <LoggedNavbar />
           <StudentWholePage userInfo={this.state.user} />
-          <footer>
-            <Footer />
-          </footer>
         </div>
       );
     } else {

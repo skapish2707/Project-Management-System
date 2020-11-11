@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Archive from '@material-ui/icons/Archive';
-import {Card,Button,CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@material-ui/core";
+import {Card,Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@material-ui/core";
 import qs from "qs";
 import { toFirstCharUppercase } from "../ToUpper"
 
@@ -604,7 +604,7 @@ handleMemberNameChange = (e) => {
         <div className={classes.root}>
         {group.proposals.length===3?group.proposals.map((proposal,index)=>{
           let approval = proposal.approval;
-          let pid = proposal._id;
+          // let pid = proposal._id;
              
         return(<Accordion style={{textAlign:"left"}} >
         <AccordionSummary
