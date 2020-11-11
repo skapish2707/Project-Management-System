@@ -404,17 +404,11 @@ async function archive(admin_id){
 		},
 		applied : grp.proposals[j].applied ,
 	  })
-	presentation = []
-	for(let j = 0; j < grp.presentation.length ;++j )
-	  presentation.push({
-		scheduled_date : grp.presentation[j].scheduled_date,
-		marks : grp.presentation[j].marks
-	  })
 	guide = {
 	  name:grp.guide.name,
 	  email : grp.guide.email
 	}
-	arc_grps.push({name:grp.name,members:members,proposals:proposals,guide:guide,presentation:presentation})
+	arc_grps.push({name:grp.name,members:members,proposals:proposals,guide:guide})
   })
   let data1 = {acadYear:acadYear,groups:arc_grps}
   arc.data.push(data1)
@@ -520,6 +514,23 @@ async function excel(admin_id){
 	return workbook
 }
 
+async function deletearchive(admin_id,archive_id){
+	arc = await Archive.findOne({admin:admin_id})
+	index = null
+	for(let i = 0 ; i < arc.data.length ; ++i){
+		if (arc.data[i].id == archive_id){
+			index = i
+			break
+		}
+	}
+	if(index != null){
+		arc.data.splice(index,1)
+		arc.save(function(err){
+			if (err) console.log(err)
+		})
+	}
+}
+
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
 	email,
@@ -575,4 +586,5 @@ module.exports = {
   getArchive:getArchive,
   deleteAllUsers:deleteAllUsers,
   excel:excel,
+  deletearchive:deletearchive,
 };

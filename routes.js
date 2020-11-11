@@ -44,11 +44,6 @@ router.post('/login',passport.authenticate('local',{session: false}),function(re
 		// rollno : req.user.rollno,
 	});
 });
-router.get('/logout',authenticateToken, function(req, res){
-	if (!req.user) return res.status(404).send();
-	//req.logout();
-	return res.status(200).send("logout Out Successfully");
-});
 router.post('/changePassword',authenticateToken,function(req,res){
 	if (!req.user) return res.status(404).send();
 
@@ -436,7 +431,17 @@ router.get('/archive',authenticateToken,async function(req,res){
 		res.sendStatus(500)
 	}
 })
-
+router.post('/deleteArchieve',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)
+	try{
+		await dbm.deletearchive(req.user.id,req.body.id.trim())
+		res.sendStatus(200)
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+})
 router.post('/deleteAllUsers',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'admin') return res.sendStatus(401)
