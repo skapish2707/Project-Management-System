@@ -203,9 +203,9 @@ class resetPassword extends Component {
 	              </Button>
 	             
 	            </form>
-				<Snackbar open={this.state.openSuccees} onClose={handleClose} autoHideDuration={6000}>
+				<Snackbar open={this.state.openSuccees} onClose={handleClose} autoHideDuration={3000}>
 					<Alert onClose={handleClose} severity="success" >
-					Your Password was changed successfully You will be redirect to login page
+					Your Password was changed successfully You will now be redirected to login page 
 					</Alert>
 				</Snackbar>
 				<Snackbar open={this.state.openInfo} onClose={handleClose}>

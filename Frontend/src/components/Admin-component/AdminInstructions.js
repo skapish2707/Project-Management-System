@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-
+import Image from "./sample.PNG";
+import {Grid} from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   root: {
     textAlign: "left",
@@ -49,12 +50,13 @@ export default function Profile(props) {
           1. Please fill the below form to create project list of your department          
         </Typography>
         <Typography className={classes.title}>
-          2. Project list file should be of .csv  or .xlsx format          
+          2. Project list file should be of <b>.csv</b>  or <b>.xlsx</b> format          
         </Typography>
         <Typography className={classes.title}>
-          3. the file should contain name,rollno,email,group_name
-           and the first row itself should be values e.g tim drake,1,tim@drake.com,group1 
+          3. The first row of the file should be <b>name,rollno,email,group_name</b>
+           actual values should start from second row 
         </Typography>
+        <img src={Image}/>
         <Typography className={classes.title}>
           4. On submitting the form you will create a list mentioned in the file
           and will give authorities to emails mentioned by you
