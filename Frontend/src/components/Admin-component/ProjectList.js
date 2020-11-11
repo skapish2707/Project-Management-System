@@ -4,7 +4,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { CircularProgress,Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Menu, MenuItem, TextField } from "@material-ui/core";
+import { CircularProgress,Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, MenuItem, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -18,14 +18,13 @@ import { toFirstCharUppercase } from "../ToUpper";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
-import MuiAlert from "@material-ui/lab/Alert";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
-
-
+import CloudDownload from  "@material-ui/icons/CloudDownload";
+// import FileDownload from "@material-ui/icons/FileDownload";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,7 +83,14 @@ const useStyles = makeStyles(theme => ({
   },
   dueDateContainer:{
     borderRadius:"0px"
+  },
+  downloadButton :{
+    float:"right",
+    marginTop:"5%",
+    marginBottom:"10px"
+
   }
+
 }));
 
 // let Guides = null;
@@ -104,23 +110,10 @@ export default function ControlledAccordions(props) {
   const [guideE,setGuideE] = React.useState(null);
   const [changeDuedate,setDueDate] = React.useState(new Date());
   const [DueDateOpen,setDOpen] = React.useState(false)
+  let showButton = false
 
 
-//Guide Menu
-  // const handleMenuClick = (event) => {
-  //   //console.log(Guides)
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleMenuClose = (event,index1) => {
-  //   if(index1==="backdropClick"){
-  //     console.log(index1)
-  //     setAnchorEl(null);
-  //   }else{
-  //     guideIndex=index1;
-  //     console.log(index1)
-  //     setAnchorEl(null);
-  //   }
-  // };
+
 
   const handleGuideChange = (e) =>{
     setGuide(e.target.value);
@@ -141,7 +134,27 @@ const appendLeadingZeroes=(n)=> {
   }
   return n;
 }
-
+const downloadProjectList = () => {
+  axios({
+    method: "get",
+    url: SERVER_URL+"/excel",
+    responseType: 'blob',
+    headers : {
+      Authorization : 'Bearer '+localStorage.getItem("access_token")
+    }
+  })
+  .then(res => {
+    const url = window.URL.createObjectURL(new Blob([res.data]))
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'Project List.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    })
+  .catch(err => {
+      console.log(err)
+    });
+}
 
 const handleChangeDueDateDialogOpen=()=>{
   setDOpen(true)
@@ -257,7 +270,8 @@ const handleSetDueDate=(date)=>{
 
   if(Guides!==null){
     if(guide===null){
-      setGuide(Guides[0].name)
+      setGuide(Guides[0].name);
+      setGuideE(Guides[0].email);
     }
     return (
       <div>
@@ -324,7 +338,8 @@ const handleSetDueDate=(date)=>{
             onChangeIndex={handleChangeIndex}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              {Groups.map(Group => {
+              {
+                Groups.map(Group => {
                 const routeChange = () => {
                   histor.push({
                     pathname: `/admin/prefs/${id}`,
@@ -368,6 +383,7 @@ const handleSetDueDate=(date)=>{
                     pref3HodApproval &&
                     Group.proposals.length !== 0)
                 ) {
+                  showButton = true
                   return (
                     <Accordion
                       expanded={expanded === Gname}
@@ -515,12 +531,24 @@ const handleSetDueDate=(date)=>{
                             )}
                           </Grid>
                         </Grid>
-                      </AccordionDetails>
+                      </AccordionDetails>                      
                     </Accordion>
                   );
                 }
                 return null;
-              })}
+              })
+              }
+            {(showButton)?
+              <Button
+              variant="contained"
+              color="primary"
+              className = {classes.downloadButton}
+              startIcon = <CloudDownload/>
+              onClick={downloadProjectList}
+            >
+              Project List
+            </Button>
+            :null}
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
               {Groups.map(Group => {
@@ -968,6 +996,7 @@ const handleSetDueDate=(date)=>{
                 return null;
               })}
             </TabPanel>
+
           </SwipeableViews>
         </div>
       </div>

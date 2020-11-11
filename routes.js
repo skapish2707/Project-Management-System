@@ -116,7 +116,7 @@ router.post('/admin',authenticateToken,async function(req,res){
 	if (file.name.slice(-4,file.name.length) == ".csv")
 	{
 		lines = file.data.toString('utf8').split('\n');
-		for ( i = 0 ; i < lines.length ; i++ ){
+		for ( i = 1 ; i < lines.length ; i++ ){
 			if (lines[i].trim() != "" && lines[i].split(',').length == 4){
 				atributes = lines[i].split(',');
 				students.push([atributes[0].trim(),atributes[1].trim(),atributes[2].trim(),atributes[3].trim()])
@@ -126,7 +126,7 @@ router.post('/admin',authenticateToken,async function(req,res){
 	else if( file.name.slice(-5,file.name.length) ==".xlsx")
 	{
 		lines = xlsx.parse(file.data)[0].data; // parses a buffer
-		for (i = 0 ; i < lines.length ; i++){
+		for (i = 1 ; i < lines.length ; i++){
 			if(lines[i].length==4)
 				students.push(lines[i]);
 		}
@@ -298,7 +298,7 @@ router.get('/guideGroup',authenticateToken,async function(req,res){
 
 router.post('/presentation',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide') return res.sendStatus(401)
+	if (req.user.type != 'guide' && req.user.type !='hod') return res.sendStatus(401)
 
 	// gid 
 	// datetime
@@ -362,7 +362,7 @@ router.post('/addhod',authenticateToken,async function(req,res){
 })
 router.post('/presentationMarks',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide') return res.sendStatus(401)
+	if (req.user.type != 'guide' && req.user.type != 'hod') return res.sendStatus(401)
 	try{
 		await dbm.updateMarks(req.body.gid.trim(),req.body.pid.trim(),req.body.marks);
 		return res.sendStatus(200)
@@ -373,7 +373,7 @@ router.post('/presentationMarks',authenticateToken,async function(req,res){
 })
 router.post('/deletePresentation',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide') return res.sendStatus(401)
+	if (req.user.type != 'guide' && req.user.type !='hod') return res.sendStatus(401)
 	try{
 		await dbm.deletePresentation(req.body.gid.trim(),req.body.pid.trim());
 		return res.sendStatus(200)

@@ -17,10 +17,10 @@ async function sendmail(data,type){
         from: 'pms.messenger@gmail.com',
         to:data.email,
         subject : "Registeration email for project management system ",
-        html : `<h3>Hi ${data.name},</h3>
+        html : `<h3>Hi ${data.name[0].toUpperCase() + data.name.substring(1) },</h3>
                 <p>Your new account for managing your project was created on 
                 https://project-management-system-ark.herokuapp.com/ 
-                ${data.admin_name}<br/>
+                ${data.admin_name[0].toUpperCase() + data.admin_name.substring(1)}<br/>
                 Your login password is  ${data.password}
                 <br/>
                 <i>You can change this password once you login </i></p>
@@ -53,7 +53,14 @@ async function sendmail(data,type){
                 project management system <br/>
                 Development Team</h3>`
       }
-        }
+      try{
+        await transporter.sendMail(passwordResetOption);
+        console.log('send mail to '+data.email );
+      }
+      catch(e){
+        console.log(e)
+      }
+  }
 }
 
 module.exports = sendmail

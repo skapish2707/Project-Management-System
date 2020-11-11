@@ -30,10 +30,8 @@ const StudentCommentPage = (props) => {
                 </React.Fragment>
             )
         }else{
-            console.log(comments);
             return(
             comments.map(comment => {
-                console.log(comment);
                 return(
                     <React.Fragment key={comment._id}>
                         <Paper>

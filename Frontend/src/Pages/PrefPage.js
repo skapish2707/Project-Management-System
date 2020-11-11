@@ -165,6 +165,7 @@ class ControlledExpansionPanels extends React.Component {
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
+
         this.setState({
           adData: "new",
           filled: true
@@ -364,12 +365,6 @@ class ControlledExpansionPanels extends React.Component {
                                   {appliedDate.getDate()}/
                                   {appliedDate.getMonth() + 1}/
                                   {appliedDate.getFullYear()}
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Typography>
-                                  <b>Attached Print:&nbsp;&nbsp;</b>
-                                  {proposal.attachPrints}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>

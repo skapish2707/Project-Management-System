@@ -29,7 +29,6 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-let Group = null;
 let filled = false;
 let Ad = null;
 let Groups = null;
@@ -135,7 +134,6 @@ class HodPrefPage extends Component {
       .then(res => {
         console.log("SCHEDULED");
         this.setState({ scheduleLoading: false });
-        // window.location.reload();
       })
 
       .catch(function (err) {
@@ -333,7 +331,6 @@ class HodPrefPage extends Component {
   };
 
   render() {
-    const { location } = this.props;
     const { classes } = this.props;
     const { expanded } = this.state;
     if (this.state.adData === null) {
@@ -480,12 +477,6 @@ class HodPrefPage extends Component {
                                   {appliedDate.getDate()}/
                                   {appliedDate.getMonth() + 1}/
                                   {appliedDate.getFullYear()}
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Typography>
-                                  <b>Attached Print:&nbsp;&nbsp;</b>
-                                  {proposal.attachPrints}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
@@ -737,7 +728,7 @@ class HodPrefPage extends Component {
                                             backgroundColor: "#d3d3d3"
                                           }}
                                         >
-                                          <Typography>
+                                          <React.Fragment>
                                             {d.getHours() > 12 ? (
                                               <Typography variant="h5">
                                                 {d.getHours() - 12}:
@@ -751,7 +742,7 @@ class HodPrefPage extends Component {
                                             )}
                                             {days[d.getDay()]} {d.getDate()}/
                                             {d.getMonth() + 1}/{d.getFullYear()}
-                                          </Typography>
+                                          </React.Fragment>
                                         </Grid>
                                         {presentation.marks === null &&
                                         d.getTime() <= Date.now() ? (

@@ -23,8 +23,6 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
-import ArchiveIcon from '@material-ui/icons/Archive';
 import Divider from '@material-ui/core/Divider';
 
 const kickUser = () => {
@@ -37,6 +35,7 @@ const kickUser = () => {
     }
   })
     .then(function (res) {
+      console.log(res.data);
     })
     .catch(function (err) {
       console.log(err);
@@ -112,22 +111,12 @@ export default function SideMenu(props) {
     {
       text: "Home",
       icon: <HomeIcon />,
-      onClick: () => histor.push("/admin")
+      onClick: () => histor.push("/hod")
     },
     {
       text: "Groups",
       icon: <PeopleAltIcon/>,
-      onClick: () => histor.push("/admin/groups")
-    },
-    {
-      text: "Guides",
-      icon: <SupervisedUserCircleIcon/>,
-      onClick: () => histor.push("/admin/guides")
-    },
-    {
-      text: "Archives",
-      icon: <ArchiveIcon />,
-      onClick: () => histor.push("/admin/archives")
+      onClick: () => histor.push("/hod/groups")
     }
   ];
 

@@ -541,7 +541,7 @@ class StudentContent extends Component {
             <React.Fragment>
               {!(pref1.approval.admin||pref2.approval.admin||pref3.approval.admin)?(
                 <React.Fragment>
-                  <Button onClick={this.handleClickOpen} variant="outlined" color="primary">
+                  <Button onClick={this.handleClickOpen} style={{float:"right",margin:"5px 0"}} variant="contained" color="secondary">
                     Re-enter Proposals
                   </Button>
                   <Dialog
@@ -578,49 +578,49 @@ class StudentContent extends Component {
                 <TabPanel className={classes.tabPanel} value={value} index={0}>
                   <Grid container spacing={3}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
-                      <Typography>Title of Preference : </Typography>
+                      <Typography><b>Title of Preference : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
                       <Typography>{pref1.title}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
-                      <Typography>Domain/Area of Specialization : </Typography>
+                      <Typography><b>Domain/Area of Specialization : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.specialization}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Detailed Statement of Problem : </Typography>
+                      <Typography><b>Detailed Statement of Problem : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
+                      <Typography><b>Internal agency/external agency/CTL/Mastek/or any other : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.agency}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                      <Typography><b>Method/Technique/Algorithm proposed : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.method}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Results Expected : </Typography>
+                      <Typography><b>Results Expected : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.result}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Software and Hardware requirements : </Typography>
+                      <Typography><b>Software and Hardware requirements : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                      <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                     <Button
@@ -640,49 +640,49 @@ class StudentContent extends Component {
                 <TabPanel className={classes.tabPanel} value={value} index={1}>
                   <Grid container spacing={3}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
-                      <Typography>Title of Preference : </Typography>
+                      <Typography><b>Title of Preference : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.title}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Domain/Area of Specialization : </Typography>
+                      <Typography><b>Domain/Area of Specialization : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.specialization}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Detailed Statement of Problem : </Typography>
+                      <Typography><b>Detailed Statement of Problem : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
+                      <Typography><b>Internal agency/external agency/CTL/Mastek/or any other : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.agency}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                      <Typography><b>Method/Technique/Algorithm proposed : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.method}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Results Expected : </Typography>
+                      <Typography><b>Results Expected : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.result}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Software and Hardware requirements : </Typography>
+                      <Typography><b>Software and Hardware requirements : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                      <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                     <Button
@@ -702,49 +702,49 @@ class StudentContent extends Component {
                 <TabPanel className={classes.tabPanel} value={value} index={2}>
                   <Grid container spacing={3}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
-                      <Typography>Title of Preference : </Typography>
+                      <Typography><b>Title of Preference : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.title}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Domain/Area of Specialization : </Typography>
+                      <Typography><b>Domain/Area of Specialization : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.specialization}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Detailed Statement of Problem : </Typography>
+                      <Typography><b>Detailed Statement of Problem : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
+                      <Typography><b>Internal agency/external agency/CTL/Mastek/or any other : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.agency}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                      <Typography><b>Method/Technique/Algorithm proposed : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.method}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Results Expected : </Typography>
+                      <Typography><b>Results Expected : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.result}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Software and Hardware requirements : </Typography>
+                      <Typography><b>Software and Hardware requirements : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                      <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                     <Button
@@ -773,49 +773,49 @@ class StudentContent extends Component {
                 <TabPanel className={classes.tabPanel} value={value} index={0}>
                   <Grid container spacing={3}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
-                      <Typography>Title of Preference : </Typography>
+                      <Typography><b>Title of Preference : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.title}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Domain/Area of Specialization : </Typography>
+                      <Typography><b>Domain/Area of Specialization : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.specialization}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Detailed Statement of Problem : </Typography>
+                      <Typography><b>Detailed Statement of Problem : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
+                      <Typography><b>Internal agency/external agency/CTL/Mastek/or any other : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.agency}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                      <Typography><b>Method/Technique/Algorithm proposed : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.method}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Results Expected : </Typography>
+                      <Typography><b>Results Expected : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.result}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Software and Hardware requirements : </Typography>
+                      <Typography><b>Software and Hardware requirements : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref1.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                      <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                     <Button
@@ -835,49 +835,49 @@ class StudentContent extends Component {
                 <TabPanel className={classes.tabPanel} value={value} index={1}>
                   <Grid container spacing={2}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
-                      <Typography>Title of Preference : </Typography>
+                      <Typography><b>Title of Preference : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.title}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Domain/Area of Specialization : </Typography>
+                      <Typography><b>Domain/Area of Specialization : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.specialization}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Detailed Statement of Problem : </Typography>
+                      <Typography><b>Detailed Statement of Problem : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
+                      <Typography><b>Internal agency/external agency/CTL/Mastek/or any other : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.agency}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                      <Typography><b>Method/Technique/Algorithm proposed : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.method}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Results Expected : </Typography>
+                      <Typography><b>Results Expected : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.result}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Software and Hardware requirements : </Typography>
+                      <Typography><b>Software and Hardware requirements : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref2.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                      <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                     <Button
@@ -897,49 +897,49 @@ class StudentContent extends Component {
                 <TabPanel className={classes.tabPanel} value={value} index={2}>
                   <Grid container spacing={2}>
                     <Grid className={classes.typographyFilled} item xs={12} sm={6}>
-                      <Typography>Title of Preference : </Typography>
+                      <Typography><b>Title of Preference : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.title}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Domain/Area of Specialization : </Typography>
+                      <Typography><b>Domain/Area of Specialization : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.specialization}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Detailed Statement of Problem : </Typography>
+                      <Typography><b>Detailed Statement of Problem : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.details}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Internal agency/external agency/CTL/Mastek/or any other : </Typography>
+                      <Typography><b>Internal agency/external agency/CTL/Mastek/or any other : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.agency}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Method/Technique/Algorithm proposed : </Typography>
+                      <Typography><b>Method/Technique/Algorithm proposed : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.method}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Results Expected : </Typography>
+                      <Typography><b>Results Expected : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.result}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>Software and Hardware requirements : </Typography>
+                      <Typography><b>Software and Hardware requirements : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
-                      <Typography>IEEE / ACM / Springer Journal Paper : </Typography>
+                      <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                     <Button

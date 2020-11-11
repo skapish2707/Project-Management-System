@@ -14,7 +14,6 @@ import {
   Button,
   Input,
   Snackbar,
-  CircularProgress
 } from "@material-ui/core";
 import Profile from "../Profile";
 import ProjectList from "./ProjectList";
@@ -44,7 +43,7 @@ var date =
   appendLeadingZeroes(tempDate.getMonth() + 1) +
   "-" +
   appendLeadingZeroes(tempDate.getDate());
-console.log(date);
+
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -153,11 +152,11 @@ class AdminContent extends Component {
     this.setState({ prefDueDate: formatted_date });
     let a = new Date("2020-12-01");
     if (current_datetime < a) {
-      console.log("success");
+      // console.log("success");
     } else if (current_datetime > a) {
-      console.log("failed");
+      // console.log("failed");
     }
-    console.log(a);
+    // console.log(a);
   };
 
   //function to handle Academic Year
@@ -232,10 +231,10 @@ class AdminContent extends Component {
 
   fileValidation = e => {
     var fileInput = document.getElementById("file");
-    console.log(fileInput);
-    console.log(e.target.files[0]);
+    // console.log(fileInput);
+    // console.log(e.target.files[0]);
     var filePath = fileInput.value;
-    console.log(filePath);
+    // console.log(filePath);
     // Allowing file type
     var allowedExtensions = /(\.csv|\.xlsx)$/i;
 
@@ -246,7 +245,7 @@ class AdminContent extends Component {
     } else {
       this.setState(
         { student_file: e.target.files[0] },
-        console.log(this.state.student_file)
+        // console.log(this.state.student_file)
       );
     }
   };
@@ -285,7 +284,7 @@ class AdminContent extends Component {
     })
     .then(res => {
       Guides = res.data;
-      console.log(res,Guides)
+      // console.log(res,Guides)
     })
     .catch(function (err) {
       console.log(err);
@@ -293,7 +292,6 @@ class AdminContent extends Component {
   }
 
   render() {
-    console.log(this.state.prefDueDate);
     let academicYear=this.state.Academicyear
     //console.log(academicYear);
     const { classes } = this.props;
@@ -301,7 +299,7 @@ class AdminContent extends Component {
       return (
         <div style={{ margin: "auto" }}>
           <LoggedNavbar />
-          <CircularProgress />
+          <LinearProgress />
         </div>
       );
     }
@@ -316,7 +314,7 @@ class AdminContent extends Component {
         return (
           <div className={classes.root}>
             <SideMenu/>
-            <Profile userInfo={userInfo} />
+            <Profile userInfo={userInfo} academicYear={null} />
             <AdminInstructions />
             <div
               style={{

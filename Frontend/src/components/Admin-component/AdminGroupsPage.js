@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+  import React, { Component } from 'react'
 import SideMenu from './SideMenu'
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
@@ -11,7 +11,8 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {Card,Button,CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@material-ui/core";
+import Archive from '@material-ui/icons/Archive';
+import {Card,Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@material-ui/core";
 import qs from "qs";
 import { toFirstCharUppercase } from "../ToUpper"
 
@@ -19,7 +20,7 @@ let department=null
 let Gname=null
 let Groupid=null
 let deleteMemberEmail=null
-let groupData=null
+let groupData=[]
 
 const useStyles = (theme => ({
   root: {
@@ -86,6 +87,9 @@ class AdminGroupsPage extends Component {
       memberEmail:"",
       memberRollno:"",
       deleteProposalsOpen:false,
+      deleteAllUserDialog : false,
+      archive:false,
+      loading:false,
       };
   }
 
@@ -124,7 +128,6 @@ class AdminGroupsPage extends Component {
       }
     })
       .then(res => {
-        console.log(res)
         groupData=res.data
         this.setState({
           groupDetails:res.data
@@ -210,7 +213,6 @@ handleDeleteProposals=(gid)=>{
     }
   })
   .then(res => {
-    console.log("Proposals deleted!!!!")
     Groupid=null
     window.location.reload(false);
   })
@@ -220,6 +222,45 @@ handleDeleteProposals=(gid)=>{
     });
 }  
 
+handleDeleteAllUser = () => {
+  this.setState({loading:true})
+  axios({
+        method: "post",
+        url: SERVER_URL + "/deleteAllUsers",
+        credentials: "include",
+        withCredentials: true,
+        headers: {
+          Authorization : 'Bearer '+ localStorage.getItem("access_token")
+        }
+      })
+      .then(res => {
+        this.setState({loading:false,deleteAllUserDialog:false})
+        window.location.reload()
+      })
+      .catch(err => {
+        this.setState({loading:false,deleteAllUserDialog:false})
+        console.log(err)
+      });
+}
+handleArchieve = () => {
+  this.setState({loading:true})
+ axios({
+        method: "post",
+        url: SERVER_URL + "/archive",
+        credentials: "include",
+        withCredentials: true,
+        headers: {
+          Authorization : 'Bearer '+ localStorage.getItem("access_token")
+        }
+      })
+      .then(res => {
+        this.setState({loading:false,archive:false})
+      })
+      .catch(err => {
+        this.setState({loading:false,archive:false})
+        console.log(err)
+      }); 
+}
 //ADD MEMBER SECTION ------------------------------------
 handleAddMemberDialogOpen=(gid,dept,gname)=>{  
   Groupid=gid
@@ -310,13 +351,17 @@ handleMemberNameChange = (e) => {
 
   render() {
     const {classes} = this.props;
+    if (this.state.loading)
+      return <LinearProgress />;
     if (this.state.groupDetails === null){
       this.checkData();
+      return <LinearProgress />;
     } 
     if (this.state.user === "") {
       this.getStat();
       return <LinearProgress />;
-    } else if (this.state.user.type === "admin") {
+    } 
+    else if (this.state.user.type === "admin") {
       return (
         <React.Fragment>
          <SideMenu/>
@@ -422,11 +467,68 @@ handleMemberNameChange = (e) => {
        </Dialog>
      </div> 
 
+     {/* -----------------DELETE ALL USER DIALOG---------------------- */}
+    <div>
+       <Dialog
+         open={this.state.deleteAllUserDialog}
+         onClose={()=>{this.setState({deleteAllUserDialog:false})}}
+         aria-labelledby="alert-dialog-title"
+         aria-describedby="alert-dialog-description"
+       >
+         <DialogTitle id="alert-dialog-title">{"Delete ALL User"}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">
+             Are you sure you want to delete All users and groups? All the students,HOD,guides will be removed from the database as well as the details of all groups will also be deleted before deleting make sure you  have archived the groups
+           </DialogContentText>
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={()=>{this.setState({deleteAllUserDialog:false})}} color="primary">
+             Cancel
+           </Button>
+           <Button onClick ={this.handleDeleteAllUser}  color="primary" >
+             Delete
+           </Button>
+         </DialogActions>
+       </Dialog>
+     </div> 
+   {/* -----------------ARCHIEVE---------------------- */}
+    <div>
+       <Dialog
+         open={this.state.archive}
+         onClose={()=>{this.setState({archive:false})}}
+         aria-labelledby="alert-dialog-title"
+         aria-describedby="alert-dialog-description"
+       >
+         <DialogTitle id="alert-dialog-title">{"Archive Groups"}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">
+             Archiving will save all the groups data in the archive section.
+           </DialogContentText>
+         </DialogContent>
+         <DialogActions>
+           <Button onClick={()=>{this.setState({archive:false})}} color="primary">
+             Cancel
+           </Button>
+           <Button onClick ={this.handleArchieve}  color="primary" >
+             Archive
+           </Button>
+         </DialogActions>
+       </Dialog>
+     </div> 
 
-         
+
     {/* -----------------------MEMBER ACCORDION------------------------*/}
-    {groupData?<div className={classes.mainAccorContainer}>
-    <div><Typography variant="h2" style={{marginBottom:"30px"}}>Manage Groups</Typography></div>
+    {(groupData.length!==0)?<div className={classes.mainAccorContainer}>
+    <br/>
+    <Grid container  style={{padding:"5px"}}>
+      <Grid item xs={12} sm={6} style={{margin:"auto"}}><Typography variant="h3" style={{marginBottom:"18px"}}>Manage Groups</Typography></Grid>
+      <Grid item xs={12} sm={6} style={{textAlign:"right",margin:"auto"}}>
+        <Button  endIcon={<Archive/>} variant="contained" onClick = {()=>{this.setState({archive:true})}}  color="primary" style={{margin:"5px 5px"}}>Archive</Button>
+        <Button  endIcon={<DeleteIcon/>} variant="contained" onClick = {()=>{this.setState({deleteAllUserDialog:true})}}  color="primary">Delete All Users</Button>
+        </Grid>
+
+    </Grid>
+    
     {groupData.map(group=>{
       let proposal1Stat=null
       let proposal2Stat=null
@@ -502,7 +604,7 @@ handleMemberNameChange = (e) => {
         <div className={classes.root}>
         {group.proposals.length===3?group.proposals.map((proposal,index)=>{
           let approval = proposal.approval;
-          let pid = proposal._id;
+          // let pid = proposal._id;
              
         return(<Accordion style={{textAlign:"left"}} >
         <AccordionSummary
@@ -662,7 +764,7 @@ handleMemberNameChange = (e) => {
       </React.Fragment> 
         </AccordionDetails>
         </Accordion>
-        })}</div>:<LinearProgress/>}
+        })}</div>:<Typography variant="h3" style={{marginBottom:"18px"}}>No Groups</Typography>}
         
         </React.Fragment>
       );

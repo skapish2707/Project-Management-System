@@ -5,6 +5,7 @@ import HodProjectList from "./HodProjectList";
 import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import Footer from "../Footer/Footer";
+import HodSideMenu from "./HodSideMenu";
 
 const useStyles = theme => ({
   root: {
@@ -117,6 +118,7 @@ class HodContent extends Component {
       if (Ad !== 0) {
         return (
           <React.Fragment>
+            <HodSideMenu />
             <Profile academicYear={academicYear} userInfo={userInfo} />
             <div
               style={{

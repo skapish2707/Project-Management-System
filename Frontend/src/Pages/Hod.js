@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
-import LoggedNavbar from "../components/Navbar/LoggedNavbar";
 import HodContent from "../components/Hod-component/HodContent";
 
 export default class Hod extends Component {
@@ -53,7 +52,6 @@ export default class Hod extends Component {
       return (
         <div>
           <React.Fragment>
-            <LoggedNavbar />
             <HodContent userInfo={this.state.user} />
           </React.Fragment>
         </div>
