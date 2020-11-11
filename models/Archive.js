@@ -5,6 +5,7 @@ var archiveSchema  = new mongoose.Schema({
 	data : [{
 		acadYear : String,
 		groups  : [{
+			name:String,
 			members : [{
 				name : String,
 				email : String,

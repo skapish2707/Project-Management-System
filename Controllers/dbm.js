@@ -19,53 +19,6 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
-	// Group.find({admin:"5fa37f9632124422c8e28785"},function(err,data){
-	//   data.forEach(function(grp){
-	//     grp.proposals[0].approval.hod = true
-	//     grp.proposals[0].approval.admin = true
-	//     grp.save(function(err){
-	//       if(err) throw err;
-	//     })
-	//   })
-	// })
-	// User.findOne({email:"new@guide.com"},function(err,user){
-	//   if (err) throw err;
-	//   console.log(user);
-	//   // getGuideGroups(user);      
-	// })
-	// Group.find({},function(err,data){
-	//   data.forEach(function(grp){
-	//   // for (var i = 0; i< grp.presentation.length ; i++) {
-	//   //   grp.presentation[i].marks = null;
-	//   //   }  
-	//   // grp.save(function(err){
-	//   //   if (err) throw err;
-	//   // })
-	//   console.log(grp.presentation)
-	//   })
-	// })
-	// Group.findById("5f7574b159bffd36583e41fd",function(err,grp){
-	//   if (err) throw err;
-	//   console.log(grp.presentation)
-	//   console.log(grp.presentation[0]._id)
-	// })
-
-
-	//DELETE  STUDENT GROUPS HOD PIC IG by admin email
-		// User.findOne({email:"thursday@admin.com"},function(err,admin){          
-		//   if(err) throw err ;
-		//   User.deleteMany({admin:admin.id},function(err){
-		//       if (err) throw err
-		//           console.log('deleted all user created by ', admin.email)
-		//   })
-		//   Group.deleteMany({admin:admin.id},function(err){
-		//       if (err) throw err
-		//           console.log('deleted all groups created by', admin.email)
-		//   })  
-		// })
-	//DELETE PROPOSAL BY EMAIL OF ANY MEMBER
-	  // Group.findOneAndUpdate({members.email:"trialNew1@gmail.com"},{proposals:[]})  
-	Group.find({})
 	}
 });
 
@@ -96,7 +49,7 @@ function changePassword(user, newPassword) {
 function saveLocallyForDevelopment(email, password) {
   line = email + "," + password + "\n";
   fs.appendFile("credentials.txt", line, function (err) {
-	if (err) throw err;
+	if (err) console.log(err)
   });
 }
 
@@ -174,7 +127,7 @@ async function addMemberToGroup(groupId,student){
 
 async function updateDueDate(admin,dueDate){
   Group.find({admin:admin.id},function(err,groups){
-	if (err) throw err ;
+	if (err) console.log(err)
 	groups.forEach(function(group){
 	  group.dueDate = dueDate;
 	  group.save();
@@ -308,11 +261,11 @@ async function deleteguide(id,guide){
   await User.findByIdAndDelete(id);
   console.log(`DELETED GUIDE name :${guide.name} email ${guide.email}`);
   Group.find({guide:guide},function(err,data){
-	if(err) throw err ;
+	if(err) console.log(err)
 	data.forEach(function(grp){
 	  grp.guide = {name:null,email:null}
 	  grp.save(function(err){
-		if(err) throw err;
+		if(err) console.log(err)
 	  })
 	})
   })
@@ -333,7 +286,7 @@ async function deleteStudent(gid,email){
   }
   grp.members.splice(index,1)
   grp.save(function(err){
-	if (err) throw err;
+	if (err) console.log(err)
   })
 }
 
@@ -394,7 +347,7 @@ async function forgetPassword(email){
 	user.resetPasswordToken =  token
 	user.resetPasswordExpires = new Date()
 	user.save(function(err){
-	  if (err) throw err;
+	  if (err) console.log(err)
 	})
 	data = {email:user.email,link:process.env.HOST+"/resetPassword/"+token}
 	if(process.env.NODE_ENV == "production")
@@ -461,12 +414,12 @@ async function archive(admin_id){
 	  name:grp.guide.name,
 	  email : grp.guide.email
 	}
-	arc_grps.push({members:members,proposals:proposals,guide:guide,presentation:presentation})
+	arc_grps.push({name:grp.name,members:members,proposals:proposals,guide:guide,presentation:presentation})
   })
   let data1 = {acadYear:acadYear,groups:arc_grps}
   arc.data.push(data1)
   arc.save(function(err){
-	if (err) throw err;
+	if (err) console.log(err)
   })
 }
 async function getArchive(admin_id){
@@ -476,12 +429,22 @@ async function getArchive(admin_id){
 
 async function deleteAllUsers(admin_id){
   User.deleteMany({admin:admin_id},function(err){
-	if (err) throw err
+	if (err) console.log(err)
 	console.log('deleted all users')
   })
+  Group.find({admin:admin_id},function(err,data){
+	if (err) console.log(err)
+	data.forEach(function(grp){
+		grp.proposals.forEach(function(proposal){
+			fs.unlink(path.join('.','proposal',proposal.attachPrints),function(err){
+			if (err) console.log(err) 
+			console.log("deleted proposals")
+			})
+		})
+	})
+  })
   Group.deleteMany({admin:admin_id},function(err){
-	if (err) throw err
-	console.log('deleted all groups')
+  	if (err) console.log(err)
   })
 }
 async function excel(admin_id){	
