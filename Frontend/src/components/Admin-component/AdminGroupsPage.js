@@ -15,6 +15,11 @@ import Archive from '@material-ui/icons/Archive';
 import {Card,Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@material-ui/core";
 import qs from "qs";
 import { toFirstCharUppercase } from "../ToUpper"
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 let department=null
 let Gname=null
@@ -90,6 +95,7 @@ class AdminGroupsPage extends Component {
       deleteAllUserDialog : false,
       archive:false,
       loading:false,
+      archiveSuccess:false
       };
   }
 
@@ -254,7 +260,8 @@ handleArchieve = () => {
         }
       })
       .then(res => {
-        this.setState({loading:false,archive:false})
+        this.setState({loading:false,archive:false,archiveSuccess:true})
+
       })
       .catch(err => {
         this.setState({loading:false,archive:false})
@@ -346,9 +353,8 @@ handleMemberNameChange = (e) => {
   handleChildClick=(e)=> {
     e.stopPropagation();
 
-    console.log('handleChildClick');
   }
-
+  
   render() {
     const {classes} = this.props;
     if (this.state.loading)
@@ -362,6 +368,12 @@ handleMemberNameChange = (e) => {
       return <LinearProgress />;
     } 
     else if (this.state.user.type === "admin") {
+          const handleClose = (event, reason) => {
+          if (reason === "clickaway") {
+            return;
+          }
+          this.setState({ archiveSuccess: false });
+        };
       return (
         <React.Fragment>
          <SideMenu/>
@@ -515,7 +527,14 @@ handleMemberNameChange = (e) => {
          </DialogActions>
        </Dialog>
      </div> 
-
+       <Snackbar open={this.state.archiveSuccess}
+                autoHideDuration={6000}
+                onClose={handleClose}
+              >
+      <Alert onClose={handleClose} severity="success">
+        Archived Groups Data Successfully
+      </Alert>
+    </Snackbar>
 
     {/* -----------------------MEMBER ACCORDION------------------------*/}
     {(groupData.length!==0)?<div className={classes.mainAccorContainer}>

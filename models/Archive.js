@@ -33,10 +33,6 @@ var archiveSchema  = new mongoose.Schema({
 				name : {type:String,default:null},
 				email : {type:String,default:null},
 			},
-			presentation : [{
-				scheduled_date : {type :Date },
-				marks : {type:String,default:null},
-			}]
 		}]	
 	}]
 })
