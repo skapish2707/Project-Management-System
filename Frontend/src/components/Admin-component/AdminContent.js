@@ -114,11 +114,14 @@ const useStyles = theme => ({
     fontWeight: "600"
   }
 });
+let a = new Date()
+var academicYearList = [`${a.getFullYear()-1}-${a.getFullYear()}`,`${a.getFullYear()}-${a.getFullYear()+1}`,`${a.getFullYear()+1}-${a.getFullYear()+2}`]
 
 class AdminContent extends Component {
   constructor(props) {
     super(props);
 
+    
     this.state = {
       hod: "",
       hodName: "",
@@ -129,8 +132,9 @@ class AdminContent extends Component {
       openFailure: false,
       loading: false,
       prefDueDate: date,
-      Academicyear: "2020-2021"
+      Academicyear: academicYearList[0]
     };
+
   }
 
   //to change format of the month
@@ -333,9 +337,11 @@ class AdminContent extends Component {
                 }}
                 onSubmit={this.submitHandler}
               >
-                <Typography variant="h2" style={{ marginBottom: "30px" }}>
+                <Typography variant="h4" style={{ fontWeight: "600",fontFamily:"sans-serif",marginBottom:"10px"}}>
                   Create Project List
                 </Typography>
+                <hr size = "5" color = "blue"/>
+                <br/><br/>
                 <Grid container spacing={2}>
                   <Grid item xs={12} className={classes.gridField}>
                     <Typography className={classes.InputTitle}>
@@ -404,21 +410,9 @@ class AdminContent extends Component {
                             onChange={this.handleAcademicYear}
                             name="Academic Year"
                           >
-                            <MenuItem value="2020-2021">2020-2021</MenuItem>
-                            <MenuItem value="2021-2022">2021-2022</MenuItem>
-                            <MenuItem value="2022-2023">2022-2023</MenuItem>
-                            <MenuItem value="2023-2024">2023-2024</MenuItem>
-                            <MenuItem value="2024-2025">2024-2025</MenuItem>
-                            <MenuItem value="2025-2026">2025-2026</MenuItem>
-                            <MenuItem value="2026-2027">2026-2027</MenuItem>
-                            <MenuItem value="2027-2028">2027-2028</MenuItem>
-                            <MenuItem value="2028-2029">2028-2029</MenuItem>
-                            <MenuItem value="2029-2030">2029-2030</MenuItem>
-                            <MenuItem value="2030-2031">2030-2031</MenuItem>
-                            <MenuItem value="2031-2032">2031-2032</MenuItem>
-                            <MenuItem value="2032-2033">2032-2033</MenuItem>
-                            <MenuItem value="2033-2034">2033-2034</MenuItem>
-                            <MenuItem value="2034-2035">2034-2035</MenuItem>
+                          <MenuItem value={academicYearList[0]}>{academicYearList[0]}</MenuItem>
+                          <MenuItem value={academicYearList[1]}>{academicYearList[1]}</MenuItem>
+                          <MenuItem value={academicYearList[2]}>{academicYearList[2]}</MenuItem>
                           </Select>
                         </FormControl>
                       </Grid>

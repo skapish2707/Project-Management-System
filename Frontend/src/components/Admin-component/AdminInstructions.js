@@ -23,6 +23,14 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: "1px",
     marginBottom:"3px"
   },
+  image:{
+    [theme.breakpoints.up("md")]:{
+      marginLeft:"20%"
+    },
+    [theme.breakpoints.down("sm")]:{
+      width:"95%"
+    }
+  },
   pos: {
     marginBottom: 12
   }
@@ -53,10 +61,10 @@ export default function Profile(props) {
           2. Project list file should be of <b>.csv</b>  or <b>.xlsx</b> format          
         </Typography>
         <Typography className={classes.title}>
-          3. The first row of the file should be <b>name,rollno,email,group_name</b>
-           actual values should start from second row 
-        </Typography>
-        <img src={Image}/>
+          3. The first row of the file should be <b>name,rollno,email,group_name </b>
+             actual values should start from second row 
+        </Typography><br/>
+        <img src={Image} className ={classes.image}/><br/>
         <Typography className={classes.title}>
           4. On submitting the form you will create a list mentioned in the file
           and will give authorities to emails mentioned by you
