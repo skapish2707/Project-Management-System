@@ -5,6 +5,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress
 import { toFirstCharUppercase } from "../ToUpper";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useHistory } from 'react-router-dom';
+import Footer from '../Footer/Footer';
 
 
 let Groups=null;
@@ -60,7 +61,6 @@ const GuideGroupList = (props) => {
             setAdData("new");
             setFilled(true);
             setLoading(false);
-            console.log(Groups)
         })
     
         .catch(function (err) {
@@ -88,6 +88,9 @@ const GuideGroupList = (props) => {
         if(Groups.length!==0){
             return(
                 <React.Fragment >
+                    <Typography style={{margin:"10px"}} variant="h4">
+                        Assigned Groups
+                    </Typography>
                     {Groups.map(Group => {
                         const routeChange = () => {
                             histor.push({
@@ -228,6 +231,7 @@ const GuideGroupList = (props) => {
                         // }
                         // return null;
                         })}
+                        <Footer />
                 </React.Fragment>
             )
         }else{

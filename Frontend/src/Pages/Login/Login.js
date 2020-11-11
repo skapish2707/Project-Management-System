@@ -30,7 +30,7 @@ var today = new Date(),
     today.getMonth() +
     "V" +
     today.getFullYear() +
-    "fUcKyoU" +
+    "hello" +
     50 +
     "Z" +
     today.getDate();
@@ -98,7 +98,7 @@ class Login extends Component {
 
     if (token == null) {
       loggedIn = false;
-      console.log("token is null");
+      // console.log("token is null");
     }
     this.state = {
       username: "",
@@ -173,7 +173,7 @@ class Login extends Component {
     })
       .then(function (res) {
         Ad = res.data;
-        console.log(Ad);
+        // console.log(Ad);
       })
       // .then(() => {
       //   localStorage.setItem("data", "set");
@@ -190,7 +190,7 @@ class Login extends Component {
       this.setState({
         loggedIn: false
       });
-      console.log(this.state.loggedIn);
+      // console.log(this.state.loggedIn);
     }
   }
 

@@ -11,12 +11,11 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Button,CircularProgress,Grid} from "@material-ui/core";
 import { toFirstCharUppercase } from "../ToUpper"
-import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from 'react-router-dom';
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+// function Alert(props) {
+//   return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
 
 let Ad=null;
 let groupData=null
@@ -27,44 +26,23 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     
   },
-   mainAccor:{
-    color:"#303030",
-    margin:'auto' ,
+  heading: {
+    fontSize: theme.typography.pxToRem(16),
+    fontWeight: "600",
+    flexBasis: "33.33%",
+    flexShrink: 0
   },
-  mainAccorContainer:{
-    width:"80%",
-    margin:"2px auto",
-    marginTop:"30px"
-
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(16),
+    color: theme.palette.text.secondary
   },
-  memberHolder:{
-    width:"10%",
-    backgroundColor:"#909090"
+  accor: {
+    width: "100%",
+    margin: "auto"
   },
-  groupCard:{
-    width:"100%",
-    padding:"8px 0px",
-    marginTop:"2px",
-    textAlign:"left",
-  },
-  accorStyle:{
-    backgroundColor:"#d3d3d3"
-  },
-  heading:{
-    fontWeight:"bold"
-  },
-  deleteIconStyle:{
-    cursor:"pointer",
-    "&:hover": {
-      color: 'red'
-    }
-  },
-  presCard:{
-    width:"100%",
-    padding:"8px 0px",
-    marginTop:"2px",
-    borderRadius:"0px",
-    textAlign:"left",
+  accordet: {
+    width: "100%",
+    margin: "auto"
   }
   }));
 
@@ -74,7 +52,6 @@ const HodgroupsPage = (props) => {
   const [groupDetails,setGroupDetails] = React.useState(null)
   const [loading,setLoading] = React.useState(false)
   const [filled,setFilled] = React.useState(false)
-  const [loggedIn,setLoggedIn] = React.useState(false)
   const histor = useHistory();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -90,12 +67,10 @@ const HodgroupsPage = (props) => {
       }
     })
       .then(res => {
-        setLoggedIn(true);
         setUser(res.data);
       })
 
       .catch(err => {
-        setLoggedIn(false);
         setUser("No User");
         localStorage.removeItem("token");
       });
@@ -104,6 +79,7 @@ const HodgroupsPage = (props) => {
   
   function checkData() {
     setReqSent(true);
+    setLoading(true);
     axios({
       method: "get",
       url: SERVER_URL + "/guideGroup",
@@ -114,14 +90,15 @@ const HodgroupsPage = (props) => {
     })
       .then(res => {
         setReqSent(false);
-        console.log(res)
         Ad = res.data.length;
         groupData=res.data
         setGroupDetails(res.data);
         setFilled(true)
+        setLoading(false);
       })
       .catch(function (err) {
         setReqSent(false);
+        setLoading(false);
         console.log(err);
       });
   }

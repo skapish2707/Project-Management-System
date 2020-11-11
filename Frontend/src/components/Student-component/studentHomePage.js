@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   makeStyles,
   TableContainer,
@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 let propF = false;
-let sData = null;
 let fill = false;
 let Group = null;
 
@@ -40,14 +39,12 @@ const StudentHomePage = (props) => {
     Group=props.Group;
     AppliedOn=props.AppliedOn;
     DueDate=props.DueDate;
-    const [stuData, setStuData] = useState("new");
-    const [filled, setFilled ] = useState(true);
-    const [loading,setLoading] = useState(false);
+    const filled = true;
+    const loading = false;
     const classes = useStyles();
     if(Group.proposals.length!==0){
       propF=true
     }
-    sData = stuData;
     fill = filled;
 
   function propApproved(proposals) {
@@ -58,6 +55,7 @@ const StudentHomePage = (props) => {
         approved = true;
         propTitle = proposal.title;
       }
+      return(null)
     });
 
     if (approved) {
@@ -112,7 +110,6 @@ const StudentHomePage = (props) => {
       }
     }
   }
-  // console.log(propF)
   if (loading) {
     return (
       <div style={{ margin: "auto" }}>
@@ -120,9 +117,6 @@ const StudentHomePage = (props) => {
       </div>
     );
   }
-  // if (sData === null) {
-  //   checkData();
-  // }
   if (fill && propF) {
     let i = 1;
     const { department, name, members, proposals } = Group;
