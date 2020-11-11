@@ -376,138 +376,144 @@ class AdminGuidePage extends Component {
           <React.Fragment>
             <SideMenu />
             {/* MANAGE GUIDE UI START */}
-            <Typography variant="h2" style={{ margin: "20px auto" }}>
-              Manage Guide{" "}
-            </Typography>
-            {!this.state.Loading ? (
+            <div style={{ backgroundColor: "#e0e0e0" }}>
+              <Typography variant="h2" style={{ margin: "20px auto" }}>
+                Manage Guide
+              </Typography>
+              {!this.state.Loading ? (
+                <div>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleClickOpen}
+                  >
+                    Add Guide
+                  </Button>
+                  <Dialog
+                    open={this.state.Open}
+                    onClose={this.handleCloseCancel}
+                    aria-labelledby="form-dialog-title"
+                  >
+                    <DialogTitle id="form-dialog-title">Add Guide</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        Please add name and email of Guide.
+                      </DialogContentText>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="guideName"
+                        label="Guide Name"
+                        type="text"
+                        value={this.state.guideName}
+                        onChange={this.handleGNameChange}
+                        fullWidth
+                        required
+                      />
+                      <TextField
+                        margin="dense"
+                        id="guideEmail"
+                        label="Guide Email"
+                        type="text"
+                        value={this.state.guideEmail}
+                        onChange={this.handleGEmailChange}
+                        fullWidth
+                        required
+                      />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleCloseCancel} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={this.handleCloseSubmit} color="primary">
+                        Submit
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
+              ) : (
+                <div>
+                  <CircularProgress />
+                </div>
+              )}
+              <div className={classes.guideListHolder}>
+                {guideData !== null ? (
+                  guideData.map(guide => {
+                    if (guide.type === "hod") {
+                      checkHod = true;
+                    }
+                    if (guide.type === "guide")
+                      return (
+                        <Card className={classes.guideList}>
+                          <Grid container>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={4}>
+                              <Typography>{guide.name}</Typography>
+                            </Grid>
+                            <Grid item xs={5}>
+                              <Typography>{guide.email}</Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                              <DeleteIcon
+                                className={classes.deleteIconStyle}
+                                onClick={() =>
+                                  this.handleDeleteDialogOpen(
+                                    guide.id,
+                                    guide.name,
+                                    guide.email
+                                  )
+                                }
+                              />
+                            </Grid>
+                          </Grid>
+                        </Card>
+                      );
+                    else return null;
+                  })
+                ) : (
+                  <CircularProgress />
+                )}
+              </div>
+              {/* Dialog box for delete confirmation of Guide   */}
               <div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleClickOpen}
-                >
-                  Add Guide
-                </Button>
                 <Dialog
-                  open={this.state.Open}
-                  onClose={this.handleCloseCancel}
-                  aria-labelledby="form-dialog-title"
+                  open={this.state.deleteOpen}
+                  onClose={this.handleDeleteDialogClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
                 >
-                  <DialogTitle id="form-dialog-title">Add Guide</DialogTitle>
+                  <DialogTitle id="alert-dialog-title">
+                    {"Delete Guide"}
+                  </DialogTitle>
                   <DialogContent>
-                    <DialogContentText>
-                      Please add name and email of Guide.
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure you want to delete this guide? If this guide
+                      is assigned to any groups,then you need to assign guides
+                      for that group again
                     </DialogContentText>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="guideName"
-                      label="Guide Name"
-                      type="text"
-                      value={this.state.guideName}
-                      onChange={this.handleGNameChange}
-                      fullWidth
-                      required
-                    />
-                    <TextField
-                      margin="dense"
-                      id="guideEmail"
-                      label="Guide Email"
-                      type="text"
-                      value={this.state.guideEmail}
-                      onChange={this.handleGEmailChange}
-                      fullWidth
-                      required
-                    />
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={this.handleCloseCancel} color="primary">
+                    <Button
+                      onClick={this.handleDeleteDialogClose}
+                      color="primary"
+                    >
                       Cancel
                     </Button>
-                    <Button onClick={this.handleCloseSubmit} color="primary">
-                      Submit
+                    <Button
+                      onClick={() =>
+                        this.handleDeleteGuide(
+                          dguideId,
+                          dguideName,
+                          dguideEmail
+                        )
+                      }
+                      color="primary"
+                    >
+                      Delete
                     </Button>
                   </DialogActions>
                 </Dialog>
               </div>
-            ) : (
-              <div>
-                <CircularProgress />
-              </div>
-            )}
-            <div className={classes.guideListHolder}>
-              {guideData !== null ? (
-                guideData.map(guide => {
-                  if (guide.type === "hod") {
-                    checkHod = true;
-                  }
-                  if (guide.type === "guide")
-                    return (
-                      <Card className={classes.guideList}>
-                        <Grid container>
-                          <Grid item xs={1}></Grid>
-                          <Grid item xs={4}>
-                            <Typography>{guide.name}</Typography>
-                          </Grid>
-                          <Grid item xs={5}>
-                            <Typography>{guide.email}</Typography>
-                          </Grid>
-                          <Grid item xs={2}>
-                            <DeleteIcon
-                              className={classes.deleteIconStyle}
-                              onClick={() =>
-                                this.handleDeleteDialogOpen(
-                                  guide.id,
-                                  guide.name,
-                                  guide.email
-                                )
-                              }
-                            />
-                          </Grid>
-                        </Grid>
-                      </Card>
-                    );
-                  else return null;
-                })
-              ) : (
-                <CircularProgress />
-              )}
-            </div>
-            {/* Dialog box for delete confirmation of Guide   */}
-            <div>
-              <Dialog
-                open={this.state.deleteOpen}
-                onClose={this.handleDeleteDialogClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  {"Delete Guide"}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to delete this guide? If this guide is
-                    assigned to any groups,then you need to assign guides for
-                    that group again
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={this.handleDeleteDialogClose}
-                    color="primary"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      this.handleDeleteGuide(dguideId, dguideName, dguideEmail)
-                    }
-                    color="primary"
-                  >
-                    Delete
-                  </Button>
-                </DialogActions>
-              </Dialog>
             </div>
             {/* MANAGE GUIDE UI END */}
             {/* MANAGE HOD UI START */}

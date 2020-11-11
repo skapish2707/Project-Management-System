@@ -11,7 +11,19 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { withStyles, Grid, Card } from "@material-ui/core";
 import { toFirstCharUppercase } from "../ToUpper";
+import DeleteIcon from "@material-ui/icons/Delete";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField
+} from "@material-ui/core";
+import qs from "qs";
 
+let dArchiveId = null;
 let archData = null;
 
 const useStyles = theme => ({
@@ -19,7 +31,7 @@ const useStyles = theme => ({
     width: "100%"
   },
   mainAccor: {
-    color: "#303030",
+    backgroundColor: "#e0e0e0",
     margin: "auto"
   },
   mainAccorContainer: {
@@ -71,9 +83,50 @@ class AdminArchives extends Component {
       loggedIn,
       user: "",
       expanded: false,
-      archiveData: null
+      archiveData: null,
+      deleteDialogOpen: false
     };
   }
+
+  //DIALOG FOR DELETE ARCHIVE
+  handleDeleteArchiveDialogOpen = (e, id) => {
+    e.stopPropagation();
+    e.preventDefault();
+    dArchiveId = id;
+    this.setState({
+      deleteDialogOpen: true
+    });
+  };
+  handleDeleteArchiveDialogClose = () => {
+    this.setState({
+      deleteDialogOpen: false
+    });
+  };
+  handleDeleteArchive = id => {
+    this.handleDeleteArchiveDialogClose();
+    axios({
+      method: "post",
+      url: SERVER_URL + "/deleteArchive",
+      credentials: "include",
+      withCredentials: true,
+      data: qs.stringify({
+        id: id
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    })
+      .then(res => {
+        console.log("Archive deleted!!!!");
+        dArchiveId = null;
+        window.location.reload(false);
+      })
+
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   //Get Archive Data
   getArchive = () => {
@@ -126,7 +179,6 @@ class AdminArchives extends Component {
       });
   };
   render() {
-    console.log(this.state.archiveData);
     const { classes } = this.props;
     if (this.state.user === "" && this.state.archiveData === null) {
       this.getStat();
@@ -135,6 +187,39 @@ class AdminArchives extends Component {
     } else if (this.state.user.type === "admin") {
       return this.state.archiveData !== null ? (
         <React.Fragment>
+          {/* DIALOG FOR DELETE ARCHIVE */}
+          <div>
+            <Dialog
+              open={this.state.deleteDialogOpen}
+              onClose={this.handleDeleteArchiveDialogClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Delete Archive Data"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Are you sure you want to this Archive Data? After deleting
+                  this, the Data will be lost completely
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={this.handleDeleteArchiveDialogClose}
+                  color="primary"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={() => this.handleDeleteArchive(dArchiveId)}
+                >
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
           <SideMenu />
           <div
             style={{
@@ -151,14 +236,35 @@ class AdminArchives extends Component {
           <div style={{ width: "80%", margin: "auto" }}>
             {archData
               ? archData.map(data => {
+                  let archId = data._id;
                   return (
-                    <Accordion className={classes.accorStyle}>
+                    <Accordion className={classes.mainAccor}>
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                       >
-                        <Typography variant="h6">{data.acadYear}</Typography>
+                        <Grid container>
+                          <Grid item xs={4}>
+                            <Typography variant="h6">
+                              {data.acadYear}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}></Grid>
+                          <Grid
+                            item
+                            xs={2}
+                            style={{ textAlign: "right", padding: "auto" }}
+                          >
+                            <DeleteIcon
+                              onClick={e =>
+                                this.handleDeleteArchiveDialogOpen(e, archId)
+                              }
+                              className={classes.deleteIconStyle}
+                              style={{ margin: "3px" }}
+                            />
+                          </Grid>
+                        </Grid>
                       </AccordionSummary>
                       <AccordionDetails>
                         <div style={{ width: "100%" }}>
