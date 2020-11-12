@@ -881,72 +881,93 @@ class HodPrefPage extends Component {
                         </Grid>
                       </Grid>
                     </Card>
-                    <Grid container className={classes.comment}>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        md={3}
-                        className={classes.comTitle}
-                      >
-                        <Typography>
-                          <b>Add Comments:</b>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={6}>
-                        <TextField
-                          className={classes.comField}
-                          variant="outlined"
-                          component={"span"}
-                          multiline
-                          inputProps={{ style: { fontSize: 14 } }}
-                          rows={3}
-                          id="comment"
-                          name="comment"
-                          type="text"
-                          value={this.state.comment}
-                          onChange={this.commentHandler}
-                        />
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        md={3}
-                        className={classes.comButton}
-                      >
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => {
-                            this.sendComment(Gid);
-                          }}
+                    <div
+                      style={{
+                        backgroundColor: "#e0e0e0",
+                        padding: "0px 30px",
+                        margin: "50px auto",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <Grid container className={classes.comment}>
+                        <Grid item xs={12} style={{ marginBottom: "30px" }}>
+                          <Typography
+                            variant="h2"
+                            style={{ textAlign: "left", fontWeight: "400" }}
+                          >
+                            Comments
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comTitle}
                         >
-                          Send Comment
-                        </Button>
-                        <Snackbar
-                          open={this.state.openSuccess}
-                          autoHideDuration={6000}
-                          onClose={this.handleClose}
+                          <Typography>
+                            <b>Add Comments:</b>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6}>
+                          <TextField
+                            className={classes.comField}
+                            variant="outlined"
+                            component={"span"}
+                            multiline
+                            inputProps={{ style: { fontSize: 14 } }}
+                            rows={3}
+                            id="comment"
+                            name="comment"
+                            type="text"
+                            value={this.state.comment}
+                            onChange={this.commentHandler}
+                          />
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comButton}
                         >
-                          <Alert onClose={this.handleClose} severity="success">
-                            Successful comment
-                          </Alert>
-                        </Snackbar>
-                        <Snackbar
-                          open={this.state.openFailure}
-                          autoHideDuration={6000}
-                          onClose={this.handleClose}
-                        >
-                          <Alert onClose={this.handleClose} severity="error">
-                            Unsuccessful. Comment cannot be empty
-                          </Alert>
-                        </Snackbar>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              this.sendComment(Gid);
+                            }}
+                          >
+                            Send Comment
+                          </Button>
+                          <Snackbar
+                            open={this.state.openSuccess}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert
+                              onClose={this.handleClose}
+                              severity="success"
+                            >
+                              Successful comment
+                            </Alert>
+                          </Snackbar>
+                          <Snackbar
+                            open={this.state.openFailure}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert onClose={this.handleClose} severity="error">
+                              Unsuccessful. Comment cannot be empty
+                            </Alert>
+                          </Snackbar>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12}>
+                          <HodCommentPage Comments={Comments} />
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12}>
-                        <HodCommentPage Comments={Comments} />
-                      </Grid>
-                    </Grid>
+                    </div>
                   </div>
                 );
               } else return null;

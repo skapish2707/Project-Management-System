@@ -36,7 +36,7 @@ const useStyles = theme => ({
     fontWeight: theme.typography.fontWeightRegular
   },
   accorStyle: {
-    width: "80%",
+    width: "90%",
     margin: "auto",
     marginTop: "30px"
   },
@@ -48,7 +48,7 @@ const useStyles = theme => ({
     textAlign: "left"
   },
   guideListHolder: {
-    width: "60%",
+    width: "80%",
     margin: "auto",
     marginTop: "30px",
     padding: "20px"
@@ -59,6 +59,13 @@ const useStyles = theme => ({
     "&:hover": {
       color: "red"
     }
+  },
+  mHodContainer: {
+    backgroundColor: "#e0e0e0",
+    width: "80%",
+    margin: "auto",
+    marginTop: "80px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
   }
 });
 
@@ -344,11 +351,17 @@ class AdminGuidePage extends Component {
     })
       .then(res => {
         guideData = res.data;
+<<<<<<< Updated upstream
         this.setState(
           {
             guideDetails: res.data
           },
         );
+=======
+        this.setState({
+          guideDetails: res.data
+        });
+>>>>>>> Stashed changes
       })
 
       .catch(err => {
@@ -374,66 +387,82 @@ class AdminGuidePage extends Component {
           <React.Fragment>
             <SideMenu />
             {/* MANAGE GUIDE UI START */}
-            <div style={{ backgroundColor: "#e0e0e0" }}>
-              <Typography variant="h2" style={{ margin: "20px auto" }}>
-                Manage Guide
-              </Typography>
-              {!this.state.Loading ? (
-                <div>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleClickOpen}
-                  >
-                    Add Guide
-                  </Button>
-                  <Dialog
-                    open={this.state.Open}
-                    onClose={this.handleCloseCancel}
-                    aria-labelledby="form-dialog-title"
-                  >
-                    <DialogTitle id="form-dialog-title">Add Guide</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        Please add name and email of Guide.
-                      </DialogContentText>
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="guideName"
-                        label="Guide Name"
-                        type="text"
-                        value={this.state.guideName}
-                        onChange={this.handleGNameChange}
-                        fullWidth
-                        required
-                      />
-                      <TextField
-                        margin="dense"
-                        id="guideEmail"
-                        label="Guide Email"
-                        type="text"
-                        value={this.state.guideEmail}
-                        onChange={this.handleGEmailChange}
-                        fullWidth
-                        required
-                      />
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={this.handleCloseCancel} color="primary">
-                        Cancel
+            <div className={classes.mHodContainer}>
+              <Grid container>
+                <Grid item xs={12} sm={12} md={6}>
+                  <Typography variant="h2" style={{ margin: "20px auto" }}>
+                    Manage Guide
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6}>
+                  {!this.state.Loading ? (
+                    <div>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleClickOpen}
+                        style={{ margin: "35px", padding: "10px 50px" }}
+                      >
+                        Add Guide
                       </Button>
-                      <Button onClick={this.handleCloseSubmit} color="primary">
-                        Submit
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </div>
-              ) : (
-                <div>
-                  <CircularProgress />
-                </div>
-              )}
+                      <Dialog
+                        open={this.state.Open}
+                        onClose={this.handleCloseCancel}
+                        aria-labelledby="form-dialog-title"
+                      >
+                        <DialogTitle id="form-dialog-title">
+                          Add Guide
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Please add name and email of Guide.
+                          </DialogContentText>
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="guideName"
+                            label="Guide Name"
+                            type="text"
+                            value={this.state.guideName}
+                            onChange={this.handleGNameChange}
+                            fullWidth
+                            required
+                          />
+                          <TextField
+                            margin="dense"
+                            id="guideEmail"
+                            label="Guide Email"
+                            type="text"
+                            value={this.state.guideEmail}
+                            onChange={this.handleGEmailChange}
+                            fullWidth
+                            required
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            onClick={this.handleCloseCancel}
+                            color="primary"
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={this.handleCloseSubmit}
+                            color="primary"
+                          >
+                            Submit
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                  ) : (
+                    <div>
+                      <CircularProgress />
+                    </div>
+                  )}
+                </Grid>
+              </Grid>
+
               <div className={classes.guideListHolder}>
                 {guideData !== null ? (
                   guideData.map(guide => {
@@ -442,7 +471,7 @@ class AdminGuidePage extends Component {
                     }
                     if (guide.type === "guide")
                       return (
-                        <Card className={classes.guideList}>
+                        <Card className={classes.guideList} key={guide.name}>
                           <Grid container>
                             <Grid item xs={1}></Grid>
                             <Grid item xs={4}>
@@ -515,21 +544,33 @@ class AdminGuidePage extends Component {
             </div>
             {/* MANAGE GUIDE UI END */}
             {/* MANAGE HOD UI START */}
-            <div>
-              <Typography variant="h2" style={{ margin: "30px auto" }}>
-                Manage Hod
-              </Typography>
-              <div>
-                {checkHod ? null : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleAddHodDialogOpen}
-                  >
-                    Assign HOD{" "}
-                  </Button>
-                )}
-              </div>
+            <div
+              className={classes.mHodContainer}
+              style={{ marginBottom: "200px" }}
+            >
+              <Grid container>
+                <Grid item xs={12} sm={12} md={6}>
+                  <Typography variant="h2" style={{ margin: "20px auto" }}>
+                    Manage Hod
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6}>
+                  {" "}
+                  <div>
+                    {checkHod ? null : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleAddHodDialogOpen}
+                        style={{ margin: "35px", padding: "10px 50px" }}
+                      >
+                        Assign HOD
+                      </Button>
+                    )}
+                  </div>
+                </Grid>
+              </Grid>
+
               <div className={classes.guideListHolder}>
                 {guideData !== null ? (
                   guideData.map(hod => {

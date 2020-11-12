@@ -39,7 +39,6 @@ const THEME = createMuiTheme({
 const AdminCommentPage = props => {
   const classes = useStyles();
   const comments = props.Comments;
-  //console.log(comments);
   if (comments.length === 0) {
     console.log(comments.length);
     return (
@@ -54,8 +53,6 @@ const AdminCommentPage = props => {
           <Grid item xs={12} sm={12} md={12}>
             <Paper
               style={{
-                boxShadow:
-                  "0 2px 4px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.1)",
                 backgroundColor: "#fff",
                 borderRadius: "0px",
                 marginTop: "50px",
@@ -63,11 +60,11 @@ const AdminCommentPage = props => {
               }}
             >
               <Paper style={{ borderRadius: "0" }}>
-                {/* <Typography style={{fontWeight:"bold"}} variant="h4">
-                            Your Previous Comments
-                        </Typography> */}
-                <Typography variant="h3" style={{ fontWeight: "500" }}>
-                  Previous Comments
+                <Typography
+                  variant="h3"
+                  style={{ fontWeight: "400", textAlign: "left" }}
+                >
+                  &nbsp;Previous Comments:
                 </Typography>
               </Paper>
               {comments
@@ -75,11 +72,6 @@ const AdminCommentPage = props => {
                 .reverse()
                 .map(comment => {
                   let d = new Date(comment.time);
-                  //comment.time = new Date(d.getTime() + 330*60000);
-                  // console.log(d)
-                  // console.log(comment.time)
-                  //let author = comment.author;
-                  // if(author.includes("admin"))
                   return (
                     <React.Fragment key={comment._id}>
                       <Paper style={{ borderRadius: "0" }}>
@@ -99,9 +91,6 @@ const AdminCommentPage = props => {
                             sm={12}
                             md={8}
                           >
-                            {/* <Typography  style={{fontSize:"18px" ,fontWeight:"500"}} >
-                                                Comment : {comment.text}
-                                            </Typography> */}
                             <Typography
                               style={{
                                 fontWeight: "400",
@@ -113,9 +102,6 @@ const AdminCommentPage = props => {
                             </Typography>
                           </Grid>
                           <Grid className={classes.typo2} item xs={2}>
-                            {/* <Typography style={{fontSize:"12px",fontWeight:"300"}}>
-                                                Time : {comment.time}
-                                            </Typography> */}
                             <Typography
                               style={{
                                 fontWeight: "200",
@@ -140,9 +126,6 @@ const AdminCommentPage = props => {
                             </Typography>
                           </Grid>
                           <Grid className={classes.typo1} item xs={12}>
-                            {/* <Typography  style={{fontSize:"18px" ,fontWeight:"500"}} >
-                                                Comment : {comment.text}
-                                            </Typography> */}
                             <Typography
                               style={{
                                 fontWeight: "400",

@@ -235,11 +235,6 @@ class ControlledExpansionPanels extends React.Component {
                 let Proposal1 = Proposals[0];
                 let Proposal2 = Proposals[1];
                 let Proposal3 = Proposals[2];
-                console.log(
-                  Proposal1.approval,
-                  Proposal2.approval,
-                  Proposal3.approval
-                );
                 let Comments = group.comments;
                 return (
                   <div key={group.id}>
@@ -472,72 +467,93 @@ class ControlledExpansionPanels extends React.Component {
                         </Accordion>
                       );
                     })}
-                    <Grid container className={classes.comment}>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        md={3}
-                        className={classes.comTitle}
-                      >
-                        <Typography>
-                          <b>Add Comments:</b>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={6}>
-                        <TextField
-                          className={classes.comField}
-                          variant="outlined"
-                          component={"span"}
-                          multiline
-                          inputProps={{ style: { fontSize: 14 } }}
-                          rows={3}
-                          id="comment"
-                          name="comment"
-                          type="text"
-                          value={this.state.comment}
-                          onChange={this.commentHandler}
-                        />
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        md={3}
-                        className={classes.comButton}
-                      >
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => {
-                            this.sendComment(Gid);
-                          }}
+                    <div
+                      style={{
+                        backgroundColor: "#e0e0e0",
+                        padding: "0px 30px",
+                        margin: "50px auto",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <Grid container className={classes.comment}>
+                        <Grid item xs={12} style={{ marginBottom: "30px" }}>
+                          <Typography
+                            variant="h2"
+                            style={{ textAlign: "left", fontWeight: "400" }}
+                          >
+                            Comments
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comTitle}
                         >
-                          Send Comment
-                        </Button>
-                        <Snackbar
-                          open={this.state.openSuccess}
-                          autoHideDuration={6000}
-                          onClose={this.handleClose}
+                          <Typography>
+                            <b>Add Comments:</b>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6}>
+                          <TextField
+                            className={classes.comField}
+                            variant="outlined"
+                            component={"span"}
+                            multiline
+                            inputProps={{ style: { fontSize: 14 } }}
+                            rows={3}
+                            id="comment"
+                            name="comment"
+                            type="text"
+                            value={this.state.comment}
+                            onChange={this.commentHandler}
+                          />
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comButton}
                         >
-                          <Alert onClose={this.handleClose} severity="success">
-                            Successful comment
-                          </Alert>
-                        </Snackbar>
-                        <Snackbar
-                          open={this.state.openFailure}
-                          autoHideDuration={6000}
-                          onClose={this.handleClose}
-                        >
-                          <Alert onClose={this.handleClose} severity="error">
-                            Unsuccessful. Comment cannot be empty
-                          </Alert>
-                        </Snackbar>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              this.sendComment(Gid);
+                            }}
+                          >
+                            Send Comment
+                          </Button>
+                          <Snackbar
+                            open={this.state.openSuccess}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert
+                              onClose={this.handleClose}
+                              severity="success"
+                            >
+                              Successful comment
+                            </Alert>
+                          </Snackbar>
+                          <Snackbar
+                            open={this.state.openFailure}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert onClose={this.handleClose} severity="error">
+                              Unsuccessful. Comment cannot be empty
+                            </Alert>
+                          </Snackbar>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12}>
+                          <AdminCommentPage Comments={Comments} />
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12}>
-                        <AdminCommentPage Comments={Comments} />
-                      </Grid>
-                    </Grid>
+                    </div>
                   </div>
                 );
               } else return null;
@@ -546,31 +562,6 @@ class ControlledExpansionPanels extends React.Component {
         </React.Fragment>
       );
     } else return <LinearProgress />;
-
-    // return (
-    //   <div className={classes.root}>
-
-    //     <Accordion
-    //       expanded={expanded === "panel1"}
-    //       onChange={this.handleChange("panel1")}
-    //     >
-    //       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-    //         <Typography className={classes.heading}>
-    //           General settings
-    //         </Typography>
-    //         <Typography className={classes.secondaryHeading}>
-    //           I am an expansion panel
-    //         </Typography>
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         <Typography>
-    //           Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
-    //           feugiat. Aliquam eget maximus est, id dignissim quam.
-    //         </Typography>
-    //       </AccordionDetails>
-    //     </Accordion>
-    //   </div>
-    // );
   }
 }
 

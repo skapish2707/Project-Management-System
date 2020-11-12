@@ -18,8 +18,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  TextField
+  DialogTitle
 } from "@material-ui/core";
 import qs from "qs";
 
@@ -106,7 +105,7 @@ class AdminArchives extends Component {
     this.handleDeleteArchiveDialogClose();
     axios({
       method: "post",
-      url: SERVER_URL + "/deleteArchive",
+      url: SERVER_URL + "/deleteArchieve",
       credentials: "include",
       withCredentials: true,
       data: qs.stringify({
@@ -238,7 +237,10 @@ class AdminArchives extends Component {
               ? archData.map(data => {
                   let archId = data._id;
                   return (
-                    <Accordion className={classes.mainAccor}>
+                    <Accordion
+                      className={classes.mainAccor}
+                      key={data.acadYear}
+                    >
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -270,7 +272,7 @@ class AdminArchives extends Component {
                         <div style={{ width: "100%" }}>
                           {data.groups.map(group => {
                             return (
-                              <Accordion>
+                              <Accordion key={group.name}>
                                 <AccordionSummary
                                   expandIcon={<ExpandMoreIcon />}
                                   aria-controls="panel1a-content"
@@ -320,8 +322,12 @@ class AdminArchives extends Component {
                                               return (
                                                 <Card
                                                   className={classes.groupCard}
+                                                  key={member.name}
                                                 >
-                                                  <Grid container>
+                                                  <Grid
+                                                    container
+                                                    key={member.rollno}
+                                                  >
                                                     <Grid item xs={1}></Grid>
                                                     <Grid item xs={3}>
                                                       <Typography>
@@ -364,13 +370,13 @@ class AdminArchives extends Component {
                                               (proposal, index) => {
                                                 let approval =
                                                   proposal.approval;
-                                                let pid = proposal._id;
 
                                                 return (
                                                   <Accordion
                                                     style={{
                                                       textAlign: "left"
                                                     }}
+                                                    key={proposal.title}
                                                   >
                                                     <AccordionSummary
                                                       expandIcon={
