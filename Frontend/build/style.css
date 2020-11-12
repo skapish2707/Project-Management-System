@@ -1,0 +1,30 @@
+body{
+	background-color: #0003;
+}
+.josefin{
+	font-family: 'Josefin Sans', sans-serif;
+}
+.cursive{
+	font-family: cursive;
+}
+.card-panel{
+	position: relative;
+	transition: 0.3s ease transform;
+}
+.card-panel:hover {
+	transform: translate(0px, -20px);
+}
+
+.card-panel i {
+	color: #000;
+	position: absolute;
+	bottom: 35%;
+	left: 15%;
+	transition: 0.3s ease transform;
+}
+.card-panel i:hover{
+	transform: scale(1.5);
+	color: #fff;
+	background-color: #000;
+	border-radius: 50%;
+}
