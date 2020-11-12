@@ -348,7 +348,6 @@ class AdminGuidePage extends Component {
           {
             guideDetails: res.data
           },
-          console.log(res)
         );
       })
 
@@ -362,7 +361,6 @@ class AdminGuidePage extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { classes } = this.props;
     if (guideData === null) {
       this.getGuide();

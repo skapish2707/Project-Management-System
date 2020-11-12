@@ -110,6 +110,7 @@ export default function ControlledAccordions(props) {
   const [guideE,setGuideE] = React.useState(null);
   const [changeDuedate,setDueDate] = React.useState(new Date());
   const [DueDateOpen,setDOpen] = React.useState(false)
+  const [downLoading,setDownLoading] = React.useState(false)
   let showButton = false
 
 
@@ -135,6 +136,7 @@ const appendLeadingZeroes=(n)=> {
   return n;
 }
 const downloadProjectList = () => {
+  setDownLoading(true)
   axios({
     method: "get",
     url: SERVER_URL+"/excel",
@@ -144,14 +146,16 @@ const downloadProjectList = () => {
     }
   })
   .then(res => {
-    const url = window.URL.createObjectURL(new Blob([res.data]))
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'Project List.xlsx');
-    document.body.appendChild(link);
-    link.click();
+      const url = window.URL.createObjectURL(new Blob([res.data]))
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Project List.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      setDownLoading(false)
     })
   .catch(err => {
+      setDownLoading(false)
       console.log(err)
     });
 }
@@ -538,17 +542,34 @@ const handleSetDueDate=(date)=>{
                 return null;
               })
               }
-            {(showButton)?
-              <Button
-              variant="contained"
-              color="primary"
-              className = {classes.downloadButton}
-              startIcon = <CloudDownload/>
-              onClick={downloadProjectList}
-            >
-              Project List
-            </Button>
-            :null}
+              <React.Fragment>
+                {(downLoading)?(
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className = {classes.downloadButton}
+                    style={{maxWidth:"153.24px",maxHeight:"40px"}}
+                  >
+                    <CircularProgress size="2rem" color="white" style={{padding:"0 40px"}} />
+                  </Button>
+                ):(
+                  <React.Fragment>
+                    {(showButton)?(
+                      <React.Fragment>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          className = {classes.downloadButton}
+                          startIcon = {<CloudDownload/>}
+                          onClick={downloadProjectList}
+                        >
+                          Project List
+                        </Button>
+                      </React.Fragment>
+                    ):(null)}
+                  </React.Fragment>
+                )}
+              </React.Fragment>
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
               {Groups.map(Group => {

@@ -160,11 +160,12 @@ const StudentWholePage = props => {
               <Grid item xs={12} className={classes.hor_tab_grid}>
                 <Tabs
                   orientation="horizontal"
+                  variant="scrollable"
                   value={value}
                   onChange={handleChange}
                   aria-label="horizontal tabs"
-                  variant="fullWidth"
-                  //scrollButtons="on"
+                  // variant="fullWidth"
+                  scrollButtons="on"
                   indicatorColor="primary"
                   textColor="primary"
                 >
@@ -217,6 +218,7 @@ const StudentWholePage = props => {
                 <Tabs
                   orientation="vertical"
                   value={value}
+                  variant="fullWidth"
                   onChange={handleChange}
                   aria-label="Vertical tabs"
                   indicatorColor="primary"

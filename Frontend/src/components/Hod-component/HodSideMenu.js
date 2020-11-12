@@ -25,22 +25,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Divider from '@material-ui/core/Divider';
 
-const kickUser = () => {
-  axios({
-    method: "get",
-    url: SERVER_URL + "/logout",
-    withCredentials: true,
-    headers : {
-      Authorization : 'Bearer '+ localStorage.getItem("access_token") 
-    }
-  })
-    .then(function (res) {
-      console.log(res.data);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-};
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -206,7 +191,6 @@ export default function SideMenu(props) {
                 <MenuItem onClick={handleClose}>
                   <Link
                     to="/logout"
-                    onClick={kickUser}
                     style={{ textDecoration: "none", color: "#000" }}
                   >
                     Logout
@@ -230,7 +214,6 @@ export default function SideMenu(props) {
           </Link>
           <Link
             to="/logout"
-            onClick={kickUser}
             className={classes.navMenu}
             style={{ textDecoration: "none", color: "#000" }}
           >
