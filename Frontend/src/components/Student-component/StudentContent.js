@@ -628,7 +628,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `http://localhost:8000/${pref1.attachPrints}`
+                          `${SERVER_URL}/${pref1.attachPrints}`
                         );
                       }}
                     >
@@ -690,7 +690,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `http://localhost:8000/${pref2.attachPrints}`
+                          `${SERVER_URL}/${pref2.attachPrints}`
                         );
                       }}
                     >
@@ -752,7 +752,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `http://localhost:8000/${pref3.attachPrints}`
+                          `${SERVER_URL}/${pref3.attachPrints}`
                         );
                       }}
                     >
@@ -823,7 +823,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `http://localhost:8000/${pref1.attachPrints}`
+                          `${SERVER_URL}/${pref1.attachPrints}`
                         );
                       }}
                     >
@@ -885,7 +885,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `http://localhost:8000/${pref2.attachPrints}`
+                          `${SERVER_URL}/${pref2.attachPrints}`
                         );
                       }}
                     >
@@ -947,7 +947,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `http://localhost:8000/${pref3.attachPrints}`
+                          `${SERVER_URL}/${pref3.attachPrints}`
                         );
                       }}
                     >
