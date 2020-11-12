@@ -128,7 +128,6 @@ export default function MenuAppBar() {
           </Link>
           <Link
             to="/logout"
-            onClick={kickUser}
             className={classes.navMenu}
             style={{ textDecoration: "none", color: "#000" }}
           >
