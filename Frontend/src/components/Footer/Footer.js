@@ -40,7 +40,7 @@ const Footer = () => {
           <Grid item xs={12} sm={4}>
             <Grid container>
               <Grid item xs={12} className={classes.rootItems}>
-                <Typography>Privacy</Typography>
+                <Typography><a style={{color:"#fff"}} target="blank" href="/about.html"> About</a></Typography>
               </Grid>
               <Grid item xs={12} className={classes.rootItems}>
                 <Typography>Terms And Conditions</Typography>
