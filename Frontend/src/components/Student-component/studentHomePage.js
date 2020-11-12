@@ -62,24 +62,22 @@ const StudentHomePage = (props) => {
       if (DueDate >= AppliedOn) {
         return (
           <React.Fragment>
-            <Typography color="primary" variant="h4">
-              Proposal Submitted On time
+            <Typography style={{float:"left",fontSize:"20px"}}  color="primary" variant="h4">
+              <b>Submission Status</b> : Proposal Submitted On time
             </Typography>
-            <Typography style={{ marginBottom: "40px" }} variant="h4">
-              Your Proposal <b>{propTitle}</b> has been approved. Please start
-              working on it.
+            <Typography style={{ margin: "20px 0",float:"left",fontSize:"20px" }} variant="h5">
+              <b>Approval Status</b> : Your Proposal <b>{propTitle}</b> has been approved. Please start working on it.
             </Typography>
           </React.Fragment>
         );
       } else {
         return (
           <React.Fragment>
-            <Typography color="secondary" variant="h4">
-              Proposal Submitted Late
+            <Typography style={{float:"left",fontSize:"20px"}} color="secondary" variant="h4">
+              <b>Submission Status</b> : Proposal Submitted Late
             </Typography>
-            <Typography style={{ marginBottom: "40px" }} variant="h4">
-              Your Proposal <b>{propTitle}</b> has been approved. Please start
-              working on it.
+            <Typography style={{float:"left", margin: "15px 0",fontSize:"20px" }} variant="h5">
+              <b>Approval Status</b> : Your Proposal <b>{propTitle}</b> has been approved. Please start working on it.
             </Typography>
           </React.Fragment>
         );
@@ -88,11 +86,11 @@ const StudentHomePage = (props) => {
       if (DueDate >= AppliedOn) {
         return (
           <React.Fragment>
-            <Typography color="primary" variant="h4">
-              Proposal Submitted On time
+            <Typography style={{float:"left",fontSize:"20px"}} color="primary" variant="h4">
+              <b>Submission Status</b> : Proposal Submitted On time
             </Typography>
-            <Typography style={{ marginBottom: "40px" }} variant="h5">
-              Your Proposals are yet to be approved. Please check again later.
+            <Typography style={{ margin: "15px 0",float:"left",fontSize:"20px"  }} variant="h5">
+              <b>Approval Status</b> : Your Proposals are yet to be approved. Please check again later.
             </Typography>
           </React.Fragment>
         );
@@ -102,7 +100,7 @@ const StudentHomePage = (props) => {
             <Typography color="secondary" variant="h4">
               Proposal Submitted Late
             </Typography>
-            <Typography style={{ marginBottom: "40px" }} variant="h5">
+            <Typography style={{ margin: "15px 0" }} variant="h5">
               Your Proposals are yet to be approved. Please check again later.
             </Typography>
           </React.Fragment>
@@ -241,9 +239,14 @@ const StudentHomePage = (props) => {
               <b>Due Date for Submitting Proposals:</b>&nbsp;&nbsp;{DueDate}
             </Typography>
           ) : null}
-
-          <Typography style={{ marginBottom: "40px" }} variant="h3">
-            Preferences not filled
+          {/* {(new Date(DueDate).getTime()<Date.now()?(
+            <Typography color="error" style={{marginBottom: "30px",fontSize:"30px" }} variant="h3">You have crossed Due Date.<br/></Typography>
+          ):(null))} */}
+          <Typography color="error" style={{float:"left",fontSize:"20px" }} variant="h4">
+            Preferences have not been filled.&nbsp;
+          </Typography><br/>
+          <Typography color="error" style={{ marginBottom: "30px",float:"left",fontSize:"20px" }} variant="h4">
+            Please fill your preferences from the Preferences tab.<br/>
           </Typography>
         </ThemeProvider>
       </React.Fragment>

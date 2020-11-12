@@ -689,7 +689,7 @@ class HodPrefPage extends Component {
                                                 <Grid item xs={6} />
                                                 <Grid item xs={3}>
                                                   <Typography color="secondary">
-                                                    Presentation missed
+                                                    Presentation Missing
                                                   </Typography>
                                                 </Grid>
                                               </React.Fragment>

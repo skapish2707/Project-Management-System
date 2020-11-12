@@ -4,8 +4,8 @@ import axios from "axios";
 import SERVER_URL from "./URL";
 import { LinearProgress } from "@material-ui/core";
 import LoggedNavbar from "../components/Navbar/LoggedNavbar";
-import GuideDetails from "../components/Guide Component/GuideDetail"
 import GuideGroupList from "../components/Guide Component/GroupList";
+import Profile from "../components/Profile"
 
 
 
@@ -57,7 +57,7 @@ export default class Hod extends Component {
         <div>
           <React.Fragment>
             <LoggedNavbar />
-            <GuideDetails userInfo={this.state.user} />
+            <Profile userInfo={this.state.user} academicYear={null} />
             <GuideGroupList userInfo={this.state.user} />
           </React.Fragment>
         </div>

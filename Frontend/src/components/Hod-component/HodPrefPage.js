@@ -497,7 +497,7 @@ class HodPrefPage extends Component {
                                                       ):(
                                                           <TableCell align="center">
                                                               <Typography style={{fontSize:"12"}} color="secondary">
-                                                                  Presentation missed
+                                                                  Presentation Missing
                                                               </Typography>
                                                           </TableCell>
                                                       )}

@@ -78,7 +78,7 @@ const StudentPresentation = (props) => {
                                                 ):(
                                                     <TableCell align="center">
                                                         <Typography style={{fontSize:"12"}} color="secondary">
-                                                            Presentation missed
+                                                            Presentation missing
                                                         </Typography>
                                                     </TableCell>
                                                 )}

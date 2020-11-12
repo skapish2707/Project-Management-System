@@ -32,18 +32,23 @@ const StudentCommentPage = (props) => {
         }else{
             return(
             comments.map(comment => {
+                let dt = new Date(comment.time)
                 return(
                     <React.Fragment key={comment._id}>
-                        <Paper>
-                            <Grid style={{marginTop:"10px",marginBottom:"10px"}} container spacing={2}>
-                                <Grid className={classes.typo} item xs={6}>
-                                    <Typography>Author : {comment.author}</Typography>
+                        <Paper style={{backgroundColor:"#e0e0e0"}}>
+                            <Grid style={{margin:"10px 35px"}} container spacing={2}>
+                                <Grid className={classes.typo} item xs={12} sm={4}>
+                                    <Typography><b>Author</b> : {comment.author}</Typography>
                                 </Grid>
-                                <Grid className={classes.typo} item xs={6}>
-                                    <Typography>Time : {comment.time}</Typography>
+                                <Grid className={classes.typo} item xs={6} sm={4}>
+                                    <Typography><b>Date</b> : {dt.getDate()}/{dt.getMonth()+1}/{dt.getFullYear()}</Typography>
                                 </Grid>
+                                <Grid className={classes.typo} item xs={6} sm={4}>
+                                    <Typography><b>Time</b> : {dt.getHours()}:{dt.getMinutes()}</Typography>
+                                </Grid>
+                                
                                 <Grid className={classes.typo} item xs={12}>
-                                    <Typography>Comment : {comment.text}</Typography>
+                                    <Typography><b>Comment</b> : {comment.text}</Typography>
                                 </Grid>
                             </Grid>
                         </Paper>
