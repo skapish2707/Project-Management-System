@@ -351,17 +351,9 @@ class AdminGuidePage extends Component {
     })
       .then(res => {
         guideData = res.data;
-<<<<<<< Updated upstream
-        this.setState(
-          {
-            guideDetails: res.data
-          },
-        );
-=======
         this.setState({
           guideDetails: res.data
         });
->>>>>>> Stashed changes
       })
 
       .catch(err => {

@@ -27,24 +27,6 @@ import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import Divider from "@material-ui/core/Divider";
 
-<<<<<<< Updated upstream
-=======
-const kickUser = () => {
-  axios({
-    method: "get",
-    url: SERVER_URL + "/logout",
-    withCredentials: true,
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("access_token")
-    }
-  })
-    .then(function (res) {})
-    .catch(function (err) {
-      console.log(err);
-    });
-};
->>>>>>> Stashed changes
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -231,7 +213,6 @@ export default function SideMenu(props) {
                       <MenuItem onClick={handleClose}>
                         <Link
                           to="/logout"
-                          onClick={kickUser}
                           style={{ textDecoration: "none", color: "#000" }}
                         >
                           Logout
@@ -251,58 +232,10 @@ export default function SideMenu(props) {
                     startIcon={<AssignmentIndIcon />}
                   >
                     Change Password
-<<<<<<< Updated upstream
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <Link
-                    to="/logout"
-                    style={{ textDecoration: "none", color: "#000" }}
-                  >
-                    Logout
-                  </Link>
-                </MenuItem>
-              </Menu>
-            </div>
-          )}
-          <Link
-            to="/cp@2707user"
-            className={classes.navMenu}
-            style={{ textDecoration: "none", color: "#000" }}
-          >
-            <Button
-              color="inherit"
-              variant="contained"
-              startIcon={<AssignmentIndIcon />}
-            >
-              Change Password
-            </Button>
-          </Link>
-          <Link
-            to="/logout"
-            className={classes.navMenu}
-            style={{ textDecoration: "none", color: "#000" }}
-          >
-            <Button
-              color="inherit"
-              variant="contained"
-              style={{ marginLeft: "20px" }}
-              startIcon={<ExitToAppIcon />}
-            >
-              Logout
-            </Button>
-          </Link>
-        </Toolbar>
-      </AppBar>
-    </div>
-          </React.Fragment>
-          ))}
-=======
                   </Button>
                 </Link>
                 <Link
                   to="/logout"
-                  onClick={kickUser}
                   className={classes.navMenu}
                   style={{ textDecoration: "none", color: "#000" }}
                 >
@@ -320,7 +253,6 @@ export default function SideMenu(props) {
           </div>
         </React.Fragment>
       ))}
->>>>>>> Stashed changes
     </div>
   );
 }
