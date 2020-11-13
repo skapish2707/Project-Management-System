@@ -470,4 +470,29 @@ router.get('/excel',authenticateToken,async function(req,res){
 	}
 })
 
+router.post('/weeklyMeetLog',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type == 'student' ) return res.sendStatus(401)
+	try{
+		await dbm.weeklyMeetLog(req.body.gid.trim(),req.body.date.trim(),req.body.remark.trim());
+		return res.sendStatus(200)
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+
+})
+
+router.post('/deleteWeeklyMeetLog',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type == 'student' ) return res.sendStatus(401)
+	try{
+		await dbm.deleteWeeklyMeetLog(req.body.gid.trim(),req.body.id.trim());
+		return res.sendStatus(200)
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+
+})
 module.exports = router;

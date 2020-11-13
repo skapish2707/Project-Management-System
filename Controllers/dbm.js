@@ -534,6 +534,28 @@ async function deletearchive(admin_id,archive_id){
 	}
 }
 
+async function weeklyMeetLog(gid,date,remark){
+	grp = await Group.findById(gid)
+	grp.weeklyMeetLog.push({date,remark})
+	await grp.save()
+}
+
+async function deleteWeeklyMeetLog(gid,wid){
+	grp = await Group.findById(gid)
+	index = null
+	for(let i = 0 ; i < grp.weeklyMeetLog.length ; ++i){
+		if (grp.weeklyMeetLog[i].id == wid){
+			index = i
+			break
+		}
+	}
+	if(index != null){
+		grp.weeklyMeetLog.splice(index,1)
+		grp.save(function(err){
+			if (err) console.log(err)
+		})
+	}
+}
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
 	email,
@@ -590,4 +612,6 @@ module.exports = {
   deleteAllUsers:deleteAllUsers,
   excel:excel,
   deletearchive:deletearchive,
+  weeklyMeetLog:weeklyMeetLog,
+  deleteWeeklyMeetLog:deleteWeeklyMeetLog,
 };
