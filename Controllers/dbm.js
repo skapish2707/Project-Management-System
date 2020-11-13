@@ -89,7 +89,7 @@ async function addToDatabase(admin,name,rollno,email, department, type, groupNam
 	} 
 	password = makePassword(8);
 	if (admin)
-	  data = {admin_name:"by "+data.admin_name[0].toUpperCase() + data.admin_name.substring(1),email:email,password:password,name:name}
+	  data = {admin_name:"by "+admin[0].toUpperCase() + admin.substring(1),email:email,password:password,name:name}
 	else 
 	  data = {admin_name:"",email:email,password:password,name:name}
 	if(process.env.NODE_ENV == 'production')
