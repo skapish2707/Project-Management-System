@@ -123,6 +123,7 @@ export default function ControlledAccordions(props) {
         setGuideE(Guide.email)
       }
     })
+    return(null)
   }
 
 
@@ -205,8 +206,7 @@ const handleSetDueDate=(date)=>{
 
 // Assign Guide button
 
-  const assignGuide = (e,id) => {  
-    console.log(guide,guideE)
+  const assignGuide = (e,id) => {
     if(guide===null){
       alert("Please select a guide first")
     }else{
@@ -227,7 +227,6 @@ const handleSetDueDate=(date)=>{
         }
       })
       .then(res => {
-        console.log("submitted")
         setAssignLoading(false)
         window.location.reload(false);
       })
@@ -249,6 +248,7 @@ const handleSetDueDate=(date)=>{
     }
   })
   setGuide(null)
+  return(null)
  }
 
 
