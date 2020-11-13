@@ -272,7 +272,7 @@ const handleSetDueDate=(date)=>{
 
   // let e={}
 
-  if(Guides!==null){
+  if(Guides!==null && Guides.length!==0){
     if(guide===null){
       setGuide(Guides[0].name);
       setGuideE(Guides[0].email);
