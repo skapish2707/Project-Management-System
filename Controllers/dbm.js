@@ -19,6 +19,18 @@ mongoose.connect(process.env.uri,{
 		console.log(err);
 	}else{
 		console.log("Connected to database");
+		// Group.find({},function(err,data){
+		// 	data.forEach(function(grp){
+		// 		grp.presentation = []
+		// 		grp.presentation.push({
+		// 			scheduled_date:new Date()
+		// 		})
+		// 		grp.save(function(err){
+		// 			if (err) throw err 
+		// 			console.log(grp.name)
+		// 		})
+		// 	})
+		// })
 	}
 });
 
@@ -162,7 +174,9 @@ async function getStudents(user,by){
 				guide : groups[i].guide,
 				presentation:groups[i].presentation,
 				department:groups[i].department,
-				weeklyMeetLog:groups[i].weeklyMeetLog
+				weeklyMeetLog:groups[i].weeklyMeetLog,
+				report : groups[i].report,
+				implementation : groups[i].implementation
 			})
 		}
 	}
@@ -170,7 +184,17 @@ async function getStudents(user,by){
 }
 
 async function addProposals(student,proposals){
-  await Group.findOneAndUpdate({admin:student.admin,name:student.groupName},{proposals:proposals});
+	grp =  await Group.findOne({admin:student.admin,name:student.groupName})
+	grp.proposals.forEach(function(proposal){
+		fs.unlink(path.join('.','proposal',proposal.attachPrints),function(err){
+		if (err) console.log(err) 
+		console.log("deleted proposals")
+		})
+	})
+	grp.proposals = proposals
+	await grp.save()
+
+	// await Group.findOneAndUpdate({admin:student.admin,name:student.groupName},{proposals:proposals});
 }
 
 async function addComment(staff,groupId,msg){
@@ -224,7 +248,9 @@ async function getGuideGroups(user){
 		acadYear:groups[i].acadYear,
 		presentation:groups[i].presentation,
 		comments:groups[i].comments,
-		weeklyMeetLog:groups[i].weeklyMeetLog
+		weeklyMeetLog:groups[i].weeklyMeetLog,
+		report : groups[i].report,
+		implementation : groups[i].implementation,
 	  })
   }
   return list_groups
@@ -237,15 +263,19 @@ async function presentation(gid,datetime){
   }) 
   await grp.save()
 }
-async function updateMarks(gid,pid,marks){
-  grp = await Group.findById(gid)
-  for(let i = 0 ;i < grp.presentation.length ; ++i){
+async function updateMarks(gid,pid,orgMarks,subKnowMarks,EODMarks,timeMarks){
+	grp = await Group.findById(gid)
+	for(let i = 0 ;i < grp.presentation.length ; ++i){
 	if(grp.presentation[i]._id == pid){
-	  grp.presentation[i].marks = marks
+	  grp.presentation[i].orgMarks = orgMarks
+	  grp.presentation[i].subKnowMarks = subKnowMarks
+	  grp.presentation[i].EODMarks = EODMarks
+	  grp.presentation[i].timeMarks = timeMarks
+	  grp.presentation[i].filled = true
 	  break
 	}
-  }
-  await grp.save()
+	}
+	await grp.save()
 }
 async function deletePresentation(gid,pid){
   grp = await Group.findById(gid)
@@ -337,7 +367,9 @@ async function getGroup(student){
 		dueDate:group.dueDate,
 		acadYear:group.acadYear,
 		presentation:group.presentation,
-		weeklyMeetLog:group.weeklyMeetLog
+		weeklyMeetLog:group.weeklyMeetLog,
+		report : group.report,
+		implementation : group.implementation
 	}
 }
 
@@ -556,6 +588,48 @@ async function deleteWeeklyMeetLog(gid,wid){
 		})
 	}
 }
+
+async function reportMarks(gid,orgAndWriting,enggTheoryAnaly,biblogrpahy,spellAndGrammar ,diagrams){
+	grp = await Group.findById(gid)
+	grp.report.orgAndWriting = orgAndWriting
+	grp.report.enggTheoryAnaly = enggTheoryAnaly
+	grp.report.biblogrpahy = biblogrpahy
+	grp.report.spellAndGrammar = spellAndGrammar
+	grp.report.diagrams = diagrams
+	grp.report.filled = true
+	await grp.save()
+}
+async function deleteReportMarks(gid){
+	grp = await Group.findById(gid)
+	grp.report.orgAndWriting = 0
+	grp.report.enggTheoryAnaly = 0
+	grp.report.biblogrpahy = 0
+	grp.report.spellAndGrammar = 0
+	grp.report.diagrams = 0
+	grp.report.filled = false
+	await grp.save()
+}
+async function implementationMarks(gid,probStatment,concept,innovation,teamwork,pmf){
+	grp = await Group.findById(gid)
+	grp.implementation.probStatment = probStatment
+	grp.implementation.concept = concept
+	grp.implementation.innovation = innovation
+	grp.implementation.teamwork = teamwork
+	grp.implementation.pmf = pmf
+	grp.implementation.filled = true
+	await grp.save()
+}
+
+async function deleteImplementationMarks(gid){
+	grp = await Group.findById(gid)
+	grp.implementation.probStatment = 0
+	grp.implementation.concept = 0
+	grp.implementation.innovation = 0
+	grp.implementation.teamwork = 0
+	grp.implementation.pmf = 0
+	grp.implementation.filled = false
+	await grp.save()	
+}
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
 	email,
@@ -614,4 +688,8 @@ module.exports = {
   deletearchive:deletearchive,
   weeklyMeetLog:weeklyMeetLog,
   deleteWeeklyMeetLog:deleteWeeklyMeetLog,
+  reportMarks:reportMarks,
+  deleteReportMarks :deleteReportMarks,
+  implementationMarks : implementationMarks,
+  deleteImplementationMarks : deleteImplementationMarks ,
 };
