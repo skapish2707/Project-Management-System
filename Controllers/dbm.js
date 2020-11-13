@@ -89,7 +89,7 @@ async function addToDatabase(admin,name,rollno,email, department, type, groupNam
 	} 
 	password = makePassword(8);
 	if (admin)
-	  data = {admin_name:"by "+admin.name,email:email,password:password,name:name}
+	  data = {admin_name:"by "+admin.name[0].toUpperCase() + admin.name.substring(1),email:email,password:password,name:name}
 	else 
 	  data = {admin_name:"",email:email,password:password,name:name}
 	if(process.env.NODE_ENV == 'production')
@@ -161,7 +161,8 @@ async function getStudents(user,by){
 				acadYear : groups[i].acadYear,
 				guide : groups[i].guide,
 				presentation:groups[i].presentation,
-				department:groups[i].department
+				department:groups[i].department,
+				weeklyMeetLog:groups[i].weeklyMeetLog
 			})
 		}
 	}
@@ -222,7 +223,8 @@ async function getGuideGroups(user){
 		dueDate:groups[i].dueDate,
 		acadYear:groups[i].acadYear,
 		presentation:groups[i].presentation,
-		comments:groups[i].comments
+		comments:groups[i].comments,
+		weeklyMeetLog:groups[i].weeklyMeetLog
 	  })
   }
   return list_groups
@@ -334,7 +336,8 @@ async function getGroup(student){
 		proposals :group.proposals,
 		dueDate:group.dueDate,
 		acadYear:group.acadYear,
-		presentation:group.presentation
+		presentation:group.presentation,
+		weeklyMeetLog:group.weeklyMeetLog
 	}
 }
 
