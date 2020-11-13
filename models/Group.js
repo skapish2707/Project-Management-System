@@ -9,7 +9,7 @@ var groupSchema  = new mongoose.Schema({
 	members : [{
 		name : String,
 		email : String,
-		rollno : String,
+		rollno : Number,
 	}],
 	comments : [{
 		author : String,
@@ -40,12 +40,33 @@ var groupSchema  = new mongoose.Schema({
 	},
 	presentation : [{
 		scheduled_date : {type :Date },
-		marks : {type:String,default:null},
+		filled : {type : Boolean ,default:false},
+		orgMarks : {type:Number,default:0},
+		subKnowMarks : {type:Number,default:0},
+		EODMarks : {type:Number,default:0},
+		timeMarks : {type:Number,default:0}
 	}],
 	weeklyMeetLog : [{
 		scheduled_date:{type:Date},
 		remark : {type:String,default:null}
-	}]
+	}],
+	report : {
+		filled : {type : Boolean ,default:false},
+		orgAndWriting : {type:Number,default:0},
+		enggTheoryAnaly: {type:Number,default:0},
+		biblogrpahy: {type:Number,default:0},
+		spellAndGrammar : {type:Number,default:0},
+		diagrams : {type:Number,default:0}
+	},
+	implementation :{
+		filled : {type : Boolean ,default:false},
+		probStatment : {type:Number,default:0},
+		concept : {type:Number,default:0},
+		innovation : {type:Number,default:0},
+		teamwork : {type:Number,default:0},
+		pmf : {type:Number,default:0}
+	}
+
 });
 
 var Group = mongoose.model('Group',groupSchema);
