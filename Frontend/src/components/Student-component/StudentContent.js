@@ -192,10 +192,8 @@ class StudentContent extends Component {
         prefs[i].Top = e.target.value;
         //prefs[i]=pref;
         this.setState({ preferences: prefs });
-        // console.log(this.state.preferences);
       }
     }
-    //console.log(this.state.preferences)
   };
 
   handleDosChange = (e, pn) => {
@@ -208,7 +206,6 @@ class StudentContent extends Component {
         this.setState({ preferences: prefs });
       }
     }
-    //console.log(this.state.preferences)
   };
 
   handleDsopChange = (e, cs) => {
@@ -221,7 +218,6 @@ class StudentContent extends Component {
         this.setState({ preferences: prefs });
       }
     }
-    //console.log(this.state.preferences)
   };
 
   handleAgencyChange = (e, cs) => {
@@ -234,7 +230,6 @@ class StudentContent extends Component {
         this.setState({ preferences: prefs });
       }
     }
-    //console.log(this.state.preferences)
   };
 
   handleMtapChange = (e, cs) => {
@@ -247,7 +242,6 @@ class StudentContent extends Component {
         this.setState({ preferences: prefs });
       }
     }
-    //console.log(this.state.preferences)
   };
 
   handleRedChange = (e, cs) => {
@@ -260,7 +254,6 @@ class StudentContent extends Component {
         this.setState({ preferences: prefs });
       }
     }
-    //console.log(this.state.preferences)
   };
 
   handleShrChange = (e, cs) => {
@@ -273,7 +266,6 @@ class StudentContent extends Component {
         this.setState({ preferences: prefs });
       }
     }
-    //console.log(this.state.preferences)
   };
 
   handleFileChange = (e, cs) => {
@@ -289,7 +281,6 @@ class StudentContent extends Component {
   handleClick = (e, pn) => {
     e.preventDefault();
     if (this.state.currentStep === 3) {
-      console.log("HELLO");
       let prefs = [...this.state.preferences];
       for (var i = 0; i < 3; i++) {
         if (i === pn - 1) {
@@ -297,7 +288,6 @@ class StudentContent extends Component {
           prefs[i].filled = true;
           // prefs[i]=pref;
           this.setState({ preferences: prefs });
-          console.log(prefs[i].filled);
           this.handleSubmit(e);
         }
       }
@@ -309,12 +299,9 @@ class StudentContent extends Component {
           prefs[i].filled = true;
           // prefs[i]=pref;
           this.setState({ preferences: prefs });
-          console.log(prefs[i].filled);
         }
       }
     }
-
-    console.log(this.state.preferences);
   };
 
   handleSubmit = e => {
@@ -322,7 +309,6 @@ class StudentContent extends Component {
     let pref1 = this.state.preferences[0];
     let pref2 = this.state.preferences[1];
     let pref3 = this.state.preferences[2];
-    //console.log(pref1);
     let proposals = [
       {
         title: pref1.Top,
@@ -357,7 +343,6 @@ class StudentContent extends Component {
     formData.append("file1", this.state.preferences[0].selectedFile);
     formData.append("file2", this.state.preferences[1].selectedFile);
     formData.append("file3", this.state.preferences[2].selectedFile);
-    console.log(proposals);
     this.setState({ loading: true });
     axios({
       method: "post",
@@ -378,8 +363,6 @@ class StudentContent extends Component {
         this.setState({ openFailure: true, loading: false });
         if (err) throw err;
       });
-
-    console.log(this.state.preferences);
   };
 
   checkData = () => {
@@ -394,11 +377,9 @@ class StudentContent extends Component {
       .then(res => {
         Stu = res.data.proposals.length;
         Proposals = res.data.proposals;
-        //console.log(Proposals);
         pref1 = Proposals[0]
         pref2 = Proposals[1]
         pref3 = Proposals[2]
-        // console.log(pref1)
         this.setState({
           stuData: "new",
           filled: true
@@ -451,7 +432,6 @@ class StudentContent extends Component {
     ) {
       alert("Please enter all the details of the preference");
     } else {
-      // console.log(this.state.preferences);
       this.setState({ open: true });
       this._next(e);
     }
