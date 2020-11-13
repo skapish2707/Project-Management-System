@@ -100,7 +100,7 @@ export default function SideMenu(props) {
       onClick: () => histor.push("/admin/groups")
     },
     {
-      text: "Guides",
+      text: "Faculty",
       icon: <SupervisedUserCircleIcon />,
       onClick: () => histor.push("/admin/guides")
     },

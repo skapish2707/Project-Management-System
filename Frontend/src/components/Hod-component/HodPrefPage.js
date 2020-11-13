@@ -10,13 +10,27 @@ import axios from "axios";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { Grid, Button, TextField, TableContainer, Table, TableHead, TableRow, TableCell, ThemeProvider, Paper, TableBody, createMuiTheme, responsiveFontSizes } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  TextField,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  ThemeProvider,
+  Paper,
+  TableBody,
+  createMuiTheme,
+  responsiveFontSizes
+} from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import { toFirstCharUppercase } from "../ToUpper";
 import Navbar from "../Navbar/Navbar";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import HodCommentPage from "./HodCommentPage";
 
 function Alert(props) {
@@ -33,9 +47,9 @@ let Groups = null;
 const styles = theme => ({
   root: {
     width: "100%",
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
+    "& > * + *": {
+      marginTop: theme.spacing(2)
+    }
   },
   heading: {
     fontSize: theme.typography.pxToRem(18),
@@ -89,7 +103,15 @@ const styles = theme => ({
   }
 });
 
-const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
 
 class HodPrefPage extends Component {
   constructor(props) {
@@ -100,16 +122,16 @@ class HodPrefPage extends Component {
       filled,
       comment: "",
       openSuccess: false,
-      openFailure: false,
+      openFailure: false
     };
   }
-  
+
   commentHandler = e => {
     let comment = e.target.value;
     this.setState(
       {
         comment: comment
-      },
+      }
       // function () {
       //   console.log(this.state.comment);
       // }
@@ -117,7 +139,7 @@ class HodPrefPage extends Component {
   };
 
   handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -125,16 +147,16 @@ class HodPrefPage extends Component {
       openSuccess: false,
       openFailure: false,
       adData: null
-    })
+    });
   };
 
   sendComment(Gid) {
     const { comment } = this.state;
-    if(comment===""){
+    if (comment === "") {
       this.setState({
-        openFailure:true
-      })
-    }else{
+        openFailure: true
+      });
+    } else {
       axios({
         method: "post",
         url: SERVER_URL + "/comment",
@@ -146,25 +168,23 @@ class HodPrefPage extends Component {
         }),
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-           Authorization : 'Bearer '+ localStorage.getItem("access_token") 
-          
+          Authorization: "Bearer " + localStorage.getItem("access_token")
         }
       })
-      .then(response => {
-        this.setState({ openSuccess: true, loading: false });
-        console.log(response);
-        this.setState({
-          comment:"",
-          adData: null
-        });
-      })
+        .then(response => {
+          this.setState({ openSuccess: true, loading: false });
+          console.log(response);
+          this.setState({
+            comment: "",
+            adData: null
+          });
+        })
 
-      .catch(err => {
-        this.setState({ openFailure: true, loading: false });
-        console.log(err);
-      });
+        .catch(err => {
+          this.setState({ openFailure: true, loading: false });
+          console.log(err);
+        });
     }
-    
   }
 
   checkData() {
@@ -172,8 +192,8 @@ class HodPrefPage extends Component {
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
       withCredentials: true,
-      headers : {
-        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     })
       .then(res => {
@@ -202,8 +222,7 @@ class HodPrefPage extends Component {
       }),
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
-
+        Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     })
       .then(response => {
@@ -231,8 +250,13 @@ class HodPrefPage extends Component {
     const { expanded } = this.state;
     const Group = location.state.Group;
     const Gid = Group.id;
-    let Presentations = Group.presentation
-    Presentations.sort((a,b)=>(new Date(a.scheduled_date).getTime()>new Date(b.scheduled_date).getTime())?1:-1)
+    let Presentations = Group.presentation;
+    Presentations.sort((a, b) =>
+      new Date(a.scheduled_date).getTime() >
+      new Date(b.scheduled_date).getTime()
+        ? 1
+        : -1
+    );
 
     if (this.state.adData === null) {
       this.checkData();
@@ -245,7 +269,7 @@ class HodPrefPage extends Component {
             {Groups.map(group => {
               if (group.id === Group.id) {
                 let Proposals = group.proposals;
-                let Comments =group.comments;
+                let Comments = group.comments;
                 return (
                   <div key={group.id}>
                     <Grid container spacing={2} className={classes.grid}>
@@ -260,9 +284,10 @@ class HodPrefPage extends Component {
                       let approval = proposal.approval;
                       let pid = proposal._id;
                       let Gid = Group.id;
-                      let appliedDate = new Date(proposal.applied)
+                      let appliedDate = new Date(proposal.applied);
                       return (
-                        <Accordion key={proposal._id}
+                        <Accordion
+                          key={proposal._id}
                           expanded={expanded === panel}
                           onChange={this.handleChange(panel)}
                         >
@@ -318,25 +343,35 @@ class HodPrefPage extends Component {
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Detailed Statement of Problem:&nbsp;&nbsp;</b>
+                                  <b>
+                                    Detailed Statement of Problem:&nbsp;&nbsp;
+                                  </b>
                                   {proposal.details}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Internal Agency/External Agency/CTL/Mastek/or any other:&nbsp;&nbsp;</b>
+                                  <b>
+                                    Internal Agency/External
+                                    Agency/CTL/Mastek/or any other:&nbsp;&nbsp;
+                                  </b>
                                   {proposal.agency}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Methods/Technique/Algorithm proposed:&nbsp;&nbsp;</b>
+                                  <b>
+                                    Methods/Technique/Algorithm
+                                    proposed:&nbsp;&nbsp;
+                                  </b>
                                   {proposal.method}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  <b>Software/Hardware Requirements:&nbsp;&nbsp;</b>
+                                  <b>
+                                    Software/Hardware Requirements:&nbsp;&nbsp;
+                                  </b>
                                   {proposal.requirements}
                                 </Typography>
                               </Grid>
@@ -356,28 +391,34 @@ class HodPrefPage extends Component {
                               <Grid item xs={12}>
                                 <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
-                                  {appliedDate.getDate()}/{appliedDate.getMonth()+1}/{appliedDate.getFullYear()}
+                                  {appliedDate.getDate()}/
+                                  {appliedDate.getMonth() + 1}/
+                                  {appliedDate.getFullYear()}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
                                 {approval.admin ? (
                                   <Typography>
-                                    <b>Admin approval status:&nbsp;&nbsp;</b>Approved
+                                    <b>Admin approval status:&nbsp;&nbsp;</b>
+                                    Approved
                                   </Typography>
                                 ) : (
                                   <Typography>
-                                    <b>Admin approval status:&nbsp;&nbsp;</b>not approved
+                                    <b>Admin approval status:&nbsp;&nbsp;</b>not
+                                    approved
                                   </Typography>
                                 )}
                               </Grid>
                               <Grid item xs={12}>
                                 {approval.hod ? (
                                   <Typography>
-                                    <b>HOD approval status:&nbsp;&nbsp;</b>Approved
+                                    <b>HOD approval status:&nbsp;&nbsp;</b>
+                                    Approved
                                   </Typography>
                                 ) : (
                                   <Typography>
-                                    <b>HOD approval status:&nbsp;&nbsp;</b>not approved
+                                    <b>HOD approval status:&nbsp;&nbsp;</b>not
+                                    approved
                                   </Typography>
                                 )}
                               </Grid>
@@ -450,146 +491,215 @@ class HodPrefPage extends Component {
                         </Accordion>
                       );
                     })}
-                    {(Presentations.length!==0)?(
-                        <React.Fragment>
-                          <ThemeProvider theme={theme}>
-                              <Typography style={{marginTop:"20px"}} variant="h4">Presentation Details</Typography>
-                              <TableContainer
-                                  style={{ backgroundColor: "#d3d3d3" }}
-                                  className={classes.tableContainer}
-                                  component={Paper}
-                              >
-                                  <Table
-                                  className={classes.table}
-                                  size="small"
-                                  aria-label="a dense table"
-                                  >
-                                      <TableHead>
-                                          <TableRow>
-                                          <TableCell align="center">No.</TableCell>
-                                          <TableCell align="center">Date</TableCell>
-                                          <TableCell align="center">Day</TableCell>
-                                          <TableCell align="center">Time</TableCell>
-                                          <TableCell align="center">Marks</TableCell>
-                                          </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                          {Presentations.map((Presentation,index) => (
-                                          <TableRow key={Presentation._id}>
-                                              <TableCell align="center">{index+1}</TableCell>
-                                              <TableCell align="center">{new Date(Presentation.scheduled_date).getDate()}/{new Date(Presentation.scheduled_date).getMonth()+1}/{new Date(Presentation.scheduled_date).getFullYear()}</TableCell>
-                                              <TableCell align="center">{days[new Date(Presentation.scheduled_date).getDay()]}</TableCell>
-                                              {(new Date(Presentation.scheduled_date).getHours()>12)?(
-                                                  <TableCell align="center">
-                                                      {new Date(Presentation.scheduled_date).getHours()-12}:{new Date(Presentation.scheduled_date).getMinutes()} pm 
-                                                  </TableCell>
-                                              ):(
-                                                  <TableCell align="center">
-                                                      {new Date(Presentation.scheduled_date).getHours()}:{new Date(Presentation.scheduled_date).getMinutes()} am 
-                                                  </TableCell>
-                                              )}
-                                              {(Presentation.marks===null)?(
-                                                  <React.Fragment>
-                                                      {new Date(Presentation.scheduled_date).getTime()>Date.now()?(
-                                                          <TableCell align="center">
-                                                              Presentation Not conducted
-                                                          </TableCell>
-                                                      ):(
-                                                          <TableCell align="center">
-                                                              <Typography style={{fontSize:"12"}} color="secondary">
-                                                                  Presentation Missing
-                                                              </Typography>
-                                                          </TableCell>
-                                                      )}
-                                                  </React.Fragment>
-                                              ):(
-                                                  <TableCell align="center">
-                                                      {Presentation.marks}
-                                                  </TableCell>
-                                              )}
-                                          </TableRow>
-                                          ))}
-                                      </TableBody>
-                                  </Table>
-                              </TableContainer>
-                          </ThemeProvider>
-                        </React.Fragment>
-                    ):(
-                        <React.Fragment>
-                          <Typography style={{marginTop:"20px"}} variant="h4">
-                            Presentations
+                    {Presentations.length !== 0 ? (
+                      <React.Fragment>
+                        <ThemeProvider theme={theme}>
+                          <Typography
+                            style={{ marginTop: "20px" }}
+                            variant="h4"
+                          >
+                            Presentation Details
                           </Typography>
-                          <Typography>
-                              No Presentations have been scheduled.
-                          </Typography>
-                        </React.Fragment>
-                    )}
-                    <Grid container className={classes.comment}>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        md={3}
-                        className={classes.comTitle}
-                      >
-                        <Typography>
-                          <b>Add Comments:</b>
+                          <TableContainer
+                            style={{ backgroundColor: "#d3d3d3" }}
+                            className={classes.tableContainer}
+                            component={Paper}
+                          >
+                            <Table
+                              className={classes.table}
+                              size="small"
+                              aria-label="a dense table"
+                            >
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell align="center">No.</TableCell>
+                                  <TableCell align="center">Date</TableCell>
+                                  <TableCell align="center">Day</TableCell>
+                                  <TableCell align="center">Time</TableCell>
+                                  <TableCell align="center">Marks</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {Presentations.map((Presentation, index) => (
+                                  <TableRow key={Presentation._id}>
+                                    <TableCell align="center">
+                                      {index + 1}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {new Date(
+                                        Presentation.scheduled_date
+                                      ).getDate()}
+                                      /
+                                      {new Date(
+                                        Presentation.scheduled_date
+                                      ).getMonth() + 1}
+                                      /
+                                      {new Date(
+                                        Presentation.scheduled_date
+                                      ).getFullYear()}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      {
+                                        days[
+                                          new Date(
+                                            Presentation.scheduled_date
+                                          ).getDay()
+                                        ]
+                                      }
+                                    </TableCell>
+                                    {new Date(
+                                      Presentation.scheduled_date
+                                    ).getHours() > 12 ? (
+                                      <TableCell align="center">
+                                        {new Date(
+                                          Presentation.scheduled_date
+                                        ).getHours() - 12}
+                                        :
+                                        {new Date(
+                                          Presentation.scheduled_date
+                                        ).getMinutes()}{" "}
+                                        pm
+                                      </TableCell>
+                                    ) : (
+                                      <TableCell align="center">
+                                        {new Date(
+                                          Presentation.scheduled_date
+                                        ).getHours()}
+                                        :
+                                        {new Date(
+                                          Presentation.scheduled_date
+                                        ).getMinutes()}{" "}
+                                        am
+                                      </TableCell>
+                                    )}
+                                    {Presentation.marks === null ? (
+                                      <React.Fragment>
+                                        {new Date(
+                                          Presentation.scheduled_date
+                                        ).getTime() > Date.now() ? (
+                                          <TableCell align="center">
+                                            Presentation Not conducted
+                                          </TableCell>
+                                        ) : (
+                                          <TableCell align="center">
+                                            <Typography
+                                              style={{ fontSize: "12" }}
+                                              color="secondary"
+                                            >
+                                              Presentation Missing
+                                            </Typography>
+                                          </TableCell>
+                                        )}
+                                      </React.Fragment>
+                                    ) : (
+                                      <TableCell align="center">
+                                        {Presentation.marks}
+                                      </TableCell>
+                                    )}
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </ThemeProvider>
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <Typography style={{ marginTop: "20px" }} variant="h4">
+                          Presentations
                         </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={6}>
-                        <TextField
-                          className={classes.comField}
-                          variant="outlined"
-                          component={"span"}
-                          multiline
-                          inputProps={{ style: { fontSize: 14 } }}
-                          rows={3}
-                          id="comment"
-                          name="comment"
-                          type="text"
-                          value={this.state.comment}
-                          onChange={this.commentHandler}
-                        />
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        md={3}
-                        className={classes.comButton}
-                      >
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => {
-                            this.sendComment(Gid);
-                          }}
+                        <Typography>
+                          No Presentations have been scheduled.
+                        </Typography>
+                      </React.Fragment>
+                    )}
+                    <div
+                      style={{
+                        backgroundColor: "#e0e0e0",
+                        padding: "0px 30px",
+                        margin: "50px auto",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <Grid container className={classes.comment}>
+                        <Grid item xs={12} style={{ marginBottom: "30px" }}>
+                          <Typography
+                            variant="h2"
+                            style={{ textAlign: "left", fontWeight: "400" }}
+                          >
+                            Comments
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comTitle}
                         >
-                          Send Comment
-                        </Button>
-                        <Snackbar
-                        open={this.state.openSuccess}
-                        autoHideDuration={6000}
-                        onClose={this.handleClose}
-                      >
-                        <Alert onClose={this.handleClose} severity="success">
-                          Successful comment
-                        </Alert>
-                      </Snackbar>
-                      <Snackbar
-                        open={this.state.openFailure}
-                        autoHideDuration={6000}
-                        onClose={this.handleClose}
-                      >
-                        <Alert onClose={this.handleClose} severity="error">
-                          Unsuccessful. Comment cannot be empty
-                        </Alert>
-                      </Snackbar>
+                          <Typography>
+                            <b>Add Comments:</b>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6}>
+                          <TextField
+                            className={classes.comField}
+                            variant="outlined"
+                            component={"span"}
+                            multiline
+                            inputProps={{ style: { fontSize: 14 } }}
+                            rows={3}
+                            id="comment"
+                            name="comment"
+                            type="text"
+                            value={this.state.comment}
+                            onChange={this.commentHandler}
+                          />
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comButton}
+                        >
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              this.sendComment(Gid);
+                            }}
+                          >
+                            Send Comment
+                          </Button>
+                          <Snackbar
+                            open={this.state.openSuccess}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert
+                              onClose={this.handleClose}
+                              severity="success"
+                            >
+                              Successful comment
+                            </Alert>
+                          </Snackbar>
+                          <Snackbar
+                            open={this.state.openFailure}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert onClose={this.handleClose} severity="error">
+                              Unsuccessful. Comment cannot be empty
+                            </Alert>
+                          </Snackbar>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12}>
+                          <HodCommentPage Comments={Comments} />
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12}>
-                        <HodCommentPage Comments={Comments}/>
-                      </Grid>
-                    </Grid>
+                    </div>
                   </div>
                 );
               } else return null;

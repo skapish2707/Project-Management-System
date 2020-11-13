@@ -138,8 +138,8 @@ class AdminArchives extends Component {
       }
     })
       .then(res => {
-        console.log(res);
         archData = res.data.data;
+        console.log(res.data.data);
         this.setState(
           {
             archiveData: res.data.data
@@ -284,6 +284,35 @@ class AdminArchives extends Component {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                   <div style={{ width: "100%" }}>
+                                    <Card
+                                      style={{ backgroundColor: "#d3d3d3" }}
+                                    >
+                                      <Grid container>
+                                        <Grid item>
+                                          <Typography
+                                            style={{
+                                              margin: "10px 15px",
+                                              textAlign: "left"
+                                            }}
+                                          >
+                                            Guide Details:
+                                          </Typography>
+                                        </Grid>
+                                        <Grid item>
+                                          <Typography
+                                            style={{
+                                              margin: "10px 15px",
+                                              textAlign: "left"
+                                            }}
+                                          >
+                                            {group.guide.name}&nbsp;
+                                            {"  "}
+                                            <b>{group.guide.email}</b>
+                                          </Typography>
+                                        </Grid>
+                                      </Grid>
+                                    </Card>
+
                                     <Accordion className={classes.accorStyle}>
                                       <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
