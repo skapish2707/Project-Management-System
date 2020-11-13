@@ -161,7 +161,8 @@ async function getStudents(user,by){
 				acadYear : groups[i].acadYear,
 				guide : groups[i].guide,
 				presentation:groups[i].presentation,
-				department:groups[i].department
+				department:groups[i].department,
+				weeklyMeetLog:groups[i].weeklyMeetLog
 			})
 		}
 	}
@@ -222,7 +223,8 @@ async function getGuideGroups(user){
 		dueDate:groups[i].dueDate,
 		acadYear:groups[i].acadYear,
 		presentation:groups[i].presentation,
-		comments:groups[i].comments
+		comments:groups[i].comments,
+		weeklyMeetLog:groups[i].weeklyMeetLog
 	  })
   }
   return list_groups
@@ -334,7 +336,8 @@ async function getGroup(student){
 		proposals :group.proposals,
 		dueDate:group.dueDate,
 		acadYear:group.acadYear,
-		presentation:group.presentation
+		presentation:group.presentation,
+		weeklyMeetLog:group.weeklyMeetLog
 	}
 }
 

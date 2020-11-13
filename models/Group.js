@@ -41,6 +41,10 @@ var groupSchema  = new mongoose.Schema({
 	presentation : [{
 		scheduled_date : {type :Date },
 		marks : {type:String,default:null},
+	}],
+	weeklyMeetLog : [{
+		scheduled_date:{type:Date},
+		remark : {type:String,default:null}
 	}]
 });
 
