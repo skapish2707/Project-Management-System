@@ -428,7 +428,7 @@ class HodPrefPage extends Component {
                                   color="primary"
                                   onClick={() => {
                                     window.open(
-                                      `http://localhost:8000/${proposal.attachPrints}`
+                                      `${SERVER_URL}/${proposal.attachPrints}`
                                     );
                                   }}
                                 >
