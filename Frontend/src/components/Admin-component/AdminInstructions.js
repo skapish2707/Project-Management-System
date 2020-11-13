@@ -4,7 +4,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Image from "./sample.PNG";
-import {Grid} from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   root: {
     textAlign: "left",
@@ -64,7 +63,7 @@ export default function Profile(props) {
           3. The first row of the file should be <b>name,rollno,email,group_name </b>
              actual values should start from second row 
         </Typography><br/>
-        <img src={Image} className ={classes.image}/><br/>
+        <img src={Image} className ={classes.image} alt="sample"/><br/>
         <Typography className={classes.title}>
           4. On submitting the form you will create a list mentioned in the file
           and will give authorities to emails mentioned by you
