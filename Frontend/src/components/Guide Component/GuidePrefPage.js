@@ -24,6 +24,7 @@ import Navbar from "../Navbar/Navbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import HodCommentPage from "../Hod-component/HodCommentPage";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -147,11 +148,9 @@ class HodPrefPage extends Component {
 
   commentHandler = e => {
     let comment = e.target.value;
-    this.setState(
-      {
-        comment: comment
-      }
-    );
+    this.setState({
+      comment: comment
+    });
   };
 
   handleClose = (event, reason) => {
@@ -213,7 +212,9 @@ class HodPrefPage extends Component {
     })
       .then(res => {
         Ad = res.data.length;
+
         Groups = res.data;
+        console.log(Groups[0].weeklyMeetLog);
         this.setState({
           adData: "new",
           filled: true
@@ -259,9 +260,19 @@ class HodPrefPage extends Component {
   };
 
   handleMarkSubmit = (e, groupID, presentationID) => {
-    if (parseInt(this.state.timeMarks, 10) > 2 || parseInt(this.state.orgMarks, 10) > 2 || parseInt(this.state.eodMarks, 10) > 2 || parseInt(this.state.subKnowMarks, 10) > 2) {
+    if (
+      parseInt(this.state.timeMarks, 10) > 2 ||
+      parseInt(this.state.orgMarks, 10) > 2 ||
+      parseInt(this.state.eodMarks, 10) > 2 ||
+      parseInt(this.state.subKnowMarks, 10) > 2
+    ) {
       alert("Entered marks greater than max marks. Please re-enter");
-      this.setState({ timeMarks: null, orgMarks: null, eodMarks:null,subKnowMarks:null });
+      this.setState({
+        timeMarks: null,
+        orgMarks: null,
+        eodMarks: null,
+        subKnowMarks: null
+      });
     } else {
       axios({
         method: "post",
@@ -271,10 +282,10 @@ class HodPrefPage extends Component {
         data: qs.stringify({
           gid: groupID,
           pid: presentationID,
-          orgMarks:this.state.orgMarks,
-          subKnowMarks:this.state.subKnowMarks,
-          EODMarks:this.state.eodMarks,
-          timeMarks:this.state.timeMarks
+          orgMarks: this.state.orgMarks,
+          subKnowMarks: this.state.subKnowMarks,
+          EODMarks: this.state.eodMarks,
+          timeMarks: this.state.timeMarks
         }),
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -345,6 +356,8 @@ class HodPrefPage extends Component {
                 let Presentations = group.presentation;
                 let Proposals = group.proposals;
                 let Comments = group.comments;
+                let weeklyLog = group.weeklyMeetLog;
+                console.log(weeklyLog);
                 Presentations.sort((a, b) =>
                   new Date(a.scheduled_date).getTime() >
                   new Date(b.scheduled_date).getTime()
@@ -572,11 +585,99 @@ class HodPrefPage extends Component {
                         </Accordion>
                       );
                     })}
+                    <div
+                      style={{
+                        backgroundColor: "#e0e0e0",
+                        padding: "0px 30px",
+                        margin: "50px auto",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <Grid container className={classes.comment}>
+                        <Grid item xs={12} style={{ marginBottom: "30px" }}>
+                          <Typography
+                            variant="h2"
+                            style={{ textAlign: "left", fontWeight: "400" }}
+                          >
+                            Comments
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comTitle}
+                        >
+                          <Typography>
+                            <b>Add Comments:</b>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6}>
+                          <TextField
+                            className={classes.comField}
+                            variant="outlined"
+                            component={"span"}
+                            multiline
+                            inputProps={{ style: { fontSize: 14 } }}
+                            rows={3}
+                            id="comment"
+                            name="comment"
+                            type="text"
+                            value={this.state.comment}
+                            onChange={this.commentHandler}
+                          />
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comButton}
+                        >
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              this.sendComment(Gid);
+                            }}
+                          >
+                            Send Comment
+                          </Button>
+                          <Snackbar
+                            open={this.state.openSuccess}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert
+                              onClose={this.handleClose}
+                              severity="success"
+                            >
+                              Successful comment
+                            </Alert>
+                          </Snackbar>
+                          <Snackbar
+                            open={this.state.openFailure}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert onClose={this.handleClose} severity="error">
+                              Unsuccessful. Comment cannot be empty
+                            </Alert>
+                          </Snackbar>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12}>
+                          <HodCommentPage Comments={Comments} />
+                        </Grid>
+                      </Grid>
+                    </div>
                     <Card
                       style={{
                         marginTop: "50px",
                         backgroundColor: "#e0e0e0",
-                        padding: "20px"
+                        padding: "20px",
+                        marginBottom: "50px"
                       }}
                     >
                       <Grid style={{ marginTop: "20px" }} container>
@@ -765,7 +866,9 @@ class HodPrefPage extends Component {
                                                   value={this.state.timeMarks}
                                                   variant="outlined"
                                                   label="Time Management(3)"
-                                                  onChange={this.handleTimeMarks}
+                                                  onChange={
+                                                    this.handleTimeMarks
+                                                  }
                                                   style={{
                                                     margin: "10px 0px",
                                                     backgroundColor: "#fff"
@@ -788,7 +891,7 @@ class HodPrefPage extends Component {
                                                   style={{
                                                     margin: "10px 0px",
                                                     backgroundColor: "#fff",
-                                                    padding:"0 4px"
+                                                    padding: "0 4px"
                                                   }}
                                                 />
                                               </Grid>
@@ -816,7 +919,9 @@ class HodPrefPage extends Component {
                                                 <TextField
                                                   size="small"
                                                   type="number"
-                                                  value={this.state.subKnowMarks}
+                                                  value={
+                                                    this.state.subKnowMarks
+                                                  }
                                                   variant="outlined"
                                                   label="Subject Knowledge(2)"
                                                   onChange={
@@ -861,22 +966,27 @@ class HodPrefPage extends Component {
                                               <Grid container>
                                                 <Grid item xs={3}>
                                                   <Typography>
-                                                    Organisation:&nbsp;{presentation.orgMarks}
+                                                    Organisation:&nbsp;
+                                                    {presentation.orgMarks}
                                                   </Typography>
                                                 </Grid>
                                                 <Grid item xs={3}>
                                                   <Typography>
-                                                    Subject Knowledge:&nbsp;{presentation.subKnowMarks}
+                                                    Subject Knowledge:&nbsp;
+                                                    {presentation.subKnowMarks}
                                                   </Typography>
                                                 </Grid>
                                                 <Grid item xs={3}>
                                                   <Typography>
-                                                    Effectiveness of Delivery:&nbsp;{presentation.EODMarks}
+                                                    Effectiveness of
+                                                    Delivery:&nbsp;
+                                                    {presentation.EODMarks}
                                                   </Typography>
                                                 </Grid>
                                                 <Grid item xs={3}>
                                                   <Typography>
-                                                    Time Management:&nbsp;{presentation.timeMarks}
+                                                    Time Management:&nbsp;
+                                                    {presentation.timeMarks}
                                                   </Typography>
                                                 </Grid>
                                               </Grid>
@@ -887,7 +997,12 @@ class HodPrefPage extends Component {
                                               style={{ textAlign: "right" }}
                                             >
                                               <Typography>
-                                                Marks Obtained:&nbsp;{presentation.orgMarks+presentation.subKnowMarks+presentation.EODMarks+presentation.timeMarks}/10
+                                                Marks Obtained:&nbsp;
+                                                {presentation.orgMarks +
+                                                  presentation.subKnowMarks +
+                                                  presentation.EODMarks +
+                                                  presentation.timeMarks}
+                                                /10
                                               </Typography>
                                             </Grid>
                                             <Grid
@@ -945,6 +1060,7 @@ class HodPrefPage extends Component {
                         </Grid>
                       </Grid>
                     </Card>
+                    {/* WEEKLY LOG */}
                     <div
                       style={{
                         backgroundColor: "#e0e0e0",
@@ -954,81 +1070,70 @@ class HodPrefPage extends Component {
                           "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
                       }}
                     >
-                      <Grid container className={classes.comment}>
-                        <Grid item xs={12} style={{ marginBottom: "30px" }}>
-                          <Typography
-                            variant="h2"
-                            style={{ textAlign: "left", fontWeight: "400" }}
-                          >
-                            Comments
-                          </Typography>
+                      <Grid container>
+                        <Grid item xs={12} sm={6}>
+                          <Typography variant="h3">Weekly Log</Typography>
                         </Grid>
                         <Grid
                           item
                           xs={12}
-                          sm={12}
-                          md={3}
-                          className={classes.comTitle}
+                          sm={6}
+                          style={{ backgroundColor: "#fff" }}
                         >
-                          <Typography>
-                            <b>Add Comments:</b>
-                          </Typography>
+                          <form>
+                            <TextField
+                              type="datetime-local"
+                              id="logDate"
+                              name="logDate"
+                              label="Select Date"
+                              variant="outlined"
+                              InputLabelProps={{
+                                shrink: true
+                              }}
+                            />
+                            <TextField
+                              type="text"
+                              id="logMsg"
+                              name="logMsg"
+                              label="Add log text"
+                              variant="outlined"
+                            />
+                            <Button variant="contained" color="primary">
+                              Add Log
+                            </Button>
+                          </form>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={6}>
-                          <TextField
-                            className={classes.comField}
-                            variant="outlined"
-                            component={"span"}
-                            multiline
-                            inputProps={{ style: { fontSize: 14 } }}
-                            rows={3}
-                            id="comment"
-                            name="comment"
-                            type="text"
-                            value={this.state.comment}
-                            onChange={this.commentHandler}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          sm={12}
-                          md={3}
-                          className={classes.comButton}
-                        >
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              this.sendComment(Gid);
-                            }}
-                          >
-                            Send Comment
-                          </Button>
-                          <Snackbar
-                            open={this.state.openSuccess}
-                            autoHideDuration={6000}
-                            onClose={this.handleClose}
-                          >
-                            <Alert
-                              onClose={this.handleClose}
-                              severity="success"
-                            >
-                              Successful comment
-                            </Alert>
-                          </Snackbar>
-                          <Snackbar
-                            open={this.state.openFailure}
-                            autoHideDuration={6000}
-                            onClose={this.handleClose}
-                          >
-                            <Alert onClose={this.handleClose} severity="error">
-                              Unsuccessful. Comment cannot be empty
-                            </Alert>
-                          </Snackbar>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={12}>
-                          <HodCommentPage Comments={Comments} />
+                        <Grid item xs={12} style={{ margin: "20px 0px" }}>
+                          {weeklyLog ? (
+                            weeklyLog.map(log => {
+                              return (
+                                <Card
+                                  key={log._id}
+                                  style={{
+                                    borderRadius: "0px",
+                                    padding: "10px",
+                                    margin: "2px 0px"
+                                  }}
+                                >
+                                  <Grid container>
+                                    <Grid item xs={12} sm={5}>
+                                      <Typography>{log.remark}</Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={5}>
+                                      <Typography>
+                                        {log.scheduled_date}
+                                      </Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                      <DeleteIcon />
+                                    </Grid>
+                                  </Grid>
+                                </Card>
+                              );
+                            })
+                          ) : (
+                            <Typography>No logs Yet</Typography>
+                          )}
                         </Grid>
                       </Grid>
                     </div>
