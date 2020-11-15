@@ -108,15 +108,15 @@ class HodPrefPage extends Component {
       openFailure: false,
       scheduleLoading: false,
       dateTime: "",
-      marks: "",
-      totalMarks: ""
+      orgMarks: "",
+      eodMarks: "",
+      timeMarks: "",
+      subKnowMarks: ""
     };
   }
 
   sche_pres = (e, id) => {
     let dt = new Date(this.state.dateTime);
-    console.log(dt.toISOString());
-    console.log(this.state.dateTime);
     this.setState({ scheduleLoading: true });
     axios({
       method: "post",
@@ -132,7 +132,6 @@ class HodPrefPage extends Component {
       }
     })
       .then(res => {
-        console.log("SCHEDULED");
         this.setState({ scheduleLoading: false });
       })
 
@@ -144,7 +143,6 @@ class HodPrefPage extends Component {
 
   handleDateTimeChange = e => {
     this.setState({ dateTime: e.target.value });
-    //console.log(dateTime)
   };
 
   commentHandler = e => {
@@ -153,9 +151,6 @@ class HodPrefPage extends Component {
       {
         comment: comment
       }
-      // function () {
-      //   console.log(this.state.comment);
-      // }
     );
   };
 
@@ -194,7 +189,6 @@ class HodPrefPage extends Component {
       })
         .then(response => {
           this.setState({ openSuccess: true, loading: false });
-          console.log(response);
           this.setState({
             comment: "",
             adData: null
@@ -231,7 +225,6 @@ class HodPrefPage extends Component {
   }
 
   handleApprove = (pid, id) => {
-    console.log(pid, id);
     axios({
       method: "post",
       url: SERVER_URL + "/approve",
@@ -266,11 +259,9 @@ class HodPrefPage extends Component {
   };
 
   handleMarkSubmit = (e, groupID, presentationID) => {
-    console.log(this.state.marks);
-    console.log(this.state.totalMarks);
-    if (parseInt(this.state.marks, 10) > parseInt(this.state.totalMarks, 10)) {
-      alert("Marks obtained cannot be greater than max marks");
-      this.setState({ marks: "", totalMarks: "" });
+    if (parseInt(this.state.timeMarks, 10) > 2 || parseInt(this.state.orgMarks, 10) > 2 || parseInt(this.state.eodMarks, 10) > 2 || parseInt(this.state.subKnowMarks, 10) > 2) {
+      alert("Entered marks greater than max marks. Please re-enter");
+      this.setState({ timeMarks: null, orgMarks: null, eodMarks:null,subKnowMarks:null });
     } else {
       axios({
         method: "post",
@@ -280,7 +271,10 @@ class HodPrefPage extends Component {
         data: qs.stringify({
           gid: groupID,
           pid: presentationID,
-          marks: this.state.marks + "/" + this.state.totalMarks
+          orgMarks:this.state.orgMarks,
+          subKnowMarks:this.state.subKnowMarks,
+          EODMarks:this.state.eodMarks,
+          timeMarks:this.state.timeMarks
         }),
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -288,7 +282,6 @@ class HodPrefPage extends Component {
         }
       })
         .then(response => {
-          console.log("Marks submitted");
           this.setState({ marks: "", totalMarks: "" });
           window.location.reload();
         })
@@ -299,11 +292,17 @@ class HodPrefPage extends Component {
     }
   };
 
-  handleMarks = e => {
-    this.setState({ marks: e.target.value });
+  handleOrgMarks = e => {
+    this.setState({ orgMarks: e.target.value });
   };
-  handleTotalMarks = e => {
-    this.setState({ totalMarks: e.target.value });
+  handleSubKnowMarks = e => {
+    this.setState({ subKnowMarks: e.target.value });
+  };
+  handleTimeMarks = e => {
+    this.setState({ timeMarks: e.target.value });
+  };
+  handleEodMarks = e => {
+    this.setState({ eodMarks: e.target.value });
   };
 
   handleDeletePresentation = (e, PID, GID) => {
@@ -321,7 +320,6 @@ class HodPrefPage extends Component {
       }
     })
       .then(res => {
-        console.log("Deleted");
         window.location.reload();
       })
 
@@ -606,7 +604,6 @@ class HodPrefPage extends Component {
                                   backgroundColor: "#fff"
                                 }}
                               >
-                                {" "}
                                 <TextField
                                   id="datetime-local"
                                   label="Next Presentation"
@@ -633,7 +630,6 @@ class HodPrefPage extends Component {
                                   backgroundColor: "#fff"
                                 }}
                               >
-                                {" "}
                                 {!this.state.scheduleLoading ? (
                                   <Button
                                     type="submit"
@@ -673,7 +669,7 @@ class HodPrefPage extends Component {
                                             <b>Presentation {index + 1}</b>
                                           </Typography>
                                         </Grid>
-                                        {presentation.marks === null ? (
+                                        {!presentation.filled ? (
                                           <React.Fragment>
                                             {d.getTime() > Date.now() ? (
                                               <React.Fragment>
@@ -744,7 +740,7 @@ class HodPrefPage extends Component {
                                             {d.getMonth() + 1}/{d.getFullYear()}
                                           </React.Fragment>
                                         </Grid>
-                                        {presentation.marks === null &&
+                                        {!presentation.filled &&
                                         d.getTime() <= Date.now() ? (
                                           <Grid
                                             item
@@ -759,31 +755,72 @@ class HodPrefPage extends Component {
                                             <Grid container>
                                               <Grid
                                                 item
-                                                xs={4}
+                                                xs={12}
+                                                md={4}
                                                 style={{ textAlign: "right" }}
                                               >
                                                 <TextField
                                                   size="small"
                                                   type="number"
-                                                  value={this.state.marks}
+                                                  value={this.state.timeMarks}
                                                   variant="outlined"
-                                                  label="Marks obtained"
-                                                  onChange={this.handleMarks}
+                                                  label="Time Management(3)"
+                                                  onChange={this.handleTimeMarks}
                                                   style={{
                                                     margin: "10px 0px",
                                                     backgroundColor: "#fff"
                                                   }}
                                                 />
                                               </Grid>
-                                              <Grid item xs={4}>
+                                              <Grid
+                                                item
+                                                md={4}
+                                                xs={12}
+                                                // style={{ textAlign: "right" }}
+                                              >
                                                 <TextField
                                                   size="small"
                                                   type="number"
-                                                  value={this.state.totalMarks}
+                                                  value={this.state.eodMarks}
                                                   variant="outlined"
-                                                  label="Total Marks"
+                                                  label="Effectiveness of Delivery(3)"
+                                                  onChange={this.handleEodMarks}
+                                                  style={{
+                                                    margin: "10px 0px",
+                                                    backgroundColor: "#fff",
+                                                    padding:"0 4px"
+                                                  }}
+                                                />
+                                              </Grid>
+                                              <Grid item xs={false} md={4} />
+                                              <Grid
+                                                item
+                                                md={4}
+                                                xs={12}
+                                                style={{ textAlign: "right" }}
+                                              >
+                                                <TextField
+                                                  size="small"
+                                                  type="number"
+                                                  value={this.state.orgMarks}
+                                                  variant="outlined"
+                                                  label="Organization(2)"
+                                                  onChange={this.handleOrgMarks}
+                                                  style={{
+                                                    margin: "10px 0px",
+                                                    backgroundColor: "#fff"
+                                                  }}
+                                                />
+                                              </Grid>
+                                              <Grid item xs={12} md={4}>
+                                                <TextField
+                                                  size="small"
+                                                  type="number"
+                                                  value={this.state.subKnowMarks}
+                                                  variant="outlined"
+                                                  label="Subject Knowledge(2)"
                                                   onChange={
-                                                    this.handleTotalMarks
+                                                    this.handleSubKnowMarks
                                                   }
                                                   style={{
                                                     margin: "10px 0px",
@@ -791,7 +828,7 @@ class HodPrefPage extends Component {
                                                   }}
                                                 />
                                               </Grid>
-                                              <Grid item xs={4}>
+                                              <Grid item xs={12} md={4}>
                                                 <Button
                                                   size="large"
                                                   variant="contained"
@@ -811,24 +848,51 @@ class HodPrefPage extends Component {
                                             </Grid>
                                           </Grid>
                                         ) : null}
-                                        {presentation.marks !== null ? (
+                                        {presentation.filled ? (
                                           <React.Fragment>
                                             <Grid
                                               item
-                                              xs={3}
+                                              xs={10}
                                               style={{
                                                 border: "4px solid #d3d3d3",
                                                 padding: "12px"
                                               }}
                                             >
-                                              <Typography variant="h6">
-                                                Marks Obtained:&nbsp;
-                                                {presentation.marks}
+                                              <Grid container>
+                                                <Grid item xs={3}>
+                                                  <Typography>
+                                                    Organisation:&nbsp;{presentation.orgMarks}
+                                                  </Typography>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                  <Typography>
+                                                    Subject Knowledge:&nbsp;{presentation.subKnowMarks}
+                                                  </Typography>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                  <Typography>
+                                                    Effectiveness of Delivery:&nbsp;{presentation.EODMarks}
+                                                  </Typography>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                  <Typography>
+                                                    Time Management:&nbsp;{presentation.timeMarks}
+                                                  </Typography>
+                                                </Grid>
+                                              </Grid>
+                                            </Grid>
+                                            <Grid
+                                              item
+                                              xs={6}
+                                              style={{ textAlign: "right" }}
+                                            >
+                                              <Typography>
+                                                Marks Obtained:&nbsp;{presentation.orgMarks+presentation.subKnowMarks+presentation.EODMarks+presentation.timeMarks}/10
                                               </Typography>
                                             </Grid>
                                             <Grid
                                               item
-                                              xs={7}
+                                              xs={6}
                                               style={{ textAlign: "right" }}
                                             >
                                               <Button

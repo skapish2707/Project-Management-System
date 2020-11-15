@@ -49,8 +49,10 @@ const StudentPresentation = (props) => {
                                     <TableRow>
                                     <TableCell align="center">No.</TableCell>
                                     <TableCell align="center">Date</TableCell>
-                                    <TableCell align="center">Day</TableCell>
-                                    <TableCell align="center">Time</TableCell>
+                                    <TableCell align="center">Organisation</TableCell>
+                                    <TableCell align="center">Subject Knowledge</TableCell>
+                                    <TableCell align="center">Effectiveness of delivery</TableCell>
+                                    <TableCell align="center">Time Management</TableCell>
                                     <TableCell align="center">Marks</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -59,34 +61,48 @@ const StudentPresentation = (props) => {
                                     <TableRow key={Presentation._id}>
                                         <TableCell align="center">{index+1}</TableCell>
                                         <TableCell align="center">{new Date(Presentation.scheduled_date).getDate()}/{new Date(Presentation.scheduled_date).getMonth()+1}/{new Date(Presentation.scheduled_date).getFullYear()}</TableCell>
-                                        <TableCell align="center">{days[new Date(Presentation.scheduled_date).getDay()]}</TableCell>
-                                        {(new Date(Presentation.scheduled_date).getHours()>12)?(
-                                            <TableCell align="center">
-                                                {new Date(Presentation.scheduled_date).getHours()-12}:{new Date(Presentation.scheduled_date).getMinutes()} pm 
-                                            </TableCell>
-                                        ):(
-                                            <TableCell align="center">
-                                                {new Date(Presentation.scheduled_date).getHours()}:{new Date(Presentation.scheduled_date).getMinutes()} am 
-                                            </TableCell>
-                                        )}
-                                        {(Presentation.marks===null)?(
+                                        {(!Presentation.filled)?(
                                             <React.Fragment>
                                                 {new Date(Presentation.scheduled_date).getTime()>Date.now()?(
-                                                    <TableCell align="center">
-                                                        Presentation Not conducted
-                                                    </TableCell>
+                                                    <React.Fragment>
+                                                        <TableCell align="center">-</TableCell>
+                                                        <TableCell align="center">-</TableCell>
+                                                        <TableCell align="center">-</TableCell>
+                                                        <TableCell align="center">-</TableCell>
+                                                        <TableCell align="center">Presentation Not conducted</TableCell>
+                                                    </React.Fragment>
                                                 ):(
-                                                    <TableCell align="center">
-                                                        <Typography style={{fontSize:"12"}} color="secondary">
-                                                            Presentation missing
-                                                        </Typography>
-                                                    </TableCell>
+                                                    <React.Fragment>
+                                                        <TableCell align="center">-</TableCell>
+                                                        <TableCell align="center">-</TableCell>
+                                                        <TableCell align="center">-</TableCell>
+                                                        <TableCell align="center">-</TableCell>
+                                                        <TableCell align="center">
+                                                            <Typography style={{fontSize:"12"}} color="secondary">
+                                                                Presentation missing
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </React.Fragment>
                                                 )}
                                             </React.Fragment>
                                         ):(
-                                            <TableCell align="center">
-                                                {Presentation.marks}
-                                            </TableCell>
+                                            <React.Fragment>
+                                                <TableCell align="center">
+                                                    {Presentation.orgMarks}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {Presentation.subKnowMarks}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {Presentation.EODMarks}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {Presentation.timeMarks}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {Presentation.orgMarks+Presentation.timeMarks+Presentation.EODMarks+Presentation.subKnowMarks}/10
+                                                </TableCell>
+                                            </React.Fragment>
                                         )}
                                     </TableRow>
                                     ))}
