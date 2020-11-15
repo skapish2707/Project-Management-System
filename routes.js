@@ -541,4 +541,21 @@ router.post('/deleteImplementation',authenticateToken,async function(req,res){
 		res.sendStatus(500)
 	}
 })
+
+router.get('/submissionList',authenticateToken,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'admin') return res.sendStatus(401)
+	try {
+		var fileName = 'Submission List.xlsx';
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+		workbook = await dbm.submissionList(req.user.id)
+		await workbook.xlsx.write(res);
+		res.end();
+	}catch(e){
+		console.log(e)
+		res.sendStatus(500)
+	}
+})
+
 module.exports = router;
