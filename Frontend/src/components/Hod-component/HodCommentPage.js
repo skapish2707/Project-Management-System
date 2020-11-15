@@ -41,7 +41,6 @@ const HodCommentPage = props => {
   const comments = props.Comments;
   //console.log(comments);
   if (comments.length === 0) {
-    console.log(comments.length);
     return (
       <React.Fragment>
         <Typography variant="h4">No comments have been added</Typography>
