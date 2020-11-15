@@ -549,6 +549,67 @@ async function excel(admin_id){
 	return workbook
 }
 
+
+async function submissionList(admin_id){
+	grps = await Group.find({admin:admin_id})
+	if (!grps) return
+	students = []
+	grps.forEach(function(grp){
+		report = grp.report.orgAndWriting + grp.report.enggTheoryAnaly + grp.report.biblogrpahy + grp.report.spellAndGrammar + grp.report.diagrams
+		implementation = grp.implementation.probStatment + grp.implementation.concept + grp.implementation.innovation + grp.implementation.teamwork + grp.implementation.pmf
+		attendance = Math.round(grp.weeklyMeetLog.length/13*10)
+		presentation = 0
+		grp.presentation.forEach(function(p){
+			presentation += (p.orgMarks + p.subKnowMarks + p.EODMarks + p.timeMarks)
+		})
+		total = report + presentation + implementation +attendance
+		grp.members.forEach(function(m){
+			s = {
+				rollno:m.rollno,
+				name:m.name,
+				report:report,
+				presentation:presentation,
+				implementation:implementation,
+				attendance:attendance,
+				total:total
+			}
+			students.push(s)
+		})
+	})
+	students.sort(function(a,b){return (a.rollno>b.rollno)?1:-1})
+	
+	workbook = new ExcelJS.Workbook()
+	worksheet = workbook.addWorksheet('Project List')
+	worksheet.columns = [
+		{header:'Roll No',key:'rollno',width:10,style: { font: { name: 'Times New Roman' } }},
+		{header:'Name of student',key:'name',width:25,style: { font: { name: 'Times New Roman' } }},
+		{header:'Report',key:'report',width:10,style: { font: { name: 'Times New Roman' } }},
+		{header:'Presentation',key:'presentation',width:15,style: { font: { name: 'Times New Roman' } }},
+		{header:'Implementation',key:'implementation',width:15,style: { font: { name: 'Times New Roman' } }},
+		{header:'Attendance',key:'attendance',width:15,style: { font: { name: 'Times New Roman' } }},
+		{header:'Total',key:'total',width:10,style: { font: { name: 'Times New Roman' } }}
+	]
+	students.forEach((s)=>{
+		worksheet.addRow(s)
+	})
+	worksheet.getRow(1).eachCell(function(cell){
+		cell.font = {name: 'Times New Roman',bold:true}
+	})
+	worksheet.eachRow(function(row){
+		row.eachCell(function(cell){
+			cell.alignment = { vertical: 'middle', horizontal: 'center' };
+			cell.border = {
+				top: {style:'thin'},
+				left: {style:'thin'},
+				bottom: {style:'thin'},
+				right: {style:'thin'}
+			}
+		})
+	})
+	await workbook.xlsx.writeFile('Submission List.xlsx')
+	return workbook
+}
+
 async function deletearchive(admin_id,archive_id){
 	arc = await Archive.findOne({admin:admin_id})
 	index = null
@@ -692,4 +753,5 @@ module.exports = {
   deleteReportMarks :deleteReportMarks,
   implementationMarks : implementationMarks,
   deleteImplementationMarks : deleteImplementationMarks ,
+  submissionList:submissionList
 };
