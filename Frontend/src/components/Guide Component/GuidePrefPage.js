@@ -112,9 +112,167 @@ class HodPrefPage extends Component {
       orgMarks: "",
       eodMarks: "",
       timeMarks: "",
-      subKnowMarks: ""
+      subKnowMarks: "",
+      probStatement: "",
+      concept: "",
+      innovation: "",
+      pmf: "",
+      teamWork: "",
+      bibliography: "",
+      diagram: "",
+      enggTheoryAnaly: "",
+      orgAndWriting: "",
+      spellAndGrammar: ""
     };
   }
+
+  handleBibliography = (e) =>{
+    this.setState({bibliography:e.target.value})
+  }
+  handleProbStatement = (e) =>{
+    this.setState({probStatement:e.target.value})
+  }
+  handleConcept = (e) => {
+    this.setState({concept:e.target.value})
+  }
+  handleSpellAndGrammar = (e) => {
+    this.setState({spellAndGrammar:e.target.value})
+  }
+  handleOrgAndWriting = (e) => {
+    this.setState({orgAndWriting:e.target.value})
+  }
+  handleEngTheoryAnaly = (e) => {
+    this.setState({enggTheoryAnaly:e.target.value})
+  }
+  handleDiagram = (e) => {
+    this.setState({diagram:e.target.value})
+  }
+  handleTeamWork = (e) => {
+    this.setState({teamWork:e.target.value})
+  }
+  handlePMF = (e) => {
+    this.setState({pmf:e.target.value})
+  }
+  handleInnovation = (e) => {
+    this.setState({innovation:e.target.value})
+  }
+
+  handleReportSubmit = (e,id) => {
+    if(((this.state.bibliography>3)||(this.state.diagram>3)||(this.state.enggTheoryAnaly>3)||(this.state.orgAndWriting>3)||(this.state.spellAndGrammar>3))||
+    ((this.state.bibliography==="")||(this.state.diagram==="")||(this.state.enggTheoryAnaly==="")||(this.state.orgAndWriting==="")||(this.state.spellAndGrammar===""))){
+      alert("Please enter appropriate marks")
+    }else{
+      axios({
+        method: "post",
+        url: SERVER_URL + "/report",
+        withCredentials: true,
+        data: qs.stringify({
+          gid: id,
+          orgAndWriting:this.state.orgAndWriting,
+          enggTheoryAnaly:this.state.enggTheoryAnaly,
+          biblogrpahy:this.state.bibliography,
+          spellAndGrammar:this.state.spellAndGrammar,
+          diagrams:this.state.diagram
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization: "Bearer " + localStorage.getItem("access_token")
+        }
+      })
+      .then(res => {
+        this.setState({ bibliography:"",diagram:"",spellAndGrammar:"",enggTheoryAnaly:"",orgAndWriting:"" });
+        window.location.reload()
+      })
+
+      .catch(function (err) {
+        console.log(err);
+        this.setState({ bibliography:"",diagram:"",spellAndGrammar:"",enggTheoryAnaly:"",orgAndWriting:"" });
+      });
+    }
+  }
+
+  handleDeleteReport = (e,id) => {
+    axios({
+      method: "post",
+      url: SERVER_URL + "/deleteReport",
+      withCredentials: true,
+      data: qs.stringify({
+        gid: id
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    })
+    .then(res => {
+      this.setState({ bibliography:"",diagram:"",spellAndGrammar:"",enggTheoryAnaly:"",orgAndWriting:"" });
+      window.location.reload()
+    })
+
+    .catch(function (err) {
+      console.log(err);
+      this.setState({ bibliography:"",diagram:"",spellAndGrammar:"",enggTheoryAnaly:"",orgAndWriting:"" });
+    });
+  }
+
+  handleImplementationSubmit = (e,id) => {
+    if(((this.state.concept>3)||(this.state.teamWork>3)||(this.state.pmf>3)||(this.state.innovation>3)||(this.state.probStatment>3))||
+    ((this.state.concept==="")||(this.state.teamWork==="")||(this.state.pmf==="")||(this.state.innovation==="")||(this.state.probStatment===""))){
+      alert("Please enter appropriate marks")
+    }else{
+      axios({
+        method: "post",
+        url: SERVER_URL + "/implementation",
+        withCredentials: true,
+        data: qs.stringify({
+          gid: id,
+          probStatment:this.state.probStatement,
+          concept:this.state.concept,
+          innovation:this.state.innovation,
+          teamwork:this.state.teamWork,
+          pmf:this.state.pmf
+        }),
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization: "Bearer " + localStorage.getItem("access_token")
+        }
+      })
+      .then(res => {
+        this.setState({ probStatement:"",concept:"",innovation:"",teamWork:"",pmf:"" });
+        window.location.reload()
+      })
+
+      .catch(function (err) {
+        console.log(err);
+        this.setState({ probStatement:"",concept:"",innovation:"",teamWork:"",pmf:"" });
+      });
+    }
+  }
+
+  handleDeleteImplementation = (e,id) => {
+    axios({
+      method: "post",
+      url: SERVER_URL + "/deleteImplementation",
+      withCredentials: true,
+      data: qs.stringify({
+        gid: id
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    })
+    .then(res => {
+      this.setState({ probStatement:"",concept:"",innovation:"",teamWork:"",pmf:"" });
+      window.location.reload()
+    })
+
+    .catch(function (err) {
+      console.log(err);
+      this.setState({ probStatement:"",concept:"",innovation:"",teamWork:"",pmf:"" });
+    });
+  }
+
 
   sche_pres = (e, id) => {
     let dt = new Date(this.state.dateTime);
@@ -214,7 +372,6 @@ class HodPrefPage extends Component {
         Ad = res.data.length;
 
         Groups = res.data;
-        console.log(Groups[0].weeklyMeetLog);
         this.setState({
           adData: "new",
           filled: true
@@ -357,7 +514,8 @@ class HodPrefPage extends Component {
                 let Proposals = group.proposals;
                 let Comments = group.comments;
                 let weeklyLog = group.weeklyMeetLog;
-                console.log(weeklyLog);
+                let implementation = group.implementation;
+                let report = group.report
                 Presentations.sort((a, b) =>
                   new Date(a.scheduled_date).getTime() >
                   new Date(b.scheduled_date).getTime()
@@ -585,93 +743,6 @@ class HodPrefPage extends Component {
                         </Accordion>
                       );
                     })}
-                    <div
-                      style={{
-                        backgroundColor: "#e0e0e0",
-                        padding: "0px 30px",
-                        margin: "50px auto",
-                        boxShadow:
-                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
-                      }}
-                    >
-                      <Grid container className={classes.comment}>
-                        <Grid item xs={12} style={{ marginBottom: "30px" }}>
-                          <Typography
-                            variant="h2"
-                            style={{ textAlign: "left", fontWeight: "400" }}
-                          >
-                            Comments
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          sm={12}
-                          md={3}
-                          className={classes.comTitle}
-                        >
-                          <Typography>
-                            <b>Add Comments:</b>
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6}>
-                          <TextField
-                            className={classes.comField}
-                            variant="outlined"
-                            component={"span"}
-                            multiline
-                            inputProps={{ style: { fontSize: 14 } }}
-                            rows={3}
-                            id="comment"
-                            name="comment"
-                            type="text"
-                            value={this.state.comment}
-                            onChange={this.commentHandler}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          sm={12}
-                          md={3}
-                          className={classes.comButton}
-                        >
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              this.sendComment(Gid);
-                            }}
-                          >
-                            Send Comment
-                          </Button>
-                          <Snackbar
-                            open={this.state.openSuccess}
-                            autoHideDuration={6000}
-                            onClose={this.handleClose}
-                          >
-                            <Alert
-                              onClose={this.handleClose}
-                              severity="success"
-                            >
-                              Successful comment
-                            </Alert>
-                          </Snackbar>
-                          <Snackbar
-                            open={this.state.openFailure}
-                            autoHideDuration={6000}
-                            onClose={this.handleClose}
-                          >
-                            <Alert onClose={this.handleClose} severity="error">
-                              Unsuccessful. Comment cannot be empty
-                            </Alert>
-                          </Snackbar>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={12}>
-                          <HodCommentPage Comments={Comments} />
-                        </Grid>
-                      </Grid>
-                    </div>
                     <Card
                       style={{
                         marginTop: "50px",
@@ -1060,6 +1131,260 @@ class HodPrefPage extends Component {
                         </Grid>
                       </Grid>
                     </Card>
+                    {/* Report marks */}
+                    <div
+                      style={{
+                        backgroundColor: "#e0e0e0",
+                        padding: "0px 30px",
+                        margin: "50px auto",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <Typography variant="h3">Report</Typography>
+                        </Grid>
+                        <Grid item xs={12} style={{ margin: "20px 0px" }}>
+                          {report.filled?(
+                            <Card style={{ borderRadius: "0px", padding: "10px", margin: "2px 0px" }}>
+                              <Grid container>
+                                <Grid item xs={4}>
+                                  <Typography>
+                                    Organisation and writing style : {report.orgAndWriting}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                  <Typography>
+                                    Engineering Theory and Analysis : {report.enggTheoryAnaly}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                  <Typography>
+                                    Use of Bibliography : {report.biblogrpahy}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                  <Typography>
+                                    Spelling and Grammar : {report.spellAndGrammar}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                  <Typography>
+                                    Graphs/Diagram : {report.diagrams}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                  <Typography>
+                                    Total : {report.orgAndWriting+report.enggTheoryAnaly+report.biblogrpahy+report.spellAndGrammar+report.diagrams}/15
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12} style={{textAlign:"right"}}>
+                                    <Button onClick={(e)=>{this.handleDeleteReport(e,Gid)}} variant="contained" color="secondary">Delete</Button>
+                                </Grid>
+                              </Grid>
+                            </Card>
+                          ):(
+                            <Card style={{ borderRadius: "0px", padding: "10px", margin: "2px 0px" }}>
+                              {/* <form> */}
+                                <Grid container>
+                                  <Grid item xs={4} style={{margin:"5px 0"}}>
+                                    <TextField
+                                      type="number"
+                                      id="Organisation_and_writing_style"
+                                      name="Organisation_and_writing_style"
+                                      label="Organisation and writing style(3)"
+                                      value={this.state.orgAndWriting}
+                                      variant="outlined"
+                                      onChange={this.handleOrgAndWriting}
+                                      required
+                                    />
+                                  </Grid>
+                                  <Grid item xs={4} style={{margin:"5px 0"}}>
+                                    <TextField
+                                      type="text"
+                                      id="Eng_Theory_and_Analysis"
+                                      name="Eng_Theory_and_Analysis"
+                                      label="Engineering Theory and Analysis(3)"
+                                      value={this.state.enggTheoryAnaly}
+                                      variant="outlined"
+                                      onChange={this.handleEngTheoryAnaly}
+                                      required
+                                    />
+                                  </Grid>
+                                  <Grid item xs={4} style={{margin:"5px 0"}}>
+                                    <TextField
+                                      type="text"
+                                      id="Use_of_Bibliography"
+                                      name="Use_of_Bibliography"
+                                      label="Use of Bibliography(3)"
+                                      value={this.state.bibliography}
+                                      variant="outlined"
+                                      onChange={this.handleBibliography}
+                                      required
+                                    />
+                                  </Grid>
+                                  <Grid item xs={4} style={{margin:"5px 0"}}>
+                                    <TextField
+                                      type="text"
+                                      id="Spelling_and_Grammar"
+                                      name="Spelling_and_Grammar"
+                                      label="Spelling and Grammar(3)"
+                                      value={this.state.spellAndGrammar}
+                                      variant="outlined"
+                                      onChange={this.handleSpellAndGrammar}
+                                      required
+                                    />
+                                  </Grid>
+                                  <Grid item xs={4} style={{margin:"5px 0"}}>
+                                    <TextField
+                                      type="text"
+                                      id="Graphs/Diagram"
+                                      name="Graphs/Diagram"
+                                      label="Graphs/Diagram(3)"
+                                      value={this.state.diagram}
+                                      variant="outlined"
+                                      onChange={this.handleDiagram}
+                                      required
+                                    />
+                                  </Grid>
+                                  <Grid item xs={4} style={{margin:"5px 0"}}>
+                                    <Button type="submit" onClick={(e)=>{this.handleReportSubmit(e,Gid)}} variant="contained" color="primary">
+                                      Submit
+                                    </Button>
+                                  </Grid>
+                                </Grid>
+                              {/* </form> */}
+                            </Card>
+                          )}
+                        </Grid>
+                      </Grid>
+                    </div>
+                    {/* Implementation */}
+                    <div
+                      style={{
+                        backgroundColor: "#e0e0e0",
+                        padding: "0px 30px",
+                        margin: "50px auto",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <Typography variant="h3">Implementation</Typography>
+                        </Grid>
+                        <Grid item xs={12} style={{ margin: "20px 0px" }}>
+                          {implementation.filled?(
+                              <Card style={{ borderRadius: "0px", padding: "10px", margin: "2px 0px" }}>
+                                <Grid container>
+                                  <Grid item xs={4}>
+                                    <Typography>
+                                      Problem Statement : {implementation.probStatment}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={4}>
+                                    <Typography>
+                                      Concepts : {implementation.concept}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={4}>
+                                    <Typography>
+                                      Innovation : {implementation.innovation}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={4}>
+                                    <Typography>
+                                      Teamwork : {implementation.teamwork}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={4}>
+                                    <Typography>
+                                      Project Management and Finance : {implementation.pmf}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={4}>
+                                    <Typography>
+                                      Total : {implementation.probStatment+implementation.concept+implementation.innovation+implementation.teamwork+implementation.pmf}/15
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xs={12} style={{textAlign:"right"}}>
+                                    <Button onClick={(e)=>{this.handleDeleteImplementation(e,Gid)}} variant="contained" color="secondary">Delete</Button>
+                                  </Grid>
+                                </Grid>
+                              </Card>
+                            ):(
+                              <Card style={{ borderRadius: "0px", padding: "10px", margin: "2px 0px" }}>
+                                {/* <form > */}
+                                  <Grid container>
+                                    <Grid item xs={4} style={{margin:"5px 0"}}>
+                                      <TextField
+                                        type="number"
+                                        id="Problem_Statement"
+                                        name="Problem_Statement"
+                                        label="Problem Statement(3)"
+                                        variant="outlined"
+                                        onChange={this.handleProbStatement}
+                                        required
+                                      />
+                                    </Grid>
+                                    <Grid item xs={4} style={{margin:"5px 0"}}>
+                                      <TextField
+                                        type="text"
+                                        id="Concepts"
+                                        name="Concepts"
+                                        label="Concepts(3)"
+                                        variant="outlined"
+                                        onChange={this.handleConcept}
+                                        required
+                                      />
+                                    </Grid>
+                                    <Grid item xs={4} style={{margin:"5px 0"}}>
+                                      <TextField
+                                        type="text"
+                                        id="Innovation"
+                                        name="Innovation"
+                                        label="Innovation(3)"
+                                        variant="outlined"
+                                        onChange={this.handleInnovation}
+                                        required
+                                      />
+                                    </Grid>
+                                    <Grid item xs={4} style={{margin:"5px 0"}}>
+                                      <TextField
+                                        type="text"
+                                        id="Teamwork"
+                                        name="Teamwork"
+                                        label="Teamwork(3)"
+                                        variant="outlined"
+                                        onChange={this.handleTeamWork}
+                                        required
+                                      />
+                                    </Grid>
+                                    <Grid item xs={4} style={{margin:"5px 0"}}>
+                                      <TextField
+                                        type="text"
+                                        id="Proj_Management_and_Finance"
+                                        name="Proj_Management_and_Finance"
+                                        label="Project Management and Finance(3)"
+                                        variant="outlined"
+                                        onChange={this.handlePMF}
+                                        required
+                                      />
+                                    </Grid>
+                                    <Grid item xs={4} style={{margin:"5px 0"}}>
+                                      <Button onClick={(e)=>{this.handleImplementationSubmit(e,Gid)}} type="submit" variant="contained" color="primary">
+                                        Submit
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                {/* </form> */}
+                              </Card>
+                            )
+                          }
+                        </Grid>
+                      </Grid>
+                    </div>
                     {/* WEEKLY LOG */}
                     <div
                       style={{
@@ -1134,6 +1459,93 @@ class HodPrefPage extends Component {
                           ) : (
                             <Typography>No logs Yet</Typography>
                           )}
+                        </Grid>
+                      </Grid>
+                    </div>
+                    <div
+                      style={{
+                        backgroundColor: "#e0e0e0",
+                        padding: "0px 30px",
+                        margin: "50px auto",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <Grid container className={classes.comment}>
+                        <Grid item xs={12} style={{ marginBottom: "30px" }}>
+                          <Typography
+                            variant="h2"
+                            style={{ textAlign: "left", fontWeight: "400" }}
+                          >
+                            Comments
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comTitle}
+                        >
+                          <Typography>
+                            <b>Add Comments:</b>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6}>
+                          <TextField
+                            className={classes.comField}
+                            variant="outlined"
+                            component={"span"}
+                            multiline
+                            inputProps={{ style: { fontSize: 14 } }}
+                            rows={3}
+                            id="comment"
+                            name="comment"
+                            type="text"
+                            value={this.state.comment}
+                            onChange={this.commentHandler}
+                          />
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={12}
+                          md={3}
+                          className={classes.comButton}
+                        >
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              this.sendComment(Gid);
+                            }}
+                          >
+                            Send Comment
+                          </Button>
+                          <Snackbar
+                            open={this.state.openSuccess}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert
+                              onClose={this.handleClose}
+                              severity="success"
+                            >
+                              Successful comment
+                            </Alert>
+                          </Snackbar>
+                          <Snackbar
+                            open={this.state.openFailure}
+                            autoHideDuration={6000}
+                            onClose={this.handleClose}
+                          >
+                            <Alert onClose={this.handleClose} severity="error">
+                              Unsuccessful. Comment cannot be empty
+                            </Alert>
+                          </Snackbar>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12}>
+                          <HodCommentPage Comments={Comments} />
                         </Grid>
                       </Grid>
                     </div>
