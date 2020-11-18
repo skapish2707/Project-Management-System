@@ -120,6 +120,7 @@ export default function ControlledAccordions(props) {
   const [changeDuedate, setDueDate] = React.useState(new Date());
   const [DueDateOpen, setDOpen] = React.useState(false);
   const [downLoading, setDownLoading] = React.useState(false);
+  const [SdownLoading, setSDownLoading] = React.useState(false);
   let showButton = false;
 
   const handleGuideChange = e => {
@@ -140,6 +141,33 @@ export default function ControlledAccordions(props) {
     }
     return n;
   };
+
+  //Submission List
+  const downloadSubmissionList = () => {
+    setSDownLoading(true);
+    axios({
+      method: "get",
+      url: SERVER_URL + "/submissionList",
+      responseType: "blob",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    })
+      .then(res => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Submission List.xlsx");
+        document.body.appendChild(link);
+        link.click();
+        setSDownLoading(false);
+      })
+      .catch(err => {
+        setSDownLoading(false);
+        console.log(err);
+      });
+  };
+
   const downloadProjectList = () => {
     setDownLoading(true);
     axios({
@@ -606,7 +634,40 @@ export default function ControlledAccordions(props) {
                 }
                 return null;
               })}
+
               <React.Fragment>
+                {/* SUBMISSION LIST BUTTON */}
+                {SdownLoading ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.downloadButton}
+                    style={{ maxWidth: "153.24px", maxHeight: "40px" }}
+                  >
+                    <CircularProgress
+                      size="2rem"
+                      color="white"
+                      style={{ padding: "0 40px" }}
+                    />
+                  </Button>
+                ) : (
+                  <React.Fragment>
+                    {showButton ? (
+                      <React.Fragment>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          className={classes.downloadButton}
+                          startIcon={<CloudDownload />}
+                          onClick={downloadSubmissionList}
+                        >
+                          Submission List
+                        </Button>
+                      </React.Fragment>
+                    ) : null}
+                  </React.Fragment>
+                )}
+
                 {downLoading ? (
                   <Button
                     variant="contained"
@@ -630,6 +691,7 @@ export default function ControlledAccordions(props) {
                           className={classes.downloadButton}
                           startIcon={<CloudDownload />}
                           onClick={downloadProjectList}
+                          style={{ marginRight: "20px" }}
                         >
                           Project List
                         </Button>
