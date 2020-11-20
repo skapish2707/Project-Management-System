@@ -929,15 +929,16 @@ class HodPrefPage extends Component {
                     <Card
                       style={{
                         marginTop: "50px",
-                        backgroundColor: "#e0e0e0",
+                        backgroundColor: "#d8d8d8",
                         padding: "20px",
+                        paddingTop: "0px",
                         marginBottom: "50px"
                       }}
                     >
                       <Grid style={{ marginTop: "20px" }} container>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} style={{ textAlign: "left" }}>
                           <Typography
-                            style={{ marginBottom: "20px" }}
+                            style={{ marginBottom: "20px", marginLeft: "20px" }}
                             variant="h3"
                           >
                             Presentation
@@ -1108,12 +1109,7 @@ class HodPrefPage extends Component {
                                             }}
                                           >
                                             <Grid container>
-                                              <Grid
-                                                item
-                                                xs={12}
-                                                md={4}
-                                                style={{ textAlign: "right" }}
-                                              >
+                                              <Grid item>
                                                 <TextField
                                                   size="small"
                                                   type="number"
@@ -1124,15 +1120,14 @@ class HodPrefPage extends Component {
                                                     this.handleTimeMarks
                                                   }
                                                   style={{
-                                                    margin: "10px 0px",
+                                                    margin: "10px 5px",
                                                     backgroundColor: "#fff"
                                                   }}
                                                 />
                                               </Grid>
                                               <Grid
                                                 item
-                                                md={4}
-                                                xs={12}
+
                                                 // style={{ textAlign: "right" }}
                                               >
                                                 <TextField
@@ -1140,22 +1135,16 @@ class HodPrefPage extends Component {
                                                   type="number"
                                                   value={this.state.eodMarks}
                                                   variant="outlined"
-                                                  label="Effectiveness of Delivery(3)"
+                                                  label="Effectiveness(3) "
                                                   onChange={this.handleEodMarks}
                                                   style={{
-                                                    margin: "10px 0px",
-                                                    backgroundColor: "#fff",
-                                                    padding: "0 4px"
+                                                    margin: "10px 5px",
+                                                    backgroundColor: "#fff"
                                                   }}
                                                 />
                                               </Grid>
-                                              <Grid item xs={false} md={4} />
-                                              <Grid
-                                                item
-                                                md={4}
-                                                xs={12}
-                                                style={{ textAlign: "right" }}
-                                              >
+
+                                              <Grid item>
                                                 <TextField
                                                   size="small"
                                                   type="number"
@@ -1164,12 +1153,12 @@ class HodPrefPage extends Component {
                                                   label="Organization(2)"
                                                   onChange={this.handleOrgMarks}
                                                   style={{
-                                                    margin: "10px 0px",
+                                                    margin: "10px 5px",
                                                     backgroundColor: "#fff"
                                                   }}
                                                 />
                                               </Grid>
-                                              <Grid item xs={12} md={4}>
+                                              <Grid item>
                                                 <TextField
                                                   size="small"
                                                   type="number"
@@ -1182,12 +1171,12 @@ class HodPrefPage extends Component {
                                                     this.handleSubKnowMarks
                                                   }
                                                   style={{
-                                                    margin: "10px 0px",
+                                                    margin: "10px 5px",
                                                     backgroundColor: "#fff"
                                                   }}
                                                 />
                                               </Grid>
-                                              <Grid item xs={12} md={4}>
+                                              <Grid item>
                                                 <Button
                                                   size="large"
                                                   variant="contained"
@@ -1199,7 +1188,10 @@ class HodPrefPage extends Component {
                                                       presentation._id
                                                     );
                                                   }}
-                                                  style={{ margin: "10px 0px" }}
+                                                  style={{
+                                                    margin: "10px 0px",
+                                                    marginLeft: "15px"
+                                                  }}
                                                 >
                                                   Submit Marks
                                                 </Button>
@@ -1214,17 +1206,18 @@ class HodPrefPage extends Component {
                                               xs={10}
                                               style={{
                                                 border: "4px solid #d3d3d3",
-                                                padding: "12px"
+                                                padding: "12px",
+                                                textAlign: "center"
                                               }}
                                             >
                                               <Grid container>
-                                                <Grid item xs={3}>
+                                                <Grid item xs={2}>
                                                   <Typography>
                                                     Organisation:&nbsp;
                                                     {presentation.orgMarks}
                                                   </Typography>
                                                 </Grid>
-                                                <Grid item xs={3}>
+                                                <Grid item xs={2}>
                                                   <Typography>
                                                     Subject Knowledge:&nbsp;
                                                     {presentation.subKnowMarks}
@@ -1237,31 +1230,30 @@ class HodPrefPage extends Component {
                                                     {presentation.EODMarks}
                                                   </Typography>
                                                 </Grid>
-                                                <Grid item xs={3}>
+                                                <Grid item xs={2}>
                                                   <Typography>
                                                     Time Management:&nbsp;
                                                     {presentation.timeMarks}
                                                   </Typography>
                                                 </Grid>
+                                                <Grid item xs={3}>
+                                                  <Typography>
+                                                    <b>
+                                                      Total Marks:
+                                                      {presentation.orgMarks +
+                                                        presentation.subKnowMarks +
+                                                        presentation.EODMarks +
+                                                        presentation.timeMarks}
+                                                      /10
+                                                    </b>
+                                                  </Typography>
+                                                </Grid>
                                               </Grid>
                                             </Grid>
+
                                             <Grid
                                               item
-                                              xs={6}
-                                              style={{ textAlign: "right" }}
-                                            >
-                                              <Typography>
-                                                Marks Obtained:&nbsp;
-                                                {presentation.orgMarks +
-                                                  presentation.subKnowMarks +
-                                                  presentation.EODMarks +
-                                                  presentation.timeMarks}
-                                                /10
-                                              </Typography>
-                                            </Grid>
-                                            <Grid
-                                              item
-                                              xs={6}
+                                              xs={12}
                                               style={{ textAlign: "right" }}
                                             >
                                               <Button
@@ -1315,59 +1307,63 @@ class HodPrefPage extends Component {
                       </Grid>
                     </Card>
                     {/* Report marks */}
-                    <div
+                    <Card
                       style={{
-                        backgroundColor: "#e0e0e0",
+                        backgroundColor: "#d8d8d8",
                         padding: "0px 30px",
-                        margin: "50px auto",
-                        boxShadow:
-                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                        margin: "50px auto"
                       }}
                     >
                       <Grid container>
-                        <Grid item xs={12}>
-                          <Typography variant="h3">Report</Typography>
+                        <Grid
+                          item
+                          xs={12}
+                          style={{
+                            textAlign: "left",
+                            margin: "20px 0px 0px 20px"
+                          }}
+                        >
+                          <Typography variant="h3">Report Marks</Typography>
                         </Grid>
                         <Grid item xs={12} style={{ margin: "20px 0px" }}>
                           {report.filled ? (
                             <Card
                               style={{
-                                borderRadius: "0px",
                                 padding: "10px",
                                 margin: "2px 0px"
                               }}
                             >
                               <Grid container>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Organisation and writing style :{" "}
                                     {report.orgAndWriting}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Engineering Theory and Analysis :{" "}
                                     {report.enggTheoryAnaly}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Use of Bibliography : {report.biblogrpahy}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Spelling and Grammar :{" "}
                                     {report.spellAndGrammar}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Graphs/Diagram : {report.diagrams}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h5">
                                     Total :{" "}
                                     {report.orgAndWriting +
                                       report.enggTheoryAnaly +
@@ -1404,67 +1400,168 @@ class HodPrefPage extends Component {
                             >
                               {/* <form> */}
                               <Grid container>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="number"
-                                    id="Organisation_and_writing_style"
-                                    name="Organisation_and_writing_style"
-                                    label="Organisation and writing style(3)"
-                                    value={this.state.orgAndWriting}
-                                    variant="outlined"
-                                    onChange={this.handleOrgAndWriting}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Organisation and writing style
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{
+                                        textAlign: "left"
+                                      }}
+                                    >
+                                      <TextField
+                                        type="number"
+                                        id="Organisation_and_writing_style"
+                                        name="Organisation_and_writing_style"
+                                        label="(3)"
+                                        value={this.state.orgAndWriting}
+                                        variant="outlined"
+                                        onChange={this.handleOrgAndWriting}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="text"
-                                    id="Eng_Theory_and_Analysis"
-                                    name="Eng_Theory_and_Analysis"
-                                    label="Engineering Theory and Analysis(3)"
-                                    value={this.state.enggTheoryAnaly}
-                                    variant="outlined"
-                                    onChange={this.handleEngTheoryAnaly}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Engineering Theory and Analysis:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{
+                                        textAlign: "left"
+                                      }}
+                                    >
+                                      <TextField
+                                        type="number"
+                                        id="Eng_Theory_and_Analysis"
+                                        name="Eng_Theory_and_Analysis"
+                                        label="(3)"
+                                        value={this.state.enggTheoryAnaly}
+                                        variant="outlined"
+                                        onChange={this.handleEngTheoryAnaly}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="text"
-                                    id="Use_of_Bibliography"
-                                    name="Use_of_Bibliography"
-                                    label="Use of Bibliography(3)"
-                                    value={this.state.bibliography}
-                                    variant="outlined"
-                                    onChange={this.handleBibliography}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Use of Bibliography:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{
+                                        textAlign: "left"
+                                      }}
+                                    >
+                                      <TextField
+                                        type="number"
+                                        id="Use_of_Bibliography"
+                                        name="Use_of_Bibliography"
+                                        label="(3)"
+                                        value={this.state.bibliography}
+                                        variant="outlined"
+                                        onChange={this.handleBibliography}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="text"
-                                    id="Spelling_and_Grammar"
-                                    name="Spelling_and_Grammar"
-                                    label="Spelling and Grammar(3)"
-                                    value={this.state.spellAndGrammar}
-                                    variant="outlined"
-                                    onChange={this.handleSpellAndGrammar}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Spelling and Grammar:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{
+                                        textAlign: "left"
+                                      }}
+                                    >
+                                      {" "}
+                                      <TextField
+                                        type="number"
+                                        id="Spelling_and_Grammar"
+                                        name="Spelling_and_Grammar"
+                                        label="(3)"
+                                        value={this.state.spellAndGrammar}
+                                        variant="outlined"
+                                        onChange={this.handleSpellAndGrammar}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="text"
-                                    id="Graphs/Diagram"
-                                    name="Graphs/Diagram"
-                                    label="Graphs/Diagram(3)"
-                                    value={this.state.diagram}
-                                    variant="outlined"
-                                    onChange={this.handleDiagram}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Graphs/Diagrams:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{
+                                        textAlign: "left"
+                                      }}
+                                    >
+                                      <TextField
+                                        type="number"
+                                        id="Graphs/Diagram"
+                                        name="Graphs/Diagram"
+                                        label="(3)"
+                                        value={this.state.diagram}
+                                        variant="outlined"
+                                        onChange={this.handleDiagram}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
                                   <Button
                                     type="submit"
                                     onClick={e => {
@@ -1472,6 +1569,12 @@ class HodPrefPage extends Component {
                                     }}
                                     variant="contained"
                                     color="primary"
+                                    style={{
+                                      padding: "10px 0px",
+                                      marginLeft: "30px",
+                                      width: "54%",
+                                      fontSize: "20px"
+                                    }}
                                   >
                                     Submit
                                   </Button>
@@ -1482,20 +1585,27 @@ class HodPrefPage extends Component {
                           )}
                         </Grid>
                       </Grid>
-                    </div>
+                    </Card>
                     {/* Implementation */}
-                    <div
+                    <Card
                       style={{
-                        backgroundColor: "#e0e0e0",
+                        backgroundColor: "#d8d8d8",
                         padding: "0px 30px",
-                        margin: "50px auto",
-                        boxShadow:
-                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                        margin: "50px auto"
                       }}
                     >
                       <Grid container>
-                        <Grid item xs={12}>
-                          <Typography variant="h3">Implementation</Typography>
+                        <Grid
+                          item
+                          xs={12}
+                          style={{
+                            textAlign: "left",
+                            margin: "20px 0px 0px 20px"
+                          }}
+                        >
+                          <Typography variant="h3">
+                            Implementation Marks
+                          </Typography>
                         </Grid>
                         <Grid item xs={12} style={{ margin: "20px 0px" }}>
                           {implementation.filled ? (
@@ -1508,34 +1618,34 @@ class HodPrefPage extends Component {
                             >
                               <Grid container>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Problem Statement :{" "}
                                     {implementation.probStatment}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Concepts : {implementation.concept}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Innovation : {implementation.innovation}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Teamwork : {implementation.teamwork}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h6">
                                     Project Management and Finance :{" "}
                                     {implementation.pmf}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                  <Typography>
+                                  <Typography variant="h5">
                                     Total :{" "}
                                     {implementation.probStatment +
                                       implementation.concept +
@@ -1572,62 +1682,156 @@ class HodPrefPage extends Component {
                             >
                               {/* <form > */}
                               <Grid container>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="number"
-                                    id="Problem_Statement"
-                                    name="Problem_Statement"
-                                    label="Problem Statement(3)"
-                                    variant="outlined"
-                                    onChange={this.handleProbStatement}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Problem Statement:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{
+                                        textAlign: "left"
+                                      }}
+                                    >
+                                      <TextField
+                                        type="number"
+                                        id="Problem_Statement"
+                                        name="Problem_Statement"
+                                        label="(3)"
+                                        variant="outlined"
+                                        onChange={this.handleProbStatement}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="text"
-                                    id="Concepts"
-                                    name="Concepts"
-                                    label="Concepts(3)"
-                                    variant="outlined"
-                                    onChange={this.handleConcept}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Concepts:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{ textAlign: "left" }}
+                                    >
+                                      <TextField
+                                        type="number"
+                                        id="Concepts"
+                                        name="Concepts"
+                                        label="(3)"
+                                        variant="outlined"
+                                        onChange={this.handleConcept}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="text"
-                                    id="Innovation"
-                                    name="Innovation"
-                                    label="Innovation(3)"
-                                    variant="outlined"
-                                    onChange={this.handleInnovation}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Innovation:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{ textAlign: "left" }}
+                                    >
+                                      {" "}
+                                      <TextField
+                                        type="number"
+                                        id="Innovation"
+                                        name="Innovation"
+                                        label="(3)"
+                                        variant="outlined"
+                                        onChange={this.handleInnovation}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="text"
-                                    id="Teamwork"
-                                    name="Teamwork"
-                                    label="Teamwork(3)"
-                                    variant="outlined"
-                                    onChange={this.handleTeamWork}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Teamwork:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{ textAlign: "left" }}
+                                    >
+                                      {" "}
+                                      <TextField
+                                        type="number"
+                                        id="Teamwork"
+                                        name="Teamwork"
+                                        label="(3)"
+                                        variant="outlined"
+                                        onChange={this.handleTeamWork}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
-                                  <TextField
-                                    type="text"
-                                    id="Proj_Management_and_Finance"
-                                    name="Proj_Management_and_Finance"
-                                    label="Project Management and Finance(3)"
-                                    variant="outlined"
-                                    onChange={this.handlePMF}
-                                    required
-                                  />
+                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={8}
+                                      style={{ padding: "8px 0px" }}
+                                    >
+                                      <Typography variant="h6">
+                                        Project Management and Finance:
+                                      </Typography>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={4}
+                                      style={{ textAlign: "left" }}
+                                    >
+                                      <TextField
+                                        type="number"
+                                        id="Proj_Management_and_Finance"
+                                        name="Proj_Management_and_Finance"
+                                        label="(3)"
+                                        variant="outlined"
+                                        onChange={this.handlePMF}
+                                        style={{ width: "40%" }}
+                                        required
+                                      />
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={4} style={{ margin: "5px 0" }}>
+                                <Grid item xs={6} style={{ margin: "10px 0" }}>
                                   <Button
                                     onClick={e => {
                                       this.handleImplementationSubmit(e, Gid);
@@ -1635,6 +1839,12 @@ class HodPrefPage extends Component {
                                     type="submit"
                                     variant="contained"
                                     color="primary"
+                                    style={{
+                                      padding: "10px 0px",
+                                      marginLeft: "30px",
+                                      width: "54%",
+                                      fontSize: "20px"
+                                    }}
                                   >
                                     Submit
                                   </Button>
@@ -1645,26 +1855,37 @@ class HodPrefPage extends Component {
                           )}
                         </Grid>
                       </Grid>
-                    </div>
+                    </Card>
                     {/* WEEKLY LOG */}
-                    <div
+                    <Card
                       style={{
-                        backgroundColor: "#e0e0e0",
+                        backgroundColor: "#d8d8d8",
                         padding: "0px 30px",
-                        margin: "50px auto",
-                        boxShadow:
-                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                        margin: "50px auto"
                       }}
                     >
                       <Grid container>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={3}
+                          style={{
+                            textAlign: "left",
+                            margin: "20px 0px 0px 0px"
+                          }}
+                        >
                           <Typography variant="h3">Weekly Log</Typography>
                         </Grid>
                         <Grid
                           item
                           xs={12}
-                          sm={6}
-                          style={{ backgroundColor: "#fff" }}
+                          sm={8}
+                          style={{
+                            backgroundColor: "#fff",
+                            width: "100%",
+                            margin: "20px 0"
+                          }}
                         >
                           <form>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -1676,6 +1897,7 @@ class HodPrefPage extends Component {
                                 format="yyyy/MM/dd"
                                 value={this.state.weeklyLogDate}
                                 InputAdornmentProps={{ position: "start" }}
+                                style={{ margin: "10px" }}
                                 onChange={this.handleweelyDateChange}
                               />
                             </MuiPickersUtilsProvider>
@@ -1686,18 +1908,38 @@ class HodPrefPage extends Component {
                               label="Add log remark"
                               variant="outlined"
                               value={this.state.weeklyLogMsg}
+                              style={{ margin: "10px" }}
                               onChange={this.weeklyMsgHandler}
                             />
                             <Button
                               variant="contained"
                               color="primary"
                               onClick={() => this.sendLog(Gid)}
+                              style={{
+                                margin: "20px ",
+                                marginLeft: "50px"
+                              }}
                             >
                               Add Log
                             </Button>
                           </form>
                         </Grid>
                         <Grid item xs={12} style={{ margin: "20px 0px" }}>
+                          <Card
+                            style={{
+                              borderRadius: "0px",
+                              padding: "10px",
+                              margin: "2px 0px"
+                            }}
+                          >
+                            <Grid container>
+                              <Grid item xs={12} style={{ textAlign: "left" }}>
+                                <Typography variant="h4">
+                                  <b>Log History:</b>
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Card>
                           {weeklyLog ? (
                             weeklyLog.map(log => {
                               let wid = log._id;
@@ -1712,10 +1954,12 @@ class HodPrefPage extends Component {
                                 >
                                   <Grid container>
                                     <Grid item xs={12} sm={5}>
-                                      <Typography>{log.remark}</Typography>
+                                      <Typography variant="h6">
+                                        {log.remark}
+                                      </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={5}>
-                                      <Typography>
+                                      <Typography variant="h6">
                                         {log.scheduled_date
                                           ? log.scheduled_date.split("T")[0]
                                           : null}
@@ -1732,18 +1976,16 @@ class HodPrefPage extends Component {
                               );
                             })
                           ) : (
-                            <Typography>No logs Yet</Typography>
+                            <Typography variant="h6">No logs Yet</Typography>
                           )}
                         </Grid>
                       </Grid>
-                    </div>
+                    </Card>
                     <div
                       style={{
-                        backgroundColor: "#e0e0e0",
+                        backgroundColor: "#d8d8d8",
                         padding: "0px 30px",
-                        margin: "50px auto",
-                        boxShadow:
-                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                        margin: "50px auto"
                       }}
                     >
                       <Grid container className={classes.comment}>
