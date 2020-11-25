@@ -156,7 +156,6 @@ class AdminGroupsPage extends Component {
   handleDeleteMemberDialogOpen = (id, email) => {
     deleteMemberEmail = email;
     Groupid = id;
-    console.log(deleteMemberEmail, Groupid);
     this.setState({
       deleteMemberOpen: true
     });
@@ -199,7 +198,6 @@ class AdminGroupsPage extends Component {
     e.stopPropagation();
     e.preventDefault();
     Groupid = gid;
-    console.log(Groupid);
     this.setState({
       deleteProposalsOpen: true
     });
@@ -278,7 +276,6 @@ class AdminGroupsPage extends Component {
     Groupid = gid;
     department = dept;
     Gname = gname;
-    console.log(Groupid, department, Gname);
     this.setState({
       addMemberOpen: true
     });
@@ -307,14 +304,6 @@ class AdminGroupsPage extends Component {
   };
 
   handleAddMember = (id, department, groupName) => {
-    console.log(
-      id,
-      this.state.memberName,
-      this.state.memberRollno,
-      this.state.memberEmail,
-      department,
-      groupName
-    );
     if (
       this.state.memberName === "" ||
       this.state.memberEmail === "" ||

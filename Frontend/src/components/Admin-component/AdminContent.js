@@ -235,10 +235,7 @@ class AdminContent extends Component {
 
   fileValidation = e => {
     var fileInput = document.getElementById("file");
-    // console.log(fileInput);
-    // console.log(e.target.files[0]);
     var filePath = fileInput.value;
-    // console.log(filePath);
     // Allowing file type
     var allowedExtensions = /(\.csv|\.xlsx)$/i;
 
@@ -249,7 +246,6 @@ class AdminContent extends Component {
     } else {
       this.setState(
         { student_file: e.target.files[0] },
-        // console.log(this.state.student_file)
       );
     }
   };
@@ -265,7 +261,6 @@ class AdminContent extends Component {
     })
       .then(res => {
         Ad = res.data.length;
-        // console.log(res.data)
         Groups = res.data;
         this.setState({
           adData: "new",
@@ -288,7 +283,6 @@ class AdminContent extends Component {
     })
     .then(res => {
       Guides = res.data;
-      // console.log(res,Guides)
     })
     .catch(function (err) {
       console.log(err);
@@ -297,7 +291,6 @@ class AdminContent extends Component {
 
   render() {
     let academicYear=this.state.Academicyear
-    //console.log(academicYear);
     const { classes } = this.props;
     if (this.state.loading) {
       return (

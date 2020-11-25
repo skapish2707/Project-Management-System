@@ -206,7 +206,6 @@ class AdminGuidePage extends Component {
     });
   };
   handleCloseCancel = () => {
-    console.log("CANCEL");
     this.setState({
       Open: false
     });
@@ -569,7 +568,7 @@ class AdminGuidePage extends Component {
                     if (hod.type === "hod") {
                       checkHod = true;
                       return (
-                        <Card className={classes.guideList}>
+                        <Card className={classes.guideList} key={hod.name}>
                           <Grid container>
                             <Grid item xs={1}></Grid>
                             <Grid item xs={4}>

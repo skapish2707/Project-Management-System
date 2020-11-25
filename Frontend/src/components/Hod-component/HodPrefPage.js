@@ -173,7 +173,6 @@ class HodPrefPage extends Component {
       })
         .then(response => {
           this.setState({ openSuccess: true, loading: false });
-          console.log(response);
           this.setState({
             comment: "",
             adData: null
@@ -210,7 +209,6 @@ class HodPrefPage extends Component {
   }
 
   handleApprove = (pid, id) => {
-    console.log(pid, id);
     axios({
       method: "post",
       url: SERVER_URL + "/approve",
@@ -226,7 +224,6 @@ class HodPrefPage extends Component {
       }
     })
       .then(response => {
-        console.log(response);
         this.setState({
           adData: null,
           filled: false,

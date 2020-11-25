@@ -54,7 +54,6 @@ export default function MenuAppBar() {
 
   const pres_url = window.location.href;
   if(pres_url==="http://localhost:3000/cp@2707user"||pres_url===`${SERVER_URL}/cp@2707user`){
-    console.log("HELLO")
     return (
       <div className={classes.root}>
         <AppBar position="static" style={{ backgroundColor: "#000" }}>
