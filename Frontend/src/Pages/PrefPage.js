@@ -139,7 +139,6 @@ class ControlledExpansionPanels extends React.Component {
       })
         .then(response => {
           this.setState({ openSuccess: true, loading: false });
-          console.log(response);
           this.setState({
             adData: null,
             comment: ""
@@ -178,7 +177,6 @@ class ControlledExpansionPanels extends React.Component {
 
   //axios post request to "/approve"
   handleApprove = (pid, id) => {
-    console.log(pid, id);
     axios({
       method: "post",
       url: SERVER_URL + "/approve",
@@ -194,7 +192,6 @@ class ControlledExpansionPanels extends React.Component {
       }
     })
       .then(response => {
-        console.log(response);
         this.setState({
           adData: null,
           filled: false,

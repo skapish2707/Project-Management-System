@@ -129,6 +129,7 @@ export default function ControlledAccordions(props) {
       if (Guide.name === e.target.value) {
         setGuideE(Guide.email);
       }
+      return null;
     });
     return null;
   };
@@ -200,7 +201,6 @@ export default function ControlledAccordions(props) {
     setDOpen(false);
   };
   const handleChangeDueDate = () => {
-    console.log(changeDuedate);
     axios({
       method: "post",
       url: SERVER_URL + "/updateDueDate",
@@ -276,6 +276,7 @@ export default function ControlledAccordions(props) {
         Group.guide.name = null;
         Group.guide.email = null;
       }
+      return(null);
     });
     setGuide(null);
     return null;
@@ -417,7 +418,6 @@ export default function ControlledAccordions(props) {
                   pref3 = Group.proposals[2];
 
                   AppliedOn = pref1.applied.split("T")[0];
-                  //console.log(AppliedOn, DueDate);
                   pref1AdminApproval = pref1.approval.admin;
                   pref2AdminApproval = pref2.approval.admin;
                   pref3AdminApproval = pref3.approval.admin;
@@ -731,7 +731,6 @@ export default function ControlledAccordions(props) {
                   pref3 = Group.proposals[2];
 
                   AppliedOn = pref1.applied.split("T")[0];
-                  //console.log(DueDate, AppliedOn);
                   pref1AdminApproval = pref1.approval.admin;
                   pref2AdminApproval = pref2.approval.admin;
                   pref3AdminApproval = pref3.approval.admin;

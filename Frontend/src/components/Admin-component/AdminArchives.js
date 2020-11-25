@@ -139,12 +139,10 @@ class AdminArchives extends Component {
     })
       .then(res => {
         archData = res.data.data;
-        console.log(res.data.data);
         this.setState(
           {
             archiveData: res.data.data
           },
-          console.log(this.state.archiveData)
         );
       })
 
