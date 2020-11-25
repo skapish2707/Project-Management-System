@@ -40,7 +40,6 @@ const AdminCommentPage = props => {
   const classes = useStyles();
   const comments = props.Comments;
   if (comments.length === 0) {
-    console.log(comments.length);
     return (
       <React.Fragment>
         <Typography variant="h4">No comments have been added</Typography>

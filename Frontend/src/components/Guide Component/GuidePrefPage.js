@@ -554,7 +554,6 @@ class HodPrefPage extends Component {
         Ad = res.data.length;
 
         Groups = res.data;
-        console.log(Groups);
         this.setState({
           adData: "new",
           filled: true
@@ -581,7 +580,6 @@ class HodPrefPage extends Component {
       }
     })
       .then(response => {
-        console.log(response);
         this.setState({
           adData: null,
           filled: false,
@@ -964,7 +962,6 @@ class HodPrefPage extends Component {
                                   id="datetime-local"
                                   label="Next Presentation"
                                   type="datetime-local"
-                                  defaultValue={new Date().toISOString()}
                                   className={classes.textField}
                                   required
                                   InputLabelProps={{

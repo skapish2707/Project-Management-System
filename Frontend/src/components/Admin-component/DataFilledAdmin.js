@@ -10,7 +10,6 @@ let Ad = null;
 
 function Tind(props) {
   let groups = props.static;
-  console.log(groups);
 
   if (groups === null) {
     return <h1>Groups is null</h1>;
@@ -116,7 +115,6 @@ class DataFilledAdmin extends Component {
 
     if (this.state.adData === "new") {
       this.setSatisfied();
-      console.log(Ad.length);
       return (
         <div>
           <Lion />
