@@ -961,16 +961,24 @@ class AdminGroupsPage extends Component {
                                   <Grid container>
                                     <Grid item xs={1}></Grid>
                                     <Grid item xs={3}>
-                                      Presentation
+                                      <Typography>
+                                        Presentation
+                                      </Typography>
                                     </Grid>
                                     <Grid item xs={3}>
-                                      Date
+                                      <Typography>
+                                        Date
+                                      </Typography>
                                     </Grid>
                                     <Grid item xs={2}>
-                                      Time
+                                      <Typography>
+                                        Time
+                                      </Typography>
                                     </Grid>
                                     <Grid item xs={3}>
-                                      Marks
+                                      <Typography>
+                                        Marks
+                                      </Typography>
                                     </Grid>
                                   </Grid>
                                 </Card>
@@ -983,21 +991,32 @@ class AdminGroupsPage extends Component {
                                       <Grid container>
                                         <Grid item xs={1}></Grid>
                                         <Grid item xs={3}>
-                                          Presentation {index + 1}
+                                          <Typography>
+                                            Presentation {index + 1}
+                                          </Typography>
                                         </Grid>
                                         <Grid item xs={3}>
-                                          {pres.scheduled_date.split("T")[0]}
+                                          <Typography>
+                                            {pres.scheduled_date.split("T")[0]}
+                                          </Typography>
                                         </Grid>
                                         <Grid item xs={2}>
-                                          {pres.scheduled_date.slice(11, 16)}
+                                          <Typography>
+                                            {pres.scheduled_date.slice(11, 16)}
+                                          </Typography>
                                         </Grid>
-                                        {pres.marks === null ? (
+                                        {pres.filled === false ? (
                                           <Grid item xs={3}>
                                             Not assigned
                                           </Grid>
                                         ) : (
                                           <Grid item xs={3}>
-                                            {pres.marks}
+                                            <Typography>
+                                              {pres.orgMarks +
+                                              pres.subKnowMarks +
+                                              pres.EODMarks +
+                                              pres.timeMarks}/10
+                                            </Typography>
                                           </Grid>
                                         )}
                                       </Grid>
