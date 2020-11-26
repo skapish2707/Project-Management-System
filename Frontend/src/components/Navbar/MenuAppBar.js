@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
-import SERVER_URL from "../../Pages/URL";
 
 
 const useStyles = makeStyles(theme => ({
@@ -53,7 +52,7 @@ export default function MenuAppBar() {
   };
 
   const pres_url = window.location.href;
-  if(pres_url==="http://localhost:3000/cp@2707user"||pres_url===`${SERVER_URL}/cp@2707user`){
+  if(pres_url==="http://localhost:3000/cp@2707user"||pres_url==="https://project-management-system-ark.herokuapp.com/cp@2707user"){
     return (
       <div className={classes.root}>
         <AppBar position="static" style={{ backgroundColor: "#000" }}>
