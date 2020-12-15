@@ -16,6 +16,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Container from "@material-ui/core/Container";
 import Image from "./background2.jpg";
+import Logo from "./kj1.png";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -45,7 +46,7 @@ const useStyles = theme => ({
     flexDirection: "column",
     alignItems: "center",
     color: "#fff",
-    paddingTop: "40px",
+    paddingTop: "20px",
     [theme.breakpoints.down("575")]: {
       paddingTop: "20px"
     }
@@ -79,8 +80,8 @@ const useStyles = theme => ({
     borderRadius: "3px"
   },
   title: {
-    paddingTop: "50px",
-    color: "#fff",
+    paddingTop: "20px",
+    color: "#82CAFA",
     [theme.breakpoints.down("775")]: {
       fontSize: "45px"
     },
@@ -131,7 +132,7 @@ class Login extends Component {
 
     axios({
       method: "post",
-      url: SERVER_URL+"/login",
+      url: SERVER_URL + "/login",
       credentials: "include",
       withCredentials: true,
       data: qs.stringify({
@@ -167,8 +168,8 @@ class Login extends Component {
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
       withCredentials: true,
-      headers : {
-        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     })
       .then(function (res) {
@@ -225,7 +226,7 @@ class Login extends Component {
     }
     if (Data === "student") {
       localStorage.setItem("token", "student");
-      localStorage.setItem("access_token",data_access);
+      localStorage.setItem("access_token", data_access);
     }
     Data = "";
     if (this.state.loggedIn) {
@@ -259,9 +260,10 @@ class Login extends Component {
           </Typography>
           <Container component="main" maxWidth="xs" className={classes.paper}>
             <CssBaseline />
-            <Avatar variant="circle" className={classes.avatar}>
+            <img src={Logo} style={{ marginBottom: "10px" }} />
+            {/* <Avatar variant="circle" className={classes.avatar}>
               <PersonIcon fontSize="large" />
-            </Avatar>
+            </Avatar> */}
             <Typography component="h2" variant="h6">
               <b>User Login</b>
             </Typography>
@@ -304,9 +306,13 @@ class Login extends Component {
             </form>
             <Link
               to="/forgetPassword"
-              style={{ textDecoration: "underline", color: "#fff", marginRight:"5px" }}
+              style={{
+                textDecoration: "underline",
+                color: "#fff",
+                marginRight: "5px"
+              }}
             >
-            forgot password ? reset now
+              forgot password ? reset now
             </Link>
             <Snackbar
               open={this.state.invalidCredentials}

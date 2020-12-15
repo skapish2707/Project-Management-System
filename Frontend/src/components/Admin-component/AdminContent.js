@@ -13,7 +13,7 @@ import {
   Typography,
   Button,
   Input,
-  Snackbar,
+  Snackbar
 } from "@material-ui/core";
 import Profile from "../Profile";
 import ProjectList from "./ProjectList";
@@ -26,7 +26,7 @@ import {
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import SideMenu from "./SideMenu"
+import SideMenu from "./SideMenu";
 
 function appendLeadingZeroes(n) {
   if (n <= 9) {
@@ -44,7 +44,6 @@ var date =
   "-" +
   appendLeadingZeroes(tempDate.getDate());
 
-
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -52,7 +51,7 @@ let userInfo = [];
 let Ad = null;
 let filled = false;
 let Groups = null;
-let Guides=null;
+let Guides = null;
 
 const useStyles = theme => ({
   root: {
@@ -114,14 +113,17 @@ const useStyles = theme => ({
     fontWeight: "600"
   }
 });
-let a = new Date()
-var academicYearList = [`${a.getFullYear()-1}-${a.getFullYear()}`,`${a.getFullYear()}-${a.getFullYear()+1}`,`${a.getFullYear()+1}-${a.getFullYear()+2}`]
+let a = new Date();
+var academicYearList = [
+  `${a.getFullYear() - 1}-${a.getFullYear()}`,
+  `${a.getFullYear()}-${a.getFullYear() + 1}`,
+  `${a.getFullYear() + 1}-${a.getFullYear() + 2}`
+];
 
 class AdminContent extends Component {
   constructor(props) {
     super(props);
 
-    
     this.state = {
       hod: "",
       hodName: "",
@@ -134,7 +136,6 @@ class AdminContent extends Component {
       prefDueDate: date,
       Academicyear: academicYearList[0]
     };
-
   }
 
   //to change format of the month
@@ -219,7 +220,7 @@ class AdminContent extends Component {
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization : 'Bearer '+ localStorage.getItem("access_token")
+        Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     })
       .then(res => {
@@ -244,9 +245,7 @@ class AdminContent extends Component {
       fileInput.value = "";
       return false;
     } else {
-      this.setState(
-        { student_file: e.target.files[0] },
-      );
+      this.setState({ student_file: e.target.files[0] });
     }
   };
 
@@ -255,8 +254,8 @@ class AdminContent extends Component {
       method: "get",
       url: SERVER_URL + "/getStudents?by=group",
       withCredentials: true,
-      headers : {
-        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     })
       .then(res => {
@@ -272,25 +271,25 @@ class AdminContent extends Component {
         console.log(err);
       });
   }
-  checkGuides(){
+  checkGuides() {
     axios({
       method: "get",
       url: SERVER_URL + "/getGuide",
       withCredentials: true,
-      headers : {
-        Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     })
-    .then(res => {
-      Guides = res.data;
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
+      .then(res => {
+        Guides = res.data;
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   }
 
   render() {
-    let academicYear=this.state.Academicyear
+    let academicYear = this.state.Academicyear;
     const { classes } = this.props;
     if (this.state.loading) {
       return (
@@ -300,7 +299,7 @@ class AdminContent extends Component {
         </div>
       );
     }
-    if (this.state.adData === null || Guides===null) {
+    if (this.state.adData === null || Guides === null) {
       this.checkData();
       this.checkGuides();
     }
@@ -310,7 +309,7 @@ class AdminContent extends Component {
       if (Ad === 0) {
         return (
           <div className={classes.root}>
-            <SideMenu/>
+            <SideMenu />
             <Profile userInfo={userInfo} academicYear={null} />
             <AdminInstructions />
             <div
@@ -330,11 +329,19 @@ class AdminContent extends Component {
                 }}
                 onSubmit={this.submitHandler}
               >
-                <Typography variant="h4" style={{ fontWeight: "600",fontFamily:"sans-serif",marginBottom:"10px"}}>
+                <Typography
+                  variant="h4"
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "sans-serif",
+                    marginBottom: "10px"
+                  }}
+                >
                   Create Project List
                 </Typography>
-                <hr size = "5" color = "blue"/>
-                <br/><br/>
+                <hr size="5" color="blue" />
+                <br />
+                <br />
                 <Grid container spacing={2}>
                   <Grid item xs={12} className={classes.gridField}>
                     <Typography className={classes.InputTitle}>
@@ -357,7 +364,6 @@ class AdminContent extends Component {
                       onChange={this.hodNameHandler}
                       className={classes.Inputfield}
                       required
-                      autoFocus
                     />
                   </Grid>
                   <Grid
@@ -403,9 +409,15 @@ class AdminContent extends Component {
                             onChange={this.handleAcademicYear}
                             name="Academic Year"
                           >
-                          <MenuItem value={academicYearList[0]}>{academicYearList[0]}</MenuItem>
-                          <MenuItem value={academicYearList[1]}>{academicYearList[1]}</MenuItem>
-                          <MenuItem value={academicYearList[2]}>{academicYearList[2]}</MenuItem>
+                            <MenuItem value={academicYearList[0]}>
+                              {academicYearList[0]}
+                            </MenuItem>
+                            <MenuItem value={academicYearList[1]}>
+                              {academicYearList[1]}
+                            </MenuItem>
+                            <MenuItem value={academicYearList[2]}>
+                              {academicYearList[2]}
+                            </MenuItem>
                           </Select>
                         </FormControl>
                       </Grid>
@@ -510,7 +522,7 @@ class AdminContent extends Component {
       if (Ad !== 0) {
         return (
           <React.Fragment>
-            <SideMenu/>
+            <SideMenu />
             <Profile academicYear={academicYear} userInfo={userInfo} />
             <div
               style={{
@@ -523,7 +535,7 @@ class AdminContent extends Component {
               }}
               className={classes.root}
             >
-            {}
+              {}
               <ProjectList Groups={Groups} Guides={Guides} />
             </div>
             <footer className={classes.footer}>
