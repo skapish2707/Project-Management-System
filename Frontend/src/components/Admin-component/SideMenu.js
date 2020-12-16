@@ -24,7 +24,7 @@ import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import Divider from "@material-ui/core/Divider";
-
+import kjLogo from "./kjsieit-navbar.png";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -163,6 +163,16 @@ export default function SideMenu(props) {
             {list(anchor)}
           </Drawer>
           <div className={classes.root}>
+            <nav
+              style={{
+                backgroundColor: "#fff",
+                textAlign: "left",
+                paddingLeft: "20px",
+                height: "60px"
+              }}
+            >
+              <img src={kjLogo} />
+            </nav>
             <AppBar position="static" style={{ backgroundColor: "#000" }}>
               <Toolbar>
                 <MenuIcon
@@ -171,6 +181,7 @@ export default function SideMenu(props) {
                   className={classes.ButtonStyle}
                   style={{}}
                 />
+
                 <Typography variant="h5" className={classes.title}>
                   Project Management System
                 </Typography>

@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
-
+import kjLogo from "../Admin-component/kjsieit-navbar.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,14 +52,22 @@ export default function MenuAppBar() {
   };
 
   const pres_url = window.location.href;
-  if(pres_url==="http://localhost:3000/cp@2707user"||pres_url==="https://project-management-system-ark.herokuapp.com/cp@2707user"){
+  if (
+    pres_url === "http://localhost:3000/cp@2707user" ||
+    pres_url ===
+      "https://project-management-system-ark.herokuapp.com/cp@2707user"
+  ) {
     return (
       <div className={classes.root}>
         <AppBar position="static" style={{ backgroundColor: "#000" }}>
           <Toolbar>
             <Link
               to="/"
-              style={{ textDecoration: "none", color: "#000", marginRight:"5px" }}
+              style={{
+                textDecoration: "none",
+                color: "#000",
+                marginRight: "5px"
+              }}
             >
               <Button color="inherit" variant="contained">
                 <ArrowBackRoundedIcon />
@@ -73,55 +81,55 @@ export default function MenuAppBar() {
                 <IconButton
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
-                  aria-haspopup="true"	
-                  onClick={handleMenu}	
-                  color="inherit"	
-                >	
-                  <AccountCircle style={{ fontSize: 40 }} />	
-                </IconButton>	
-                <Menu	
-                  id="menu-appbar"	
-                  anchorEl={anchorEl}	
-                  anchorOrigin={{	
-                    vertical: "top",	
-                    horizontal: "right"	
-                  }}	
-                  keepMounted	
-                  transformOrigin={{	
-                    vertical: "top",	
-                    horizontal: "right"	
-                  }}	
-                  open={open}	
-                  onClose={handleClose}	
-                >	
-                  <MenuItem onClick={handleClose}>	
-                    <Link	
-                      to="/cp@2707user"	
-                      style={{ textDecoration: "none", color: "#000" }}	
-                    >	
-                      Change Password	
-                    </Link>	
-                  </MenuItem>	
-                  <MenuItem onClick={handleClose}>	
-                    <Link	
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle style={{ fontSize: 40 }} />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <Link
+                      to="/cp@2707user"
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      Change Password
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link
                       to="/logout"
-                      style={{ textDecoration: "none", color: "#000" }}	
-                    >	
-                      Logout	
-                    </Link>	
-                  </MenuItem>	
-                </Menu>	
-              </div>	
-            )}	
-            <Link	
-              to="/cp@2707user"	
-              className={classes.navMenu}	
-              style={{ textDecoration: "none", color: "#000" }}	
-            >	
-              <Button	
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      Logout
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </div>
+            )}
+            <Link
+              to="/cp@2707user"
+              className={classes.navMenu}
+              style={{ textDecoration: "none", color: "#000" }}
+            >
+              <Button
                 color="inherit"
-                variant="contained"	
-                startIcon={<AssignmentIndIcon />}	
+                variant="contained"
+                startIcon={<AssignmentIndIcon />}
               >
                 Change Password
               </Button>
@@ -146,9 +154,19 @@ export default function MenuAppBar() {
         </AppBar>
       </div>
     );
-  }else{
+  } else {
     return (
       <div className={classes.root}>
+        <nav
+          style={{
+            backgroundColor: "#fff",
+            textAlign: "left",
+            paddingLeft: "20px",
+            height: "60px"
+          }}
+        >
+          <img src={kjLogo} />
+        </nav>
         <AppBar position="static" style={{ backgroundColor: "#000" }}>
           <Toolbar>
             <Typography variant="h5" className={classes.title}>
@@ -167,42 +185,42 @@ export default function MenuAppBar() {
                 </IconButton>
                 <Menu
                   id="menu-appbar"
-                  anchorEl={anchorEl}	
-                  anchorOrigin={{	
-                    vertical: "top",	
-                    horizontal: "right"	
-                  }}	
-                  keepMounted	
-                  transformOrigin={{	
-                    vertical: "top",	
-                    horizontal: "right"	
-                  }}	
-                  open={open}	
-                  onClose={handleClose}	
-                >	
-                  <MenuItem onClick={handleClose}>	
-                    <Link	
-                      to="/cp@2707user"	
-                      style={{ textDecoration: "none", color: "#000" }}	
-                    >	
-                      Change Password	
-                    </Link>	
-                  </MenuItem>	
-                  <MenuItem onClick={handleClose}>	
-                    <Link	
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <Link
+                      to="/cp@2707user"
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      Change Password
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link
                       to="/logout"
-                      style={{ textDecoration: "none", color: "#000" }}	
-                    >	
-                      Logout	
-                    </Link>	
-                  </MenuItem>	
-                </Menu>	
-              </div>	
-            )}	
-            <Link	
-              to="/cp@2707user"	
-              className={classes.navMenu}	
-              style={{ textDecoration: "none", color: "#000" }}	
+                      style={{ textDecoration: "none", color: "#000" }}
+                    >
+                      Logout
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </div>
+            )}
+            <Link
+              to="/cp@2707user"
+              className={classes.navMenu}
+              style={{ textDecoration: "none", color: "#000" }}
             >
               <Button
                 color="inherit"
@@ -220,16 +238,16 @@ export default function MenuAppBar() {
             >
               <Button
                 color="inherit"
-                variant="contained"	
-                style={{ marginLeft: "20px" }}	
+                variant="contained"
+                style={{ marginLeft: "20px" }}
                 startIcon={<ExitToAppIcon />}
               >
                 Logout
-              </Button>	
-            </Link>	
-          </Toolbar>	
-        </AppBar>	
-      </div>	
-    );	
-  }  
+              </Button>
+            </Link>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
