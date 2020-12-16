@@ -122,7 +122,7 @@ export default function SideMenu(props) {
         {itemsList.map((item, index) => {
           const { text, icon, onClick } = item;
           return (
-            <React.Fragment>
+            <React.Fragment key={item.text}>
               <ListItem
                 button
                 key={text}

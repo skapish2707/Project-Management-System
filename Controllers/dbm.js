@@ -401,7 +401,8 @@ async function getGroup(student) {
     presentation: group.presentation,
     weeklyMeetLog: group.weeklyMeetLog,
     report: group.report,
-    implementation: group.implementation
+    implementation: group.implementation,
+    guide: group.guide
   };
 }
 

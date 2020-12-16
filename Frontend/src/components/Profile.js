@@ -48,6 +48,7 @@ export default function Profile(props) {
   const classes = useStyles();
   const userInfo = props;
   const academicYear=props.academicYear;
+  const guideName=props.guideName;
   return (
     <Card
       className={classes.root}
@@ -92,6 +93,21 @@ export default function Profile(props) {
                         <Typography className={classes.title}>
                           <b>Academic Year:</b> {academicYear}
                         </Typography>
+                      ):(null)}
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                      {(userInfo.userInfo.type==="student")?(
+                        <React.Fragment>
+                          {(guideName!==null)?(
+                            <Typography className={classes.title}>
+                              <b>Guide:</b> {guideName}
+                            </Typography>
+                          ):(
+                            <Typography className={classes.title}>
+                              <b>Guide:</b> Not Assigned
+                            </Typography>
+                          )}
+                        </React.Fragment>
                       ):(null)}
                     </Grid>
               </Grid>
