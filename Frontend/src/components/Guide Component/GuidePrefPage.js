@@ -598,19 +598,25 @@ class HodPrefPage extends Component {
   };
 
   handleMarkSubmit = (e, groupID, presentationID) => {
-    if (
-      parseInt(this.state.timeMarks, 10) > 2 ||
+    if (this.state.timeMarks==="" || this.state.orgMarks==="" ||
+     this.state.eodMarks==="" || this.state.subKnowMarks === "")
+    {
+      alert("Please enter all field")
+    }
+    else if (
+      parseInt(this.state.timeMarks, 10) > 3 ||
       parseInt(this.state.orgMarks, 10) > 2 ||
-      parseInt(this.state.eodMarks, 10) > 2 ||
+      parseInt(this.state.eodMarks, 10) > 3 ||
       parseInt(this.state.subKnowMarks, 10) > 2
     ) {
       alert("Entered marks greater than max marks. Please re-enter");
       this.setState({
-        timeMarks: null,
-        orgMarks: null,
-        eodMarks: null,
-        subKnowMarks: null
+        timeMarks: "",
+        orgMarks: "",
+        eodMarks: "",
+        subKnowMarks: ""
       });
+
     } else {
       axios({
         method: "post",
@@ -1120,6 +1126,7 @@ class HodPrefPage extends Component {
                                                     margin: "10px 5px",
                                                     backgroundColor: "#fff"
                                                   }}
+                                                  required
                                                 />
                                               </Grid>
                                               <Grid
@@ -1138,6 +1145,7 @@ class HodPrefPage extends Component {
                                                     margin: "10px 5px",
                                                     backgroundColor: "#fff"
                                                   }}
+                                                  required
                                                 />
                                               </Grid>
 
@@ -1153,6 +1161,7 @@ class HodPrefPage extends Component {
                                                     margin: "10px 5px",
                                                     backgroundColor: "#fff"
                                                   }}
+                                                  required
                                                 />
                                               </Grid>
                                               <Grid item>
@@ -1171,6 +1180,7 @@ class HodPrefPage extends Component {
                                                     margin: "10px 5px",
                                                     backgroundColor: "#fff"
                                                   }}
+                                                  required
                                                 />
                                               </Grid>
                                               <Grid item>
