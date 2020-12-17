@@ -146,10 +146,9 @@ const StudentWholePage = props => {
     checkData()
   }
   if(obtained===true){
-    // console.log(academicYear)
     return (
       <React.Fragment>
-        <Profile academicYear={academicYear} userInfo={userInfo} />
+        <Profile guideName={Group.guide.name} academicYear={academicYear} userInfo={userInfo} />
         <div
           style={{
             boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
