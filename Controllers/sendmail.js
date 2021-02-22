@@ -14,7 +14,7 @@ async function sendmail(data,type){
   if(type === "registeration")
   {
     registerOptions = {
-        from: 'pms.messenger@gmail.com',
+        from: 'messenger.pms@gmail.com',
         to:data.email,
         subject : "Registeration email for project management system ",
         html : `<h3>Hi ${data.name[0].toUpperCase() + data.name.substring(1) },</h3>
