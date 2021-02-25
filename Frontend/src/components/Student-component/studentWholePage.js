@@ -20,6 +20,7 @@ import SERVER_URL from "../../Pages/URL";
 import StudentPresentation from "./StudentPresentation";
 import Footer from "../Footer/Footer";
 import StudentWeeklyLog from "./StudentWeeklyLog";
+import StudentAdditionalDoc from "./StudentAdditionalPage";
 
 let userInfo = [];
 let DueDate = null;
@@ -215,7 +216,9 @@ const StudentWholePage = props => {
               <TabPanel value={value} index={4}>
                 <StudentWeeklyLog Group={Group} />
               </TabPanel>
-
+              <TabPanel value={value} index={5}>
+                <StudentAdditionalDoc Group={Group} />
+              </TabPanel>
             </Grid>
             {/* <Grid item xs={1}></Grid> */}
           </Grid>
@@ -282,6 +285,9 @@ const StudentWholePage = props => {
               </TabPanel>
               <TabPanel value={value} index={4}>
                 <StudentWeeklyLog Group={Group} />
+              </TabPanel>
+              <TabPanel value={value} index={5}>
+                <StudentAdditionalDoc Group={Group} />
               </TabPanel>
             </Grid>
             {/* <Grid item xs={1}></Grid> */}
