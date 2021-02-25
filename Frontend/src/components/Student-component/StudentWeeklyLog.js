@@ -26,7 +26,7 @@ const StudentWeeklyLog = (props) => {
         if(weeklyMeetLog.length === 0){
             return(
                 <React.Fragment>
-                    <Typography variant="h4">You have not reported to your guide even once</Typography>
+                    <Typography>You have not reported to your guide even once</Typography>
                 </React.Fragment>
             )
         }else{
