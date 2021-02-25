@@ -190,6 +190,11 @@ const StudentWholePage = props => {
                     label="Weekly Logs"
                     {...a11yProps(4)}
                   />
+                  <Tab
+                    className={classes.tab}
+                    label="Additional Documents"
+                    {...a11yProps(5)}
+                  />
                 </Tabs>
               </Grid>
               {/* <Grid item xs={2} /> */}
@@ -210,6 +215,7 @@ const StudentWholePage = props => {
               <TabPanel value={value} index={4}>
                 <StudentWeeklyLog Group={Group} />
               </TabPanel>
+
             </Grid>
             {/* <Grid item xs={1}></Grid> */}
           </Grid>
@@ -252,6 +258,11 @@ const StudentWholePage = props => {
                     className={classes.tab}
                     label="Weekly Logs"
                     {...a11yProps(4)}
+                  />
+                  <Tab
+                    className={classes.tab}
+                    label="Additional Documents"
+                    {...a11yProps(5)}
                   />
                 </Tabs>
               </Grid>
