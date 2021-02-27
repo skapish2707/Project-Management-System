@@ -558,4 +558,12 @@ router.get('/submissionList',authenticateToken,async function(req,res){
 	}
 })
 
+router.get('/view/group/:gid',async function(req,res){
+	proposals = await dbm.viewGroupProposals(req.params.gid.trim())
+	if (proposals)
+		res.status(200).send(proposals)
+	else 
+		res.sendStatus(404)
+})
+
 module.exports = router;

@@ -40,7 +40,7 @@ async function sendmail(data,type){
   }
   else if (type == "forgetPassword"){
     passwordResetOption = {
-        from: 'pms.messenger@gmail.com',
+        from: 'messenger.pms@gmail.com',
         to:data.email,
         subject : "password reset for project management system",
         html : `<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.<br/><br/>
