@@ -18,11 +18,16 @@ const StudentAdditionalDoc = (props) => {
     Group = props.Group
 
     const [addiDoc,setAddiDoc] = useState("")
+    const [addiDesc,setAddiDesc] = useState("")
     const [addiFile,setAddiFile] = useState(null)
     const classes = useStyles();
 
     const handleAddiDocChange = (e) => {
         setAddiDoc(e.target.value);
+    }
+
+    const handleAddiDescChange = (e) => {
+        setAddiDesc(e.target.value);
     }
 
     const handleAddiFileChange = (e) => {
@@ -62,7 +67,7 @@ const StudentAdditionalDoc = (props) => {
                         </Typography>
                     </Grid>
                     <Grid style={{margin:"20px 0px"}} item className={classes.typography} xs={12} md={6}>
-                        <Typography component="span">Type of document: </Typography>
+                        <Typography component="span">Title: </Typography>
                     </Grid>
                     <Grid style={{margin:"20px 0px"}} item className={classes.typography} xs={12} md={6}>
                         <TextField
@@ -74,6 +79,25 @@ const StudentAdditionalDoc = (props) => {
                             type="text"
                             value={addiDoc}
                             onChange={(e)=>{handleAddiDocChange(e)}}
+                            required
+                        />
+                    </Grid>
+                    <Grid style={{margin:"20px 0px"}} item className={classes.typography} xs={12} md={6}>
+                        <Typography component="span">Description: </Typography>
+                    </Grid>
+                    <Grid style={{margin:"20px 0px"}} item className={classes.typography} xs={12} md={6}>
+                        <TextField
+                            className={classes.TextField}
+                            variant="outlined"
+                            component={"span"}
+                            multiline
+                            inputProps={{style: {fontSize: 14}}}
+                            rows={3}
+                            id="addidesc"
+                            name="addidesc"
+                            type="text"
+                            value={addiDesc}
+                            onChange={(e)=>{handleAddiDescChange(e)}}
                             required
                         />
                     </Grid>
