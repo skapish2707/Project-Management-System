@@ -809,6 +809,14 @@ async function deleteImplementationMarks(gid) {
   grp.implementation.filled = false;
   await grp.save();
 }
+
+async function viewGroupProposals(gid){
+  grp = await Group.findById(gid)
+  if(!grp)return null
+  else return grp.proposals
+  
+}
+
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
     email,
@@ -872,5 +880,6 @@ module.exports = {
   deleteReportMarks: deleteReportMarks,
   implementationMarks: implementationMarks,
   deleteImplementationMarks: deleteImplementationMarks,
-  submissionList: submissionList
+  submissionList: submissionList,
+  viewGroupProposals : viewGroupProposals,
 };
