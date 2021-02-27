@@ -528,6 +528,12 @@ class ControlledExpansionPanels extends React.Component {
                                   onClick={this.shareDialogClose}
                                   color="primary"
                                 >
+                                  Cancel
+                                </Button>
+                                <Button
+                                  onClick={this.shareDialogClose}
+                                  color="primary"
+                                >
                                   Share
                                 </Button>
                               </DialogActions>
