@@ -18,11 +18,11 @@ import Navbar from "../components/Navbar/Navbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import AdminCommentPage from "../components/Admin-component/AdminCommentPage";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -104,14 +104,14 @@ class ControlledExpansionPanels extends React.Component {
 
   shareDialogOpen = e => {
     this.setState({
-      shareDialog:true
-    })
-  }
+      shareDialog: true
+    });
+  };
   shareDialogClose = e => {
     this.setState({
-      shareDialog:false
-    })
-  }
+      shareDialog: false
+    });
+  };
 
   commentHandler = e => {
     let comment = e.target.value;
@@ -481,19 +481,38 @@ class ControlledExpansionPanels extends React.Component {
                         </Accordion>
                       );
                     })}
-                    <div style={{ width: "90%", margin: "auto" }}>
+                    <div style={{ width: "100%", margin: "auto" }}>
                       <Grid container spacing={2}>
                         <Grid item xs={8}></Grid>
                         <Grid item xs={4}>
                           <div>
-                            <Button onClick={this.shareDialogOpen} style={{margin:"20px 20px 0px 0px",position:"relative"}} size="large" variant="contained" color="primary">
-                              Share
+                            <Button
+                              onClick={this.shareDialogOpen}
+                              style={{
+                                margin: "20px 0px 0px 0px",
+                                position: "relative",
+                                float: "right"
+                              }}
+                              size="large"
+                              variant="contained"
+                              color="primary"
+                            >
+                              Share Proposals
                             </Button>
-                            <Dialog style={{minWidth:"100px"}} open={this.state.shareDialog} onClose={this.shareDialogClose} aria-labelledby="form-dialog-title">
-                              <DialogTitle id="form-dialog-title">Send proposals to other faculty members</DialogTitle>
+                            <Dialog
+                              style={{ minWidth: "100px" }}
+                              open={this.state.shareDialog}
+                              onClose={this.shareDialogClose}
+                              aria-labelledby="form-dialog-title"
+                            >
+                              <DialogTitle id="form-dialog-title">
+                                Send proposals to other faculty members
+                              </DialogTitle>
                               <DialogContent>
                                 <DialogContentText>
-                                  Please enter the email id of the faculty member with whom you want to share the proposals.
+                                  Please enter the email id of the faculty
+                                  member with whom you want to share the
+                                  proposals.
                                 </DialogContentText>
                                 <TextField
                                   autoFocus
@@ -505,7 +524,10 @@ class ControlledExpansionPanels extends React.Component {
                                 />
                               </DialogContent>
                               <DialogActions>
-                                <Button onClick={this.shareDialogClose} color="primary">
+                                <Button
+                                  onClick={this.shareDialogClose}
+                                  color="primary"
+                                >
                                   Share
                                 </Button>
                               </DialogActions>
