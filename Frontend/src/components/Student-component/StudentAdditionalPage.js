@@ -40,7 +40,13 @@ const StudentAdditionalDoc = (props) => {
                 e.target.value=null;
                 setAddiFile(null)
             }else{
-                setAddiFile(e.target.files[0]);
+                if(e.target.files[0].type!=="application/pdf"){
+                    alert("Please upload pdf file of size less than 10MB");
+                    e.target.value=null;
+                    setAddiFile(null)
+                }else{
+                    setAddiFile(e.target.files[0]);
+                }
             }
         }
     }
