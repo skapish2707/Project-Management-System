@@ -26,6 +26,7 @@
     "express-fileupload": "^1.1.8",
     "express-flash": "0.0.2",
     "express-session": "^1.17.1",
+    "filestack-js": "^3.21.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.26",
     "node-xlsx": "^0.15.0",
