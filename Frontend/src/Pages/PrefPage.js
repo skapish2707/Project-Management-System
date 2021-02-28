@@ -567,7 +567,9 @@ class ControlledExpansionPanels extends React.Component {
                                     <Button
                                       // onClick={this.shareEmailClose}
                                       color="primary"
-                                      href={`mailto:${this.state.shareEmail}?subject=Proposals Request&body=I have sent you the link for viewing the proposals of the group. Please check them and contact me regarding the same.`}
+                                      href={`mailto:${this.state.shareEmail}?subject=Proposals Request&body=I have sent you the link for viewing the proposals of the group. Please check them and contact me regarding the same. Link: ${"http://localhost:3000/viewProposal/"+group.id}`}
+                                      target="_blank"
+                                      onClick={()=>{this.setState({shareDialog:false})}}
                                     >
                                       Share
                                     </Button>
