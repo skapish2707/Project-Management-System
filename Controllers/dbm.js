@@ -8,8 +8,11 @@ var path = require("path");
 var crypto = require("crypto");
 var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
-var sendmail = require("./sendmail");
 var ExcelJS = require("exceljs");
+
+var sendmail = require("./sendmail");
+var mediaServer = require('./mediaServer');
+
 mongoose.connect(
   process.env.uri,
   {
@@ -191,7 +194,8 @@ async function getStudents(user, by) {
         department: groups[i].department,
         weeklyMeetLog: groups[i].weeklyMeetLog,
         report: groups[i].report,
-        implementation: groups[i].implementation
+        implementation: groups[i].implementation,
+        addtionalDocuments : groups[i].addtionalDocuments
       });
     }
   }
@@ -402,7 +406,8 @@ async function getGroup(student) {
     weeklyMeetLog: group.weeklyMeetLog,
     report: group.report,
     implementation: group.implementation,
-    guide: group.guide
+    guide: group.guide,
+    addtionalDocuments : group.addtionalDocuments 
   };
 }
 
@@ -822,6 +827,19 @@ async function viewGroupProposals(gid){
   
 }
 
+async function uploadAddtionalDocument( doc , body){
+
+  grp = await Group.findById(body.gid.trim())
+  url = await mediaServer.uploadFile(doc)
+  grp.addtionalDocuments.push({
+    docName : body.docName.trim() ,
+    desc : body.desc.trim() ,
+    doclink : url
+  })
+  await grp.save()
+}
+
+
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
     email,
@@ -887,4 +905,5 @@ module.exports = {
   deleteImplementationMarks: deleteImplementationMarks,
   submissionList: submissionList,
   viewGroupProposals : viewGroupProposals,
+  uploadAddtionalDocument : uploadAddtionalDocument,
 };
