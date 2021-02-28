@@ -1,5 +1,7 @@
 import { Button, CircularProgress, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
+import SERVER_URL from '../../Pages/URL';
+import axios from "axios";
 
 const useStyles = makeStyles((themes) => ({
     TextField: {
@@ -16,10 +18,12 @@ let Group = null
 
 const StudentAdditionalDoc = (props) => {
     Group = props.Group
+    console.log(Group)
 
     const [addiDoc,setAddiDoc] = useState("")
     const [addiDesc,setAddiDesc] = useState("")
     const [addiFile,setAddiFile] = useState(null)
+    const [loading,setLoading] = useState(false)
     const classes = useStyles();
 
     const handleAddiDocChange = (e) => {
@@ -53,9 +57,39 @@ const StudentAdditionalDoc = (props) => {
 
     const submitAddiDoc = (e) => {
         e.preventDefault();
-        console.log(addiDoc);
-        console.log(addiFile.size);
-    }
+        if(addiDoc===""||addiDesc===""||addiFile===null){
+            alert("Enter Details")
+        }else{
+            let fileDet = {
+                docName: addiDoc,
+                desc: addiDesc,
+                gid: Group.id
+            }
+            var formData = new FormData();
+            formData.append("fileData", JSON.stringify(fileDet));
+            formData.append("doc", addiFile);
+            // setLoading(true)
+            // axios({
+            //     method: "post",
+            //     url: SERVER_URL + "/student/additionalDocument",
+            //     credentials: "include",
+            //     withCredentials: true,
+            //     data: formData,
+            //     headers: {
+            //     "Content-Type": "multipart/form-data",
+            //     Authorization : 'Bearer '+ localStorage.getItem("access_token")
+            //     }
+            // })
+            //     .then(res => {
+            //         setLoading(false)
+            //         window.location.reload(false);
+            //     })
+            //     .catch(err => {
+            //         setLoading(false)
+            //         if (err) throw err;
+            // });
+        }
+    };
 
     if(Group===null){
         return (
@@ -122,9 +156,17 @@ const StudentAdditionalDoc = (props) => {
                             required
                         />
                     </Grid>
-                    <Grid item style={{margin:"10px 0px"}} xs={12}>
-                        <Button variant="contained" color="secondary" onClick={(e)=>{submitAddiDoc(e)}}>Submit</Button>
-                    </Grid>
+                    {(!loading)?(
+                        <React.Fragment>
+                            <Grid item style={{margin:"10px 0px"}} xs={12}>
+                                <Button variant="contained" color="secondary" onClick={(e)=>{submitAddiDoc(e)}}>Submit</Button>
+                            </Grid>
+                        </React.Fragment>
+                    ):(
+                        <React.Fragment>
+                            <CircularProgress />
+                        </React.Fragment>
+                    )}
                     {(true)?(
                         <React.Fragment>
                             <Grid item xs={12}>

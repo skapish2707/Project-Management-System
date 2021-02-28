@@ -98,7 +98,8 @@ class ControlledExpansionPanels extends React.Component {
       approved: false,
       openSuccess: false,
       openFailure: false,
-      shareDialog: false
+      shareDialog: false,
+      shareEmail: ""
     };
   }
 
@@ -112,6 +113,20 @@ class ControlledExpansionPanels extends React.Component {
       shareDialog: false
     });
   };
+
+
+  shareEmailClose = e => {
+    e.preventDefault()
+    if(this.state.shareEmail === ""){
+      alert("Please enter and email address");
+    }else{
+      console.log(this.state.shareEmail)
+      this.setState({
+        shareDialog: false
+      });
+    }
+  }
+  
 
   commentHandler = e => {
     let comment = e.target.value;
@@ -226,6 +241,12 @@ class ControlledExpansionPanels extends React.Component {
       expanded: expanded ? panel : false
     });
   };
+
+  handleEmailChange = (e) => {
+    this.setState({
+      shareEmail: e.target.value
+    })
+  }
 
   render() {
     const { location } = this.props;
@@ -521,6 +542,7 @@ class ControlledExpansionPanels extends React.Component {
                                   label="Email Address"
                                   type="email"
                                   fullWidth
+                                  onChange={(e)=>{this.handleEmailChange(e)}}
                                 />
                               </DialogContent>
                               <DialogActions>
@@ -530,12 +552,27 @@ class ControlledExpansionPanels extends React.Component {
                                 >
                                   Cancel
                                 </Button>
-                                <Button
-                                  onClick={this.shareDialogClose}
-                                  color="primary"
-                                >
-                                  Share
-                                </Button>
+                                {(this.state.shareEmail === "")?(
+                                  <React.Fragment>
+                                    <Button
+                                      onClick={this.shareEmailClose}
+                                      color="primary"
+                                    >
+                                      Share
+                                    </Button>
+                                </React.Fragment>
+
+                                ):(
+                                  <React.Fragment>
+                                    <Button
+                                      // onClick={this.shareEmailClose}
+                                      color="primary"
+                                      href={`mailto:${this.state.shareEmail}?subject=Proposals Request&body=I have sent you the link for viewing the proposals of the group. Please check them and contact me regarding the same.`}
+                                    >
+                                      Share
+                                    </Button>
+                                  </React.Fragment>
+                                )}
                               </DialogActions>
                             </Dialog>
                           </div>
