@@ -813,7 +813,12 @@ async function deleteImplementationMarks(gid) {
 async function viewGroupProposals(gid){
   grp = await Group.findById(gid)
   if(!grp)return null
-  else return grp.proposals
+  let grdData = {
+    name : grp.name , 
+    members : grp.members , 
+    proposals : grp.proposals
+  } 
+  return grdData
   
 }
 

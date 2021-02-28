@@ -65,7 +65,12 @@ var groupSchema  = new mongoose.Schema({
 		innovation : {type:Number,default:0},
 		teamwork : {type:Number,default:0},
 		pmf : {type:Number,default:0}
-	}
+	},
+	addtionalDocuments : [{
+		docName : {type:String ,default:null },
+		desc : {type:String ,default:null },
+		doclink : {type:String ,default:null }
+	}]
 
 });
 

@@ -5,7 +5,7 @@ var dbm = require('./Controllers/dbm');
 var xlsx = require('node-xlsx');
 var passport = dbm.passport;
 var jwt = require('jsonwebtoken');
-
+var filestack = require('filestack-js').init(process.env.FILESTACK_API_KEY);
 
 function authenticateToken(req,res,next){
 	const authHeader = req.headers['authorization'];
@@ -559,11 +559,28 @@ router.get('/submissionList',authenticateToken,async function(req,res){
 })
 
 router.get('/view/group/:gid',async function(req,res){
-	proposals = await dbm.viewGroupProposals(req.params.gid.trim())
-	if (proposals)
-		res.status(200).send(proposals)
+	grpData = await dbm.viewGroupProposals(req.params.gid.trim())
+	if (grpData)
+		res.status(200).send(grpData)
 	else 
 		res.sendStatus(404)
+})
+
+router.post('/student/addtionalDocument',authenticateToken  ,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'student') return res.sendStatus(401)
+	if (req.files.doc){
+		myFile = req.files.doc;
+
+		filestack.upload(myFile.data).then( (response)=>{
+			console.log(response.file.url);
+		},
+		(error) => {
+			console.log(error);
+		}
+		);
+	}
+	res.status(200).send("ok........")
 })
 
 module.exports = router;
