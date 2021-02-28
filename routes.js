@@ -2,10 +2,10 @@
 var express = require('express')
 var router = express.Router();
 var dbm = require('./Controllers/dbm');
+var mediaServer = require('./Controllers/mediaServer');
 var xlsx = require('node-xlsx');
 var passport = dbm.passport;
 var jwt = require('jsonwebtoken');
-var filestack = require('filestack-js').init(process.env.FILESTACK_API_KEY);
 
 function authenticateToken(req,res,next){
 	const authHeader = req.headers['authorization'];
@@ -159,22 +159,24 @@ router.post('/student',authenticateToken, async function(req,res){
 	if (!req.user) return res.status(404).send();
 	if (req.user.type != 'student') return res.status(404).send();
 	if (!req.files) return res.status(422).send();
-	req.files.file1.mv('proposal/'+req.user.id.trim()+"pref1"+req.files.file1.name,function(err){
-		if (err) throw (err);
-	})
-	req.files.file2.mv('proposal/'+req.user.id.trim()+"pref2"+req.files.file2.name,function(err){
-		if (err) throw (err);
-	})
-	req.files.file3.mv('proposal/'+req.user.id.trim()+"pref3"+req.files.file3.name,function(err){
-		if (err) throw (err);
-	})
+
+
+	// req.files.file1.mv('proposal/'+req.user.id.trim()+"pref1"+req.files.file1.name,function(err){
+	// 	if (err) throw (err);
+	// })
+	// req.files.file2.mv('proposal/'+req.user.id.trim()+"pref2"+req.files.file2.name,function(err){
+	// 	if (err) throw (err);
+	// })
+	// req.files.file3.mv('proposal/'+req.user.id.trim()+"pref3"+req.files.file3.name,function(err){
+	// 	if (err) throw (err);
+	// })
 
 	if (req.body.proposals){
 		try{
 			let proposals = JSON.parse(req.body.proposals);
-			proposals[0].attachPrints = req.user.id.trim()+"pref1"+req.files.file1.name;
-			proposals[1].attachPrints = req.user.id.trim()+"pref2"+req.files.file2.name;
-			proposals[2].attachPrints = req.user.id.trim()+"pref3"+req.files.file3.name;
+			proposals[0].attachPrints = await mediaServer.uploadFile(req.files.file1) //req.user.id.trim()+"pref1"+req.files.file1.name;
+			proposals[1].attachPrints = await mediaServer.uploadFile(req.files.file2) //req.user.id.trim()+"pref2"+req.files.file2.name;
+			proposals[2].attachPrints = await mediaServer.uploadFile(req.files.file3) //req.user.id.trim()+"pref3"+req.files.file3.name;
 			await dbm.addProposals(req.user,proposals);
 			return res.status(200).send("Your Proposals was recorded Successfully!..");
 		}catch(e){
@@ -570,17 +572,15 @@ router.post('/student/addtionalDocument',authenticateToken  ,async function(req,
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'student') return res.sendStatus(401)
 	if (req.files.doc){
-		myFile = req.files.doc;
-
-		filestack.upload(myFile.data).then( (response)=>{
-			console.log(response.file.url);
-		},
-		(error) => {
-			console.log(error);
+		try{
+			await dbm.uploadAddtionalDocument( req.files.doc , req.body );
+			return res.sendStatus(200);
+		}catch(e){
+			console.log(e)
+			return  res.sendStatus(422)
 		}
-		);
 	}
-	res.status(200).send("ok........")
+	return res.sendStatus(400)
 })
 
 module.exports = router;
