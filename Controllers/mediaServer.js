@@ -14,13 +14,13 @@ async function uploadFile(file){
 
 function deleteFile(url){
 
-	filestack.remove('xlmiBJEfRpigYzgssEEE')
-	.then((res) => {
-		console.log(res);
-	})
-	.catch((err) => {
-		console.log(err);
-	});
+	// filestack.remove('xlmiBJEfRpigYzgssEEE')
+	// .then((res) => {
+	// 	console.log(res);
+	// })
+	// .catch((err) => {
+	// 	console.log(err);
+	// });
 }
 
 module.exports = {
