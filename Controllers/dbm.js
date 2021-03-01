@@ -357,12 +357,13 @@ async function deleteStudent(gid, email) {
 async function deleteProposal(gid) {
   grp = await Group.findById(gid);
   grp.proposals.forEach(function (proposal) {
-    fs.unlink(path.join(".", "proposal", proposal.attachPrints), function (
-      err
-    ) {
-      if (err) console.log(err);
-      console.log("deleted proposals");
-    });
+    mediaServer.deleteFile(proposal.attachPrints)
+    // fs.unlink(path.join(".", "proposal", proposal.attachPrints), function (
+    //   err
+    // ) {
+    //   if (err) console.log(err);
+    //   console.log("deleted proposals");
+    // });
   });
   grp.proposals = [];
   await grp.save();
@@ -501,19 +502,20 @@ async function deleteAllUsers(admin_id) {
     if (err) console.log(err);
     console.log("deleted all users");
   });
-  Group.find({ admin: admin_id }, function (err, data) {
-    if (err) console.log(err);
-    data.forEach(function (grp) {
-      grp.proposals.forEach(function (proposal) {
-        fs.unlink(path.join(".", "proposal", proposal.attachPrints), function (
-          err
-        ) {
-          if (err) console.log(err);
-          console.log("deleted proposals");
-        });
-      });
-    });
-  });
+  // Group.find({ admin: admin_id }, function (err, data) {
+  //   if (err) console.log(err);
+  //   data.forEach(function (grp) {
+  //     grp.proposals.forEach(function (proposal) {
+  //       mediaServer.deleteFile(proposal.attachPrints)
+  //       fs.unlink(path.join(".", "proposal", proposal.attachPrints), function (
+  //         err
+  //       ) {
+  //         if (err) console.log(err);
+  //         console.log("deleted proposals");
+  //       });
+  //     });
+  //   });
+  // });
   Group.deleteMany({ admin: admin_id }, function (err) {
     if (err) console.log(err);
   });
@@ -839,6 +841,22 @@ async function uploadAddtionalDocument( doc , body){
   await grp.save()
 }
 
+async function deleteuploadedDocument(gid,aid){
+  grp = await Group.findById(gid.trim())
+  index = null;
+  for (let i = 0; i < grp.addtionalDocuments.length; ++i) {
+    if (grp.addtionalDocuments[i].id == aid) {
+      index = i;
+      break;
+    }
+  }
+  if (index != null) {
+    mediaServer.deleteFile(grp.addtionalDocuments[index].doclink)
+    grp.addtionalDocuments.splice(index, 1);
+    await grp.save();
+  }
+}
+
 
 passport.use(
   new localStrategy({ usernameField: "email" }, function (
@@ -906,4 +924,5 @@ module.exports = {
   submissionList: submissionList,
   viewGroupProposals : viewGroupProposals,
   uploadAddtionalDocument : uploadAddtionalDocument,
+  deleteuploadedDocument : deleteuploadedDocument
 };
