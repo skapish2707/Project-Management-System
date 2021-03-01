@@ -18,7 +18,6 @@ let Group = null
 
 const StudentAdditionalDoc = (props) => {
     Group = props.Group
-    console.log(Group)
 
     const [addiDoc,setAddiDoc] = useState("")
     const [addiDesc,setAddiDesc] = useState("")
@@ -60,34 +59,38 @@ const StudentAdditionalDoc = (props) => {
         if(addiDoc===""||addiDesc===""||addiFile===null){
             alert("Enter Details")
         }else{
-            let fileDet = {
-                docName: addiDoc,
-                desc: addiDesc,
-                gid: Group.id
-            }
+            // let fileDet = {
+            //     docName: addiDoc,
+            //     desc: addiDesc,
+            //     gid: Group.id
+            // }
+            // console.log(fileDet)
             var formData = new FormData();
-            formData.append("fileData", JSON.stringify(fileDet));
-            formData.append("doc", addiFile);
-            // setLoading(true)
-            // axios({
-            //     method: "post",
-            //     url: SERVER_URL + "/student/additionalDocument",
-            //     credentials: "include",
-            //     withCredentials: true,
-            //     data: formData,
-            //     headers: {
-            //     "Content-Type": "multipart/form-data",
-            //     Authorization : 'Bearer '+ localStorage.getItem("access_token")
-            //     }
-            // })
-            //     .then(res => {
-            //         setLoading(false)
-            //         window.location.reload(false);
-            //     })
-            //     .catch(err => {
-            //         setLoading(false)
-            //         if (err) throw err;
-            // });
+            // formData.append("fileData", JSON.stringify(fileDet));
+            formData.append("docName",addiDoc)
+            formData.append("desc",addiDesc)
+            formData.append("doc", addiFile)
+            formData.append("gid",Group.id)
+            setLoading(true)
+            axios({
+                method: "post",
+                url: SERVER_URL + "/student/additionalDocument",
+                credentials: "include",
+                withCredentials: true,
+                data: formData,
+                headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization : 'Bearer '+ localStorage.getItem("access_token")
+                }
+            })
+                .then(res => {
+                    setLoading(false)
+                    window.location.reload(false);
+                })
+                .catch(err => {
+                    setLoading(false)
+                    if (err) throw err;
+            });
         }
     };
 
