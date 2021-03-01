@@ -98,14 +98,15 @@ const ViewProposal = props => {
   if (loadedData) {
     const memberData = loadedData.members;
     const proposalData = loadedData.proposals;
-    const row = [];
     return (
       <div key={loadedData.name} style={{ paddingBottom: "200px" }}>
         <div
           style={{
             width: "90%",
             margin: "20px auto",
-            backgroundColor: "#e0e0e0"
+            backgroundColor: "#e0e0e0",
+            boxShadow:
+              "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
           }}
         >
           <Typography variant="h2" style={{ padding: "30px" }}>
@@ -117,12 +118,24 @@ const ViewProposal = props => {
         >
           <Typography
             variant="h3"
-            style={{ textAlign: "left", paddingLeft: "30px" }}
+            style={{
+              textAlign: "left",
+              paddingLeft: "30px",
+              boxShadow:
+                "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+            }}
           >
             Details
           </Typography>
         </div>
-        <div style={{ width: "90%", margin: "auto" }}>
+        <div
+          style={{
+            width: "90%",
+            margin: "auto",
+            boxShadow:
+              "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+          }}
+        >
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
@@ -163,12 +176,24 @@ const ViewProposal = props => {
         >
           <Typography
             variant="h3"
-            style={{ textAlign: "left", paddingLeft: "30px" }}
+            style={{
+              textAlign: "left",
+              paddingLeft: "30px",
+              boxShadow:
+                "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+            }}
           >
             Proposals
           </Typography>
         </div>
-        <div style={{ width: "90%", margin: "auto" }}>
+        <div
+          style={{
+            width: "90%",
+            margin: "auto",
+            boxShadow:
+              "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+          }}
+        >
           {proposalData.map((proposal, index) => {
             const panel = proposal.title;
             let approval = proposal.approval;
