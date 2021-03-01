@@ -568,7 +568,7 @@ router.get('/view/group/:gid',async function(req,res){
 		res.sendStatus(404)
 })
 
-router.post('/student/addtionalDocument',authenticateToken  ,async function(req,res){
+router.post('/student/additionalDocument',authenticateToken  ,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'student') return res.sendStatus(401)
 	if (req.files.doc){
@@ -581,6 +581,19 @@ router.post('/student/addtionalDocument',authenticateToken  ,async function(req,
 		}
 	}
 	return res.sendStatus(400)
+})
+
+router.post('/student/additionalDocument/delete', authenticateToken ,async function(req,res){
+	if (!req.user) return res.sendStatus(404)
+	if (req.user.type != 'student') return res.sendStatus(401)
+	try{	
+		await dbm.deleteuploadedDocument(req.body.gid.trim(),req.body.id.trim())
+		return res.sendStatus(200)
+
+	}catch(e){
+		console.log(e)
+		return  res.sendStatus(422)
+	}
 })
 
 module.exports = router;
