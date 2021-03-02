@@ -1,7 +1,12 @@
-import { Button, CircularProgress, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Button, CircularProgress, createMuiTheme, Grid, makeStyles, responsiveFontSizes, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import SERVER_URL from '../../Pages/URL';
 import axios from "axios";
+import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
+import qs from "qs";
+
+// let theme = createMuiTheme();
+// theme = responsiveFontSizes(theme);
 
 const useStyles = makeStyles((themes) => ({
     TextField: {
@@ -11,18 +16,29 @@ const useStyles = makeStyles((themes) => ({
         fontSize:"16px",
         display:"flex",
         textAlign:"left"
+    },
+    tableContainer: {
+        marginTop: "10px",
+        marginBottom: "50px"
+    },
+    table: {
+        minWidth: 650
     }
 }))
 
 let Group = null
+let Ad = null
 
 const StudentAdditionalDoc = (props) => {
     Group = props.Group
+    Ad=Group.addtionalDocuments
+    console.log(Ad)
 
     const [addiDoc,setAddiDoc] = useState("")
     const [addiDesc,setAddiDesc] = useState("")
     const [addiFile,setAddiFile] = useState(null)
     const [loading,setLoading] = useState(false)
+    const [delLoading,setDelLoading] = useState(false)
     const classes = useStyles();
 
     const handleAddiDocChange = (e) => {
@@ -59,14 +75,7 @@ const StudentAdditionalDoc = (props) => {
         if(addiDoc===""||addiDesc===""||addiFile===null){
             alert("Enter Details")
         }else{
-            // let fileDet = {
-            //     docName: addiDoc,
-            //     desc: addiDesc,
-            //     gid: Group.id
-            // }
-            // console.log(fileDet)
             var formData = new FormData();
-            // formData.append("fileData", JSON.stringify(fileDet));
             formData.append("docName",addiDoc)
             formData.append("desc",addiDesc)
             formData.append("doc", addiFile)
@@ -93,6 +102,33 @@ const StudentAdditionalDoc = (props) => {
             });
         }
     };
+
+    const deleteAddiDoc = (e,gid,aid) => {
+        e.preventDefault();
+        setDelLoading(true);
+        axios({
+            method: "post",
+            url: SERVER_URL + "/student/additionalDocument/delete",
+            credentials: "include",
+            withCredentials: true,
+            data: qs.stringify({
+                gid:gid,
+                id:aid
+              }),
+              headers: {
+                "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+                Authorization : 'Bearer '+ localStorage.getItem("access_token") 
+              }
+        })
+            .then(res => {
+                setDelLoading(false)
+                window.location.reload(false);
+            })
+            .catch(err => {
+                setDelLoading(false)
+                if (err) throw err;
+        });
+    }
 
     if(Group===null){
         return (
@@ -167,26 +203,119 @@ const StudentAdditionalDoc = (props) => {
                         </React.Fragment>
                     ):(
                         <React.Fragment>
-                            <CircularProgress />
-                        </React.Fragment>
-                    )}
-                    {(true)?(
-                        <React.Fragment>
-                            <Grid item xs={12}>
-                                <Typography style={{margin:"10px 0px"}} className={classes.typography}>
-                                    You have not submitted any documents yet.
-                                </Typography>
-                            </Grid>
-                        </React.Fragment>
-                    ):(
-                        <React.Fragment>
-                            <Grid item xs={12}>
-                                <Typography style={{margin:"10px 0px"}} className={classes.typography}>
-                                    You have submitted the following documents till now.
-                                </Typography>
+                            <Grid item style={{margin:"10px 0px"}} xs={12}>
+                                <Button variant="contained" color="secondary"><CircularProgress/></Button>
                             </Grid>
                         </React.Fragment>
                     )}
+                    <div
+                      style={{
+                            backgroundColor: "#d3d3d3",
+                            margin: "30px 0px 30px 0px",
+                            boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+                            width:"100%"
+                      }}
+                    >
+                        <React.Fragment>
+                            <div
+                            style={{ backgroundColor: "#d3d3d3", textAlign: "left" }}
+                            >
+                                <Typography
+                                    variant="h3"
+                                    style={{
+                                    fontWeight: "300",
+                                    paddingLeft: "30px",
+                                    paddingBottom: "20px"
+                                    }}
+                                >
+                                    Additional Uploaded Documents
+                                </Typography>
+                            </div>
+                            {Ad.length === 0 ? (
+                            <Typography variant="h2">
+                                No Additional Document Uploaded
+                            </Typography>
+                            ) : (
+                            <React.Fragment>
+                                <Grid
+                                container
+                                style={{
+                                    backgroundColor: "#d3d3d3",
+                                    padding: "10px",
+                                    marginBottom: "2px",
+                                    textAlign: "left"
+                                }}
+                                >
+                                <Grid item xs={3} style={{ paddingLeft: "20px" }}>
+                                    <Typography>
+                                        <b>Title</b>
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={7}>
+                                    <Typography style={{paddingLeft:"20px"}}>
+                                        <b>Description</b>
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={1}>
+                                    <Typography>
+                                        <b>File Link</b>
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={1} />
+                                </Grid>
+                                {Ad.map(ad => {
+                                return (
+                                    <Grid
+                                    container
+                                    key={ad._id}
+                                    style={{
+                                        backgroundColor: "#fff",
+                                        padding: "8px",
+                                        marginBottom: "2px",
+                                        textAlign: "left"
+                                    }}
+                                    >
+                                    <Grid
+                                        item
+                                        xs={3}
+                                        style={{ paddingLeft: "20px" }}
+                                    >
+                                        <Typography>{ad.docName}</Typography>
+                                    </Grid>
+                                    <Grid item xs={7}>
+                                        <Typography>{ad.desc}</Typography>
+                                    </Grid>
+                                    <Grid item xs={1}>
+                                        <Typography>
+                                            <a style={{textDecoration:"none"}} href={ad.doclink} target="_blank">
+                                                View File
+                                            </a>
+                                        </Typography>
+                                    </Grid>
+                                    {!delLoading?(
+                                        <Grid item xs={1}>
+                                            <Typography style={{textAlign:"center"}}>
+                                                <Button onClick={(e)=>{deleteAddiDoc(e,Group.id,ad._id)}}>
+                                                    <DeleteTwoToneIcon />
+                                                </Button>
+                                            </Typography>
+                                        </Grid>
+                                    ):(
+                                        <Grid item xs={1}>
+                                            <Typography style={{textAlign:"center"}}>
+                                                <Button onClick={(e)=>{deleteAddiDoc(e,Group.id,ad._id)}}>
+                                                    <DeleteTwoToneIcon />
+                                                </Button>
+                                            </Typography>
+                                        </Grid>
+                                    )}
+                                    </Grid>
+                                );
+                                })}
+                            </React.Fragment>
+                            )}
+                        </React.Fragment>
+                    </div>
                 </Grid>
             </React.Fragment>
         )

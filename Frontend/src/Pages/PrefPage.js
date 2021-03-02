@@ -114,19 +114,17 @@ class ControlledExpansionPanels extends React.Component {
     });
   };
 
-
   shareEmailClose = e => {
-    e.preventDefault()
-    if(this.state.shareEmail === ""){
+    e.preventDefault();
+    if (this.state.shareEmail === "") {
       alert("Please enter and email address");
-    }else{
-      console.log(this.state.shareEmail)
+    } else {
+      console.log(this.state.shareEmail);
       this.setState({
         shareDialog: false
       });
     }
-  }
-  
+  };
 
   commentHandler = e => {
     let comment = e.target.value;
@@ -242,19 +240,14 @@ class ControlledExpansionPanels extends React.Component {
     });
   };
 
-  handleEmailChange = (e) => {
-    this.setState({
-      shareEmail: e.target.value
-    })
-  }
-
   render() {
     const { location } = this.props;
     const { classes } = this.props;
     const { expanded } = this.state;
     const Group = location.state.Group;
     const Gid = Group.id;
-
+    let Ad = Group.addtionalDocuments;
+    console.log(Ad);
     //call axios
     if (this.state.adData === null) {
       this.checkData();
@@ -271,6 +264,12 @@ class ControlledExpansionPanels extends React.Component {
                 let Proposal2 = Proposals[1];
                 let Proposal3 = Proposals[2];
                 let Comments = group.comments;
+                const handleCopyText = () => {
+                  navigator.clipboard.writeText(
+                    `http://localhost:3000/viewProposal/${group.id}`
+                  );
+                  this.shareDialogClose();
+                };
                 return (
                   <div key={group.id}>
                     <Grid container spacing={2} className={classes.grid}>
@@ -518,7 +517,7 @@ class ControlledExpansionPanels extends React.Component {
                               variant="contained"
                               color="primary"
                             >
-                              Share Proposals
+                              Get Shareable Link
                             </Button>
                             <Dialog
                               style={{ minWidth: "100px" }}
@@ -531,19 +530,14 @@ class ControlledExpansionPanels extends React.Component {
                               </DialogTitle>
                               <DialogContent>
                                 <DialogContentText>
-                                  Please enter the email id of the faculty
-                                  member with whom you want to share the
-                                  proposals.
+                                  Copy this Link to Share Proposals
+                                  <br />
+                                  <a
+                                    href={`http://localhost:3000/viewProposal/${group.id}`}
+                                    target="_blank"
+                                  >{`http://localhost:3000/viewProposal/
+                                    ${group.id}`}</a>
                                 </DialogContentText>
-                                <TextField
-                                  autoFocus
-                                  margin="dense"
-                                  id="name"
-                                  label="Email Address"
-                                  type="email"
-                                  fullWidth
-                                  onChange={(e)=>{this.handleEmailChange(e)}}
-                                />
                               </DialogContent>
                               <DialogActions>
                                 <Button
@@ -552,34 +546,123 @@ class ControlledExpansionPanels extends React.Component {
                                 >
                                   Cancel
                                 </Button>
-                                {(this.state.shareEmail === "")?(
+                                {
                                   <React.Fragment>
                                     <Button
-                                      onClick={this.shareEmailClose}
-                                      color="primary"
+                                      onClick={() => {
+                                        handleCopyText();
+                                      }}
                                     >
-                                      Share
-                                    </Button>
-                                </React.Fragment>
-
-                                ):(
-                                  <React.Fragment>
-                                    <Button
-                                      // onClick={this.shareEmailClose}
-                                      color="primary"
-                                      href={`mailto:${this.state.shareEmail}?subject=Proposals Request&body=I have sent you the link for viewing the proposals of the group. Please check them and contact me regarding the same. Link: ${"http://localhost:3000/viewProposal/"+group.id}`}
-                                      target="_blank"
-                                      onClick={()=>{this.setState({shareDialog:false})}}
-                                    >
-                                      Share
+                                      Copy Link
                                     </Button>
                                   </React.Fragment>
-                                )}
+                                }
                               </DialogActions>
                             </Dialog>
                           </div>
                         </Grid>
                       </Grid>
+                    </div>
+                    <div
+                      style={{
+                        marginTop: "30px",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <React.Fragment>
+                        <div
+                          style={{ backgroundColor: "#fff", textAlign: "left" }}
+                        >
+                          <Typography
+                            variant="h2"
+                            style={{
+                              fontWeight: "400",
+                              paddingLeft: "30px",
+                              paddingBottom: "20px"
+                            }}
+                          >
+                            Additional Uploaded Documents
+                          </Typography>
+                        </div>
+                        {Ad.length === 0 ? (
+                          <Typography variant="h2">
+                            No Additional Document Uploaded
+                          </Typography>
+                        ) : (
+                          <React.Fragment>
+                            <Grid
+                              container
+                              style={{
+                                backgroundColor: "#fff",
+                                padding: "10px",
+                                marginBottom: "2px",
+                                textAlign: "left"
+                              }}
+                            >
+                              <Grid item xs={3} style={{ paddingLeft: "20px" }}>
+                                <Typography>
+                                  <b>Title</b>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography>
+                                  <b>Description</b>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={1}></Grid>
+                              <Grid item xs={2} style={{ textAlign: "centre" }}>
+                                <Typography>
+                                  <b>File Link</b>
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                            {Ad.map(ad => {
+                              return (
+                                <Grid
+                                  container
+                                  key={ad._id}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    padding: "12px",
+                                    marginBottom: "2px",
+                                    textAlign: "left"
+                                  }}
+                                >
+                                  <Grid
+                                    item
+                                    xs={3}
+                                    style={{ paddingLeft: "20px" }}
+                                  >
+                                    <Typography>{ad.docName}</Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                    <Typography>{ad.desc}</Typography>
+                                  </Grid>
+                                  <Grid item xs={1}></Grid>
+                                  <Grid item xs={2}>
+                                    <Typography>
+                                      <a
+                                        href={ad.doclink}
+                                        style={{ textDecoration: "none" }}
+                                        target="_blank"
+                                      >
+                                        <Button
+                                          variant="outlined"
+                                          color="primary"
+                                          size="small"
+                                        >
+                                          Show Document
+                                        </Button>
+                                      </a>
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              );
+                            })}
+                          </React.Fragment>
+                        )}
+                      </React.Fragment>
                     </div>
                     <div
                       style={{
@@ -673,6 +756,7 @@ class ControlledExpansionPanels extends React.Component {
               } else return null;
             })}
           </div>
+          <div style={{ height: "150px" }}></div>
         </React.Fragment>
       );
     } else return <LinearProgress />;

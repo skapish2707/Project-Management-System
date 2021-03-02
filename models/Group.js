@@ -42,7 +42,7 @@ var groupSchema  = new mongoose.Schema({
 		scheduled_date : {type :Date },
 		filled : {type : Boolean ,default:false},
 		marks : [{
-			rollno : Number
+			rollno : Number,
 			orgMarks : {type:Number,default:0},
 			subKnowMarks : {type:Number,default:0},
 			EODMarks : {type:Number,default:0},
