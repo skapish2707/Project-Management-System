@@ -605,12 +605,13 @@ class ControlledExpansionPanels extends React.Component {
                                   <b>Title</b>
                                 </Typography>
                               </Grid>
-                              <Grid item xs={5}>
+                              <Grid item xs={6}>
                                 <Typography>
                                   <b>Description</b>
                                 </Typography>
                               </Grid>
-                              <Grid item xs={4}>
+                              <Grid item xs={1}></Grid>
+                              <Grid item xs={2} style={{ textAlign: "centre" }}>
                                 <Typography>
                                   <b>File Link</b>
                                 </Typography>
@@ -620,10 +621,10 @@ class ControlledExpansionPanels extends React.Component {
                               return (
                                 <Grid
                                   container
-                                  key={ad.docName}
+                                  key={ad._id}
                                   style={{
                                     backgroundColor: "#fff",
-                                    padding: "8px",
+                                    padding: "12px",
                                     marginBottom: "2px",
                                     textAlign: "left"
                                   }}
@@ -635,13 +636,24 @@ class ControlledExpansionPanels extends React.Component {
                                   >
                                     <Typography>{ad.docName}</Typography>
                                   </Grid>
-                                  <Grid item xs={5}>
+                                  <Grid item xs={6}>
                                     <Typography>{ad.desc}</Typography>
                                   </Grid>
-                                  <Grid item xs={4}>
+                                  <Grid item xs={1}></Grid>
+                                  <Grid item xs={2}>
                                     <Typography>
-                                      <a href={ad.doclink} target="_blank">
-                                        {ad.doclink}
+                                      <a
+                                        href={ad.doclink}
+                                        style={{ textDecoration: "none" }}
+                                        target="_blank"
+                                      >
+                                        <Button
+                                          variant="outlined"
+                                          color="primary"
+                                          size="small"
+                                        >
+                                          Show Document
+                                        </Button>
                                       </a>
                                     </Typography>
                                   </Grid>
