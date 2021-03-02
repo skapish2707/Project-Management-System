@@ -288,22 +288,16 @@ async function presentation(gid, datetime) {
   });
   await grp.save();
 }
-async function updateMarks(
-  gid,
-  pid,
-  orgMarks,
-  subKnowMarks,
-  EODMarks,
-  timeMarks
-) {
+async function updateMarks(gid,pid,presentation_marks) {
   grp = await Group.findById(gid);
   for (let i = 0; i < grp.presentation.length; ++i) {
     if (grp.presentation[i]._id == pid) {
-      grp.presentation[i].orgMarks = orgMarks;
-      grp.presentation[i].subKnowMarks = subKnowMarks;
-      grp.presentation[i].EODMarks = EODMarks;
-      grp.presentation[i].timeMarks = timeMarks;
-      grp.presentation[i].filled = true;
+      grp.presentation[i].marks = marks
+      // grp.presentation[i].orgMarks = orgMarks;
+      // grp.presentation[i].subKnowMarks = subKnowMarks;
+      // grp.presentation[i].EODMarks = EODMarks;
+      // grp.presentation[i].timeMarks = timeMarks;
+      // grp.presentation[i].filled = true;
       break;
     }
   }
@@ -761,61 +755,51 @@ async function deleteWeeklyMeetLog(gid, wid) {
   }
 }
 
-async function reportMarks(
-  gid,
-  orgAndWriting,
-  enggTheoryAnaly,
-  biblogrpahy,
-  spellAndGrammar,
-  diagrams
-) {
+async function reportMarks(gid,report_marks) {
   grp = await Group.findById(gid);
-  grp.report.orgAndWriting = orgAndWriting;
-  grp.report.enggTheoryAnaly = enggTheoryAnaly;
-  grp.report.biblogrpahy = biblogrpahy;
-  grp.report.spellAndGrammar = spellAndGrammar;
-  grp.report.diagrams = diagrams;
-  grp.report.filled = true;
-  await grp.save();
-}
-async function deleteReportMarks(gid) {
-  grp = await Group.findById(gid);
-  grp.report.orgAndWriting = 0;
-  grp.report.enggTheoryAnaly = 0;
-  grp.report.biblogrpahy = 0;
-  grp.report.spellAndGrammar = 0;
-  grp.report.diagrams = 0;
-  grp.report.filled = false;
-  await grp.save();
-}
-async function implementationMarks(
-  gid,
-  probStatment,
-  concept,
-  innovation,
-  teamwork,
-  pmf
-) {
-  grp = await Group.findById(gid);
-  grp.implementation.probStatment = probStatment;
-  grp.implementation.concept = concept;
-  grp.implementation.innovation = innovation;
-  grp.implementation.teamwork = teamwork;
-  grp.implementation.pmf = pmf;
-  grp.implementation.filled = true;
+  grp.report = report_marks
+  // grp.report.orgAndWriting = orgAndWriting;
+  // grp.report.enggTheoryAnaly = enggTheoryAnaly;
+  // grp.report.biblogrpahy = biblogrpahy;
+  // grp.report.spellAndGrammar = spellAndGrammar;
+  // grp.report.diagrams = diagrams;
+  // grp.report.filled = true;
   await grp.save();
 }
 
-async function deleteImplementationMarks(gid) {
+// async function deleteReportMarks(gid) {
+//   grp = await Group.findById(gid);
+//   grp.report.orgAndWriting = 0;
+//   grp.report.enggTheoryAnaly = 0;
+//   grp.report.biblogrpahy = 0;
+//   grp.report.spellAndGrammar = 0;
+//   grp.report.diagrams = 0;
+//   grp.report.filled = false;
+//   await grp.save();
+// }
+
+async function implementationMarks(gid,implementationMarks) {
   grp = await Group.findById(gid);
-  grp.implementation.probStatment = 0;
-  grp.implementation.concept = 0;
-  grp.implementation.innovation = 0;
-  grp.implementation.teamwork = 0;
-  grp.implementation.pmf = 0;
-  grp.implementation.filled = false;
+  grp.implementation = implementationMarks
+  // grp.implementation.probStatment = probStatment;
+  // grp.implementation.concept = concept;
+  // grp.implementation.innovation = innovation;
+  // grp.implementation.teamwork = teamwork;
+  // grp.implementation.pmf = pmf;
+  // grp.implementation.filled = true;
   await grp.save();
 }
+
+// async function deleteImplementationMarks(gid) {
+// grp = await Group.findById(gid);
+// grp.implementation.probStatment = 0;
+// grp.implementation.concept = 0;
+// grp.implementation.innovation = 0;
+// grp.implementation.teamwork = 0;
+// grp.implementation.pmf = 0;
+// grp.implementation.filled = false;
+// await grp.save();
+// }
 
 async function viewGroupProposals(gid){
   grp = await Group.findById(gid)
@@ -918,9 +902,9 @@ module.exports = {
   weeklyMeetLog: weeklyMeetLog,
   deleteWeeklyMeetLog: deleteWeeklyMeetLog,
   reportMarks: reportMarks,
-  deleteReportMarks: deleteReportMarks,
+  // deleteReportMarks: deleteReportMarks,
   implementationMarks: implementationMarks,
-  deleteImplementationMarks: deleteImplementationMarks,
+  // deleteImplementationMarks: deleteImplementationMarks,
   submissionList: submissionList,
   viewGroupProposals : viewGroupProposals,
   uploadAddtionalDocument : uploadAddtionalDocument,
