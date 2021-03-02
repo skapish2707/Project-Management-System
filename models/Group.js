@@ -41,31 +41,36 @@ var groupSchema  = new mongoose.Schema({
 	presentation : [{
 		scheduled_date : {type :Date },
 		filled : {type : Boolean ,default:false},
-		orgMarks : {type:Number,default:0},
-		subKnowMarks : {type:Number,default:0},
-		EODMarks : {type:Number,default:0},
-		timeMarks : {type:Number,default:0}
+		marks : [{
+			rollno : Number,
+			orgMarks : {type:Number,default:0},
+			subKnowMarks : {type:Number,default:0},
+			EODMarks : {type:Number,default:0},
+			timeMarks : {type:Number,default:0}
+		}]
 	}],
 	weeklyMeetLog : [{
 		scheduled_date:{type:Date},
 		remark : {type:String,default:null}
 	}],
-	report : {
+	report : [{
+		rollno : Number , 
 		filled : {type : Boolean ,default:false},
 		orgAndWriting : {type:Number,default:0},
 		enggTheoryAnaly: {type:Number,default:0},
 		biblogrpahy: {type:Number,default:0},
 		spellAndGrammar : {type:Number,default:0},
 		diagrams : {type:Number,default:0}
-	},
-	implementation :{
+	}],
+	implementation :[{
+		rollno : Number , 
 		filled : {type : Boolean ,default:false},
 		probStatment : {type:Number,default:0},
 		concept : {type:Number,default:0},
 		innovation : {type:Number,default:0},
 		teamwork : {type:Number,default:0},
 		pmf : {type:Number,default:0}
-	},
+	}],
 	addtionalDocuments : [{
 		docName : {type:String ,default:null },
 		desc : {type:String ,default:null },

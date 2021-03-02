@@ -361,8 +361,7 @@ router.post('/presentationMarks',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'guide' && req.user.type != 'hod') return res.sendStatus(401)
 	try{
-		await dbm.updateMarks(req.body.gid.trim(),req.body.pid.trim(),
-			req.body.orgMarks,req.body.subKnowMarks,req.body.EODMarks,req.body.timeMarks);
+		await dbm.updateMarks(req.body.gid.trim(),req.body.presentation_marks);
 		return res.sendStatus(200)
 	}catch(e){
 		console.log(e)
@@ -502,7 +501,7 @@ router.post('/report',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'guide' && req.user.type != 'hod' ) return res.sendStatus(401)
 	try{
-		await dbm.reportMarks(req.body.gid.trim(),req.body.orgAndWriting,req.body.enggTheoryAnaly,req.body.biblogrpahy,req.body.spellAndGrammar ,req.body.diagrams);
+		await dbm.reportMarks(req.body.gid.trim(),req.body.reportMarks);
 		return res.sendStatus(200)
 	}catch(e){
 		console.log(e)
@@ -510,39 +509,41 @@ router.post('/report',authenticateToken,async function(req,res){
 	}
 })
 
-router.post('/deleteReport',authenticateToken,async function(req,res){
-	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide' && req.user.type != 'hod' ) return res.sendStatus(401)
-	try{
-		await dbm.deleteReportMarks(req.body.gid.trim())
-		return res.sendStatus(200)
-	}catch(e){
-		console.log(e)
-		res.sendStatus(500)
-	}
-})
+// router.post('/deleteReport',authenticateToken,async function(req,res){
+// 	if (!req.user) return res.sendStatus(404)
+// 	if (req.user.type != 'guide' && req.user.type != 'hod' ) return res.sendStatus(401)
+// 	try{
+// 		await dbm.deleteReportMarks(req.body.gid.trim())
+// 		return res.sendStatus(200)
+// 	}catch(e){
+// 		console.log(e)
+// 		res.sendStatus(500)
+// 	}
+// })
+
 router.post('/implementation',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
 	if (req.user.type != 'guide' && req.user.type != 'hod' ) return res.sendStatus(401)
 	try{
-		await dbm.implementationMarks(req.body.gid.trim(),req.body.probStatment,req.body.concept,req.body.innovation,req.body.teamwork,req.body.pmf)
+		await dbm.implementationMarks(req.body.gid.trim(),req.body.implementationMarks)
 		return res.sendStatus(200)
 	}catch(e){
 		console.log(e)
 		res.sendStatus(500)
 	}
 })
-router.post('/deleteImplementation',authenticateToken,async function(req,res){
-	if (!req.user) return res.sendStatus(404)
-	if (req.user.type != 'guide' && req.user.type != 'hod' ) return res.sendStatus(401)
-	try{
-		await dbm.deleteImplementationMarks(req.body.gid.trim())
-		return res.sendStatus(200)
-	}catch(e){
-		console.log(e)
-		res.sendStatus(500)
-	}
-})
+
+// router.post('/deleteImplementation',authenticateToken,async function(req,res){
+// 	if (!req.user) return res.sendStatus(404)
+// 	if (req.user.type != 'guide' && req.user.type != 'hod' ) return res.sendStatus(401)
+// 	try{
+// 		await dbm.deleteImplementationMarks(req.body.gid.trim())
+// 		return res.sendStatus(200)
+// 	}catch(e){
+// 		console.log(e)
+// 		res.sendStatus(500)
+// 	}
+// })
 
 router.get('/submissionList',authenticateToken,async function(req,res){
 	if (!req.user) return res.sendStatus(404)
