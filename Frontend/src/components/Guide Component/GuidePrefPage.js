@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { createMuiTheme, responsiveFontSizes, ThemeProvider, withStyles } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+  withStyles
+} from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -61,7 +66,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-let mem=[]
+let mem = [];
 let filled = false;
 let Ad = null;
 let Groups = null;
@@ -147,13 +152,20 @@ class HodPrefPage extends Component {
       openFailure: false,
       scheduleLoading: false,
       dateTime: "",
-      orgMarks: "",
-      eodMarks: "",
-      timeMarks: "",
-      subKnowMarks: "",
+
       weeklyLogMsg: "",
       weeklyLogDate: date,
-      reportMarks:[
+      presentationMarks: [
+        {
+          orgMarks: "",
+          subKnowMarks: "",
+          eodMarks: "",
+          timeMarks: ""
+        },
+        { orgMarks: "", subKnowMarks: "", eodMarks: "", timeMarks: "" },
+        { orgMarks: "", subKnowMarks: "", eodMarks: "", timeMarks: "" }
+      ],
+      reportMarks: [
         {
           orgAndWriting: "",
           biblogrpahy: "",
@@ -176,7 +188,7 @@ class HodPrefPage extends Component {
           spellAndGrammar: ""
         }
       ],
-      implementationMarks:[
+      implementationMarks: [
         {
           probStatement: "",
           innovation: "",
@@ -202,7 +214,7 @@ class HodPrefPage extends Component {
     };
   }
 
-  handleBibliography = (e,index) => {
+  handleBibliography = (e, index) => {
     let repMarks = [...this.state.reportMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -211,9 +223,8 @@ class HodPrefPage extends Component {
       }
     }
   };
-  
-  
-  handleSpellAndGrammar = (e,index) => {
+
+  handleSpellAndGrammar = (e, index) => {
     let repMarks = [...this.state.reportMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -222,7 +233,7 @@ class HodPrefPage extends Component {
       }
     }
   };
-  handleOrgAndWriting = (e,index) => {
+  handleOrgAndWriting = (e, index) => {
     let repMarks = [...this.state.reportMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -231,7 +242,7 @@ class HodPrefPage extends Component {
       }
     }
   };
-  handleEngTheoryAnaly = (e,index) => {
+  handleEngTheoryAnaly = (e, index) => {
     let repMarks = [...this.state.reportMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -240,7 +251,7 @@ class HodPrefPage extends Component {
       }
     }
   };
-  handleDiagram = (e,index) => {
+  handleDiagram = (e, index) => {
     let repMarks = [...this.state.reportMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -249,7 +260,7 @@ class HodPrefPage extends Component {
       }
     }
   };
-  handleProbStatement = (e,index) => {
+  handleProbStatement = (e, index) => {
     let repMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -258,7 +269,7 @@ class HodPrefPage extends Component {
       }
     }
   };
-  handleConcept = (e,index) => {
+  handleConcept = (e, index) => {
     let repMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -267,7 +278,7 @@ class HodPrefPage extends Component {
       }
     }
   };
-  handleTeamWork = (e,index) => {
+  handleTeamWork = (e, index) => {
     let repMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -276,7 +287,7 @@ class HodPrefPage extends Component {
       }
     }
   };
-  handlePMF = (e,index) => {
+  handlePMF = (e, index) => {
     let repMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -285,7 +296,7 @@ class HodPrefPage extends Component {
       }
     }
   };
-  handleInnovation = (e,index) => {
+  handleInnovation = (e, index) => {
     let repMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
@@ -296,25 +307,25 @@ class HodPrefPage extends Component {
   };
 
   handleReportSubmit = (e, id) => {
-    e.preventDefault()
-    let RepMarks = []
-    let flag=true
-    for(var i=0;i<mem.length;i++){
-      RepMarks.push(this.state.reportMarks[i])
+    e.preventDefault();
+    let RepMarks = [];
+    let flag = true;
+    for (var i = 0; i < mem.length; i++) {
+      RepMarks.push(this.state.reportMarks[i]);
       Object.values(this.state.reportMarks[i]).forEach(element => {
-        console.log(element)
-        if(element==="" || parseInt(element)>3){
-          flag=false
+        console.log(element);
+        if (element === "" || parseInt(element) > 3) {
+          flag = false;
         }
       });
     }
-    if(flag===false){
-      alert("Please enter appropriate values")
-    }else{
-      mem.map((member,index)=>{
-        let roll=member.rollno
-        Object.assign(RepMarks[index],{"rollno":roll})
-      })
+    if (flag === false) {
+      alert("Please enter appropriate values");
+    } else {
+      mem.map((member, index) => {
+        let roll = member.rollno;
+        Object.assign(RepMarks[index], { rollno: roll });
+      });
       console.log(RepMarks);
       axios({
         method: "post",
@@ -329,13 +340,12 @@ class HodPrefPage extends Component {
           Authorization: "Bearer " + localStorage.getItem("access_token")
         }
       })
-      .then(res => {
-        window.location.reload();
-        console.log("Succesful")
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+        .then(res => {
+          window.location.reload();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     }
   };
 
@@ -459,27 +469,26 @@ class HodPrefPage extends Component {
       });
   };
 
-
   handleImplementationSubmit = (e, id) => {
-    e.preventDefault()
-    let ImpMarks = []
-    let flag=true
-    for(var i=0;i<mem.length;i++){
-      ImpMarks.push(this.state.implementationMarks[i])
+    e.preventDefault();
+    let ImpMarks = [];
+    let flag = true;
+    for (var i = 0; i < mem.length; i++) {
+      ImpMarks.push(this.state.implementationMarks[i]);
       Object.values(this.state.implementationMarks[i]).forEach(element => {
-        console.log(element)
-        if(element==="" || parseInt(element)>3){
-          flag=false
+        console.log(element);
+        if (element === "" || parseInt(element) > 3) {
+          flag = false;
         }
       });
     }
-    if(flag===false){
-      alert("Please enter appropriate values")
-    }else{
-      mem.map((member,index)=>{
-        let roll=member.rollno
-        Object.assign(ImpMarks[index],{"rollno":roll})
-      })
+    if (flag === false) {
+      alert("Please enter appropriate values");
+    } else {
+      mem.map((member, index) => {
+        let roll = member.rollno;
+        Object.assign(ImpMarks[index], { rollno: roll });
+      });
       console.log(ImpMarks);
       axios({
         method: "post",
@@ -494,13 +503,13 @@ class HodPrefPage extends Component {
           Authorization: "Bearer " + localStorage.getItem("access_token")
         }
       })
-      .then(res => {
-        window.location.reload();
-        console.log("Successful")
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+        .then(res => {
+          window.location.reload();
+          console.log("Successful");
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     }
   };
 
@@ -680,27 +689,36 @@ class HodPrefPage extends Component {
     });
   };
 
+  //PRESENTATION MARKS HANDLER
   handleMarkSubmit = (e, groupID, presentationID) => {
-    if (this.state.timeMarks==="" || this.state.orgMarks==="" ||
-     this.state.eodMarks==="" || this.state.subKnowMarks === "")
-    {
-      alert("Please enter all field")
-    }
-    else if (
-      parseInt(this.state.timeMarks, 10) > 3 ||
-      parseInt(this.state.orgMarks, 10) > 2 ||
-      parseInt(this.state.eodMarks, 10) > 3 ||
-      parseInt(this.state.subKnowMarks, 10) > 2
-    ) {
-      alert("Entered marks greater than max marks. Please re-enter");
-      this.setState({
-        timeMarks: "",
-        orgMarks: "",
-        eodMarks: "",
-        subKnowMarks: ""
+    e.preventDefault();
+    let pMarks = [];
+    let flag = true;
+    for (var i = 0; i < mem.length; i++) {
+      pMarks.push(this.state.presentationMarks[i]);
+      Object.values(this.state.presentationMarks[i]).forEach(element => {
+        if (element === "") {
+          flag = false;
+        }
       });
-
+    }
+    pMarks.map(pm => {
+      if (
+        parseInt(pm.timeMarks) > 3 ||
+        parseInt(pm.orgMarks) > 2 ||
+        parseInt(pm.eodMarks) > 3 ||
+        parseInt(pm.subKnowMarks) > 2
+      )
+        flag = false;
+    });
+    if (flag === false) {
+      alert("Please enter appropriate values Or fill all the fields");
     } else {
+      mem.map((member, index) => {
+        let roll = member.rollno;
+        Object.assign(pMarks[index], { rollno: roll });
+      });
+      console.log(pMarks);
       axios({
         method: "post",
         url: SERVER_URL + "/presentationMarks",
@@ -709,10 +727,7 @@ class HodPrefPage extends Component {
         data: qs.stringify({
           gid: groupID,
           pid: presentationID,
-          orgMarks: this.state.orgMarks,
-          subKnowMarks: this.state.subKnowMarks,
-          EODMarks: this.state.eodMarks,
-          timeMarks: this.state.timeMarks
+          presentation: pMarks
         }),
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -721,7 +736,8 @@ class HodPrefPage extends Component {
       })
         .then(response => {
           this.setState({ marks: "", totalMarks: "" });
-          window.location.reload();
+          //window.location.reload();
+          console.log("success");
         })
         .catch(err => {
           this.setState({ marks: "", totalMarks: "" });
@@ -730,17 +746,41 @@ class HodPrefPage extends Component {
     }
   };
 
-  handleOrgMarks = e => {
-    this.setState({ orgMarks: e.target.value });
+  handleOrgMarks = (e, index) => {
+    let presMarks = [...this.state.presentationMarks];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        presMarks[i].orgMarks = e.target.value;
+        this.setState({ presentationMarks: presMarks });
+      }
+    }
   };
-  handleSubKnowMarks = e => {
-    this.setState({ subKnowMarks: e.target.value });
+  handleSubKnowMarks = (e, index) => {
+    let presMarks = [...this.state.presentationMarks];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        presMarks[i].subKnowMarks = e.target.value;
+        this.setState({ presentationMarks: presMarks });
+      }
+    }
   };
-  handleTimeMarks = e => {
-    this.setState({ timeMarks: e.target.value });
+  handleTimeMarks = (e, index) => {
+    let presMarks = [...this.state.presentationMarks];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        presMarks[i].timeMarks = e.target.value;
+        this.setState({ presentationMarks: presMarks });
+      }
+    }
   };
-  handleEodMarks = e => {
-    this.setState({ eodMarks: e.target.value });
+  handleEodMarks = (e, index) => {
+    let presMarks = [...this.state.presentationMarks];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        presMarks[i].eodMarks = e.target.value;
+        this.setState({ presentationMarks: presMarks });
+      }
+    }
   };
 
   handleDeletePresentation = (e, PID, GID) => {
@@ -781,13 +821,14 @@ class HodPrefPage extends Component {
               let Gid = group.id;
               if (group.id === this.props.match.params.id) {
                 let members = group.members;
-                mem=members
+                mem = members;
                 let Presentations = group.presentation;
                 let Proposals = group.proposals;
                 let Comments = group.comments;
                 let weeklyLog = group.weeklyMeetLog;
                 let implementation = group.implementation;
                 let report = group.report;
+
                 Presentations.sort((a, b) =>
                   new Date(a.scheduled_date).getTime() >
                   new Date(b.scheduled_date).getTime()
@@ -1096,179 +1137,257 @@ class HodPrefPage extends Component {
                               {Presentations.map((presentation, index) => {
                                 const panel = presentation._id;
                                 let d = new Date(presentation.scheduled_date);
+                                let presM = presentation.marks;
                                 return (
-                                  <Accordion
-                                    key={presentation._id}
-                                    expanded={expanded === panel}
-                                    onChange={this.handleChange(panel)}
-                                  >
-                                    <AccordionSummary
-                                      expandIcon={<ExpandMoreIcon />}
-                                      aria-controls="panel1bh-content"
-                                      id="panel1bh-header"
-                                    >
-                                      <Grid container>
-                                        <Grid item xs={3}>
-                                          <Typography variant="h6">
-                                            <b>Presentation {index + 1}</b>
-                                          </Typography>
-                                        </Grid>
-                                        {!presentation.filled ? (
-                                          <React.Fragment>
-                                            {d.getTime() > Date.now() ? (
-                                              <React.Fragment>
-                                                <Grid item xs={6} />
-                                                <Grid item xs={3}>
-                                                  <Typography>
-                                                    Presentation Not conducted
-                                                  </Typography>
-                                                </Grid>
-                                              </React.Fragment>
-                                            ) : (
-                                              <React.Fragment>
-                                                <Grid item xs={6} />
-                                                <Grid item xs={3}>
-                                                  <Typography color="secondary">
-                                                    Presentation Missing
-                                                  </Typography>
-                                                </Grid>
-                                              </React.Fragment>
-                                            )}
-                                          </React.Fragment>
-                                        ) : (
-                                          <React.Fragment>
-                                            <Grid item xs={6} />
+                                  <>
+                                    {presM.length !== 0 ? null : (
+                                      <Accordion
+                                        key={presentation._id}
+                                        expanded={expanded === panel}
+                                        onChange={this.handleChange(panel)}
+                                      >
+                                        <AccordionSummary
+                                          expandIcon={<ExpandMoreIcon />}
+                                          aria-controls="panel1bh-content"
+                                          id="panel1bh-header"
+                                        >
+                                          <Grid container>
                                             <Grid item xs={3}>
-                                              <Typography
-                                                style={{ color: "green" }}
-                                              >
-                                                Presentation conducted
+                                              <Typography variant="h6">
+                                                <b>Presentation {index + 1}</b>
                                               </Typography>
                                             </Grid>
-                                          </React.Fragment>
-                                        )}
-                                      </Grid>
-                                    </AccordionSummary>
-                                    <AccordionDetails
-                                      style={{ textAlign: "left" }}
-                                    >
-                                      <Grid
-                                        container
-                                        className={classes.content}
-                                        spacing={1}
-                                        style={{
-                                          padding: "0px"
-                                        }}
-                                      >
-                                        <Grid
-                                          item
-                                          xs={2}
-                                          style={{
-                                            textAlign: "left",
-                                            backgroundColor: "#d3d3d3"
-                                          }}
-                                        >
-                                          <React.Fragment>
-                                            {d.getHours() > 12 ? (
-                                              <Typography variant="h5">
-                                                {d.getHours() - 12}:
-                                                {d.getMinutes()} pm
-                                              </Typography>
+                                            {!presentation.filled ? (
+                                              <React.Fragment>
+                                                {d.getTime() > Date.now() ? (
+                                                  <React.Fragment>
+                                                    <Grid item xs={6} />
+                                                    <Grid item xs={3}>
+                                                      <Typography>
+                                                        Presentation Not
+                                                        conducted
+                                                      </Typography>
+                                                    </Grid>
+                                                  </React.Fragment>
+                                                ) : (
+                                                  <React.Fragment>
+                                                    <Grid item xs={6} />
+                                                    <Grid item xs={3}>
+                                                      <Typography color="secondary">
+                                                        Presentation Missing
+                                                      </Typography>
+                                                    </Grid>
+                                                  </React.Fragment>
+                                                )}
+                                              </React.Fragment>
                                             ) : (
-                                              <Typography variant="h5">
-                                                {d.getHours()}:{d.getMinutes()}{" "}
-                                                am
-                                              </Typography>
+                                              <React.Fragment>
+                                                <Grid item xs={6} />
+                                                <Grid item xs={3}>
+                                                  <Typography
+                                                    style={{ color: "green" }}
+                                                  >
+                                                    Presentation conducted
+                                                  </Typography>
+                                                </Grid>
+                                              </React.Fragment>
                                             )}
-                                            {days[d.getDay()]} {d.getDate()}/
-                                            {d.getMonth() + 1}/{d.getFullYear()}
-                                          </React.Fragment>
-                                        </Grid>
-                                        {!presentation.filled &&
-                                        d.getTime() <= Date.now() ? (
+                                          </Grid>
+                                        </AccordionSummary>
+                                        <AccordionDetails
+                                          style={{ textAlign: "left" }}
+                                        >
                                           <Grid
-                                            item
-                                            xs={10}
+                                            container
+                                            className={classes.content}
+                                            spacing={1}
                                             style={{
-                                              backgroundColor: "#fff",
-                                              padding: "0px",
-                                              margin: "0px 0px",
-                                              border: "4px solid #d3d3d3"
+                                              padding: "0px"
                                             }}
                                           >
-                                            <Grid container>
-                                              <Grid item>
-                                                <TextField
-                                                  size="small"
-                                                  type="number"
-                                                  value={this.state.timeMarks}
-                                                  variant="outlined"
-                                                  label="Time Management(3)"
-                                                  onChange={
-                                                    this.handleTimeMarks
-                                                  }
+                                            <Grid
+                                              item
+                                              xs={2}
+                                              style={{
+                                                textAlign: "left",
+                                                backgroundColor: "#d3d3d3"
+                                              }}
+                                            >
+                                              <React.Fragment>
+                                                {d.getHours() > 12 ? (
+                                                  <Typography variant="h5">
+                                                    {d.getHours() - 12}:
+                                                    {d.getMinutes()} pm
+                                                  </Typography>
+                                                ) : (
+                                                  <Typography variant="h5">
+                                                    {d.getHours()}:
+                                                    {d.getMinutes()} am
+                                                  </Typography>
+                                                )}
+                                                {days[d.getDay()]} {d.getDate()}
+                                                /{d.getMonth() + 1}/
+                                                {d.getFullYear()}
+                                              </React.Fragment>
+                                            </Grid>
+                                            {presM.length === 0 &&
+                                            d.getTime() <= Date.now() ? (
+                                              <ThemeProvider theme={theme}>
+                                                <TableContainer
                                                   style={{
-                                                    margin: "10px 5px",
                                                     backgroundColor: "#fff"
                                                   }}
-                                                  required
-                                                />
-                                              </Grid>
-                                              <Grid
-                                                item
+                                                  className={
+                                                    classes.tableContainer
+                                                  }
+                                                  component={Paper}
+                                                >
+                                                  <Table
+                                                    className={classes.table}
+                                                    size="small"
+                                                    aria-label="a dense table"
+                                                  >
+                                                    <TableHead>
+                                                      <TableRow>
+                                                        <TableCell align="center">
+                                                          Name
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                          Roll No.
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                          Time Management
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                          Effectiveness
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                          Organization
+                                                        </TableCell>
+                                                        <TableCell align="center">
+                                                          Subject Knowledge
+                                                        </TableCell>
+                                                      </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                      {members.map(
+                                                        (member, index) => (
+                                                          <TableRow
+                                                            key={member._id}
+                                                          >
+                                                            <TableCell align="center">
+                                                              {member.name}
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                              {member.rollno}
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                              <TextField
+                                                                size="small"
+                                                                type="number"
+                                                                value={
+                                                                  this.state
+                                                                    .timeMarks
+                                                                }
+                                                                variant="outlined"
+                                                                label="(3)"
+                                                                onChange={e => {
+                                                                  this.handleTimeMarks(
+                                                                    e,
+                                                                    index
+                                                                  );
+                                                                }}
+                                                                style={{
+                                                                  margin:
+                                                                    "10px 5px",
+                                                                  backgroundColor:
+                                                                    "#fff"
+                                                                }}
+                                                                required
+                                                              />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                              <TextField
+                                                                size="small"
+                                                                type="number"
+                                                                value={
+                                                                  this.state
+                                                                    .eodMarks
+                                                                }
+                                                                variant="outlined"
+                                                                label="(3) "
+                                                                onChange={e => {
+                                                                  this.handleEodMarks(
+                                                                    e,
+                                                                    index
+                                                                  );
+                                                                }}
+                                                                style={{
+                                                                  margin:
+                                                                    "10px 5px",
+                                                                  backgroundColor:
+                                                                    "#fff"
+                                                                }}
+                                                                required
+                                                              />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                              <TextField
+                                                                size="small"
+                                                                type="number"
+                                                                value={
+                                                                  this.state
+                                                                    .orgMarks
+                                                                }
+                                                                variant="outlined"
+                                                                label="(2)"
+                                                                onChange={e => {
+                                                                  this.handleOrgMarks(
+                                                                    e,
+                                                                    index
+                                                                  );
+                                                                }}
+                                                                style={{
+                                                                  margin:
+                                                                    "10px 5px",
+                                                                  backgroundColor:
+                                                                    "#fff"
+                                                                }}
+                                                                required
+                                                              />
+                                                            </TableCell>
 
-                                                // style={{ textAlign: "right" }}
-                                              >
-                                                <TextField
-                                                  size="small"
-                                                  type="number"
-                                                  value={this.state.eodMarks}
-                                                  variant="outlined"
-                                                  label="Effectiveness(3) "
-                                                  onChange={this.handleEodMarks}
-                                                  style={{
-                                                    margin: "10px 5px",
-                                                    backgroundColor: "#fff"
-                                                  }}
-                                                  required
-                                                />
-                                              </Grid>
-
-                                              <Grid item>
-                                                <TextField
-                                                  size="small"
-                                                  type="number"
-                                                  value={this.state.orgMarks}
-                                                  variant="outlined"
-                                                  label="Organization(2)"
-                                                  onChange={this.handleOrgMarks}
-                                                  style={{
-                                                    margin: "10px 5px",
-                                                    backgroundColor: "#fff"
-                                                  }}
-                                                  required
-                                                />
-                                              </Grid>
-                                              <Grid item>
-                                                <TextField
-                                                  size="small"
-                                                  type="number"
-                                                  value={
-                                                    this.state.subKnowMarks
-                                                  }
-                                                  variant="outlined"
-                                                  label="Subject Knowledge(2)"
-                                                  onChange={
-                                                    this.handleSubKnowMarks
-                                                  }
-                                                  style={{
-                                                    margin: "10px 5px",
-                                                    backgroundColor: "#fff"
-                                                  }}
-                                                  required
-                                                />
-                                              </Grid>
-                                              <Grid item>
+                                                            <TableCell align="center">
+                                                              <TextField
+                                                                size="small"
+                                                                type="number"
+                                                                value={
+                                                                  this.state
+                                                                    .subKnowMarks
+                                                                }
+                                                                variant="outlined"
+                                                                label="(2)"
+                                                                onChange={e => {
+                                                                  this.handleSubKnowMarks(
+                                                                    e,
+                                                                    index
+                                                                  );
+                                                                }}
+                                                                style={{
+                                                                  margin:
+                                                                    "10px 5px",
+                                                                  backgroundColor:
+                                                                    "#fff"
+                                                                }}
+                                                                required
+                                                              />
+                                                            </TableCell>
+                                                          </TableRow>
+                                                        )
+                                                      )}
+                                                    </TableBody>
+                                                  </Table>
+                                                </TableContainer>
                                                 <Button
                                                   size="large"
                                                   variant="contained"
@@ -1287,106 +1406,108 @@ class HodPrefPage extends Component {
                                                 >
                                                   Submit Marks
                                                 </Button>
-                                              </Grid>
-                                            </Grid>
-                                          </Grid>
-                                        ) : null}
-                                        {presentation.filled ? (
-                                          <React.Fragment>
-                                            <Grid
-                                              item
-                                              xs={10}
-                                              style={{
-                                                border: "4px solid #d3d3d3",
-                                                padding: "12px",
-                                                textAlign: "center"
-                                              }}
-                                            >
-                                              <Grid container>
-                                                <Grid item xs={2}>
-                                                  <Typography>
-                                                    Organisation:&nbsp;
-                                                    {presentation.orgMarks}
-                                                  </Typography>
+                                              </ThemeProvider>
+                                            ) : null}
+                                            {presM.length !== 0 ? (
+                                              <React.Fragment>
+                                                <Grid
+                                                  item
+                                                  xs={10}
+                                                  style={{
+                                                    border: "4px solid #d3d3d3",
+                                                    padding: "12px",
+                                                    textAlign: "center"
+                                                  }}
+                                                >
+                                                  <Grid container>
+                                                    <Grid item xs={2}>
+                                                      <Typography>
+                                                        Organisation:&nbsp;
+                                                        {presentation.orgMarks}
+                                                      </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={2}>
+                                                      <Typography>
+                                                        Subject Knowledge:&nbsp;
+                                                        {
+                                                          presentation.subKnowMarks
+                                                        }
+                                                      </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                      <Typography>
+                                                        Effectiveness of
+                                                        Delivery:&nbsp;
+                                                        {presentation.EODMarks}
+                                                      </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={2}>
+                                                      <Typography>
+                                                        Time Management:&nbsp;
+                                                        {presentation.timeMarks}
+                                                      </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                      <Typography>
+                                                        <b>
+                                                          Total Marks:
+                                                          {presentation.orgMarks +
+                                                            presentation.subKnowMarks +
+                                                            presentation.EODMarks +
+                                                            presentation.timeMarks}
+                                                          /10
+                                                        </b>
+                                                      </Typography>
+                                                    </Grid>
+                                                  </Grid>
                                                 </Grid>
-                                                <Grid item xs={2}>
-                                                  <Typography>
-                                                    Subject Knowledge:&nbsp;
-                                                    {presentation.subKnowMarks}
-                                                  </Typography>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                  <Typography>
-                                                    Effectiveness of
-                                                    Delivery:&nbsp;
-                                                    {presentation.EODMarks}
-                                                  </Typography>
-                                                </Grid>
-                                                <Grid item xs={2}>
-                                                  <Typography>
-                                                    Time Management:&nbsp;
-                                                    {presentation.timeMarks}
-                                                  </Typography>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                  <Typography>
-                                                    <b>
-                                                      Total Marks:
-                                                      {presentation.orgMarks +
-                                                        presentation.subKnowMarks +
-                                                        presentation.EODMarks +
-                                                        presentation.timeMarks}
-                                                      /10
-                                                    </b>
-                                                  </Typography>
-                                                </Grid>
-                                              </Grid>
-                                            </Grid>
 
-                                            <Grid
-                                              item
-                                              xs={12}
-                                              style={{ textAlign: "right" }}
-                                            >
-                                              <Button
-                                                variant="contained"
-                                                color="secondary"
-                                                onClick={e => {
-                                                  this.handleDeletePresentation(
-                                                    e,
-                                                    presentation._id,
-                                                    Gid
-                                                  );
-                                                }}
+                                                <Grid
+                                                  item
+                                                  xs={12}
+                                                  style={{ textAlign: "right" }}
+                                                >
+                                                  <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    onClick={e => {
+                                                      this.handleDeletePresentation(
+                                                        e,
+                                                        presentation._id,
+                                                        Gid
+                                                      );
+                                                    }}
+                                                  >
+                                                    Delete presentation
+                                                  </Button>
+                                                </Grid>
+                                              </React.Fragment>
+                                            ) : (
+                                              <Grid
+                                                item
+                                                xs={12}
+                                                style={{ textAlign: "right" }}
                                               >
-                                                Delete presentation
-                                              </Button>
-                                            </Grid>
-                                          </React.Fragment>
-                                        ) : (
-                                          <Grid
-                                            item
-                                            xs={12}
-                                            style={{ textAlign: "right" }}
-                                          >
-                                            <Button
-                                              variant="contained"
-                                              color="secondary"
-                                              onClick={e => {
-                                                this.handleDeletePresentation(
-                                                  e,
-                                                  presentation._id,
-                                                  Gid
-                                                );
-                                              }}
-                                            >
-                                              Delete presentation
-                                            </Button>
+                                                <Button
+                                                  variant="contained"
+                                                  color="secondary"
+                                                  onClick={e => {
+                                                    this.handleDeletePresentation(
+                                                      e,
+                                                      presentation._id,
+                                                      Gid
+                                                    );
+                                                  }}
+                                                >
+                                                  Delete presentation
+                                                </Button>
+                                              </Grid>
+                                            )}
                                           </Grid>
-                                        )}
-                                      </Grid>
-                                    </AccordionDetails>
-                                  </Accordion>
+                                        </AccordionDetails>
+                                      </Accordion>
+                                    )}
+                                  </>
                                 );
                               })}
                             </React.Fragment>
@@ -1418,70 +1539,86 @@ class HodPrefPage extends Component {
                           <Typography variant="h3">Report Marks</Typography>
                         </Grid>
                         <Grid item xs={12} style={{ margin: "20px 0px" }}>
-                          {report.filled ? (
-                            <Card
-                              style={{
-                                padding: "10px",
-                                margin: "2px 0px"
-                              }}
-                            >
-                              <Grid container>
-                                <Grid item xs={4}>
-                                  <Typography variant="h6">
-                                    Organisation and writing style :{" "}
-                                    {report.orgAndWriting}
-                                  </Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                  <Typography variant="h6">
-                                    Engineering Theory and Analysis :{" "}
-                                    {report.enggTheoryAnaly}
-                                  </Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                  <Typography variant="h6">
-                                    Use of Bibliography : {report.biblogrpahy}
-                                  </Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                  <Typography variant="h6">
-                                    Spelling and Grammar :{" "}
-                                    {report.spellAndGrammar}
-                                  </Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                  <Typography variant="h6">
-                                    Graphs/Diagram : {report.diagrams}
-                                  </Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                  <Typography variant="h5">
-                                    Total :{" "}
-                                    {report.orgAndWriting +
-                                      report.enggTheoryAnaly +
-                                      report.biblogrpahy +
-                                      report.spellAndGrammar +
-                                      report.diagrams}
-                                    /15
-                                  </Typography>
-                                </Grid>
-                                <Grid
-                                  item
-                                  xs={12}
-                                  style={{ textAlign: "right" }}
+                          {report.length !== 0 ? (
+                            <ThemeProvider theme={theme}>
+                              <TableContainer
+                                style={{ backgroundColor: "#fff" }}
+                                className={classes.tableContainer}
+                                component={Paper}
+                              >
+                                <Table
+                                  className={classes.table}
+                                  size="small"
+                                  aria-label="a dense table"
                                 >
-                                  <Button
-                                    onClick={e => {
-                                      this.handleDeleteReport(e, Gid);
-                                    }}
-                                    variant="contained"
-                                    color="secondary"
-                                  >
-                                    Delete
-                                  </Button>
-                                </Grid>
-                              </Grid>
-                            </Card>
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell align="center">
+                                        Roll No.
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Organizational and writing style
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Engineering Theory and Analysis
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Use of Bibliography
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Spelling and Grammar
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Graphs/Diagrams
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {report.map((report, index) => (
+                                      <TableRow key={report._id}>
+                                        <TableCell align="center">
+                                          {report.rollno}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {report.orgAndWriting}
+                                          </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {report.enggTheoryAnaly}
+                                          </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {report.biblogrpahy}
+                                          </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {report.spellAndGrammar}
+                                          </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {report.diagrams}
+                                          </Typography>
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                              <div>
+                                <Button
+                                  style={{ float: "right" }}
+                                  color="secondary"
+                                  variant="contained"
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            </ThemeProvider>
                           ) : (
                             <Card
                               style={{
@@ -1492,9 +1629,8 @@ class HodPrefPage extends Component {
                             >
                               {/* <form> */}
                               <ThemeProvider theme={theme}>
-                                <Typography variant="h4">Group Details</Typography>
                                 <TableContainer
-                                  style={{ backgroundColor: "#d3d3d3" }}
+                                  style={{ backgroundColor: "#fff" }}
                                   className={classes.tableContainer}
                                   component={Paper}
                                 >
@@ -1505,84 +1641,125 @@ class HodPrefPage extends Component {
                                   >
                                     <TableHead>
                                       <TableRow>
-                                        <TableCell align="center">Name</TableCell>
-                                        <TableCell align="center">Roll No.</TableCell>
-                                        <TableCell align="center">Organizational and writing style</TableCell>
-                                        <TableCell align="center">Engineering Theory and Analysis</TableCell>
-                                        <TableCell align="center">Use of Bibliography</TableCell>
-                                        <TableCell align="center">Spelling and Grammar</TableCell>
-                                        <TableCell align="center">Graphs/Diagrams</TableCell>
+                                        <TableCell align="center">
+                                          Name
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Roll No.
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Organizational and writing style
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Engineering Theory and Analysis
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Use of Bibliography
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Spelling and Grammar
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Graphs/Diagrams
+                                        </TableCell>
                                       </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                      {members.map((member,index) => (
+                                      {members.map((member, index) => (
                                         <TableRow key={member._id}>
-                                          <TableCell align="center">{member.name}</TableCell>
-                                          <TableCell align="center">{member.rollno}</TableCell>
                                           <TableCell align="center">
-                                          <TextField
-                                            type="number"
-                                            id="Organisation_and_writing_style"
-                                            name="Organisation_and_writing_style"
-                                            label="(3)"
-                                            value={this.state.orgAndWriting}
-                                            variant="standard"
-                                            onChange={(e)=>{this.handleOrgAndWriting(e,index,member.rollno)}}
-                                            // style={{ width: "40%" }}
-                                            required
-                                          />
+                                            {member.name}
                                           </TableCell>
                                           <TableCell align="center">
-                                          <TextField
-                                            type="number"
-                                            id="Eng_Theory_and_Analysis"
-                                            name="Eng_Theory_and_Analysis"
-                                            label="(3)"
-                                            value={this.state.enggTheoryAnaly}
-                                            variant="standard"
-                                            onChange={(e=>{this.handleEngTheoryAnaly(e,index)})}
-                                            // style={{ width: "40%" }}
-                                            required
-                                          />
+                                            {member.rollno}
                                           </TableCell>
                                           <TableCell align="center">
-                                          <TextField
-                                            type="number"
-                                            id="Use_of_Bibliography"
-                                            name="Use_of_Bibliography"
-                                            label="(3)"
-                                            value={this.state.bibliography}
-                                            variant="standard"
-                                            onChange={(e)=>{this.handleBibliography(e,index)}}
-                                            // style={{ width: "40%" }}
-                                            required
-                                          />
+                                            <TextField
+                                              type="number"
+                                              id="Organisation_and_writing_style"
+                                              name="Organisation_and_writing_style"
+                                              label="(3)"
+                                              value={this.state.orgAndWriting}
+                                              variant="standard"
+                                              onChange={e => {
+                                                this.handleOrgAndWriting(
+                                                  e,
+                                                  index,
+                                                  member.rollno
+                                                );
+                                              }}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
                                           </TableCell>
                                           <TableCell align="center">
-                                          <TextField
-                                            type="number"
-                                            id="Spelling_and_Grammar"
-                                            name="Spelling_and_Grammar"
-                                            label="(3)"
-                                            value={this.state.spellAndGrammar}
-                                            variant="standard"
-                                            onChange={(e)=>{this.handleSpellAndGrammar(e,index)}}
-                                            // style={{ width: "40%" }}
-                                            required
-                                          />
+                                            <TextField
+                                              type="number"
+                                              id="Eng_Theory_and_Analysis"
+                                              name="Eng_Theory_and_Analysis"
+                                              label="(3)"
+                                              value={this.state.enggTheoryAnaly}
+                                              variant="standard"
+                                              onChange={e => {
+                                                this.handleEngTheoryAnaly(
+                                                  e,
+                                                  index
+                                                );
+                                              }}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
                                           </TableCell>
                                           <TableCell align="center">
-                                          <TextField
-                                            type="number"
-                                            id="Graphs/Diagram"
-                                            name="Graphs/Diagram"
-                                            label="(3)"
-                                            value={this.state.diagram}
-                                            variant="standard"
-                                            onChange={(e)=>{this.handleDiagram(e,index)}}
-                                            // style={{ width: "40%" }}
-                                            required
-                                          />
+                                            <TextField
+                                              type="number"
+                                              id="Use_of_Bibliography"
+                                              name="Use_of_Bibliography"
+                                              label="(3)"
+                                              value={this.state.bibliography}
+                                              variant="standard"
+                                              onChange={e => {
+                                                this.handleBibliography(
+                                                  e,
+                                                  index
+                                                );
+                                              }}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <TextField
+                                              type="number"
+                                              id="Spelling_and_Grammar"
+                                              name="Spelling_and_Grammar"
+                                              label="(3)"
+                                              value={this.state.spellAndGrammar}
+                                              variant="standard"
+                                              onChange={e => {
+                                                this.handleSpellAndGrammar(
+                                                  e,
+                                                  index
+                                                );
+                                              }}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <TextField
+                                              type="number"
+                                              id="Graphs/Diagram"
+                                              name="Graphs/Diagram"
+                                              label="(3)"
+                                              value={this.state.diagram}
+                                              variant="standard"
+                                              onChange={e => {
+                                                this.handleDiagram(e, index);
+                                              }}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
                                           </TableCell>
                                         </TableRow>
                                       ))}
@@ -1591,7 +1768,6 @@ class HodPrefPage extends Component {
                                 </TableContainer>
                               </ThemeProvider>
                               <Grid container>
-                                
                                 <Grid item xs={6} style={{ margin: "5px 0" }}>
                                   <Button
                                     type="submit"
@@ -1634,123 +1810,238 @@ class HodPrefPage extends Component {
                             margin: "20px 0px 0px 20px"
                           }}
                         >
-                          <Typography variant="h3">
+                          <Typography
+                            variant="h3"
+                            style={{ marginBottom: "20px" }}
+                          >
                             Implementation Marks
                           </Typography>
                         </Grid>
-                        <Grid item xs={12} style={{ margin: "20px 0px" }}>
-                        <ThemeProvider theme={theme}>
-                          <Typography variant="h4">Group Details</Typography>
-                          <TableContainer
-                            style={{ backgroundColor: "#d3d3d3" }}
-                            className={classes.tableContainer}
-                            component={Paper}
-                          >
-                            <Table
-                              className={classes.table}
-                              size="small"
-                              aria-label="a dense table"
+                        {implementation.length !== 0 ? (
+                          <ThemeProvider theme={theme}>
+                            <TableContainer
+                              style={{ backgroundColor: "#fff" }}
+                              className={classes.tableContainer}
+                              component={Paper}
                             >
-                              <TableHead>
-                                <TableRow>
-                                  <TableCell align="center">Name</TableCell>
-                                  <TableCell align="center">Roll No.</TableCell>
-                                  <TableCell align="center">Problem Statement</TableCell>
-                                  <TableCell align="center">Concepts</TableCell>
-                                  <TableCell align="center">Innovation</TableCell>
-                                  <TableCell align="center">Teamwork</TableCell>
-                                  <TableCell align="center">Project Management and Finance</TableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                {members.map((member,index) => (
-                                  <TableRow key={member._id}>
-                                    <TableCell align="center">{member.name}</TableCell>
-                                    <TableCell align="center">{member.rollno}</TableCell>
+                              <Table
+                                className={classes.table}
+                                size="small"
+                                aria-label="a dense table"
+                              >
+                                <TableHead>
+                                  <TableRow>
                                     <TableCell align="center">
-                                    <TextField
-                                        type="number"
-                                        id="Problem_Statement"
-                                        name="Problem_Statement"
-                                        label="(3)"
-                                        variant="standard"
-                                        onChange={(e)=>{this.handleProbStatement(e,index)}}
-                                        // style={{ width: "40%" }}
-                                        required
-                                      />
+                                      Roll No.
                                     </TableCell>
                                     <TableCell align="center">
-                                    <TextField
-                                        type="number"
-                                        id="Concepts"
-                                        name="Concepts"
-                                        label="(3)"
-                                        variant="standard"
-                                        onChange={(e)=>{this.handleConcept(e,index)}}
-                                        // style={{ width: "40%" }}
-                                        required
-                                      />
+                                      Problem Statement
                                     </TableCell>
                                     <TableCell align="center">
-                                    <TextField
-                                        type="number"
-                                        id="Innovation"
-                                        name="Innovation"
-                                        label="(3)"
-                                        variant="standard"
-                                        onChange={(e)=>{this.handleInnovation(e,index)}}
-                                        // style={{ width: "40%" }}
-                                        required
-                                      />
+                                      Concepts
                                     </TableCell>
                                     <TableCell align="center">
-                                    <TextField
-                                        type="number"
-                                        id="Teamwork"
-                                        name="Teamwork"
-                                        label="(3)"
-                                        variant="standard"
-                                        onChange={(e)=>{this.handleTeamWork(e,index)}}
-                                        // style={{ width: "40%" }}
-                                        required
-                                      />
+                                      Innovation
                                     </TableCell>
                                     <TableCell align="center">
-                                    <TextField
-                                        type="number"
-                                        id="Proj_Management_and_Finance"
-                                        name="Proj_Management_and_Finance"
-                                        label="(3)"
-                                        variant="standard"
-                                        onChange={(e)=>{this.handlePMF(e,index)}}
-                                        // style={{ width: "40%" }}
-                                        required
-                                      />
+                                      Teamwork
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      Project Management and Finance
                                     </TableCell>
                                   </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </ThemeProvider>
-                        </Grid>
+                                </TableHead>
+                                <TableBody>
+                                  {implementation.map(
+                                    (implementation, index) => (
+                                      <TableRow key={implementation._id}>
+                                        <TableCell align="center">
+                                          {implementation.rollno}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {implementation.probStatment}
+                                          </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {implementation.concept}
+                                          </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {implementation.innovation}
+                                          </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {implementation.teamwork}
+                                          </Typography>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <Typography>
+                                            {implementation.pmf}
+                                          </Typography>
+                                        </TableCell>
+                                      </TableRow>
+                                    )
+                                  )}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                            <div style={{ width: "100%" }}>
+                              <Button
+                                style={{ float: "right", marginBottom: "20px" }}
+                                color="secondary"
+                                variant="contained"
+                              >
+                                Delete
+                              </Button>
+                            </div>
+                          </ThemeProvider>
+                        ) : (
+                          <Grid item xs={12} style={{ margin: "20px 0px" }}>
+                            <ThemeProvider theme={theme}>
+                              <TableContainer
+                                style={{ backgroundColor: "#fff" }}
+                                className={classes.tableContainer}
+                                component={Paper}
+                              >
+                                <Table
+                                  className={classes.table}
+                                  size="small"
+                                  aria-label="a dense table"
+                                >
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell align="center">Name</TableCell>
+                                      <TableCell align="center">
+                                        Roll No.
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Problem Statement
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Concepts
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Innovation
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Teamwork
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Project Management and Finance
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {members.map((member, index) => (
+                                      <TableRow key={member._id}>
+                                        <TableCell align="center">
+                                          {member.name}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {member.rollno}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <TextField
+                                            type="number"
+                                            id="Problem_Statement"
+                                            name="Problem_Statement"
+                                            label="(3)"
+                                            variant="standard"
+                                            onChange={e => {
+                                              this.handleProbStatement(
+                                                e,
+                                                index
+                                              );
+                                            }}
+                                            // style={{ width: "40%" }}
+                                            required
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <TextField
+                                            type="number"
+                                            id="Concepts"
+                                            name="Concepts"
+                                            label="(3)"
+                                            variant="standard"
+                                            onChange={e => {
+                                              this.handleConcept(e, index);
+                                            }}
+                                            // style={{ width: "40%" }}
+                                            required
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <TextField
+                                            type="number"
+                                            id="Innovation"
+                                            name="Innovation"
+                                            label="(3)"
+                                            variant="standard"
+                                            onChange={e => {
+                                              this.handleInnovation(e, index);
+                                            }}
+                                            // style={{ width: "40%" }}
+                                            required
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <TextField
+                                            type="number"
+                                            id="Teamwork"
+                                            name="Teamwork"
+                                            label="(3)"
+                                            variant="standard"
+                                            onChange={e => {
+                                              this.handleTeamWork(e, index);
+                                            }}
+                                            // style={{ width: "40%" }}
+                                            required
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <TextField
+                                            type="number"
+                                            id="Proj_Management_and_Finance"
+                                            name="Proj_Management_and_Finance"
+                                            label="(3)"
+                                            variant="standard"
+                                            onChange={e => {
+                                              this.handlePMF(e, index);
+                                            }}
+                                            // style={{ width: "40%" }}
+                                            required
+                                          />
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </ThemeProvider>
+                            <div style={{ marginBottom: "20px" }}>
+                              <Button
+                                onClick={e => {
+                                  this.handleImplementationSubmit(e, Gid);
+                                }}
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                style={{
+                                  float: "right",
+                                  marginBottom: "20px"
+                                }}
+                              >
+                                Submit
+                              </Button>
+                            </div>
+                          </Grid>
+                        )}
                       </Grid>
-                      <Button
-                        onClick={e => {
-                          this.handleImplementationSubmit(e, Gid);
-                        }}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        style={{
-                          padding: "10px 0px",
-                          marginLeft: "30px",
-                          width: "54%",
-                          fontSize: "20px"
-                        }}
-                      >
-                        Submit
-                      </Button>
                     </Card>
                     {/* WEEKLY LOG */}
                     <Card
@@ -1979,7 +2270,6 @@ HodPrefPage.propTypes = {
 
 export default withStyles(styles)(HodPrefPage);
 
-
 // {implementation.filled ? (
 //   <Card
 //     style={{
@@ -2204,29 +2494,27 @@ export default withStyles(styles)(HodPrefPage);
 //         </Grid>
 //       </Grid>
 //       <Grid item xs={6} style={{ margin: "10px 0" }}>
-        // <Button
-        //   onClick={e => {
-        //     this.handleImplementationSubmit(e, Gid);
-        //   }}
-        //   type="submit"
-        //   variant="contained"
-        //   color="primary"
-        //   style={{
-        //     padding: "10px 0px",
-        //     marginLeft: "30px",
-        //     width: "54%",
-        //     fontSize: "20px"
-        //   }}
-        // >
-        //   Submit
-        // </Button>
+// <Button
+//   onClick={e => {
+//     this.handleImplementationSubmit(e, Gid);
+//   }}
+//   type="submit"
+//   variant="contained"
+//   color="primary"
+//   style={{
+//     padding: "10px 0px",
+//     marginLeft: "30px",
+//     width: "54%",
+//     fontSize: "20px"
+//   }}
+// >
+//   Submit
+// </Button>
 //       </Grid>
 //     </Grid>
 //     {/* </form> */}
 //   </Card>
 // )}
-
-
 
 //states
 // this.state = {
@@ -2256,10 +2544,10 @@ export default withStyles(styles)(HodPrefPage);
 //   weeklyLogDate: date
 // };
 
-
 //Report marks
 
-{/* <Grid item xs={6} style={{ margin: "5px 0" }}>
+{
+  /* <Grid item xs={6} style={{ margin: "5px 0" }}>
                                   <Grid container>
                                     <Grid
                                       item
@@ -2419,4 +2707,5 @@ export default withStyles(styles)(HodPrefPage);
                                       />
                                     </Grid>
                                   </Grid>
-                                </Grid> */}
+                                </Grid> */
+}
