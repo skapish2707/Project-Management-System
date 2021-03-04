@@ -32,7 +32,6 @@ let Ad = null
 const StudentAdditionalDoc = (props) => {
     Group = props.Group
     Ad=Group.addtionalDocuments
-    console.log(Ad)
 
     const [addiDoc,setAddiDoc] = useState("")
     const [addiDesc,setAddiDesc] = useState("")
@@ -80,6 +79,7 @@ const StudentAdditionalDoc = (props) => {
             formData.append("desc",addiDesc)
             formData.append("doc", addiFile)
             formData.append("gid",Group.id)
+            console.log(formData);
             setLoading(true)
             axios({
                 method: "post",
@@ -204,7 +204,7 @@ const StudentAdditionalDoc = (props) => {
                     ):(
                         <React.Fragment>
                             <Grid item style={{margin:"10px 0px"}} xs={12}>
-                                <Button variant="contained" color="secondary"><CircularProgress/></Button>
+                                <Button variant="contained" style={{width:"85.33px", height:"36px"}} color="secondary"><CircularProgress size="30px" /></Button>
                             </Grid>
                         </React.Fragment>
                     )}
@@ -217,26 +217,26 @@ const StudentAdditionalDoc = (props) => {
                       }}
                     >
                         <React.Fragment>
-                            <div
-                            style={{ backgroundColor: "#d3d3d3", textAlign: "left" }}
-                            >
-                                <Typography
-                                    variant="h3"
-                                    style={{
-                                    fontWeight: "300",
-                                    paddingLeft: "30px",
-                                    paddingBottom: "20px"
-                                    }}
-                                >
-                                    Additional Uploaded Documents
-                                </Typography>
-                            </div>
                             {Ad.length === 0 ? (
-                            <Typography variant="h2">
+                            <Typography variant="h4">
                                 No Additional Document Uploaded
                             </Typography>
                             ) : (
                             <React.Fragment>
+                                <div
+                                style={{ backgroundColor: "#d3d3d3", textAlign: "left" }}
+                                >
+                                    <Typography
+                                        variant="h3"
+                                        style={{
+                                        fontWeight: "300",
+                                        paddingLeft: "30px",
+                                        paddingBottom: "20px"
+                                        }}
+                                    >
+                                        Additional Uploaded Documents
+                                    </Typography>
+                                </div>
                                 <Grid
                                 container
                                 style={{

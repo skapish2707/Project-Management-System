@@ -27,7 +27,12 @@ import {
   TableRow,
   TableBody,
   Paper,
-  TableContainer
+  TableContainer,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -66,6 +71,8 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+let repLength = 0;
+let impLength = 0;
 let mem = [];
 let filled = false;
 let Ad = null;
@@ -190,29 +197,55 @@ class HodPrefPage extends Component {
       ],
       implementationMarks: [
         {
-          probStatement: "",
+          probStatment: "",
           innovation: "",
           pmf: "",
           concept: "",
-          teamWork: ""
+          teamwork: ""
         },
         {
-          probStatement: "",
+          probStatment: "",
           innovation: "",
           pmf: "",
           concept: "",
-          teamWork: ""
+          teamwork: ""
         },
         {
-          probStatement: "",
+          probStatment: "",
           innovation: "",
           pmf: "",
           concept: "",
-          teamWork: ""
+          teamwork: ""
         }
-      ]
+      ],
+      repDelOpen:false,
+      impDelOpen:false
     };
   }
+
+  repDelClickOpen = () => {
+    this.setState({repDelOpen:true})
+  };
+
+  repDelAgreeClickClose = () => {
+    repLength=0
+    this.setState({repDelOpen:false})
+  }
+  repDelCancelClickClose = () => {
+    this.setState({repDelOpen:false})
+  }
+  impDelClickOpen = () => {
+    this.setState({impDelOpen:true})
+  };
+
+  impDelAgreeClickClose = () => {
+    impLength=0
+    this.setState({impDelOpen:false})
+  }
+  impDelCancelClickClose = () => {
+    this.setState({impDelOpen:false})
+  }
+
 
   handleBibliography = (e, index) => {
     let repMarks = [...this.state.reportMarks];
@@ -261,47 +294,47 @@ class HodPrefPage extends Component {
     }
   };
   handleProbStatement = (e, index) => {
-    let repMarks = [...this.state.implementationMarks];
+    let impMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
-        repMarks[i].probStatement = e.target.value;
-        this.setState({ implementationMarks: repMarks });
+        impMarks[i].probStatment = e.target.value;
+        this.setState({ implementationMarks: impMarks });
       }
     }
   };
   handleConcept = (e, index) => {
-    let repMarks = [...this.state.implementationMarks];
+    let impMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
-        repMarks[i].concept = e.target.value;
-        this.setState({ implementationMarks: repMarks });
+        impMarks[i].concept = e.target.value;
+        this.setState({ implementationMarks: impMarks });
       }
     }
   };
   handleTeamWork = (e, index) => {
-    let repMarks = [...this.state.implementationMarks];
+    let impMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
-        repMarks[i].teamWork = e.target.value;
-        this.setState({ implementationMarks: repMarks });
+        impMarks[i].teamwork = e.target.value;
+        this.setState({ implementationMarks: impMarks });
       }
     }
   };
   handlePMF = (e, index) => {
-    let repMarks = [...this.state.implementationMarks];
+    let impMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
-        repMarks[i].pmf = e.target.value;
-        this.setState({ implementationMarks: repMarks });
+        impMarks[i].pmf = e.target.value;
+        this.setState({ implementationMarks: impMarks });
       }
     }
   };
   handleInnovation = (e, index) => {
-    let repMarks = [...this.state.implementationMarks];
+    let impMarks = [...this.state.implementationMarks];
     for (var i = 0; i < 3; i++) {
       if (i === index) {
-        repMarks[i].innovation = e.target.value;
-        this.setState({ implementationMarks: repMarks });
+        impMarks[i].innovation = e.target.value;
+        this.setState({ implementationMarks: impMarks });
       }
     }
   };
@@ -646,6 +679,11 @@ class HodPrefPage extends Component {
       .then(res => {
         Ad = res.data.length;
         Groups = res.data;
+        Groups.map(group => {
+          if (group.id === this.props.match.params.id) {
+            impLength = group.implementation.length;
+            repLength = group.report.length;
+        }})
         this.setState({
           adData: "new",
           filled: true
@@ -822,9 +860,7 @@ class HodPrefPage extends Component {
               if (group.id === this.props.match.params.id) {
                 let members = group.members;
                 mem = members;
-                console.log(group);
                 let Presentations = group.presentation;
-                console.log(Presentations);
                 let Proposals = group.proposals;
                 let Comments = group.comments;
                 let weeklyLog = group.weeklyMeetLog;
@@ -1144,7 +1180,6 @@ class HodPrefPage extends Component {
                                 const panel = presentation._id;
                                 let d = new Date(presentation.scheduled_date);
                                 let presM = presentation.marks;
-                                console.log(presM);
                                 return (
                                   <>
                                     {presM.length !== 0 ? (
@@ -1268,13 +1303,20 @@ class HodPrefPage extends Component {
                                               </Table>
                                             </TableContainer>
                                             <div>
-                                              <Button
-                                                style={{ float: "right" }}
-                                                color="secondary"
-                                                variant="contained"
-                                              >
-                                                Delete
-                                              </Button>
+                                            <Button
+                                              style={{ float: "right" }}
+                                              color="secondary"
+                                              variant="contained"
+                                              onClick={e => {
+                                                this.handleDeletePresentation(
+                                                  e,
+                                                  presentation._id,
+                                                  Gid
+                                                );
+                                              }}
+                                            >
+                                              Delete
+                                            </Button>
                                             </div>
                                           </ThemeProvider>
                                         </AccordionDetails>
@@ -1449,18 +1491,10 @@ class HodPrefPage extends Component {
                                                               <TextField
                                                                 size="small"
                                                                 type="number"
-                                                                value={
-                                                                  this.state
-                                                                    .EODMarks
-                                                                }
+                                                                value={this.state.EODMarks}
                                                                 variant="outlined"
                                                                 label="(3) "
-                                                                onChange={e => {
-                                                                  this.handleEODMarks(
-                                                                    e,
-                                                                    index
-                                                                  );
-                                                                }}
+                                                                onChange={e => {this.handleEODMarks(e,index);}}
                                                                 style={{
                                                                   margin:
                                                                     "10px 5px",
@@ -1680,7 +1714,7 @@ class HodPrefPage extends Component {
                           </Typography>
                         </Grid>
                         <Grid item xs={12} style={{ margin: "20px 0px" }}>
-                          {report.length !== 0 ? (
+                          {repLength !== 0 ? (
                             <ThemeProvider theme={theme}>
                               <TableContainer
                                 style={{ backgroundColor: "#fff" }}
@@ -1751,13 +1785,35 @@ class HodPrefPage extends Component {
                                 </Table>
                               </TableContainer>
                               <div>
-                                <Button
-                                  style={{ float: "right" }}
-                                  color="secondary"
-                                  variant="contained"
-                                >
-                                  Delete
-                                </Button>
+                              <Button
+                                style={{ float: "right" }}
+                                color="secondary"
+                                variant="contained"
+                                onClick={this.repDelClickOpen}
+                              >
+                                Edit
+                              </Button>
+                              <Dialog
+                                open={this.state.repDelOpen}
+                                onClose={this.repDelClickClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                              >
+                                <DialogTitle id="alert-dialog-title">{"Re-enter the proposals?"}</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText id="alert-dialog-description">
+                                    If you click ok then you have to re-enter the proposals completely. If you refresh the page or close the tabs then all your changes will be lost. 
+                                  </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={this.repDelCancelClickClose} color="primary" autoFocus>
+                                    Cancel
+                                  </Button>
+                                  <Button onClick={this.repDelAgreeClickClose} color="primary" autoFocus>
+                                    Agree
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
                               </div>
                             </ThemeProvider>
                           ) : (
@@ -1958,7 +2014,7 @@ class HodPrefPage extends Component {
                             <b>Implementation Marks</b>
                           </Typography>
                         </Grid>
-                        {implementation.length !== 0 ? (
+                        {impLength !== 0 ? (
                           <ThemeProvider theme={theme}>
                             <TableContainer
                               style={{ backgroundColor: "#fff" }}
@@ -2032,12 +2088,34 @@ class HodPrefPage extends Component {
                             </TableContainer>
                             <div style={{ width: "100%" }}>
                               <Button
-                                style={{ float: "right", marginBottom: "20px" }}
+                                style={{ float: "right" }}
                                 color="secondary"
                                 variant="contained"
+                                onClick={this.impDelClickOpen}
                               >
-                                Delete
+                                Edit
                               </Button>
+                              <Dialog
+                                open={this.state.impDelOpen}
+                                onClose={this.impDelClickClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                              >
+                                <DialogTitle id="alert-dialog-title">{"Re-enter the proposals?"}</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText id="alert-dialog-description">
+                                    If you click ok then you have to re-enter the proposals completely. If you refresh the page or close the tabs then all your changes will be lost. 
+                                  </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={this.impDelCancelClickClose} color="primary" autoFocus>
+                                    Cancel
+                                  </Button>
+                                  <Button onClick={this.impDelAgreeClickClose} color="primary" autoFocus>
+                                    Agree
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
                             </div>
                           </ThemeProvider>
                         ) : (
