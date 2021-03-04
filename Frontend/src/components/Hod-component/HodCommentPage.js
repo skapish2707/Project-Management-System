@@ -66,10 +66,10 @@ const HodCommentPage = props => {
                             Your Previous Comments
                         </Typography> */}
                 <Typography
-                  variant="h3"
+                  variant="h5"
                   style={{ fontWeight: "400", textAlign: "left" }}
                 >
-                  Previous Comments:
+                  <b>Previous Comments:</b>
                 </Typography>
               </Paper>
               {comments

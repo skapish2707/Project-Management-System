@@ -11,7 +11,7 @@ var localStrategy = require("passport-local").Strategy;
 var ExcelJS = require("exceljs");
 
 var sendmail = require("./sendmail");
-var mediaServer = require('./mediaServer');
+var mediaServer = require("./mediaServer");
 
 mongoose.connect(
   process.env.uri,
@@ -195,7 +195,7 @@ async function getStudents(user, by) {
         weeklyMeetLog: groups[i].weeklyMeetLog,
         report: groups[i].report,
         implementation: groups[i].implementation,
-        addtionalDocuments : groups[i].addtionalDocuments
+        addtionalDocuments: groups[i].addtionalDocuments
       });
     }
   }
@@ -205,12 +205,13 @@ async function getStudents(user, by) {
 async function addProposals(student, proposals) {
   grp = await Group.findOne({ admin: student.admin, name: student.groupName });
   grp.proposals.forEach(function (proposal) {
-    fs.unlink(path.join(".", "proposal", proposal.attachPrints), function (
-      err
-    ) {
-      if (err) console.log(err);
-      console.log("deleted proposals");
-    });
+    fs.unlink(
+      path.join(".", "proposal", proposal.attachPrints),
+      function (err) {
+        if (err) console.log(err);
+        console.log("deleted proposals");
+      }
+    );
   });
   grp.proposals = proposals;
   await grp.save();
@@ -288,11 +289,11 @@ async function presentation(gid, datetime) {
   });
   await grp.save();
 }
-async function updateMarks(gid,pid,presentation_marks) {
+async function updateMarks(gid, pid, marks) {
   grp = await Group.findById(gid);
   for (let i = 0; i < grp.presentation.length; ++i) {
     if (grp.presentation[i]._id == pid) {
-      grp.presentation[i].marks = marks
+      grp.presentation[i].marks = marks;
       // grp.presentation[i].orgMarks = orgMarks;
       // grp.presentation[i].subKnowMarks = subKnowMarks;
       // grp.presentation[i].EODMarks = EODMarks;
@@ -351,7 +352,7 @@ async function deleteStudent(gid, email) {
 async function deleteProposal(gid) {
   grp = await Group.findById(gid);
   grp.proposals.forEach(function (proposal) {
-    mediaServer.deleteFile(proposal.attachPrints)
+    mediaServer.deleteFile(proposal.attachPrints);
     // fs.unlink(path.join(".", "proposal", proposal.attachPrints), function (
     //   err
     // ) {
@@ -402,7 +403,7 @@ async function getGroup(student) {
     report: group.report,
     implementation: group.implementation,
     guide: group.guide,
-    addtionalDocuments : group.addtionalDocuments 
+    addtionalDocuments: group.addtionalDocuments
   };
 }
 
@@ -755,9 +756,9 @@ async function deleteWeeklyMeetLog(gid, wid) {
   }
 }
 
-async function reportMarks(gid,report_marks) {
+async function reportMarks(gid, report_marks) {
   grp = await Group.findById(gid);
-  grp.report = report_marks
+  grp.report = report_marks;
   // grp.report.orgAndWriting = orgAndWriting;
   // grp.report.enggTheoryAnaly = enggTheoryAnaly;
   // grp.report.biblogrpahy = biblogrpahy;
@@ -778,9 +779,9 @@ async function reportMarks(gid,report_marks) {
 //   await grp.save();
 // }
 
-async function implementationMarks(gid,implementationMarks) {
+async function implementationMarks(gid, implementationMarks) {
   grp = await Group.findById(gid);
-  grp.implementation = implementationMarks
+  grp.implementation = implementationMarks;
   // grp.implementation.probStatment = probStatment;
   // grp.implementation.concept = concept;
   // grp.implementation.innovation = innovation;
@@ -801,32 +802,30 @@ async function implementationMarks(gid,implementationMarks) {
 // await grp.save();
 // }
 
-async function viewGroupProposals(gid){
-  grp = await Group.findById(gid)
-  if(!grp)return null
+async function viewGroupProposals(gid) {
+  grp = await Group.findById(gid);
+  if (!grp) return null;
   let grdData = {
-    name : grp.name , 
-    members : grp.members , 
-    proposals : grp.proposals
-  } 
-  return grdData
-  
+    name: grp.name,
+    members: grp.members,
+    proposals: grp.proposals
+  };
+  return grdData;
 }
 
-async function uploadAddtionalDocument( doc , body){
-
-  grp = await Group.findById(body.gid.trim())
-  url = await mediaServer.uploadFile(doc)
+async function uploadAddtionalDocument(doc, body) {
+  grp = await Group.findById(body.gid.trim());
+  url = await mediaServer.uploadFile(doc);
   grp.addtionalDocuments.push({
-    docName : body.docName.trim() ,
-    desc : body.desc.trim() ,
-    doclink : url
-  })
-  await grp.save()
+    docName: body.docName.trim(),
+    desc: body.desc.trim(),
+    doclink: url
+  });
+  await grp.save();
 }
 
-async function deleteuploadedDocument(gid,aid){
-  grp = await Group.findById(gid.trim())
+async function deleteuploadedDocument(gid, aid) {
+  grp = await Group.findById(gid.trim());
   index = null;
   for (let i = 0; i < grp.addtionalDocuments.length; ++i) {
     if (grp.addtionalDocuments[i].id == aid) {
@@ -835,30 +834,28 @@ async function deleteuploadedDocument(gid,aid){
     }
   }
   if (index != null) {
-    mediaServer.deleteFile(grp.addtionalDocuments[index].doclink)
+    mediaServer.deleteFile(grp.addtionalDocuments[index].doclink);
     grp.addtionalDocuments.splice(index, 1);
     await grp.save();
   }
 }
 
-
 passport.use(
-  new localStrategy({ usernameField: "email" }, function (
-    email,
-    password,
-    done
-  ) {
-    User.findOne({ email: email }, function (err, user) {
-      if (err) return done(err);
-      if (user == null)
-        return done(null, false, { message: "No User With That Email" });
-      bcrypt.compare(password, user.password, function (err, result) {
-        if (result)
-          return done(null, user, { message: "Successfully Logged In" });
-        else return done(null, false, { message: "Invalid password" });
+  new localStrategy(
+    { usernameField: "email" },
+    function (email, password, done) {
+      User.findOne({ email: email }, function (err, user) {
+        if (err) return done(err);
+        if (user == null)
+          return done(null, false, { message: "No User With That Email" });
+        bcrypt.compare(password, user.password, function (err, result) {
+          if (result)
+            return done(null, user, { message: "Successfully Logged In" });
+          else return done(null, false, { message: "Invalid password" });
+        });
       });
-    });
-  })
+    }
+  )
 );
 // passport.serializeUser(function (user, done) {
 //   done(null, user.id);
@@ -906,7 +903,7 @@ module.exports = {
   implementationMarks: implementationMarks,
   // deleteImplementationMarks: deleteImplementationMarks,
   submissionList: submissionList,
-  viewGroupProposals : viewGroupProposals,
-  uploadAddtionalDocument : uploadAddtionalDocument,
-  deleteuploadedDocument : deleteuploadedDocument
+  viewGroupProposals: viewGroupProposals,
+  uploadAddtionalDocument: uploadAddtionalDocument,
+  deleteuploadedDocument: deleteuploadedDocument
 };
