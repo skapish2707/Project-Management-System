@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import SERVER_URL from "../../Pages/URL";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
-import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Tabs, Tab, Box, AppBar, createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core";
+import {Typography, TextField, Grid, Button, withStyles, CircularProgress, Tabs, Tab, Box, AppBar, createMuiTheme, ThemeProvider, responsiveFontSizes, Select, FormControl, InputLabel, MenuItem } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -26,6 +26,10 @@ let pref2=[];
 let pref3=[];
 
 const useStyles = theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
   buttonprop: {
     padding: "10px",
     fontSize: "18px",
@@ -115,6 +119,8 @@ class StudentContent extends Component {
           Mtap: "",
           Red: "",
           Shr: "",
+          Type: "",
+          Cat: "",
           selectedFile: null
         },
         {
@@ -127,6 +133,8 @@ class StudentContent extends Component {
           Mtap: "",
           Red: "",
           Shr: "",
+          Type: "",
+          Cat: "",
           selectedFile: null
         },
         {
@@ -139,6 +147,8 @@ class StudentContent extends Component {
           Mtap: "",
           Red: "",
           Shr: "",
+          Type: "",
+          Cat: "",
           selectedFile: null
         }
       ],
@@ -268,6 +278,30 @@ class StudentContent extends Component {
     }
   };
 
+  handleTypeOPChange = (e, cs) => {
+    let prefs = [...this.state.preferences];
+    for (var i = 0; i < 3; i++) {
+      if (i === cs - 1) {
+        //let pref=[...prefs[i]];
+        prefs[i].Type = e.target.value;
+        // prefs[i]=pref;
+        this.setState({ preferences: prefs });
+      }
+    }
+  };
+
+  handleCatChange = (e, cs) => {
+    let prefs = [...this.state.preferences];
+    for (var i = 0; i < 3; i++) {
+      if (i === cs - 1) {
+        //let pref=[...prefs[i]];
+        prefs[i].Cat = e.target.value;
+        // prefs[i]=pref;
+        this.setState({ preferences: prefs });
+      }
+    }
+  };
+
   handleFileChange = (e, cs) => {
     let prefs = [...this.state.preferences];
     for (var i = 0; i < 3; i++) {
@@ -317,7 +351,9 @@ class StudentContent extends Component {
         agency: pref1.Agency,
         method: pref1.Mtap,
         result: pref1.Red,
-        requirements: pref1.Shr
+        requirements: pref1.Shr,
+        category: pref1.Cat,
+        typeOfProject: pref1.Type
       },
       {
         title: pref2.Top,
@@ -326,7 +362,9 @@ class StudentContent extends Component {
         agency: pref2.Agency,
         method: pref2.Mtap,
         result: pref2.Red,
-        requirements: pref2.Shr
+        requirements: pref2.Shr,
+        category: pref2.Cat,
+        typeOfProject: pref2.Type
       },
       {
         title: pref3.Top,
@@ -335,7 +373,9 @@ class StudentContent extends Component {
         agency: pref3.Agency,
         method: pref3.Mtap,
         result: pref3.Red,
-        requirements: pref3.Shr
+        requirements: pref3.Shr,
+        category: pref3.Cat,
+        typeOfProject: pref3.Type
       }
     ];
     var formData = new FormData();
@@ -418,6 +458,8 @@ class StudentContent extends Component {
       Mtap,
       Red,
       Shr,
+      Type,
+      Cat,
       selectedFile
     } = this.state.preferences[currentStep - 1];
     if (
@@ -428,10 +470,13 @@ class StudentContent extends Component {
       Mtap === "" ||
       Red === "" ||
       Shr === "" ||
+      Type === "" ||
+      Cat === "" ||
       selectedFile === null
     ) {
       alert("Please enter all the details of the preference");
     } else {
+      console.log(this.state.preferences[currentStep-1])
       this.setState({ open: true });
       this._next(e);
     }
@@ -469,6 +514,8 @@ class StudentContent extends Component {
                 handleMtapChange={this.handleMtapChange}
                 handleRedChange={this.handleRedChange}
                 handleShrChange={this.handleShrChange}
+                handleTypeOPChange={this.handleTypeOPChange}
+                handleCatChange={this.handleCatChange}
                 handleClose={this.handleClose}
                 handleFileChange={this.handleFileChange}
               />
@@ -485,6 +532,8 @@ class StudentContent extends Component {
                 handleMtapChange={this.handleMtapChange}
                 handleRedChange={this.handleRedChange}
                 handleShrChange={this.handleShrChange}
+                handleTypeOPChange={this.handleTypeOPChange}
+                handleCatChange={this.handleCatChange}
                 handleFileChange={this.handleFileChange}
                 previousButton={this.previousButton}
                 handleClose={this.handleClose}
@@ -506,6 +555,8 @@ class StudentContent extends Component {
                 handleMtapChange={this.handleMtapChange}
                 handleRedChange={this.handleRedChange}
                 handleShrChange={this.handleShrChange}
+                handleTypeOPChange={this.handleTypeOPChange}
+                handleCatChange={this.handleCatChange}
                 handleFileChange={this.handleFileChange}
                 previousButton={this.previousButton}
                 _prev={this._prev}
@@ -600,6 +651,18 @@ class StudentContent extends Component {
                       <Typography>{pref1.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Type of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref1.typeOfProject}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Category of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref1.category}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
@@ -662,6 +725,18 @@ class StudentContent extends Component {
                       <Typography>{pref2.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Type of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref2.typeOfProject}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Category of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref2.category}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
@@ -722,6 +797,18 @@ class StudentContent extends Component {
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.requirements}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Type of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref3.typeOfProject}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Category of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref3.category}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
@@ -795,6 +882,18 @@ class StudentContent extends Component {
                       <Typography>{pref1.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Type of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref1.typeOfProject}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Category of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref1.category}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
@@ -857,6 +956,18 @@ class StudentContent extends Component {
                       <Typography>{pref2.requirements}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Type of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref2.typeOfProject}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Category of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref2.category}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
@@ -917,6 +1028,18 @@ class StudentContent extends Component {
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography>{pref3.requirements}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Type of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref3.typeOfProject}</Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography><b>Category of Project : </b></Typography>
+                    </Grid>
+                    <Grid className={classes.typographyFilled} item xs={12}sm={6}>
+                      <Typography>{pref3.category}</Typography>
                     </Grid>
                     <Grid className={classes.typographyFilled} item xs={12}sm={6}>
                       <Typography><b>IEEE / ACM / Springer Journal Paper : </b></Typography>
@@ -1116,6 +1239,46 @@ function Step1(props) {
               }}
               required
             />
+          </Grid>
+          <Grid className={classes.typography} item xs={12}sm={6}>
+            <Typography component={"span"}>
+              Type of Project :{" "}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}sm={6}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="Type1-simple-select-label">Type</InputLabel>
+              <Select value={props.preferences[0].Type} id="Type" name="Type" onChange={e => {props.handleTypeOPChange(e, props.preferences[0].prefno);}}
+              >
+                <MenuItem value="Inhouse">Inhouse</MenuItem>
+                <MenuItem value="Outhouse">Outhouse</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid className={classes.typography} item xs={12}sm={6}>
+            <Typography component={"span"}>
+              Category of Project :{" "}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}sm={6}>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="cat1-simple-select-label">Category</InputLabel>
+            <Select
+              id="Cat"
+              name="Cat"
+              value={props.preferences[0].Cat}
+              onChange={e => {
+                props.handleCatChange(e, props.preferences[0].prefno);
+              }}
+            >
+              <MenuItem value="Innovative">Innovative</MenuItem>
+              <MenuItem value="Research Oriented">Research Oriented</MenuItem>
+              <MenuItem value="NGO Based">NGO Based</MenuItem>
+              <MenuItem value="Social Need">Social Need</MenuItem>
+              <MenuItem value="Education Based">Education Based</MenuItem>
+              <MenuItem value="Real Time">Real Time</MenuItem>
+            </Select>
+          </FormControl>
           </Grid>
           <Grid className={classes.typography} item xs={12}sm={6}>
             <Typography component={"span"}>
@@ -1322,6 +1485,46 @@ function Step2(props) {
               }}
               required
             />
+          </Grid>
+          <Grid className={classes.typography} item xs={12}sm={6}>
+            <Typography component={"span"}>
+              Type of Project :{" "}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}sm={6}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="Type2-simple-select-label">Type</InputLabel>
+              <Select value={props.preferences[1].Type} id="Type" name="Type" onChange={e => {props.handleTypeOPChange(e, props.preferences[1].prefno);}}
+              >
+                <MenuItem value="Inhouse">Inhouse</MenuItem>
+                <MenuItem value="Outhouse">Outhouse</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid className={classes.typography} item xs={12}sm={6}>
+            <Typography component={"span"}>
+              Category of Project :{" "}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}sm={6}>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="cat2-simple-select-label">Category</InputLabel>
+            <Select
+              id="Cat"
+              name="Cat"
+              value={props.preferences[1].Cat}
+              onChange={e => {
+                props.handleCatChange(e, props.preferences[1].prefno);
+              }}
+            >
+              <MenuItem value="Innovative">Innovative</MenuItem>
+              <MenuItem value="Research Oriented">Research Oriented</MenuItem>
+              <MenuItem value="NGO Based">NGO Based</MenuItem>
+              <MenuItem value="Social Need">Social Need</MenuItem>
+              <MenuItem value="Education Based">Education Based</MenuItem>
+              <MenuItem value="Real Time">Real Time</MenuItem>
+            </Select>
+          </FormControl>
           </Grid>
           <Grid className={classes.typography} item xs={12}sm={6}>
             <Typography component={"span"}>
@@ -1543,6 +1746,46 @@ function Step3(props) {
               }}
               required
             />
+          </Grid>
+          <Grid className={classes.typography} item xs={12}sm={6}>
+            <Typography component={"span"}>
+              Type of Project :{" "}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}sm={6}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="Type1-simple-select-label">Type</InputLabel>
+              <Select value={props.preferences[2].Type} id="Type" name="Type" onChange={e => {props.handleTypeOPChange(e, props.preferences[2].prefno);}}
+              >
+                <MenuItem value="Inhouse">Inhouse</MenuItem>
+                <MenuItem value="Outhouse">Outhouse</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid className={classes.typography} item xs={12}sm={6}>
+            <Typography component={"span"}>
+              Category of Project :{" "}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}sm={6}>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="cat1-simple-select-label">Category</InputLabel>
+            <Select
+              id="Cat"
+              name="Cat"
+              value={props.preferences[2].Cat}
+              onChange={e => {
+                props.handleCatChange(e, props.preferences[2].prefno);
+              }}
+            >
+              <MenuItem value="Innovative">Innovative</MenuItem>
+              <MenuItem value="Research Oriented">Research Oriented</MenuItem>
+              <MenuItem value="NGO Based">NGO Based</MenuItem>
+              <MenuItem value="Social Need">Social Need</MenuItem>
+              <MenuItem value="Education Based">Education Based</MenuItem>
+              <MenuItem value="Real Time">Real Time</MenuItem>
+            </Select>
+          </FormControl>
           </Grid>
           <Grid className={classes.typography} item xs={12}sm={6}>
             <Typography component={"span"}>
