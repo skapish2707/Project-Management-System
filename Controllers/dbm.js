@@ -37,6 +37,14 @@ mongoose.connect(
       // 		})
       // 	})
       // })
+      // User.find({$and: [ {type:{$ne:"admin"}} , {type:{$ne:"yami"}} ] }  , (err,data)=>{
+      //   data.forEach( (u)=>{
+      //     console.log(u.email , u.type)
+      //   } )
+      // })
+      // User.deleteMany({$and: [ {type:{$ne:"admin"}} , {type:{$ne:"yami"}} ]} , (err)=>{
+      //   console.log(err)
+      // })
     }
   }
 );
@@ -614,40 +622,78 @@ async function submissionList(admin_id) {
   if (!grps) return;
   students = [];
   grps.forEach(function (grp) {
-    report =
-      grp.report.orgAndWriting +
-      grp.report.enggTheoryAnaly +
-      grp.report.biblogrpahy +
-      grp.report.spellAndGrammar +
-      grp.report.diagrams;
-    implementation =
-      grp.implementation.probStatment +
-      grp.implementation.concept +
-      grp.implementation.innovation +
-      grp.implementation.teamwork +
-      grp.implementation.pmf;
-    attendance = Math.round((grp.weeklyMeetLog.length / 13) * 10);
-    presentation = 0;
-    grp.presentation.forEach(function (p) {
-      presentation += p.orgMarks + p.subKnowMarks + p.EODMarks + p.timeMarks;
+
+    members_hash = {}
+    grp.members.forEach( (mem)=>{
+      members_hash[mem.rollno] = {
+        rollno: mem.rollno,
+        name: mem.name,
+        report: 0,
+        presentation: 0,
+        implementation: 0,
+        attendance: Math.round((grp.weeklyMeetLog.length / 13) * 10),
+        total: 0
+      }
+    } )
+
+    grp.report.forEach( (rep)=>{
+      members_hash[rep.rollno ].report = rep.orgAndWriting + rep.enggTheoryAnaly + rep.biblogrpahy + rep.spellAndGrammar + rep.diagrams
+    } )
+    grp.implementation.forEach( (impl)=>{
+      members_hash[impl.rollno].implementation = impl.probStatment + impl.concept + impl.innovation + impl.teamwork + impl.pmf
+    } )
+
+    // console.log( members_hash)
+
+    // report =
+    //   grp.report.orgAndWriting +
+    //   grp.report.enggTheoryAnaly +
+    //   grp.report.biblogrpahy +
+    //   grp.report.spellAndGrammar +
+    //   grp.report.diagrams;
+
+    // implementation =
+    //   grp.implementation.probStatment +
+    //   grp.implementation.concept +
+    //   grp.implementation.innovation +
+    //   grp.implementation.teamwork +
+    //   grp.implementation.pmf;
+
+    // attendance = Math.round((grp.weeklyMeetLog.length / 13) * 10);
+
+    grp.presentation.forEach(function (pre) {
+      pre.marks.forEach( (p)=>{
+        members_hash[p.rollno].presentation += p.orgMarks + p.subKnowMarks + p.EODMarks + p.timeMarks;
+      } )
+      
     });
-    total = report + presentation + implementation + attendance;
-    grp.members.forEach(function (m) {
-      s = {
-        rollno: m.rollno,
-        name: m.name,
-        report: report,
-        presentation: presentation,
-        implementation: implementation,
-        attendance: attendance,
-        total: total
-      };
-      students.push(s);
-    });
+
+    Object.keys(members_hash).forEach( (key)=>{
+      members_hash[key].total = members_hash[key].report + members_hash[key].implementation + members_hash[key].presentation + members_hash[key].attendance
+      students.push(members_hash[key] );
+    } )
+
+    // total = report + presentation + implementation + attendance;
+    // grp.members.forEach(function (m) {
+    //   s = {
+    //     rollno: m.rollno,
+    //     name: m.name,
+    //     report: report,
+    //     presentation: presentation,
+    //     implementation: implementation,
+    //     attendance: attendance,
+    //     total: total
+    //   };
+    // });
   });
   students.sort(function (a, b) {
     return a.rollno > b.rollno ? 1 : -1;
   });
+  // console.log(students)
+  // students.forEach( (s)=>{
+  //   console.log(s)
+  // } )
+  // return null;
 
   workbook = new ExcelJS.Workbook();
   worksheet = workbook.addWorksheet("Project List");
@@ -712,7 +758,7 @@ async function submissionList(admin_id) {
       };
     });
   });
-  //await workbook.xlsx.writeFile("Submission List.xlsx");
+  // await workbook.xlsx.writeFile("Submission List.xlsx");
   return workbook;
 }
 
