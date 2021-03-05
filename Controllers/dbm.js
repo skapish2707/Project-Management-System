@@ -284,7 +284,8 @@ async function getGuideGroups(user) {
       comments: groups[i].comments,
       weeklyMeetLog: groups[i].weeklyMeetLog,
       report: groups[i].report,
-      implementation: groups[i].implementation
+      implementation: groups[i].implementation,
+      addtionalDocuments : groups[i].addtionalDocuments
     });
   }
   return list_groups;
