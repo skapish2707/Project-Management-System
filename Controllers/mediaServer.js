@@ -1,5 +1,5 @@
-// var filestack = require('filestack-js').init(process.env.FILESTACK_API_KEY);
-var filestack = require('filestack-js').init("AQwzd9fqHTpWzpwfzREYKz");
+var filestack = require('filestack-js').init(process.env.FILESTACK_API_KEY);
+
 
 async function uploadFile(file){
 	let url = null 

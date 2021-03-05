@@ -536,6 +536,7 @@ async function excel(admin_id) {
   // 		showGridLines:true
   // 	}
   // }
+
   worksheet.columns = [
     {
       header: "Group no",
@@ -561,12 +562,77 @@ async function excel(admin_id) {
       key: "guide",
       width: 20,
       style: { font: { name: "Times New Roman" } }
+    },
+    {
+      header: "Innovative",
+      key : "Innovative",
+      width : 15 ,
+      style: { font: { name: "Times New Roman" } }
+    },
+    {
+      header:"Research Oriented",
+      key : "Research Oriented", 
+      width : 20 ,
+      style: { font: { name: "Times New Roman" } }
+    },
+    {
+      header:"NGO Based",
+      key : "NGO Based", 
+      width : 15 ,
+      style: { font: { name: "Times New Roman" } }
+    },
+    {
+      header:"Social Need",
+      key : "Social Need", 
+      width : 15 ,
+      style: { font: { name: "Times New Roman" } }
+    },
+    {
+      header:"Education Based",
+      key : "Education Based", 
+      width : 20 ,
+      style: { font: { name: "Times New Roman" } }
+    },
+    {
+      header:"Real Time",
+      key : "Real Time", 
+      width : 15 ,
+      style: { font: { name: "Times New Roman" } }
     }
   ];
   sheet_data_rows = [];
   merge_cells = [];
-  count = 2;
-  grpno = 0;
+  count = 2; // imp change kar lena 
+  // heading_line_1 = {
+  //   "name":"Department of Computer Engineering"
+  // }
+  // heading_line_2 = {
+  //   "name":"Academic Year "+data[0].acadYear
+  // }
+  // heading_line_3 = {
+  //   "name":"B.E. Computer Project Details with Categories"
+  // }
+  // sheet_data_rows.push(heading_line_1)
+  // sheet_data_rows.push(heading_line_2)
+  // sheet_data_rows.push(heading_line_3)
+
+  total_category_heading = {
+      "Innovative":"Innovative",
+      "Research Oriented":"Research Oriented",
+      "NGO Based":"NGO Based",
+      "Social Need":"Social Need",
+      "Education Based":"Education Based",
+      "Real Time": "Real Time" 
+  }
+  total_category = {
+    "guide" : "Total Count",
+    "Innovative":0,
+    "Research Oriented":0,
+    "NGO Based":0,
+    "Social Need":0,
+    "Education Based":0,
+    "Real Time":0
+  }
   data.forEach(function (grp) {
     valid = false;
     index = null;
@@ -574,32 +640,51 @@ async function excel(admin_id) {
       if (grp.proposals[i].approval.hod && grp.proposals[i].approval.admin) {
         valid = true;
         index = i;
-        grpno++;
         break;
       }
     }
     if (valid) {
       grp.members.forEach(function (member) {
-        sheet_data_rows.push({
-          gno: grpno,
+        row_one = {
+          gno: grp.name.replace("group","") ,
           name: member.name,
           title: grp.proposals[index].title,
           guide: grp.guide.name
-        });
+        }
+        row_one[grp.proposals[index].category.trim()] = 1
+        sheet_data_rows.push(row_one);
       });
+      total_category[grp.proposals[index].category.trim() ]++
+
       merge_cells.push(`A${count}:A${count + grp.members.length - 1}`);
       merge_cells.push(`C${count}:C${count + grp.members.length - 1}`);
       merge_cells.push(`D${count}:D${count + grp.members.length - 1}`);
+      merge_cells.push(`E${count}:E${count + grp.members.length - 1}`);
+      merge_cells.push(`F${count}:F${count + grp.members.length - 1}`);
+      merge_cells.push(`G${count}:G${count + grp.members.length - 1}`);
+      merge_cells.push(`H${count}:H${count + grp.members.length - 1}`);
+      merge_cells.push(`I${count}:I${count + grp.members.length - 1}`);
+      merge_cells.push(`J${count}:J${count + grp.members.length - 1}`);
+
       count += grp.members.length;
     }
   });
 
+  sheet_data_rows.push(total_category_heading)
+  sheet_data_rows.push(total_category)
   sheet_data_rows.forEach(function (row) {
     worksheet.addRow(row);
   });
   worksheet.getRow(1).eachCell(function (cell) {
     cell.font = { name: "Times New Roman", bold: true };
   });
+  worksheet.getRow(count).eachCell(function (cell) {
+    cell.font = { name: "Times New Roman", bold: true };
+  });
+  worksheet.getRow(count+1).eachCell(function (cell) {
+    cell.font = { name: "Times New Roman", bold: true };
+  });
+
   merge_cells.forEach(function (cell) {
     worksheet.mergeCells(cell);
   });
