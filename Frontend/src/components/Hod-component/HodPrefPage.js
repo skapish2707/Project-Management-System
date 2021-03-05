@@ -23,7 +23,8 @@ import {
   Paper,
   TableBody,
   createMuiTheme,
-  responsiveFontSizes
+  responsiveFontSizes,
+  Card
 } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -248,6 +249,8 @@ class HodPrefPage extends Component {
     const Group = location.state.Group;
     const Gid = Group.id;
     let Ad = Group.addtionalDocuments;
+    let report = Group.report;
+    let implementation = Group.implementation;
 
     if (this.state.adData === null) {
       this.checkData();
@@ -494,106 +497,331 @@ class HodPrefPage extends Component {
                         </Accordion>
                       );
                     })}
-                    <div
+                    <Card
                       style={{
-                        marginTop: "30px",
-                        boxShadow:
-                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                        backgroundColor: "#d8d8d8",
+                        padding: "0px 30px",
+                        margin: "50px auto"
                       }}
                     >
-                      <React.Fragment>
-                        {Ad.length === 0 ? (
-                          <Typography variant="h4">
-                            No Additional Document Uploaded
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <Typography variant="h4" style={{margin:"10px 0px 5px 5px", float:"left"}}>
+                            <b>Additional Documents</b>
                           </Typography>
-                        ) : (
-                          <React.Fragment>
-                            <div
-                              style={{ backgroundColor: "#fff", textAlign: "left" }}
-                            >
-                              <Typography
-                                variant="h2"
+                        </Grid>
+                      </Grid>
+                      <div
+                        style={{
+                          backgroundColor: "#fff",
+                          margin: "10px 0px 15px 0px",
+                          boxShadow:
+                            "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                        }}
+                      >
+                        <React.Fragment>
+                          {Ad.length === 0 ? (
+                            <Typography style={{padding:"5px"}}>
+                              No Additional Document Uploaded
+                            </Typography>
+                          ) : (
+                            <React.Fragment>
+                              
+                              <Grid
+                                container
                                 style={{
-                                  fontWeight: "400",
-                                  paddingLeft: "30px",
-                                  paddingBottom: "20px"
+                                  backgroundColor: "#fff",
+                                  padding: "10px",
+                                  marginBottom: "2px",
+                                  textAlign: "left"
                                 }}
                               >
-                                Additional Uploaded Documents
-                              </Typography>
-                            </div>
-                            <Grid
-                              container
-                              style={{
-                                backgroundColor: "#fff",
-                                padding: "10px",
-                                marginBottom: "2px",
-                                textAlign: "left"
-                              }}
-                            >
-                              <Grid item xs={3} style={{ paddingLeft: "20px" }}>
-                                <Typography>
-                                  <b>Title</b>
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={6}>
-                                <Typography>
-                                  <b>Description</b>
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={1}></Grid>
-                              <Grid item xs={2} style={{ textAlign: "centre" }}>
-                                <Typography>
-                                  <b>File Link</b>
-                                </Typography>
-                              </Grid>
-                            </Grid>
-                            {Ad.map(ad => {
-                              return (
-                                <Grid
-                                  container
-                                  key={ad._id}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    padding: "12px",
-                                    marginBottom: "2px",
-                                    textAlign: "left"
-                                  }}
-                                >
-                                  <Grid
-                                    item
-                                    xs={3}
-                                    style={{ paddingLeft: "20px" }}
-                                  >
-                                    <Typography>{ad.docName}</Typography>
-                                  </Grid>
-                                  <Grid item xs={6}>
-                                    <Typography>{ad.desc}</Typography>
-                                  </Grid>
-                                  <Grid item xs={1}></Grid>
-                                  <Grid item xs={2}>
-                                    <Typography>
-                                      <a
-                                        href={ad.doclink}
-                                        style={{ textDecoration: "none" }}
-                                        target="_blank"
-                                      >
-                                        <Button
-                                          variant="outlined"
-                                          color="primary"
-                                          size="small"
-                                        >
-                                          Show Document
-                                        </Button>
-                                      </a>
-                                    </Typography>
-                                  </Grid>
+                                <Grid item xs={3} style={{ paddingLeft: "20px" }}>
+                                  <Typography>
+                                    <b>Title</b>
+                                  </Typography>
                                 </Grid>
-                              );
-                            })}
-                          </React.Fragment>
-                        )}
-                      </React.Fragment>
+                                <Grid item xs={6}>
+                                  <Typography>
+                                    <b>Description</b>
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={1}></Grid>
+                                <Grid item xs={2} style={{ textAlign: "centre" }}>
+                                  <Typography>
+                                    <b>File Link</b>
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                              {Ad.map(ad => {
+                                return (
+                                  <Grid
+                                    container
+                                    key={ad._id}
+                                    style={{
+                                      backgroundColor: "#fff",
+                                      padding: "12px",
+                                      marginBottom: "2px",
+                                      textAlign: "left"
+                                    }}
+                                  >
+                                    <Grid
+                                      item
+                                      xs={3}
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      <Typography>{ad.docName}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                      <Typography>{ad.desc}</Typography>
+                                    </Grid>
+                                    <Grid item xs={1}></Grid>
+                                    <Grid item xs={2}>
+                                      <Typography>
+                                        <a
+                                          href={ad.doclink}
+                                          style={{ textDecoration: "none" }}
+                                          target="_blank"
+                                        >
+                                          <Button
+                                            variant="outlined"
+                                            color="primary"
+                                            size="small"
+                                          >
+                                            Show Document
+                                          </Button>
+                                        </a>
+                                      </Typography>
+                                    </Grid>
+                                  </Grid>
+                                );
+                              })}
+                            </React.Fragment>
+                          )}
+                        </React.Fragment>
+                      </div>
+                    </Card>
+                    <div>
+                      <Card
+                        style={{
+                          backgroundColor: "#d8d8d8",
+                          padding: "0px 30px",
+                          margin: "50px auto"
+                        }}
+                      >
+                        <Grid container>
+                          <Grid
+                            item
+                            xs={12}
+                            style={{
+                              textAlign: "left",
+                              margin: "20px 0px 0px 20px"
+                            }}
+                          >
+                            <Typography variant="h4">
+                              <b>Report Marks</b>
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} style={{ margin: "20px 0px" }}>
+                            {report.length !== 0 ? (
+                              <ThemeProvider theme={theme}>
+                                <TableContainer
+                                  style={{ backgroundColor: "#fff" }}
+                                  className={classes.tableContainer}
+                                  component={Paper}
+                                >
+                                  <Table
+                                    className={classes.table}
+                                    size="small"
+                                    aria-label="a dense table"
+                                  >
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell align="center">
+                                          Roll No.
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Organizational and writing style
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Engineering Theory and Analysis
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Use of Bibliography
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Spelling and Grammar
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Graphs/Diagrams
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {report.map((report, index) => (
+                                        <TableRow key={report._id}>
+                                          <TableCell align="center">
+                                            {report.rollno}
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {report.orgAndWriting}
+                                            </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {report.enggTheoryAnaly}
+                                            </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {report.biblogrpahy}
+                                            </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {report.spellAndGrammar}
+                                            </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {report.diagrams}
+                                            </Typography>
+                                          </TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </ThemeProvider>
+                            ) : (
+                              <Card
+                                style={{
+                                  borderRadius: "0px",
+                                  padding: "10px",
+                                  margin: "2px 0px"
+                                }}
+                              >
+                                <Typography>
+                                  Report marks have not been added by the guide.
+                                </Typography>
+                              </Card>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </Card>
+                    </div>
+                    <div>
+                      <Card
+                        style={{
+                          backgroundColor: "#d8d8d8",
+                          padding: "0px 30px",
+                          margin: "40px auto"
+                        }}
+                      >
+                        <Grid container>
+                          <Grid
+                            item
+                            xs={12}
+                            style={{
+                              textAlign: "left",
+                              margin: "20px 0px 0px 20px"
+                            }}
+                          >
+                            <Typography variant="h4">
+                              <b>Implementation Marks</b>
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} style={{ margin: "10px 0px" }}>
+                            {implementation.length !== 0 ? (
+                            <ThemeProvider theme={theme}>
+                              <TableContainer
+                                style={{ backgroundColor: "#fff" }}
+                                className={classes.tableContainer}
+                                component={Paper}
+                              >
+                                <Table
+                                  className={classes.table}
+                                  size="small"
+                                  aria-label="a dense table"
+                                >
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell align="center">
+                                        Roll No.
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Problem Statement
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Concepts
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Innovation
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Teamwork
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        Project Management and Finance
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {implementation.map(
+                                      (implementation, index) => (
+                                        <TableRow key={implementation._id}>
+                                          <TableCell align="center">
+                                            {implementation.rollno}
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {implementation.probStatment}
+                                            </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {implementation.concept}
+                                            </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {implementation.innovation}
+                                            </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {implementation.teamwork}
+                                            </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <Typography>
+                                              {implementation.pmf}
+                                            </Typography>
+                                          </TableCell>
+                                        </TableRow>
+                                      )
+                                    )}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </ThemeProvider>
+                            ) : (
+                              <Card
+                                style={{
+                                  borderRadius: "0px",
+                                  padding: "10px",
+                                  margin: "2px 0px"
+                                }}
+                              >
+                                <Typography>
+                                  Implementation marks have not been added by the guide.
+                                </Typography>
+                              </Card>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </Card>
                     </div>
                     <div
                       style={{
@@ -605,12 +833,12 @@ class HodPrefPage extends Component {
                       }}
                     >
                       <Grid container className={classes.comment}>
-                        <Grid item xs={12} style={{ marginBottom: "30px" }}>
+                        <Grid item xs={12} style={{margin:"5px"}}>
                           <Typography
-                            variant="h2"
-                            style={{ textAlign: "left", fontWeight: "400" }}
+                            variant="h4"
+                            style={{ textAlign: "left"}}
                           >
-                            Comments
+                            <b>Comments</b>
                           </Typography>
                         </Grid>
                         <Grid
