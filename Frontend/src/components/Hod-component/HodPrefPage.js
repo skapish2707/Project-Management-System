@@ -247,13 +247,7 @@ class HodPrefPage extends Component {
     const { expanded } = this.state;
     const Group = location.state.Group;
     const Gid = Group.id;
-    let Presentations = Group.presentation;
-    Presentations.sort((a, b) =>
-      new Date(a.scheduled_date).getTime() >
-      new Date(b.scheduled_date).getTime()
-        ? 1
-        : -1
-    );
+    let Ad = Group.addtionalDocuments;
 
     if (this.state.adData === null) {
       this.checkData();
@@ -387,6 +381,18 @@ class HodPrefPage extends Component {
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
+                                  <b>Type of Project:&nbsp;&nbsp;</b>
+                                  {proposal.typeOfProject}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Category of Project:&nbsp;&nbsp;</b>
+                                  {proposal.category}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
                                   {appliedDate.getDate()}/
                                   {appliedDate.getMonth() + 1}/
@@ -488,128 +494,107 @@ class HodPrefPage extends Component {
                         </Accordion>
                       );
                     })}
-                    {Presentations.length !== 0 ? (
+                    <div
+                      style={{
+                        marginTop: "30px",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
                       <React.Fragment>
-                        <ThemeProvider theme={theme}>
-                          <Typography
-                            style={{ marginTop: "20px" }}
-                            variant="h4"
-                          >
-                            Presentation Details
+                        {Ad.length === 0 ? (
+                          <Typography variant="h4">
+                            No Additional Document Uploaded
                           </Typography>
-                          <TableContainer
-                            style={{ backgroundColor: "#d3d3d3" }}
-                            className={classes.tableContainer}
-                            component={Paper}
-                          >
-                            <Table
-                              className={classes.table}
-                              size="small"
-                              aria-label="a dense table"
+                        ) : (
+                          <React.Fragment>
+                            <div
+                              style={{ backgroundColor: "#fff", textAlign: "left" }}
                             >
-                              <TableHead>
-                                <TableRow>
-                                  <TableCell align="center">No.</TableCell>
-                                  <TableCell align="center">Date</TableCell>
-                                  <TableCell align="center">Day</TableCell>
-                                  <TableCell align="center">Time</TableCell>
-                                  <TableCell align="center">Marks</TableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                {Presentations.map((Presentation, index) => (
-                                  <TableRow key={Presentation._id}>
-                                    <TableCell align="center">
-                                      {index + 1}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      {new Date(
-                                        Presentation.scheduled_date
-                                      ).getDate()}
-                                      /
-                                      {new Date(
-                                        Presentation.scheduled_date
-                                      ).getMonth() + 1}
-                                      /
-                                      {new Date(
-                                        Presentation.scheduled_date
-                                      ).getFullYear()}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                      {
-                                        days[
-                                          new Date(
-                                            Presentation.scheduled_date
-                                          ).getDay()
-                                        ]
-                                      }
-                                    </TableCell>
-                                    {new Date(
-                                      Presentation.scheduled_date
-                                    ).getHours() > 12 ? (
-                                      <TableCell align="center">
-                                        {new Date(
-                                          Presentation.scheduled_date
-                                        ).getHours() - 12}
-                                        :
-                                        {new Date(
-                                          Presentation.scheduled_date
-                                        ).getMinutes()}{" "}
-                                        pm
-                                      </TableCell>
-                                    ) : (
-                                      <TableCell align="center">
-                                        {new Date(
-                                          Presentation.scheduled_date
-                                        ).getHours()}
-                                        :
-                                        {new Date(
-                                          Presentation.scheduled_date
-                                        ).getMinutes()}{" "}
-                                        am
-                                      </TableCell>
-                                    )}
-                                    {Presentation.marks === null ? (
-                                      <React.Fragment>
-                                        {new Date(
-                                          Presentation.scheduled_date
-                                        ).getTime() > Date.now() ? (
-                                          <TableCell align="center">
-                                            Presentation Not conducted
-                                          </TableCell>
-                                        ) : (
-                                          <TableCell align="center">
-                                            <Typography
-                                              style={{ fontSize: "12" }}
-                                              color="secondary"
-                                            >
-                                              Presentation Missing
-                                            </Typography>
-                                          </TableCell>
-                                        )}
-                                      </React.Fragment>
-                                    ) : (
-                                      <TableCell align="center">
-                                        {Presentation.marks}
-                                      </TableCell>
-                                    )}
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </ThemeProvider>
+                              <Typography
+                                variant="h2"
+                                style={{
+                                  fontWeight: "400",
+                                  paddingLeft: "30px",
+                                  paddingBottom: "20px"
+                                }}
+                              >
+                                Additional Uploaded Documents
+                              </Typography>
+                            </div>
+                            <Grid
+                              container
+                              style={{
+                                backgroundColor: "#fff",
+                                padding: "10px",
+                                marginBottom: "2px",
+                                textAlign: "left"
+                              }}
+                            >
+                              <Grid item xs={3} style={{ paddingLeft: "20px" }}>
+                                <Typography>
+                                  <b>Title</b>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography>
+                                  <b>Description</b>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={1}></Grid>
+                              <Grid item xs={2} style={{ textAlign: "centre" }}>
+                                <Typography>
+                                  <b>File Link</b>
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                            {Ad.map(ad => {
+                              return (
+                                <Grid
+                                  container
+                                  key={ad._id}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    padding: "12px",
+                                    marginBottom: "2px",
+                                    textAlign: "left"
+                                  }}
+                                >
+                                  <Grid
+                                    item
+                                    xs={3}
+                                    style={{ paddingLeft: "20px" }}
+                                  >
+                                    <Typography>{ad.docName}</Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                    <Typography>{ad.desc}</Typography>
+                                  </Grid>
+                                  <Grid item xs={1}></Grid>
+                                  <Grid item xs={2}>
+                                    <Typography>
+                                      <a
+                                        href={ad.doclink}
+                                        style={{ textDecoration: "none" }}
+                                        target="_blank"
+                                      >
+                                        <Button
+                                          variant="outlined"
+                                          color="primary"
+                                          size="small"
+                                        >
+                                          Show Document
+                                        </Button>
+                                      </a>
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              );
+                            })}
+                          </React.Fragment>
+                        )}
                       </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <Typography style={{ marginTop: "20px" }} variant="h4">
-                          Presentations
-                        </Typography>
-                        <Typography>
-                          No Presentations have been scheduled.
-                        </Typography>
-                      </React.Fragment>
-                    )}
+                    </div>
                     <div
                       style={{
                         backgroundColor: "#e0e0e0",

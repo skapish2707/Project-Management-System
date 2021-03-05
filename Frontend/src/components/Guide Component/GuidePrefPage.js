@@ -147,7 +147,7 @@ const styles = theme => ({
   }
 });
 
-class HodPrefPage extends Component {
+class GuidePrefPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -993,6 +993,18 @@ class HodPrefPage extends Component {
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
+                                  <b>Type of Project:&nbsp;&nbsp;</b>
+                                  {proposal.typeOfProject}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Category of Project:&nbsp;&nbsp;</b>
+                                  {proposal.category}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
                                   {appliedDate.getDate()}/
                                   {appliedDate.getMonth() + 1}/
@@ -1799,10 +1811,10 @@ class HodPrefPage extends Component {
                                 aria-labelledby="alert-dialog-title"
                                 aria-describedby="alert-dialog-description"
                               >
-                                <DialogTitle id="alert-dialog-title">{"Re-enter the proposals?"}</DialogTitle>
+                                <DialogTitle id="alert-dialog-title">{"Re-enter the marks?"}</DialogTitle>
                                 <DialogContent>
                                   <DialogContentText id="alert-dialog-description">
-                                    If you click ok then you have to re-enter the proposals completely. If you refresh the page or close the tabs then all your changes will be lost. 
+                                    If you click ok then you have to re-enter the marks completely. If you refresh the page or close the tabs then all your changes will be lost. 
                                   </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
@@ -2101,10 +2113,10 @@ class HodPrefPage extends Component {
                                 aria-labelledby="alert-dialog-title"
                                 aria-describedby="alert-dialog-description"
                               >
-                                <DialogTitle id="alert-dialog-title">{"Re-enter the proposals?"}</DialogTitle>
+                                <DialogTitle id="alert-dialog-title">{"Re-enter the marks?"}</DialogTitle>
                                 <DialogContent>
                                   <DialogContentText id="alert-dialog-description">
-                                    If you click ok then you have to re-enter the proposals completely. If you refresh the page or close the tabs then all your changes will be lost. 
+                                    If you click ok then you have to re-enter the marks completely. If you refresh the page or close the tabs then all your changes will be lost. 
                                   </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
@@ -2487,8 +2499,8 @@ class HodPrefPage extends Component {
   }
 }
 
-HodPrefPage.propTypes = {
+GuidePrefPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(HodPrefPage);
+export default withStyles(styles)(GuidePrefPage);
