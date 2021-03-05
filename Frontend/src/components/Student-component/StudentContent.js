@@ -27,7 +27,7 @@ let pref3=[];
 
 const useStyles = theme => ({
   formControl: {
-    margin: theme.spacing(1),
+    float: "left",
     minWidth: 120,
   },
   buttonprop: {

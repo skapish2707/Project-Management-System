@@ -390,6 +390,18 @@ class ControlledExpansionPanels extends React.Component {
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
+                                  <b>Type of Project:&nbsp;&nbsp;</b>
+                                  {proposal.typeOfProject}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  <b>Category of Project:&nbsp;&nbsp;</b>
+                                  {proposal.category}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
                                   <b>Appied On:&nbsp;&nbsp;</b>
                                   {appliedDate.getDate()}/
                                   {appliedDate.getMonth() + 1}/
@@ -571,26 +583,26 @@ class ControlledExpansionPanels extends React.Component {
                       }}
                     >
                       <React.Fragment>
-                        <div
-                          style={{ backgroundColor: "#fff", textAlign: "left" }}
-                        >
-                          <Typography
-                            variant="h2"
-                            style={{
-                              fontWeight: "400",
-                              paddingLeft: "30px",
-                              paddingBottom: "20px"
-                            }}
-                          >
-                            Additional Uploaded Documents
-                          </Typography>
-                        </div>
                         {Ad.length === 0 ? (
-                          <Typography variant="h2">
+                          <Typography variant="h4">
                             No Additional Document Uploaded
                           </Typography>
                         ) : (
                           <React.Fragment>
+                            <div
+                              style={{ backgroundColor: "#fff", textAlign: "left" }}
+                            >
+                              <Typography
+                                variant="h2"
+                                style={{
+                                  fontWeight: "400",
+                                  paddingLeft: "30px",
+                                  paddingBottom: "20px"
+                                }}
+                              >
+                                Additional Uploaded Documents
+                              </Typography>
+                            </div>
                             <Grid
                               container
                               style={{

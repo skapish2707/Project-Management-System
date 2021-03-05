@@ -433,7 +433,7 @@ const HodProjectList = props => {
                               onClick={routeChange}
                               variant="outlined"
                               color="primary"
-                              Designation={props.Designation}
+                              designation={props.Designation}
                             >
                               Show Preferences
                             </Button>
@@ -589,11 +589,12 @@ const HodProjectList = props => {
                       <Grid item xs={12}>
                         {Group.proposals.length === 3 ? (
                           <div>
+                            {console.log(props)}
                             <Button
                               onClick={routeChange}
                               variant="outlined"
                               color="primary"
-                              Designation={props.Designation}
+                              designation={props.Designation}
                             >
                               Show Preferences
                             </Button>
@@ -730,7 +731,7 @@ const HodProjectList = props => {
                               onClick={routeChange}
                               variant="outlined"
                               color="primary"
-                              Designation={props.Designation}
+                              designation={props.Designation}
                             >
                               Show Preferences
                             </Button>
