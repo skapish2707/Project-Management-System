@@ -116,7 +116,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   comment: {
-    marginTop: "50px"
+    
   },
   comTitle: {
     textAlign: "right",
@@ -866,6 +866,8 @@ class GuidePrefPage extends Component {
                 let weeklyLog = group.weeklyMeetLog;
                 let implementation = group.implementation;
                 let report = group.report;
+                let Ad = group.addtionalDocuments;
+                
 
                 Presentations.sort((a, b) =>
                   new Date(a.scheduled_date).getTime() >
@@ -1106,6 +1108,107 @@ class GuidePrefPage extends Component {
                         </Accordion>
                       );
                     })}
+                    <div
+                      style={{
+                        marginTop: "30px",
+                        boxShadow:
+                          "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+                      }}
+                    >
+                      <React.Fragment>
+                        {Ad.length === 0 ? (
+                          <Typography variant="h4">
+                            No Additional Document Uploaded
+                          </Typography>
+                        ) : (
+                          <React.Fragment>
+                            <div
+                              style={{ backgroundColor: "#fff", textAlign: "left" }}
+                            >
+                              <Typography
+                                variant="h4"
+                                style={{
+                                  fontWeight: "400",
+                                  paddingLeft: "30px",
+                                  padding: "20px 30px"
+                                }}
+                              >
+                                <b>Additional Uploaded Documents</b>
+                              </Typography>
+                            </div>
+                            <Grid
+                              container
+                              style={{
+                                backgroundColor: "#fff",
+                                padding: "10px",
+                                marginBottom: "2px",
+                                textAlign: "left"
+                              }}
+                            >
+                              <Grid item xs={3} style={{ paddingLeft: "20px" }}>
+                                <Typography>
+                                  <b>Title</b>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography>
+                                  <b>Description</b>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={1}></Grid>
+                              <Grid item xs={2} style={{ textAlign: "centre" }}>
+                                <Typography>
+                                  <b>File Link</b>
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                            {Ad.map(ad => {
+                              return (
+                                <Grid
+                                  container
+                                  key={ad._id}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    padding: "12px",
+                                    marginBottom: "2px",
+                                    textAlign: "left"
+                                  }}
+                                >
+                                  <Grid
+                                    item
+                                    xs={3}
+                                    style={{ paddingLeft: "20px" }}
+                                  >
+                                    <Typography>{ad.docName}</Typography>
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                    <Typography>{ad.desc}</Typography>
+                                  </Grid>
+                                  <Grid item xs={1}></Grid>
+                                  <Grid item xs={2}>
+                                    <Typography>
+                                      <a
+                                        href={ad.doclink}
+                                        style={{ textDecoration: "none" }}
+                                        target="_blank"
+                                      >
+                                        <Button
+                                          variant="outlined"
+                                          color="primary"
+                                          size="small"
+                                        >
+                                          Show Document
+                                        </Button>
+                                      </a>
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              );
+                            })}
+                          </React.Fragment>
+                        )}
+                      </React.Fragment>
+                    </div>
                     <Card
                       style={{
                         marginTop: "50px",
@@ -1251,10 +1354,13 @@ class GuidePrefPage extends Component {
                                         <AccordionDetails
                                           style={{ textAlign: "left" }}
                                         >
-                                          <ThemeProvider theme={theme}>
+                                          <Grid container>
+                                            <Grid item xs={12}>
+                                            <ThemeProvider theme={theme}>
                                             <TableContainer
                                               style={{
-                                                backgroundColor: "#fff"
+                                                backgroundColor: "#f8f8f8",
+                                                
                                               }}
                                               className={classes.tableContainer}
                                               component={Paper}
@@ -1314,9 +1420,11 @@ class GuidePrefPage extends Component {
                                                 </TableBody>
                                               </Table>
                                             </TableContainer>
-                                            <div>
+                                          </ThemeProvider>
+                                            </Grid>
+                                            <Grid item xs={12}>
                                             <Button
-                                              style={{ float: "right" }}
+                                              style={{ float: "right", marginTop:"20px" }}
                                               color="secondary"
                                               variant="contained"
                                               onClick={e => {
@@ -1329,8 +1437,8 @@ class GuidePrefPage extends Component {
                                             >
                                               Delete
                                             </Button>
-                                            </div>
-                                          </ThemeProvider>
+                                            </Grid>
+                                          </Grid>
                                         </AccordionDetails>
                                       </Accordion>
                                     ) : (
@@ -1398,11 +1506,12 @@ class GuidePrefPage extends Component {
                                               padding: "0px"
                                             }}
                                           >
-                                            <Grid
-                                              item
-                                              xs={2}
-                                              style={{
+                                            <Grid item xs={8} sm={10}></Grid>
+                                            <Grid 
+                                              item xs={4} sm={2}
+                                                style={{
                                                 textAlign: "left",
+                                                float:"right",
                                                 backgroundColor: "#d3d3d3"
                                               }}
                                             >
@@ -1428,7 +1537,9 @@ class GuidePrefPage extends Component {
                                               <ThemeProvider theme={theme}>
                                                 <TableContainer
                                                   style={{
-                                                    backgroundColor: "#fff"
+                                                    backgroundColor: "#f8f8f8",
+                                                    marginTop:"10px",
+                                                    
                                                   }}
                                                   className={
                                                     classes.tableContainer
@@ -1573,6 +1684,7 @@ class GuidePrefPage extends Component {
                                                     </TableBody>
                                                   </Table>
                                                 </TableContainer>
+                                                <div style={{width:"100%"}}>
                                                 <Button
                                                   size="large"
                                                   variant="contained"
@@ -1586,11 +1698,13 @@ class GuidePrefPage extends Component {
                                                   }}
                                                   style={{
                                                     margin: "10px 0px",
-                                                    marginLeft: "15px"
+                                                    float:"right"
                                                   }}
                                                 >
                                                   Submit Marks
                                                 </Button>
+                                                </div>
+                                                
                                               </ThemeProvider>
                                             ) : null}
                                             {presM.length !== 0 ? (
@@ -1647,10 +1761,8 @@ class GuidePrefPage extends Component {
                                                   </Grid>
                                                 </Grid>
 
-                                                <Grid
-                                                  item
-                                                  xs={12}
-                                                  style={{ textAlign: "right" }}
+                                                <div
+                                                  style={{ textAlign: "left", width:"100%" }}
                                                 >
                                                   <Button
                                                     variant="contained"
@@ -1662,16 +1774,17 @@ class GuidePrefPage extends Component {
                                                         Gid
                                                       );
                                                     }}
+                                                    style={{float:"left"}}
                                                   >
                                                     Delete presentation
                                                   </Button>
-                                                </Grid>
+                                                </div>
                                               </React.Fragment>
                                             ) : (
                                               <Grid
                                                 item
                                                 xs={12}
-                                                style={{ textAlign: "right" }}
+                                                style={{ textAlign: "left" }}
                                               >
                                                 <Button
                                                   variant="contained"
@@ -1741,7 +1854,7 @@ class GuidePrefPage extends Component {
                                   <TableHead>
                                     <TableRow>
                                       <TableCell align="center">
-                                        Roll No.
+                                        Roll-No.
                                       </TableCell>
                                       <TableCell align="center">
                                         Organizational and writing style
@@ -1798,7 +1911,7 @@ class GuidePrefPage extends Component {
                               </TableContainer>
                               <div>
                               <Button
-                                style={{ float: "right" }}
+                                style={{ float: "right",marginTop:"20px" }}
                                 color="secondary"
                                 variant="contained"
                                 onClick={this.repDelClickOpen}
@@ -1829,13 +1942,7 @@ class GuidePrefPage extends Component {
                               </div>
                             </ThemeProvider>
                           ) : (
-                            <Card
-                              style={{
-                                borderRadius: "0px",
-                                padding: "10px",
-                                margin: "2px 0px"
-                              }}
-                            >
+                            <>
                               {/* <form> */}
                               <ThemeProvider theme={theme}>
                                 <TableContainer
@@ -1854,7 +1961,7 @@ class GuidePrefPage extends Component {
                                           Name
                                         </TableCell>
                                         <TableCell align="center">
-                                          Roll No.
+                                          Roll-No.
                                         </TableCell>
                                         <TableCell align="center">
                                           Organizational and writing style
@@ -1866,7 +1973,7 @@ class GuidePrefPage extends Component {
                                           Use of Bibliography
                                         </TableCell>
                                         <TableCell align="center">
-                                          Spelling and Grammar
+                                          Spelling_and Grammar
                                         </TableCell>
                                         <TableCell align="center">
                                           Graphs/Diagrams
@@ -1889,7 +1996,8 @@ class GuidePrefPage extends Component {
                                               name="Organisation_and_writing_style"
                                               label="(3)"
                                               value={this.state.orgAndWriting}
-                                              variant="standard"
+                                              variant="outlined"
+                                              size="small"
                                               onChange={e => {
                                                 this.handleOrgAndWriting(
                                                   e,
@@ -1908,7 +2016,8 @@ class GuidePrefPage extends Component {
                                               name="Eng_Theory_and_Analysis"
                                               label="(3)"
                                               value={this.state.enggTheoryAnaly}
-                                              variant="standard"
+                                              variant="outlined"
+                                              size="small"
                                               onChange={e => {
                                                 this.handleEngTheoryAnaly(
                                                   e,
@@ -1926,7 +2035,8 @@ class GuidePrefPage extends Component {
                                               name="Use_of_Bibliography"
                                               label="(3)"
                                               value={this.state.bibliography}
-                                              variant="standard"
+                                              variant="outlined"
+                                              size="small"
                                               onChange={e => {
                                                 this.handleBibliography(
                                                   e,
@@ -1944,7 +2054,8 @@ class GuidePrefPage extends Component {
                                               name="Spelling_and_Grammar"
                                               label="(3)"
                                               value={this.state.spellAndGrammar}
-                                              variant="standard"
+                                              variant="outlined"
+                                              size="small"
                                               onChange={e => {
                                                 this.handleSpellAndGrammar(
                                                   e,
@@ -1962,7 +2073,8 @@ class GuidePrefPage extends Component {
                                               name="Graphs/Diagram"
                                               label="(3)"
                                               value={this.state.diagram}
-                                              variant="standard"
+                                              variant="outlined"
+                                              size="small"
                                               onChange={e => {
                                                 this.handleDiagram(e, index);
                                               }}
@@ -1976,8 +2088,7 @@ class GuidePrefPage extends Component {
                                   </Table>
                                 </TableContainer>
                               </ThemeProvider>
-                              <Grid container>
-                                <Grid item xs={6} style={{ margin: "5px 0" }}>
+                              <div style={{textAlign:"right", marginTop:"20px"}}>
                                   <Button
                                     type="submit"
                                     onClick={e => {
@@ -1985,19 +2096,13 @@ class GuidePrefPage extends Component {
                                     }}
                                     variant="contained"
                                     color="primary"
-                                    style={{
-                                      padding: "10px 0px",
-                                      marginLeft: "30px",
-                                      width: "54%",
-                                      fontSize: "20px"
-                                    }}
+                                    
                                   >
                                     Submit
                                   </Button>
-                                </Grid>
-                              </Grid>
+                              </div>
                               {/* </form> */}
-                            </Card>
+                            </>
                           )}
                         </Grid>
                       </Grid>
@@ -2041,7 +2146,7 @@ class GuidePrefPage extends Component {
                                 <TableHead>
                                   <TableRow>
                                     <TableCell align="center">
-                                      Roll No.
+                                      Roll-No.
                                     </TableCell>
                                     <TableCell align="center">
                                       Problem Statement
@@ -2100,7 +2205,7 @@ class GuidePrefPage extends Component {
                             </TableContainer>
                             <div style={{ width: "100%" }}>
                               <Button
-                                style={{ float: "right" }}
+                                style={{ float: "right",margin:"20px 00" }}
                                 color="secondary"
                                 variant="contained"
                                 onClick={this.impDelClickOpen}
@@ -2131,7 +2236,7 @@ class GuidePrefPage extends Component {
                             </div>
                           </ThemeProvider>
                         ) : (
-                          <Grid item xs={12} style={{ margin: "20px 0px" }}>
+                          <Grid item xs={12} style={{ marginBottom: "20px" }}>
                             <ThemeProvider theme={theme}>
                               <TableContainer
                                 style={{ backgroundColor: "#fff" }}
@@ -2147,7 +2252,7 @@ class GuidePrefPage extends Component {
                                     <TableRow>
                                       <TableCell align="center">Name</TableCell>
                                       <TableCell align="center">
-                                        Roll No.
+                                        Roll-No.
                                       </TableCell>
                                       <TableCell align="center">
                                         Problem Statement
@@ -2181,7 +2286,8 @@ class GuidePrefPage extends Component {
                                             id="Problem_Statement"
                                             name="Problem_Statement"
                                             label="(3)"
-                                            variant="standard"
+                                            variant="outlined"
+                                            size="small"
                                             onChange={e => {
                                               this.handleProbStatement(
                                                 e,
@@ -2198,7 +2304,8 @@ class GuidePrefPage extends Component {
                                             id="Concepts"
                                             name="Concepts"
                                             label="(3)"
-                                            variant="standard"
+                                            variant="outlined"
+                                            size="small"
                                             onChange={e => {
                                               this.handleConcept(e, index);
                                             }}
@@ -2212,7 +2319,8 @@ class GuidePrefPage extends Component {
                                             id="Innovation"
                                             name="Innovation"
                                             label="(3)"
-                                            variant="standard"
+                                            variant="outlined"
+                                            size="small"
                                             onChange={e => {
                                               this.handleInnovation(e, index);
                                             }}
@@ -2226,7 +2334,8 @@ class GuidePrefPage extends Component {
                                             id="Teamwork"
                                             name="Teamwork"
                                             label="(3)"
-                                            variant="standard"
+                                            variant="outlined"
+                                            size="small"
                                             onChange={e => {
                                               this.handleTeamWork(e, index);
                                             }}
@@ -2240,7 +2349,8 @@ class GuidePrefPage extends Component {
                                             id="Proj_Management_and_Finance"
                                             name="Proj_Management_and_Finance"
                                             label="(3)"
-                                            variant="standard"
+                                            variant="outlined"
+                                            size="small"
                                             onChange={e => {
                                               this.handlePMF(e, index);
                                             }}
@@ -2254,7 +2364,7 @@ class GuidePrefPage extends Component {
                                 </Table>
                               </TableContainer>
                             </ThemeProvider>
-                            <div style={{ marginBottom: "20px" }}>
+                            <div>
                               <Button
                                 onClick={e => {
                                   this.handleImplementationSubmit(e, Gid);
@@ -2264,7 +2374,7 @@ class GuidePrefPage extends Component {
                                 color="primary"
                                 style={{
                                   float: "right",
-                                  marginBottom: "20px"
+                                  marginTop: "20px"
                                 }}
                               >
                                 Submit
@@ -2405,8 +2515,8 @@ class GuidePrefPage extends Component {
                       style={{
                         backgroundColor: "#d8d8d8",
                         padding: "0px 30px",
-                        margin: "50px auto",
-                        marginBottom: "100px"
+                        marginBottom: "100px",
+                        marginTop:"0px"
                       }}
                     >
                       <Grid container className={classes.comment}>
