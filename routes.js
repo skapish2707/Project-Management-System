@@ -491,7 +491,7 @@ router.post("/deleteProposal", authenticateToken, async function (req, res) {
 // });
 router.get("/archive", authenticateToken, async function (req, res) {
   if (!req.user) return res.sendStatus(404);
-  if (req.user.type != "admin") return res.sendStatus(401);
+  if (req.user.type != "admin" && req.user.type != "hod" ) return res.sendStatus(401);
   try {
     arc = await dbm.getArchive(req.user.id);
     res.status(200).send(arc);
@@ -500,17 +500,17 @@ router.get("/archive", authenticateToken, async function (req, res) {
     res.sendStatus(500);
   }
 });
-router.post("/deleteArchieve", authenticateToken, async function (req, res) {
-  if (!req.user) return res.sendStatus(404);
-  if (req.user.type != "admin") return res.sendStatus(401);
-  try {
-    await dbm.deletearchive(req.user.id, req.body.id.trim());
-    res.sendStatus(200);
-  } catch (e) {
-    console.log(e);
-    res.sendStatus(500);
-  }
-});
+// router.post("/deleteArchieve", authenticateToken, async function (req, res) {
+//   if (!req.user) return res.sendStatus(404);
+//   if (req.user.type != "admin") return res.sendStatus(401);
+//   try {
+//     await dbm.deletearchive(req.user.id, req.body.id.trim());
+//     res.sendStatus(200);
+//   } catch (e) {
+//     console.log(e);
+//     res.sendStatus(500);
+//   }
+// });
 router.post("/deleteAllUsers", authenticateToken, async function (req, res) {
   if (!req.user) return res.sendStatus(404);
   if (req.user.type != "admin") return res.sendStatus(401);
@@ -525,7 +525,7 @@ router.post("/deleteAllUsers", authenticateToken, async function (req, res) {
 
 router.get("/excel", authenticateToken, async function (req, res) {
   if (!req.user) return res.sendStatus(404);
-  if (req.user.type != "admin") return res.sendStatus(401);
+  if (req.user.type != "admin" && req.user.type != "hod" ) return res.sendStatus(401);
   try {
     var fileName = "Project List.xlsx";
     res.setHeader(
@@ -631,7 +631,7 @@ router.post("/implementation", authenticateToken, async function (req, res) {
 
 router.get("/submissionList", authenticateToken, async function (req, res) {
   if (!req.user) return res.sendStatus(404);
-  if (req.user.type != "admin") return res.sendStatus(401);
+  if (req.user.type != "admin" && req.user.type != "hod" ) return res.sendStatus(401);
   try {
     var fileName = "Submission List.xlsx";
     res.setHeader(
