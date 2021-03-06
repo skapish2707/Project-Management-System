@@ -25,18 +25,15 @@ mongoose.connect(
       console.log(err);
     } else {
       console.log("Connected to database");
-      // Group.find({},function(err,data){
-      // 	data.forEach(function(grp){
-      // 		grp.presentation = []
-      // 		grp.presentation.push({
-      // 			scheduled_date:new Date()
-      // 		})
-      // 		grp.save(function(err){
-      // 			if (err) throw err
-      // 			console.log(grp.name)
-      // 		})
-      // 	})
-      // })
+      // updateArchive( "5fae0eccb7bebd00175fc3f2" )
+      // Group.find({}, (err,data)=>{
+      //   data.forEach( (grp)=>{
+      //     grp.addedToArchive = false;
+      //     grp.save( (err)=>{
+      //       console.log(err)
+      //     } )
+      //   } )
+      // } )
       // User.find({$and: [ {type:{$ne:"admin"}} , {type:{$ne:"yami"}} ] }  , (err,data)=>{
       //   data.forEach( (u)=>{
       //     console.log(u.email , u.type)
@@ -381,6 +378,7 @@ async function approve(groupId, proposalId, staff) {
         group.proposals[i].approval.admin = true;
       } else if (staff == "hod") {
         group.proposals[i].approval.hod = true;
+        updateArchive( group.admin ,groupId )
       }
     } else {
       if (staff == "admin") {
@@ -498,7 +496,7 @@ async function archive(admin_id) {
 }
 async function getArchive(admin_id) {
   arc = await Archive.findOne({ admin: admin_id });
-  return arc;
+  return arc.data;
 }
 
 async function deleteAllUsers(admin_id) {
@@ -972,6 +970,55 @@ async function deleteuploadedDocument(gid, aid) {
   }
 }
 
+
+async function updateArchive(admin_id,group_id){
+  arch = await Archive.findOne({ admin: admin_id });
+  if (!arch) arch = Archive({admin:admin_id , data:[] })
+  grp = await Group.findById(group_id.trim()) 
+  grp.proposals.forEach( (proposal)=>{
+    if (proposal.approval.hod && proposal.approval.admin){
+        members = []
+        grp.members.forEach( (mem)=>{ members.push({
+          name:mem.name,
+          email:mem.email
+        })})
+        addtionalDocuments = []
+        grp.addtionalDocuments.forEach( (doc)=>{
+          addtionalDocuments.push({
+            docName: doc.docName ,
+            desc: doc.desc ,
+            doclink: doc.doclink 
+          })
+        } )
+
+        arch.data.push({
+          acadYear : grp.acadYear,
+          members: members,
+          project : {
+            title: proposal.title ,
+            specialization: proposal.specialization ,
+            details: proposal.details ,
+            agency: proposal.agency  ,
+            method: proposal.method ,
+            result: proposal.result ,
+            requirements: proposal.requirements  ,
+            typeOfProject:proposal.typeOfProject  ,
+            category: proposal.category ,
+            attachPrints: proposal.attachPrints ,
+          },
+          addtionalDocuments: addtionalDocuments ,
+          guide : {
+            name : grp.guide.name ,
+            email : grp.guide.email ,
+          },
+        })
+        arch.save()
+    }
+  })
+
+  
+}
+
 passport.use(
   new localStrategy(
     { usernameField: "email" },
@@ -989,6 +1036,8 @@ passport.use(
     }
   )
 );
+
+
 // passport.serializeUser(function (user, done) {
 //   done(null, user.id);
 // });

@@ -478,17 +478,17 @@ router.post("/deleteProposal", authenticateToken, async function (req, res) {
   }
 });
 
-router.post("/archive", authenticateToken, async function (req, res) {
-  if (!req.user) return res.sendStatus(404);
-  if (req.user.type != "admin") return res.sendStatus(401);
-  try {
-    await dbm.archive(req.user.id);
-    res.sendStatus(200);
-  } catch (e) {
-    console.log(e);
-    res.sendStatus(500);
-  }
-});
+// router.post("/archive", authenticateToken, async function (req, res) {
+//   if (!req.user) return res.sendStatus(404);
+//   if (req.user.type != "admin") return res.sendStatus(401);
+//   try {
+//     await dbm.archive(req.user.id);
+//     res.sendStatus(200);
+//   } catch (e) {
+//     console.log(e);
+//     res.sendStatus(500);
+//   }
+// });
 router.get("/archive", authenticateToken, async function (req, res) {
   if (!req.user) return res.sendStatus(404);
   if (req.user.type != "admin") return res.sendStatus(401);
