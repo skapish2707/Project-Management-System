@@ -23,6 +23,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import Divider from "@material-ui/core/Divider";
 import kjLogo from "../Admin-component/kjsieit-navbar.png";
+import ArchiveIcon from "@material-ui/icons/Archive";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -95,6 +96,11 @@ export default function SideMenu(props) {
       text: "Groups",
       icon: <PeopleAltIcon />,
       onClick: () => histor.push("/hod/groups")
+    },
+    {
+      text: "Archives",
+      icon: <ArchiveIcon />,
+      onClick: () => histor.push("/hod/archives")
     }
   ];
 
