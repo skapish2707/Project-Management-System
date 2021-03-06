@@ -22,8 +22,8 @@ import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import HomeIcon from "@material-ui/icons/Home";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import Divider from "@material-ui/core/Divider";
-import kjLogo from "../Admin-component/kjsieit-navbar.png";
 import ArchiveIcon from "@material-ui/icons/Archive";
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -158,16 +158,6 @@ export default function SideMenu(props) {
             {list(anchor)}
           </Drawer>
           <div className={classes.root}>
-            <nav
-              style={{
-                backgroundColor: "#fff",
-                textAlign: "left",
-                paddingLeft: "20px",
-                height: "60px"
-              }}
-            >
-              <img src={kjLogo} />
-            </nav>
             <AppBar position="static" style={{ backgroundColor: "#000" }}>
               <Toolbar>
                 <MenuIcon

@@ -1,4 +1,4 @@
-import { Button, CircularProgress, createMuiTheme, Grid, makeStyles, responsiveFontSizes, TextField, Typography } from '@material-ui/core';
+import { Button, CircularProgress, createMuiTheme, FormControl, Grid, InputLabel, makeStyles, MenuItem, responsiveFontSizes, Select, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import SERVER_URL from '../../Pages/URL';
 import axios from "axios";
@@ -9,6 +9,10 @@ import qs from "qs";
 // theme = responsiveFontSizes(theme);
 
 const useStyles = makeStyles((themes) => ({
+    formControl: {
+        float: "left",
+        width: "100%"
+    },
     TextField: {
         width: "100%"
     },
@@ -149,17 +153,21 @@ const StudentAdditionalDoc = (props) => {
                         <Typography component="span">Title: </Typography>
                     </Grid>
                     <Grid style={{margin:"20px 0px"}} item className={classes.typography} xs={12} md={6}>
-                        <TextField
-                            className={classes.TextField}
-                            variant="standard"
-                            component={"span"}
-                            id="addidocs"
-                            name="addidocs"
-                            type="text"
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="addiDoc-simple-select-label">Type of document</InputLabel>
+                            <Select
+                            id="addiDoc"
+                            name="addiDoc"
                             value={addiDoc}
-                            onChange={(e)=>{handleAddiDocChange(e)}}
+                            onChange={e => {handleAddiDocChange(e)}}
                             required
-                        />
+                            >
+                                <MenuItem value="Certificate">Certificate</MenuItem>
+                                <MenuItem value="Black Book">Black Book</MenuItem>
+                                <MenuItem value="IEEE Paper">IEEE Paper</MenuItem>
+                                <MenuItem value="Others">Others</MenuItem>
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid style={{margin:"20px 0px"}} item className={classes.typography} xs={12} md={6}>
                         <Typography component="span">Description: </Typography>
