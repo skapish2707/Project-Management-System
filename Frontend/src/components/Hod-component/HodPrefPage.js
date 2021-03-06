@@ -33,6 +33,11 @@ import Navbar from "../Navbar/Navbar";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import HodCommentPage from "./HodCommentPage";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -126,6 +131,28 @@ class HodPrefPage extends Component {
       openFailure: false
     };
   }
+  shareDialogOpen = e => {
+    this.setState({
+      shareDialog: true
+    });
+  };
+  shareDialogClose = e => {
+    this.setState({
+      shareDialog: false
+    });
+  };
+
+  shareEmailClose = e => {
+    e.preventDefault();
+    if (this.state.shareEmail === "") {
+      alert("Please enter and email address");
+    } else {
+      console.log(this.state.shareEmail);
+      this.setState({
+        shareDialog: false
+      });
+    }
+  };
 
   commentHandler = e => {
     let comment = e.target.value;
@@ -264,6 +291,12 @@ class HodPrefPage extends Component {
               if (group.id === Group.id) {
                 let Proposals = group.proposals;
                 let Comments = group.comments;
+                const handleCopyText = () => {
+                  navigator.clipboard.writeText(
+                    `http://localhost:3000/viewProposal/${group.id}`
+                  );
+                  this.shareDialogClose();
+                };
                 return (
                   <div key={group.id}>
                     <Grid container spacing={2} className={classes.grid}>
@@ -497,6 +530,68 @@ class HodPrefPage extends Component {
                         </Accordion>
                       );
                     })}
+                    <div style={{ width: "100%", margin: "auto" }}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={8}></Grid>
+                        <Grid item xs={4}>
+                          <div>
+                            <Button
+                              onClick={this.shareDialogOpen}
+                              style={{
+                                margin: "20px 0px 0px 0px",
+                                position: "relative",
+                                float: "right"
+                              }}
+                              size="large"
+                              variant="contained"
+                              color="primary"
+                            >
+                              Get Shareable Link
+                            </Button>
+                            <Dialog
+                              style={{ minWidth: "100px" }}
+                              open={this.state.shareDialog}
+                              onClose={this.shareDialogClose}
+                              aria-labelledby="form-dialog-title"
+                            >
+                              <DialogTitle id="form-dialog-title">
+                                Send proposals to other faculty members
+                              </DialogTitle>
+                              <DialogContent>
+                                <DialogContentText>
+                                  Copy this Link to Share Proposals
+                                  <br />
+                                  <a
+                                    href={`http://localhost:3000/viewProposal/${group.id}`}
+                                    target="_blank"
+                                  >{`http://localhost:3000/viewProposal/
+                                    ${group.id}`}</a>
+                                </DialogContentText>
+                              </DialogContent>
+                              <DialogActions>
+                                <Button
+                                  onClick={this.shareDialogClose}
+                                  color="primary"
+                                >
+                                  Cancel
+                                </Button>
+                                {
+                                  <React.Fragment>
+                                    <Button
+                                      onClick={() => {
+                                        handleCopyText();
+                                      }}
+                                    >
+                                      Copy Link
+                                    </Button>
+                                  </React.Fragment>
+                                }
+                              </DialogActions>
+                            </Dialog>
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </div>
                     <Card
                       style={{
                         backgroundColor: "#d8d8d8",

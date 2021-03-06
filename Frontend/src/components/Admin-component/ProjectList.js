@@ -169,6 +169,7 @@ export default function ControlledAccordions(props) {
       });
   };
 
+//Project List Download
   const downloadProjectList = () => {
     setDownLoading(true);
     axios({
@@ -640,14 +641,13 @@ export default function ControlledAccordions(props) {
                 {SdownLoading ? (
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={classes.downloadButton}
-                    style={{ maxWidth: "153.24px", maxHeight: "40px" }}
+                    style={{ minWidth: "177.04px", maxHeight: "36px" }}
                   >
                     <CircularProgress
                       size="2rem"
                       color="white"
-                      style={{ padding: "0 40px" }}
                     />
                   </Button>
                 ) : (
@@ -673,12 +673,12 @@ export default function ControlledAccordions(props) {
                     variant="contained"
                     color="primary"
                     className={classes.downloadButton}
-                    style={{ maxWidth: "153.24px", maxHeight: "40px" }}
+                    style={{ minWidth: "152.84px", maxHeight: "36px",marginRight: "20px" }}
                   >
                     <CircularProgress
                       size="2rem"
                       color="white"
-                      style={{ padding: "0 40px" }}
+                      // style={{ padding: "0 40px" }}
                     />
                   </Button>
                 ) : (

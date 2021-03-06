@@ -11,13 +11,17 @@ import {
   Grid,
   Button,
   Accordion,
-  AccordionDetails
+  AccordionDetails,
+  CircularProgress
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useHistory } from "react-router-dom";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { toFirstCharUppercase } from "../ToUpper";
+import CloudDownload from "@material-ui/icons/CloudDownload";
+import axios from "axios";
+import SERVER_URL from "../../Pages/URL";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,6 +44,11 @@ const useStyles = makeStyles(theme => ({
   accordet: {
     width: "100%",
     margin: "auto"
+  },
+  downloadButton: {
+    float: "right",
+    marginTop: "5%",
+    marginBottom: "10px"
   }
 }));
 
@@ -81,6 +90,61 @@ const HodProjectList = props => {
   const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
   const [value, setValue] = useState(0);
+  const [downLoading, setDownLoading] = React.useState(false);
+  const [SdownLoading, setSDownLoading] = React.useState(false);
+  let showButton = false;
+
+  //Submission List
+  const downloadSubmissionList = () => {
+    setSDownLoading(true);
+    axios({
+      method: "get",
+      url: SERVER_URL + "/submissionList",
+      responseType: "blob",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    })
+      .then(res => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Submission List.xlsx");
+        document.body.appendChild(link);
+        link.click();
+        setSDownLoading(false);
+      })
+      .catch(err => {
+        setSDownLoading(false);
+        console.log(err);
+      });
+  };
+
+//Project List Download
+  const downloadProjectList = () => {
+    setDownLoading(true);
+    axios({
+      method: "get",
+      url: SERVER_URL + "/excel",
+      responseType: "blob",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    })
+      .then(res => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Project List.xlsx");
+        document.body.appendChild(link);
+        link.click();
+        setDownLoading(false);
+      })
+      .catch(err => {
+        setDownLoading(false);
+        console.log(err);
+      });
+  };
 
   const handleChangeT = (event, newValue) => {
     setValue(newValue);
@@ -162,6 +226,7 @@ const HodProjectList = props => {
                 pref3HodApproval &&
                 Group.proposals.length !== 0)
             ) {
+              showButton = true;
               //console.log(Group.name);
               return (
                 <Accordion
@@ -284,6 +349,70 @@ const HodProjectList = props => {
             }
             return null;
           })}
+            <React.Fragment>
+            
+            {/* SUBMISSION LIST BUTTON */}
+            {SdownLoading ? (
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.downloadButton}
+                style={{ minWidth: "177.04px", maxHeight: "36px" }}
+              >
+                <CircularProgress
+                  size="2rem"
+                  color="white"
+                />
+              </Button>
+            ) : (
+              <React.Fragment>
+                {showButton ? (
+                  <React.Fragment>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      className={classes.downloadButton}
+                      startIcon={<CloudDownload />}
+                      onClick={()=>{downloadSubmissionList()}}
+                    >
+                      Submission List
+                    </Button>
+                  </React.Fragment>
+                ) : null}
+              </React.Fragment>
+            )}
+            {downLoading ? (
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.downloadButton}
+                style={{ minWidth: "152.84px", maxHeight: "36px"}}
+              >
+                <CircularProgress
+                  size="2rem"
+                  color="white"
+                  // style={{ padding: "0 40px" }}
+                />
+              </Button>
+            ) : (
+              <React.Fragment>
+                {showButton ? (
+                  <React.Fragment>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      className={classes.downloadButton}
+                      startIcon={<CloudDownload />}
+                      onClick={downloadProjectList}
+                      style={{ marginRight: "20px" }}
+                    >
+                      Project List
+                    </Button>
+                  </React.Fragment>
+                ) : null}
+              </React.Fragment>
+            )}
+          </React.Fragment>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           {Groups.map(Group => {

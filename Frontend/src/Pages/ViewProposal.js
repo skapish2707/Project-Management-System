@@ -110,14 +110,14 @@ const ViewProposal = props => {
           }}
         >
           <Typography variant="h2" style={{ padding: "30px" }}>
-            {toFirstCharUppercase(loadedData.name)}
+            <b>{toFirstCharUppercase(loadedData.name)}</b>
           </Typography>
         </div>
         <div
           style={{ width: "90%", margin: "20px auto", backgroundColor: "#fff" }}
         >
           <Typography
-            variant="h3"
+            variant="h4"
             style={{
               textAlign: "left",
               paddingLeft: "30px",
@@ -125,7 +125,7 @@ const ViewProposal = props => {
                 "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
             }}
           >
-            Details
+            <b>Details</b>
           </Typography>
         </div>
         <div
@@ -175,7 +175,7 @@ const ViewProposal = props => {
           style={{ width: "90%", margin: "20px auto", backgroundColor: "#fff" }}
         >
           <Typography
-            variant="h3"
+            variant="h4"
             style={{
               textAlign: "left",
               paddingLeft: "30px",
@@ -183,7 +183,7 @@ const ViewProposal = props => {
                 "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
             }}
           >
-            Proposals
+            <b>Proposals</b>
           </Typography>
         </div>
         <div
@@ -213,7 +213,7 @@ const ViewProposal = props => {
                   {proposal.approval.admin ? (
                     <Typography
                       className={classes.heading}
-                      style={{ color: "#03ac13" }}
+                      style={{ color: "#03ac13",textAlign: "left" }}
                     >
                       <b>Proposal {index + 1}</b>
                     </Typography>
@@ -276,6 +276,18 @@ const ViewProposal = props => {
                       <Typography>
                         <b>Result Expected:&nbsp;&nbsp;</b>
                         {proposal.result}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography>
+                        <b>Type of Project:&nbsp;&nbsp;</b>
+                        {proposal.typeOfProject}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography>
+                        <b>Category of Project:&nbsp;&nbsp;</b>
+                        {proposal.category}
                       </Typography>
                     </Grid>
                     <Grid item xs={12}>
