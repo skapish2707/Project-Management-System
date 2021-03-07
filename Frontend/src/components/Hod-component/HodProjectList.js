@@ -386,7 +386,7 @@ const HodProjectList = props => {
                 variant="contained"
                 color="primary"
                 className={classes.downloadButton}
-                style={{ minWidth: "152.84px", maxHeight: "36px"}}
+                style={{ minWidth: "152.84px", maxHeight: "36px", marginRight:"20px"}}
               >
                 <CircularProgress
                   size="2rem"
