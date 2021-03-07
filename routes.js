@@ -493,7 +493,10 @@ router.get("/archive", authenticateToken, async function (req, res) {
   if (!req.user) return res.sendStatus(404);
   if (req.user.type != "admin" && req.user.type != "hod" ) return res.sendStatus(401);
   try {
-    arc = await dbm.getArchive(req.user.id);
+    if (req.user.type == "admin")
+      arc = await dbm.getArchive(req.user.id);
+    else
+      arc = await dbm.getArchive( req.user.admin )
     res.status(200).send(arc);
   } catch (e) {
     console.log(e);

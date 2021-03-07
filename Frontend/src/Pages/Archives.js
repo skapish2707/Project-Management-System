@@ -6,25 +6,18 @@ import SERVER_URL from "./URL";
 import { Redirect } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { withStyles, Grid, Card } from "@material-ui/core";
-import { toFirstCharUppercase } from "../../src/components/ToUpper";
-import DeleteIcon from "@material-ui/icons/Delete";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from "@material-ui/core";
 import qs from "qs";
+import ArchiveTable from "../components/ArchiveTable"
 
-let dArchiveId = null;
 let archData = null;
 
 const useStyles = theme => ({
- 
+filterDiv:{
+  backgroundColor:"#fff",
+  margin:"20px 00",
+  
+} 
 });
 
 class AdminArchives extends Component {
@@ -56,10 +49,10 @@ class AdminArchives extends Component {
       }
     })
       .then(res => {
-        archData = res.data.data;
+        archData = res.data
         this.setState(
           {
-            archiveData: res.data.data
+            archiveData: res.data
           },
         );
       })
@@ -95,7 +88,6 @@ class AdminArchives extends Component {
   };
   render() {
     const { classes } = this.props;
-    console.log(archData)
     if (this.state.user === "" && this.state.archiveData === null) {
       this.getStat();
       this.getArchive();
@@ -104,7 +96,8 @@ class AdminArchives extends Component {
       return this.state.archiveData !== null ? (
         <React.Fragment>
         {this.state.user.type === "admin"?<ASideMenu/>:<HSideMenu/>}
-          <Typography>Welcome {this.state.user.type} to Archives Page</Typography>
+          <div className={classes.filterDiv}><Typography variant="h4">Filter Section</Typography></div>
+          <ArchiveTable archData={this.state.archiveData}/> 
         </React.Fragment>
       ) : (
         <LinearProgress />
