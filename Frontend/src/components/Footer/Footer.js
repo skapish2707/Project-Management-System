@@ -2,18 +2,32 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
-import BusinessIcon from "@material-ui/icons/Business";
-import ContactMailIcon from "@material-ui/icons/ContactMail";
 import "./Footer.css";
+import somaiya_white from "./Somaiya-white.svg"
+import somaiya_trust from "./somaiya_trust.jpg"
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: "#333",
+    backgroundColor: "#162343",
     color: "#fff",
-    paddingTop: "20px"
+    padding: "20px 0px 20px 20px",
+  },
+  rootItemsHeading: {
+    padding:"0px 10px",
+    color:"#FFFFFF"
+  },
+  rootTypoItems: {
+    padding:"0px 10px",
+    fontSize: "12px"
+  },
+  rootTypoHead: {
+    padding:"0px 10px",
+    fontSize: "14px"
   },
   rootItems: {
-    padding: "8px"
+    margin:"5px 0px",
+    padding:"0px 10px",
+    color:"#ADADAD"
   },
   foot: {
     margin: "auto"
@@ -21,8 +35,11 @@ const useStyles = makeStyles(theme => ({
   footEnd: {
     padding: "15px",
     textAlign: "center",
-    backgroundColor: "#222",
+    backgroundColor: "#162343d9",
     margin: "0"
+  },
+  footer_images: {
+    margin:"20px 0px"
   }
 }));
 
@@ -37,51 +54,62 @@ const Footer = () => {
       <br />
       <footer>
         <Grid container className={classes.root}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} md={2}>
             <Grid container>
-              <Grid item xs={12} className={classes.rootItems}>
-                <Typography><a style={{color:"#fff"}} target="blank" href="/about.html"> About</a></Typography>
-              </Grid>
-              <Grid item xs={12} className={classes.rootItems}>
-                <Typography>Terms And Conditions</Typography>
-              </Grid>
-              <Grid item xs={12} className={classes.rootItems}>
-                <Typography>Terms of Use</Typography>
+              <Grid item xs={12} className={classes.footer_images}>
+                <a href="/about.html" target="_blank"><img src={somaiya_white} alt="Somaiya White"/></a>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} md={2}>
             <Grid container>
-              <Grid item xs={12} className={classes.rootItems}>
-                <BusinessIcon fontSize="large" />
-              </Grid>
-              <Grid item xs={12} className={classes.rootItems}>
-                <Typography>
-                  K.J.Somaiya Institute Of Engineering And Information
-                  Technology
-                </Typography>
-              </Grid>
-              <Grid item xs={12} className={classes.rootItems}>
-                <Typography> Sion,Mumbai</Typography>
+              <Grid item xs={12} className={classes.rootItemsHeading}>
+                <Typography className={classes.rootTypoHead} style={{fontSize: "16px"}}>K J Somaiya Institute Of Engineering And Information Technology</Typography>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} md={2}>
             <Grid container>
-              <Grid item xs={12} className={classes.rootItems}>
-                <ContactMailIcon fontSize="large" />
+              <Grid item xs={12} className={classes.rootItemsHeading}>
+                <Typography className={classes.rootTypoHead}>Address</Typography>
               </Grid>
               <Grid item xs={12} className={classes.rootItems}>
-                <Typography>abcd@gmail.com</Typography>
-              </Grid>
-              <Grid item xs={12} className={classes.rootItems}>
-                <Typography>36326623966996</Typography>
+                <Typography className={classes.rootTypoItems}>Somaiya Ayurvihar Complex, Eastern Express Highway, Near Everard Nagar, Sion (East), Mumbai – 400 022</Typography>
               </Grid>
             </Grid>
           </Grid>
+          <Grid item xs={12} md={2}>
+            <Grid container>
+              <Grid item xs={12} className={classes.rootItemsHeading}>
+                <Typography className={classes.rootTypoHead}>Contact</Typography>
+              </Grid>
+              <Grid item xs={12} className={classes.rootItems}>
+                <Typography className={classes.rootTypoItems}>91-22- 24061408 / 24061403</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Grid container>
+              <Grid item xs={12} className={classes.rootItemsHeading}>
+                <Typography className={classes.rootTypoHead}>Connect through Mail</Typography>
+              </Grid>
+              <Grid item xs={12} className={classes.rootItems}>
+                <Typography className={classes.rootTypoItems}>info.tech@somaiya.edu</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Grid container>
+              <Grid item xs={12} className={classes.footer_images}>
+                <img src={somaiya_trust} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container>
           <Grid item xs={12} className={classes.footEnd}>
-            <Typography>
-              &copy;{new Date().getFullYear()} KJSIEIT,Inc. All Rights Reserved.
+            <Typography style={{color:"white"}}>
+              &copy;{new Date().getFullYear()} KJSIEIT All Rights Reserved.
             </Typography>
           </Grid>
         </Grid>
@@ -91,3 +119,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
