@@ -25,7 +25,6 @@ mongoose.connect(
 		console.log(err);
 	} else {
 		console.log("Connected to database");
-		// updateArchive( "5fae0eccb7bebd00175fc3f2" )
 		// Group.find({}, (err,data)=>{
 		//   data.forEach( (grp)=>{
 		//     grp.addedToArchive = false;
@@ -234,9 +233,10 @@ async function addComment(staff, groupId, msg) {
 }
 
 async function addGuide(email, name, groupId) {
-	await Group.findByIdAndUpdate(groupId, {
+	await Group.findByIdAndUpdate(groupId.trim(), {
 	guide: { name: name.trim(), email: email.trim() }
 	});
+	updateArchive(groupId.trim())
 }
 
 async function getGuide(admin) {
@@ -378,7 +378,7 @@ async function approve(groupId, proposalId, staff) {
 		group.proposals[i].approval.admin = true;
 		} else if (staff == "hod") {
 		group.proposals[i].approval.hod = true;
-		updateArchive( group.admin ,groupId )
+		updateArchive(groupId)
 		}
 	} else {
 		if (staff == "admin") {
@@ -947,11 +947,12 @@ async function uploadAddtionalDocument(doc, body) {
 	grp = await Group.findById(body.gid.trim());
 	url = await mediaServer.uploadFile(doc);
 	grp.addtionalDocuments.push({
-	docName: body.docName.trim(),
-	desc: body.desc.trim(),
-	doclink: url
+		docName: body.docName.trim(),
+		desc: body.desc.trim(),
+		doclink: url
 	});
 	await grp.save();
+	updateArchive( body.gid.trim() )
 }
 
 async function deleteuploadedDocument(gid, aid) {
@@ -971,30 +972,48 @@ async function deleteuploadedDocument(gid, aid) {
 }
 
 
-async function updateArchive(admin_id,group_id){
-	arch = await Archive.findOne({ admin: admin_id });
-	if (!arch) arch = Archive({admin:admin_id , data:[] })
+async function updateArchive(group_id){
 	grp = await Group.findById(group_id.trim()) 
-	grp.proposals.forEach( (proposal)=>{
-	if (proposal.approval.hod && proposal.approval.admin){
-		members = []
-		grp.members.forEach( (mem)=>{ members.push({
-			name:mem.name,
-			email:mem.email
-		})})
-		addtionalDocuments = []
-		grp.addtionalDocuments.forEach( (doc)=>{
-			addtionalDocuments.push({
-			docName: doc.docName ,
-			desc: doc.desc ,
-			doclink: doc.doclink 
-			})
-		} )
+	index = null 
+	for (let i = 0 ;  i< grp.proposals.length ; ++i ) {
+		if(grp.proposals[i].approval.hod && grp.proposals[i].approval.admin)
+			index = i 
+	}
+	if(index==null) return
 
-		arch.data.push({
-			acadYear : grp.acadYear,
-			members: members,
-			project : {
+	arch = await Archive.findOne({ admin: grp.admin });
+	if (!arch) arch = Archive({admin:grp.admin , data:[] })
+	
+	d_index  =  null 
+	for(let i = 0  ; i < arch.data.length ; ++i )
+	{
+		if(arch.data[i].id == grp.archiveID ){
+			d_index = i 
+			break
+		}
+	}
+	if(d_index==null) d_index = arch.data.length
+
+
+	proposal = grp.proposals[index]
+	members = []
+	grp.members.forEach( (mem)=>{ members.push({
+		name:mem.name,
+		email:mem.email
+	})})
+	addtionalDocuments = []
+	grp.addtionalDocuments.forEach( (doc)=>{
+		addtionalDocuments.push({
+		docName: doc.docName ,
+		desc: doc.desc ,
+		doclink: doc.doclink 
+		})
+	} )
+
+	arch.data[d_index] = {
+		acadYear : grp.acadYear,
+		members: members,
+		project : {
 			title: proposal.title ,
 			specialization: proposal.specialization ,
 			details: proposal.details ,
@@ -1005,23 +1024,23 @@ async function updateArchive(admin_id,group_id){
 			typeOfProject:proposal.typeOfProject  ,
 			category: proposal.category ,
 			attachPrints: proposal.attachPrints ,
-			},
-			addtionalDocuments: addtionalDocuments ,
-			guide : {
+		},
+		addtionalDocuments: addtionalDocuments ,
+		guide : {
 			name : grp.guide.name ,
 			email : grp.guide.email ,
-			},
-		})
-		arch.save()
+		},
 	}
-	})
+	await arch.save()
+	grp.archiveID = arch.data[d_index].id
+	grp.save()
 }
 
 async function genExcel(admin_id,f_acadYear,f_typeOfProject,f_category){
 	arch = await Archive.findOne({ admin: admin_id })
 	if(!arch) return null
 	data =  arch.data.filter( (arc)=>{
-		if (f_acadYear && arc.project.acadYear != f_acadYear.trim()) 
+		if (f_acadYear && arc.acadYear != f_acadYear.trim()) 
 			return false
 		if (f_category && arc.project.category != f_category.trim())
 			return false
@@ -1183,7 +1202,7 @@ module.exports = {
 	getArchive: getArchive,
 	deleteAllUsers: deleteAllUsers,
 	excel: excel,
-	deletearchive: deletearchive,
+	// deletearchive: deletearchive,
 	weeklyMeetLog: weeklyMeetLog,
 	deleteWeeklyMeetLog: deleteWeeklyMeetLog,
 	reportMarks: reportMarks,

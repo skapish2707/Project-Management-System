@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 var groupSchema = new mongoose.Schema({
   name: String,
   admin: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  archiveID : { type: mongoose.Schema.Types.ObjectId, ref: "Archive" },
   dueDate: { type: Date },
   acadYear: String,
   department: String,
