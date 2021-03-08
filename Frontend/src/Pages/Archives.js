@@ -7,16 +7,26 @@ import { Redirect } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { withStyles, Grid, Card } from "@material-ui/core";
-import qs from "qs";
 import ArchiveTable from "../components/ArchiveTable"
+import qs from "qs"
 
 let archData = null, dates = new Set(["All"]);
 
 const useStyles = theme => ({
 filterDiv:{
   backgroundColor:"#fff",
-  margin:"20px 00",
-  
+  width:"90%",
+  margin:"20px auto",
+  },
+tableContainer:{
+  width:"90%",
+  margin:"auto"
+},
+title:{
+  backgroundColor:"#fff",
+  width:"90%",
+  margin:"30px auto",
+  boxShadow:"0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
 } 
 });
 
@@ -187,7 +197,12 @@ class AdminArchives extends Component {
             <button onClick = {this.downloadFilterContent} >download
             </button>
           </div>
+
+          <div className={classes.title}><Typography variant="h3"><b>Archives</b></Typography></div>
+          <div className={classes.filterDiv}><Typography variant="h4">Filter Section</Typography></div>
+          <div className={classes.tableContainer}>
           <ArchiveTable archData={this.state.archiveData}/> 
+          </div>
         </React.Fragment>
       ) : (
         <LinearProgress />
