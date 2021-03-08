@@ -15,8 +15,11 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Container from "@material-ui/core/Container";
-import Image from "./background2.jpg";
-import Logo from "./kj1.png";
+import { AppBar, Grid } from "@material-ui/core";
+import vidyavihar from "./somaiya-vidyavihar-brand.svg";
+import ayurvihar from "./somaiya-ayurvihar.png";
+import trust from "./Somaiya-Trust-Logo-01.svg";
+import BG from "./BG.jpg";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -37,6 +40,10 @@ var today = new Date(),
     today.getDate();
 
 const useStyles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: "#FFFFFF"
+  },
   paper: {
     background: "transparent",
     // boxShadow: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
@@ -45,16 +52,15 @@ const useStyles = theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    color: "#fff",
+    color: "#000",
     paddingTop: "20px",
     [theme.breakpoints.down("575")]: {
       paddingTop: "20px"
     }
   },
   leftpaper: {
-    backgroundImage: `url(${Image})`,
     backgroundSize: "cover",
-    height: "100%"
+    height: "92vh"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -76,7 +82,7 @@ const useStyles = theme => ({
     marginBottom: "25px"
   },
   fields: {
-    backgroundColor: "#fff",
+    background: "#ffffff",
     borderRadius: "3px"
   },
   title: {
@@ -254,76 +260,108 @@ class Login extends Component {
     }
     return (
       <React.Fragment>
+        <div className={classes.root}>
+          <AppBar style={{backgroundColor:"#fff"}} position="static">
+              <Grid container>
+                <Grid item xs={3}>
+                  <section style={{backgroundColor:"#ED1C24", height:"8vh"}} />
+                </Grid>
+                <Grid item xs={9}>
+                  <section style={{backgroundColor:"#B7202E", height:"8vh"}} />
+                </Grid>
+              </Grid>
+          </AppBar>
+        </div>
         <div className={classes.leftpaper}>
-          <Typography variant="h2" className={classes.title}>
-            <b>Project Management System</b>
-          </Typography>
-          <Container component="main" maxWidth="xs" className={classes.paper}>
-            <CssBaseline />
-            <img src={Logo} style={{ marginBottom: "10px" }} />
-            {/* <Avatar variant="circle" className={classes.avatar}>
-              <PersonIcon fontSize="large" />
-            </Avatar> */}
-            <Typography component="h2" variant="h6">
-              <b>User Login</b>
-            </Typography>
-            <form className={classes.form} onSubmit={this.submitForm}>
-              <TextField
-                type="email"
-                variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="username"
-                value={this.state.username}
-                onChange={this.handleChange("username")}
-                className={classes.fields}
-              />
-              <TextField
-                variant="filled"
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type="password"
-                id="password"
-                value={this.state.password}
-                onChange={this.handleChange("password")}
-                autoComplete="current-password"
-                className={classes.fields}
-              />
+          <Grid container style={{height: "100%"}}>
+            <Grid item xs={false} md={7} style={{backgroundImage:`url(${BG})`,backgroundSize: "cover"}}>
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <Grid container style={{margin:"10px 0px"}}>
+                <Grid item xs={6}>
+                  <img style={{width:"70%"}} src={vidyavihar} alt="Vidyavihar" />
+                </Grid>
+                <Grid item xs={6}>
+                  <img style={{width:"70%"}} src={ayurvihar} alt="Ayurvihar" />
+                </Grid>
+              </Grid>
+              <Container component="main" maxWidth="xs" className={classes.paper}>
+                <CssBaseline />
+                <Typography style={{fontSize:"24px"}}><b>Welcome to Somaiya PMS Portal</b></Typography>
+                <Typography style={{fontSize:"17px", color:"#6A6C6F"}}>Please enter your username & password to Login.</Typography>
+                <form className={classes.form} onSubmit={this.submitForm}>
+                  <TextField
+                    type="email"
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="Username"
+                    label="Username"
+                    value={this.state.username}
+                    onChange={this.handleChange("username")}
+                    // style={{background:"FFFFFF"}}
+                    className={classes.fields}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Password"
+                    type="password"
+                    id="password"
+                    value={this.state.password}
+                    onChange={this.handleChange("password")}
+                    autoComplete="current-password"
+                    // style={{background:"FFFFFF"}}
+                    className={classes.fields}
+                  />
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Log In
-              </Button>
-            </form>
-            <Link
-              to="/forgetPassword"
-              style={{
-                textDecoration: "underline",
-                color: "#fff",
-                marginRight: "5px"
-              }}
-            >
-              forgot password ? reset now
-            </Link>
-            <Snackbar
-              open={this.state.invalidCredentials}
-              autoHideDuration={6000}
-              onClose={handleClose}
-            >
-              <Alert onClose={handleClose} severity="error">
-                Invalid Username/Password Please try again
-              </Alert>
-            </Snackbar>
-          </Container>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  >
+                    Log In
+                  </Button>
+                </form>
+                <Link
+                  to="/forgetPassword"
+                  style={{
+                    textDecoration: "none",
+                    color: "#006699",
+                    marginLeft: "50%"
+                  }}
+                >
+                  Forgot Password?
+                </Link>
+                <Snackbar
+                  open={this.state.invalidCredentials}
+                  autoHideDuration={6000}
+                  onClose={handleClose}
+                >
+                  <Alert onClose={handleClose} severity="error">
+                    Invalid Username/Password Please try again
+                  </Alert>
+                </Snackbar>
+              </Container>
+              <br />
+              <br />
+              <br />
+              <br />
+              <Grid container>
+                <Grid item xs={6}>
+                  <Typography style={{marginLeft:"10px"}}><b>KJ Somaiya Institute of Engineering and Information Technology</b></Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <img src={trust} style={{marginLeft:"40%", minWidth:"70px", width:"20%"}} />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         </div>
       </React.Fragment>
     );
