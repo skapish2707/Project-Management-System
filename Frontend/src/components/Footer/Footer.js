@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   rootTypoHead: {
     padding:"0px 10px",
+    paddingTop:"15px",
     fontSize: "14px"
   },
   rootItems: {

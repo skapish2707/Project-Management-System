@@ -158,7 +158,7 @@ export default function SideMenu(props) {
             {list(anchor)}
           </Drawer>
           <div className={classes.root}>
-            <AppBar position="static" style={{ backgroundColor: "#000" }}>
+            <AppBar position="static" style={{ backgroundColor: "#162343" }}>
               <Toolbar>
                 <MenuIcon
                   fontSize="large"

@@ -167,7 +167,7 @@ export default function MenuAppBar() {
         >
           <img src={kjLogo} />
         </nav>
-        <AppBar position="static" style={{ backgroundColor: "#000" }}>
+        <AppBar position="static" style={{ backgroundColor: "#162343" }}>
           <Toolbar>
             <Typography variant="h5" className={classes.title}>
               Project Management System

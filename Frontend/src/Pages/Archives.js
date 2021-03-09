@@ -167,8 +167,8 @@ class AdminArchives extends Component {
       return this.state.archiveData !== null ? (
         <React.Fragment>
         {this.state.user.type === "admin"?<ASideMenu/>:<HSideMenu/>}
-          <div className={classes.filterDiv}>
-            
+        <div className={classes.title}><Typography variant="h3"><b>Archives</b></Typography></div>
+          <div className={classes.filterDiv}>            
             <label>Academic Year : </label>
             <select id="f_acadYear" onChange = {this.filterContent}>
               {dates.map( d=>(
@@ -192,14 +192,12 @@ class AdminArchives extends Component {
               <option value="All">All</option>
               <option value="Inhouse">Inhouse</option>
               <option value="Outhouse">Outhouse</option>
-            </select>
-            
+            </select>            
             <button onClick = {this.downloadFilterContent} >download
             </button>
           </div>
 
-          <div className={classes.title}><Typography variant="h3"><b>Archives</b></Typography></div>
-          <div className={classes.filterDiv}><Typography variant="h4">Filter Section</Typography></div>
+          
           <div className={classes.tableContainer}>
           <ArchiveTable archData={this.state.archiveData}/> 
           </div>

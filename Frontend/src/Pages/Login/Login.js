@@ -78,7 +78,7 @@ const useStyles = theme => ({
     padding: "10px",
     fontSize: "18px",
     fontWeight: "bolder",
-    backgroundColor: "#1877f2",
+    backgroundColor: "#b7202e",
     marginBottom: "25px"
   },
   fields: {

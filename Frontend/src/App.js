@@ -22,9 +22,22 @@ import resetPassword from "./Pages/resetPassword";
 import HodGroupsPage from "./components/Hod-component/HodGroupsPage";
 import ViewProposal from "./Pages/ViewProposal";
 import Archives from "./Pages/Archives"
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#00308F",
+    },
+    secondary: {
+      main: "#AA0000",
+    },
+  },
+});
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <Switch>
         <Route path="/" exact component={Login} />
@@ -51,6 +64,7 @@ function App() {
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>
+    </ThemeProvider>
   );
 }
 
