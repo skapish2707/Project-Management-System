@@ -239,7 +239,6 @@ const GuideGroupList = props => {
                     </Grid>
                   </AccordionDetails>
                 </Accordion>
-                <div style={{ marginBottom: "50px" }}></div>
               </React.Fragment>
             );
             // }

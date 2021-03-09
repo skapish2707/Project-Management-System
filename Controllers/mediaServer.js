@@ -4,8 +4,8 @@ var filestack = require('filestack-js').init(process.env.FILESTACK_API_KEY);
 async function uploadFile(file){
 	let url = null 
 
-	// response = await filestack.upload(file.data)
-	// url = response.url
+	response = await filestack.upload(file.data)
+	url = response.url
 
 
 	return url

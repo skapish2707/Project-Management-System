@@ -53,14 +53,20 @@ const useStyles = makeStyles(theme => ({
     }
   },
   ButtonStyle: {
-    color: "#000",
-    backgroundColor: "#e0e0e0",
+    color: "#fff",
     padding: "0px 5px",
     cursor: "pointer",
     borderRadius: "2px",
     marginRight: "10px",
     "&:hover": {
-      backgroundColor: "#fff"
+      backgroundColor: "#fff",
+      color:"#000"
+    }
+  },
+  bStyle:{
+    "&:hover": {
+      backgroundColor: "#fff",
+      color:"#000"
     }
   }
 }));
@@ -158,7 +164,7 @@ export default function SideMenu(props) {
             {list(anchor)}
           </Drawer>
           <div className={classes.root}>
-            <AppBar position="static" style={{ backgroundColor: "#162343" }}>
+            <AppBar position="static" style={{ backgroundColor: "#b01a1a" }}>
               <Toolbar>
                 <MenuIcon
                   fontSize="large"
@@ -217,12 +223,12 @@ export default function SideMenu(props) {
                 <Link
                   to="/cp@2707user"
                   className={classes.navMenu}
-                  style={{ textDecoration: "none", color: "#000" }}
+                  style={{ textDecoration: "none", color: "#fff" }}
                 >
                   <Button
                     color="inherit"
-                    variant="contained"
                     startIcon={<AssignmentIndIcon />}
+                    className={classes.bStyle}
                   >
                     Change Password
                   </Button>
@@ -230,12 +236,12 @@ export default function SideMenu(props) {
                 <Link
                   to="/logout"
                   className={classes.navMenu}
-                  style={{ textDecoration: "none", color: "#000" }}
+                  style={{ textDecoration: "none", color: "#fff" }}
                 >
                   <Button
                     color="inherit"
-                    variant="contained"
                     style={{ marginLeft: "20px" }}
+                    className={classes.bStyle}
                     startIcon={<ExitToAppIcon />}
                   >
                     Logout
