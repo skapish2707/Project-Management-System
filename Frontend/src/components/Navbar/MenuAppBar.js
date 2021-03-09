@@ -34,6 +34,12 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       display: "none"
     }
+  },
+  bStyle:{
+    "&:hover": {
+      backgroundColor: "#fff",
+      color:"#000"
+    }
   }
 }));
 
@@ -142,17 +148,7 @@ export default function MenuAppBar() {
   } else {
     return (
       <div className={classes.root}>
-        <nav
-          style={{
-            backgroundColor: "#fff",
-            textAlign: "left",
-            paddingLeft: "20px",
-            height: "60px"
-          }}
-        >
-          <img src={kjLogo} />
-        </nav>
-        <AppBar position="static" style={{ backgroundColor: "#162343" }}>
+        <AppBar position="static" style={{ backgroundColor: "#b01a1a" }}>
           <Toolbar>
             <Typography variant="h5" className={classes.title}>
               Project Management System
@@ -202,34 +198,31 @@ export default function MenuAppBar() {
                 </Menu>
               </div>
             )}
-            <Link
-              to="/cp@2707user"
-              className={classes.navMenu}
-              style={{ textDecoration: "none", color: "#000" }}
-            >
-              <Button
-                color="inherit"
-                variant="contained"
-                startIcon={<AssignmentIndIcon />}
-              >
-                Change Password
-              </Button>
-            </Link>
-            <Link
-              to="/logout"
-              className={classes.navMenu}
-              style={{ textDecoration: "none", color: "#000" }}
-              starticon={<ExitToAppIcon />}
-            >
-              <Button
-                color="inherit"
-                variant="contained"
-                style={{ marginLeft: "20px" }}
-                startIcon={<ExitToAppIcon />}
-              >
-                Logout
-              </Button>
-            </Link>
+            <Link to="/cp@2707user"
+                  className={classes.navMenu}
+                  style={{ textDecoration: "none", color: "#fff" }}>
+                  <Button
+                    color="inherit"
+                    startIcon={<AssignmentIndIcon />}
+                    className={classes.bStyle}
+                  >
+                    Change Password
+                  </Button>
+                </Link>
+                <Link
+                  to="/logout"
+                  className={classes.navMenu}
+                  style={{ textDecoration: "none", color: "#fff" }}
+                >
+                  <Button
+                    color="inherit"
+                    style={{ marginLeft: "20px" }}
+                    className={classes.bStyle}
+                    startIcon={<ExitToAppIcon />}
+                  >
+                    Logout
+                  </Button>
+                </Link>
           </Toolbar>
         </AppBar>
       </div>

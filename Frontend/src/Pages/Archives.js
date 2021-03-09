@@ -6,7 +6,7 @@ import SERVER_URL from "./URL";
 import { Redirect } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import { withStyles, Grid, Card } from "@material-ui/core";
+import { withStyles, Grid, Card,Button } from "@material-ui/core";
 import ArchiveTable from "../components/ArchiveTable"
 import qs from "qs"
 
@@ -16,8 +16,13 @@ const useStyles = theme => ({
 filterDiv:{
   backgroundColor:"#fff",
   width:"90%",
-  margin:"20px auto",
+  margin:"30px auto",
+  marginBottom:"40px",
+  padding:"20px 00",
+  boxShadow:"0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
+  paddingBottom:"0"
   },
+  
 tableContainer:{
   width:"90%",
   margin:"auto"
@@ -27,6 +32,10 @@ title:{
   width:"90%",
   margin:"30px auto",
   boxShadow:"0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
+},
+gridS:{
+  margin:"5px auto",
+  fontSize:"18px",
 } 
 });
 
@@ -167,17 +176,21 @@ class AdminArchives extends Component {
       return this.state.archiveData !== null ? (
         <React.Fragment>
         {this.state.user.type === "admin"?<ASideMenu/>:<HSideMenu/>}
-        <div className={classes.title}><Typography variant="h3"><b>Archives</b></Typography></div>
-          <div className={classes.filterDiv}>            
-            <label>Academic Year : </label>
-            <select id="f_acadYear" onChange = {this.filterContent}>
+          <div className={classes.filterDiv}>     
+            <Typography variant="h3" style={{marginBottom:"20px"}}><b>Archives</b></Typography>
+            <Typography variant="h5" style={{textAlign:"left", padding:"20px",backgroundColor:"#e0e0e0" }}><b>Filter Table By:</b></Typography>
+            <Grid container style={{backgroundColor:"#e0e0e0",paddingBottom:"20px"}}>
+              <Grid item xs={12} sm={12} md={3} className={classes.gridS}>
+              <label><b>Academic Year:</b>&nbsp;&nbsp;</label>
+              <select style={{padding:"5px",borderRadius:"4px", fontSize:"16px" }} id="f_acadYear" onChange = {this.filterContent}>
               {dates.map( d=>(
                  <option value={d}>{d}</option>
               ) ) }  
-            </select>
-
-            <label >Category </label>
-            <select id="f_category" onChange = {this.filterContent}>
+              </select>
+              </Grid>
+              <Grid item xs={12} sm={12} md={3} className={classes.gridS}>
+              <label ><b>Category:</b>&nbsp;&nbsp;</label>
+              <select style={{padding:"5px",borderRadius:"4px", fontSize:"16px" }} id="f_category" onChange = {this.filterContent}>
               <option value="All">All</option>
               <option value="Social Need">Social Need </option>
               <option value="Education Based">Education Based</option>
@@ -185,19 +198,21 @@ class AdminArchives extends Component {
               <option value="NGO Based">NGO Based  </option>
               <option value="Innovative">Innovative</option>
               <option value="Research Oriented">Research Oriented</option>
-            </select>
-
-            <label >Type of Project </label>
-            <select id="f_typeOfProject" onChange = {this.filterContent}>
+              </select>  
+              </Grid>
+              <Grid item xs={12} sm={12} md={3} className={classes.gridS}>
+              <label ><b>Type of Project:</b>&nbsp;&nbsp;</label>
+              <select style={{padding:"5px",borderRadius:"4px", fontSize:"16px" }} id="f_typeOfProject" onChange = {this.filterContent}>
               <option value="All">All</option>
               <option value="Inhouse">Inhouse</option>
               <option value="Outhouse">Outhouse</option>
-            </select>            
-            <button onClick = {this.downloadFilterContent} >download
-            </button>
+              </select>
+              </Grid>
+              <Grid item xs={12} sm={12} md={3}>
+              <Button color="primary" variant="contained" onClick = {this.downloadFilterContent}>download table</Button>
+              </Grid>
+            </Grid>            
           </div>
-
-          
           <div className={classes.tableContainer}>
           <ArchiveTable archData={this.state.archiveData}/> 
           </div>
