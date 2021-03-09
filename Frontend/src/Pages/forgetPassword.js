@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from "@material-ui/core/styles";
-import { Typography } from '@material-ui/core';
+import { AppBar, Grid, responsiveFontSizes, Typography } from '@material-ui/core';
 import { Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,17 +15,25 @@ import PersonIcon from "@material-ui/icons/Person";
 import qs from "qs";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import vidyavihar from "./Login/somaiya-vidyavihar-brand.svg";
+import ayurvihar from "./Login/somaiya-ayurvihar.png";
+import trust from "./Login/Somaiya-Trust-Logo-01.svg";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = theme => ({
-
+	root: {
+		flexGrow: 1,
+		backgroundColor: "#FFFFFF"
+	},
 	leftpaper: {
-		backgroundImage: `url(${Image})`,
 		backgroundSize: "cover",
-		height: "100%"
+		height: "92vh"
 	},
 	paper: {
 		background: "transparent",
@@ -35,7 +43,6 @@ const useStyles = theme => ({
 		flexDirection: "column",
 		alignItems: "center",
 		color: "#fff",
-		paddingTop: "60px",
 		[theme.breakpoints.down("575")]: {
 		  paddingTop: "20px"
 		}
@@ -49,26 +56,16 @@ const useStyles = theme => ({
 		padding: "10px",
 		fontSize: "18px",
 		fontWeight: "bolder",
-		backgroundColor: "#1877f2",
+		backgroundColor: "#b7202e",
 		marginBottom: "25px"
 	},
 	fields: {
 		backgroundColor: "#fff",
 		borderRadius: "3px"
 	},
-	title: {
-		paddingTop: "50px",
-		color: "#fff",
-		[theme.breakpoints.down("775")]: {
-		  fontSize: "45px"
-		},
-		[theme.breakpoints.down("575")]: {
-		  fontSize: "40px"
-		}
-	},
 	avatar: {
 	    margin: theme.spacing(1),
-	    backgroundColor: "#1877f2",
+	    backgroundColor: "#b7202e",
 	    height: "50px",
 	    width: "50px",
 	    marginTop: "30px"
@@ -148,61 +145,95 @@ class forgetPassword extends Component {
 		}
 		return (
 			<React.Fragment>
-			<div className={classes.leftpaper}>
-	          <Typography variant="h2" className={classes.title}>
-	            <b>Project Management System</b>
-	          </Typography>
-	          <Container component="main" maxWidth="xs" className={classes.paper}>
-	            <CssBaseline />
-	            <Avatar variant="circle" className={classes.avatar}>
-		          <PersonIcon fontSize="large" />
-		        </Avatar>
-		        <Typography component="h2" variant="h6">
-		          <b>Forget Password</b>
-		        </Typography>
-	            <form className={classes.form} onSubmit={this.submitForm}>
-	              <TextField
-	                type="email"
-	                variant="filled"
-	                margin="normal"
-	                required
-	                fullWidth
-	                id="email"
-	                label="email"
-	                value={this.state.email}
-	                onChange={this.handleChange("email")}
-	                className={classes.fields}
-	                
-	              />
-	              <Button
-	                type="submit"
-	                fullWidth
-	                variant="contained"
-	                color="primary"
-	                className={classes.submit}
-	              >
-	                Reset Password
-	              </Button>
-	              
-	            </form>
-				<Snackbar open={this.state.openSuccess} onClose={handleClose}>
-					<Alert onClose={handleClose} severity="success">
-					{this.state.msg}
-					</Alert>
-				</Snackbar>
-				<Snackbar open={this.state.openInfo} onClose={handleClose}>
-					<Alert onClose={handleClose} severity="info">
-					{this.state.msg}
-					</Alert>
-				</Snackbar>
-				<Snackbar open={this.state.openFailure} onClose={handleClose}>
-					<Alert onClose={handleClose} severity="error">
-						{this.state.msg}
-					</Alert>
-				</Snackbar>
-	  
-	          </Container>
-	        </div>
+				<ThemeProvider theme={theme}>
+					<div className={classes.root}>
+						<AppBar style={{backgroundColor:"#fff"}} position="static">
+							<Grid container>
+								<Grid item xs={3}>
+									<section style={{backgroundColor:"#ED1C24", height:"8vh"}} />
+								</Grid>
+								<Grid item xs={9}>
+									<section style={{backgroundColor:"#B7202E", height:"8vh"}} />
+								</Grid>
+							</Grid>
+						</AppBar>
+					</div>
+					<div className={classes.leftpaper}>
+						<Grid container>
+							<Grid container style={{margin:"10px 0px", paddingTop:"30px"}}>
+								<Grid item xs={3}>
+									<img style={{minWidth:"100px", width:"75%"}} src={vidyavihar} alt="Vidyavihar" />
+								</Grid>
+								<Grid item xs={6}>
+									<Typography style={{paddingTop:"5px"}} variant="h3">
+										<b>Project Management System</b>
+									</Typography>
+								</Grid>
+								<Grid item xs={3}>
+									<img style={{minWidth:"100px", width:"75%"}} src={ayurvihar} alt="Ayurvihar" />
+								</Grid>
+							</Grid>
+							
+							<Container component="main" maxWidth="xs" className={classes.paper}>
+								<CssBaseline />
+								<Avatar variant="circle" className={classes.avatar}>
+								<PersonIcon fontSize="large" />
+								</Avatar>
+								<Typography component="h2" variant="h6" style={{color:"#000"}}>
+									<b>Forget Password</b>
+								</Typography>
+								<form className={classes.form} onSubmit={this.submitForm}>
+									<TextField
+										type="email"
+										variant="outlined"
+										margin="normal"
+										required
+										fullWidth
+										id="email"
+										label="email"
+										value={this.state.email}
+										onChange={this.handleChange("email")}
+										className={classes.fields}
+									/>
+									<Button
+										type="submit"
+										fullWidth
+										variant="contained"
+										color="primary"
+										className={classes.submit}
+									>
+										Reset Password
+									</Button>
+								</form>
+								<Snackbar open={this.state.openSuccess} onClose={handleClose}>
+									<Alert onClose={handleClose} severity="success">
+									{this.state.msg}
+									</Alert>
+								</Snackbar>
+								<Snackbar open={this.state.openInfo} onClose={handleClose}>
+									<Alert onClose={handleClose} severity="info">
+									{this.state.msg}
+									</Alert>
+								</Snackbar>
+								<Snackbar open={this.state.openFailure} onClose={handleClose}>
+									<Alert onClose={handleClose} severity="error">
+										{this.state.msg}
+									</Alert>
+								</Snackbar>
+								<br />
+								<br />
+								<Grid container style={{marginTop:"20px"}}>
+									<Grid item xs={12} md={6}>
+										<Typography style={{color:"#000"}}><b>KJ Somaiya Institute of Engineering and Information Technology</b></Typography>
+									</Grid>
+									<Grid item xs={12} md={6}>
+										<img src={trust} style={{margin:"10px 40% 0 40%", minWidth:"70px", width:"20%"}} />
+									</Grid>
+								</Grid>
+							</Container>
+						</Grid>
+					</div>
+				</ThemeProvider>
 	      </React.Fragment>
 		)
 	}

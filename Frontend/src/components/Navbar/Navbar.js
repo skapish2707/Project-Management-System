@@ -33,7 +33,7 @@ const Navbar = () => {
             className={classes.navMenu}
             style={{ textDecoration: "none", color: "#000" }}
           > */}
-            <Button style={{color:"#000"}} onClick={()=>{window.history.back()}}  variant="contained">
+            <Button style={{color:"#FFFFFF"}} onClick={()=>{window.history.back()}}>
               <ArrowBackRoundedIcon />
             </Button>
           {/* </Link> */}
