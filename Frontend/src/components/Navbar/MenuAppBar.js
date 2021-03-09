@@ -122,30 +122,15 @@ export default function MenuAppBar() {
               </div>
             )}
             <Link
-              to="/cp@2707user"
-              className={classes.navMenu}
-              style={{ textDecoration: "none", color: "#000" }}
-            >
-              <Button
-                color="inherit"
-                variant="contained"
-                startIcon={<AssignmentIndIcon />}
-              >
-                Change Password
-              </Button>
-            </Link>
-            <Link
               to="/logout"
               className={classes.navMenu}
-              style={{ textDecoration: "none", color: "#000" }}
+              style={{ textDecoration: "none", color: "#fff" }}
             >
               <Button
                 color="inherit"
-                variant="contained"
                 style={{ marginLeft: "20px" }}
+                className={classes.bStyle}
                 startIcon={<ExitToAppIcon />}
-                open={open}
-                onClose={handleClose}
               >
                 Logout
               </Button>

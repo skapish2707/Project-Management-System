@@ -3,7 +3,7 @@ import axios from "axios";
 import "./ChangePassword.css";
 import SERVER_URL from "../../Pages/URL";
 import qs from "qs";
-import { LinearProgress } from "@material-ui/core";
+import { Grid, LinearProgress } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import LoggedNavbar from "../Navbar/LoggedNavbar";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -14,6 +14,10 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Button from "@material-ui/core/Button";
+import Navbar from "../Navbar/Navbar";
+import vidyavihar from "../../Pages/Login/somaiya-vidyavihar-brand.svg"
+import ayurvihar from "../../Pages/Login/somaiya-ayurvihar.png";
+import trust from "../../Pages/Login/Somaiya-Trust-Logo-01.svg"
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -150,7 +154,17 @@ class ChangePassword extends Component {
     } else {
       return (
         <div>
-          <LoggedNavbar />
+          <Navbar />
+          <Grid container style={{margin:"10px 0px", paddingTop:"30px"}}>
+            <Grid item xs={5}>
+              <img style={{minWidth:"200px", width:"75%"}} src={vidyavihar} alt="Vidyavihar" />
+            </Grid>
+            <Grid item xs={2}>
+            </Grid>
+            <Grid item xs={5}>
+              <img style={{minWidth:"200px", width:"75%"}} src={ayurvihar} alt="Ayurvihar" />
+            </Grid>
+          </Grid>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div
@@ -218,7 +232,7 @@ class ChangePassword extends Component {
                     padding: "10px",
                     fontSize: "18px",
                     fontWeight: "bolder",
-                    backgroundColor: "#1877f2",
+                    backgroundColor: "#162343",
                     marginBottom: "25px"
                   }}
                 >
@@ -226,6 +240,14 @@ class ChangePassword extends Component {
                 </Button>
               </form>
             </div>
+            <Grid container style={{marginTop:"20px"}}>
+              <Grid item xs={12} md={6}>
+                <Typography style={{color:"#000"}}><b>KJ Somaiya Institute of Engineering and Information Technology</b></Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <img src={trust} style={{margin:"10px 40% 0 40%", minWidth:"70px", width:"20%"}} />
+              </Grid>
+            </Grid>
           </Container>
         </div>
       );
