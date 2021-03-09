@@ -303,13 +303,28 @@ class StudentContent extends Component {
   };
 
   handleFileChange = (e, cs) => {
-    let prefs = [...this.state.preferences];
-    for (var i = 0; i < 3; i++) {
-      if (i === cs - 1) {
-        prefs[i].selectedFile = e.target.files[0];
-        this.setState({ preferences: prefs });
+    if(e.target.files[0]===undefined){
+        alert("Please select a file.")
+    }else{
+      if(e.target.files[0].size > 10485760){
+          alert("File size cannot exceed 10MB. Please select another file.");
+          e.target.value=null;
+      }else{
+          if(e.target.files[0].type!=="application/pdf"){
+              alert("Please upload pdf file of size less than 10MB");
+              e.target.value=null
+          }else{
+            let prefs = [...this.state.preferences];
+            for (var i = 0; i < 3; i++) {
+              if (i === cs - 1) {
+                prefs[i].selectedFile = e.target.files[0];
+                this.setState({ preferences: prefs });
+              }
+            }
+          }
       }
     }
+    
   };
 
   handleClick = (e, pn) => {
@@ -671,7 +686,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `${SERVER_URL}/${pref1.attachPrints}`
+                          `${pref1.attachPrints}`
                         );
                       }}
                     >
@@ -745,7 +760,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `${SERVER_URL}/${pref2.attachPrints}`
+                          `${pref2.attachPrints}`
                         );
                       }}
                     >
@@ -819,7 +834,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `${SERVER_URL}/${pref3.attachPrints}`
+                          `${pref3.attachPrints}`
                         );
                       }}
                     >
@@ -902,7 +917,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `${SERVER_URL}/${pref1.attachPrints}`
+                          `${pref1.attachPrints}`
                         );
                       }}
                     >
@@ -976,7 +991,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `${SERVER_URL}/${pref2.attachPrints}`
+                          `${pref2.attachPrints}`
                         );
                       }}
                     >
@@ -1050,7 +1065,7 @@ class StudentContent extends Component {
                       color="primary"
                       onClick={() => {
                         window.open(
-                          `${SERVER_URL}/${pref3.attachPrints}`
+                          `${pref3.attachPrints}`
                         );
                       }}
                     >

@@ -496,7 +496,8 @@ async function archive(admin_id) {
 }
 async function getArchive(admin_id) {
 	arc = await Archive.findOne({ admin: admin_id });
-	return arc.data;
+	if(arc) return arc.data;
+	else return [];
 }
 
 async function deleteAllUsers(admin_id) {

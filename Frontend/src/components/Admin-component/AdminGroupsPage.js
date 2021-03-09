@@ -252,25 +252,25 @@ class AdminGroupsPage extends Component {
         console.log(err);
       });
   };
-  handleArchieve = () => {
-    this.setState({ loading: true });
-    axios({
-      method: "post",
-      url: SERVER_URL + "/archive",
-      credentials: "include",
-      withCredentials: true,
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("access_token")
-      }
-    })
-      .then(res => {
-        this.setState({ loading: false, archive: false, archiveSuccess: true });
-      })
-      .catch(err => {
-        this.setState({ loading: false, archive: false });
-        console.log(err);
-      });
-  };
+  // handleArchieve = () => {
+  //   this.setState({ loading: true });
+  //   axios({
+  //     method: "post",
+  //     url: SERVER_URL + "/archive",
+  //     credentials: "include",
+  //     withCredentials: true,
+  //     headers: {
+  //       Authorization: "Bearer " + localStorage.getItem("access_token")
+  //     }
+  //   })
+  //     .then(res => {
+  //       this.setState({ loading: false, archive: false, archiveSuccess: true });
+  //     })
+  //     .catch(err => {
+  //       this.setState({ loading: false, archive: false });
+  //       console.log(err);
+  //     });
+  // };
   //ADD MEMBER SECTION ------------------------------------
   handleAddMemberDialogOpen = (gid, dept, gname) => {
     Groupid = gid;
@@ -550,7 +550,7 @@ class AdminGroupsPage extends Component {
             </Dialog>
           </div>
           {/* -----------------ARCHIEVE---------------------- */}
-          <div>
+          {/* <div>
             <Dialog
               open={this.state.archive}
               onClose={() => {
@@ -582,8 +582,8 @@ class AdminGroupsPage extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
-          </div>
-          <Snackbar
+          </div> */}
+          {/* <Snackbar
             open={this.state.archiveSuccess}
             autoHideDuration={6000}
             onClose={handleClose}
@@ -591,7 +591,7 @@ class AdminGroupsPage extends Component {
             <Alert onClose={handleClose} severity="success">
               Archived Groups Data Successfully
             </Alert>
-          </Snackbar>
+          </Snackbar> */}
 
           {/* -----------------------MEMBER ACCORDION------------------------*/}
           {groupData.length !== 0 ? (
@@ -609,7 +609,7 @@ class AdminGroupsPage extends Component {
                   sm={6}
                   style={{ textAlign: "right", margin: "auto" }}
                 >
-                  <Button
+                  {/* <Button
                     endIcon={<Archive />}
                     variant="contained"
                     onClick={() => {
@@ -619,7 +619,7 @@ class AdminGroupsPage extends Component {
                     style={{ margin: "5px 5px" }}
                   >
                     Archive
-                  </Button>
+                  </Button> */}
                   <Button
                     endIcon={<DeleteIcon />}
                     variant="contained"

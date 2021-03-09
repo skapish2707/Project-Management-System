@@ -134,7 +134,7 @@ class AdminContent extends Component {
       openFailure: false,
       loading: false,
       prefDueDate: date,
-      Academicyear: academicYearList[0]
+      Academicyear: null,
     };
   }
 
@@ -484,7 +484,7 @@ class AdminContent extends Component {
                         style={{
                           padding: "8px 50px",
                           fontSize: "18px",
-                          backgroundColor: "#1877f2",
+                          backgroundColor: "#b7202e",
                           margin: "25px"
                         }}
                       >
