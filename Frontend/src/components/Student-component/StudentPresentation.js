@@ -17,11 +17,14 @@ const useStyles = makeStyles(theme => ({
 const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 let Group=null;
 let Presentations = null;
+let members = null
 
 const StudentPresentation = (props) => {
     const classes = useStyles();
     Group=props.Group;
+    console.log(Group)
     Presentations=Group.presentation
+    members=Group.members
     Presentations.sort((a,b)=>(new Date(a.scheduled_date).getTime()>new Date(b.scheduled_date).getTime())?1:-1)
     if(Group===null){
         return(
@@ -34,7 +37,7 @@ const StudentPresentation = (props) => {
             return(
                 <React.Fragment>
                     <ThemeProvider theme={theme}>
-                        <Typography variant="h4">Presentation Details</Typography>
+                        <Typography variant="h4" style={{margin:"5px 0px 20px 0px"}}>Presentation Details</Typography>
                         <TableContainer
                             style={{ backgroundColor: "#d3d3d3" }}
                             className={classes.tableContainer}
@@ -49,6 +52,7 @@ const StudentPresentation = (props) => {
                                     <TableRow>
                                     <TableCell align="center">No.</TableCell>
                                     <TableCell align="center">Date</TableCell>
+                                    <TableCell align="center" style={{padding:"8px"}}>Roll No</TableCell>
                                     <TableCell align="center">Organisation</TableCell>
                                     <TableCell align="center">Subject Knowledge</TableCell>
                                     <TableCell align="center">Effectiveness of delivery</TableCell>
@@ -61,7 +65,20 @@ const StudentPresentation = (props) => {
                                     <TableRow key={Presentation._id}>
                                         <TableCell align="center">{index+1}</TableCell>
                                         <TableCell align="center">{new Date(Presentation.scheduled_date).getDate()}/{new Date(Presentation.scheduled_date).getMonth()+1}/{new Date(Presentation.scheduled_date).getFullYear()}</TableCell>
-                                        {(!Presentation.filled)?(
+                                        <TableCell>
+                                            <TableContainer>
+                                                    <Table>
+                                                        <TableBody>
+                                                            {members.map(member=>(
+                                                                <TableRow key={member.id}>
+                                                                    <TableCell align="center" style={{padding:"8px"}}>{member.rollno}</TableCell>
+                                                                </TableRow>
+                                                            ))}
+                                                        </TableBody>
+                                                    </Table>
+                                            </TableContainer>
+                                        </TableCell>
+                                        {(Presentation.marks.length===0)?(
                                             <React.Fragment>
                                                 {new Date(Presentation.scheduled_date).getTime()>Date.now()?(
                                                     <React.Fragment>
@@ -87,20 +104,70 @@ const StudentPresentation = (props) => {
                                             </React.Fragment>
                                         ):(
                                             <React.Fragment>
-                                                <TableCell align="center">
-                                                    {Presentation.orgMarks}
+                                                <TableCell>
+                                                    {Presentation.marks.map((marks) => (
+                                                        <TableContainer>
+                                                                <Table>
+                                                                    <TableBody>
+                                                                        <TableRow>
+                                                                            <TableCell align="center" style={{padding:"8px"}}>{marks.orgMarks}</TableCell>
+                                                                        </TableRow>
+                                                                    </TableBody>
+                                                                </Table>
+                                                        </TableContainer>
+                                                    ))}
                                                 </TableCell>
-                                                <TableCell align="center">
-                                                    {Presentation.subKnowMarks}
+                                                <TableCell>
+                                                    {Presentation.marks.map((marks) => (
+                                                        <TableContainer>
+                                                                <Table>
+                                                                    <TableBody>
+                                                                        <TableRow>
+                                                                            <TableCell align="center" style={{padding:"8px"}}>{marks.EODMarks}</TableCell>
+                                                                        </TableRow>
+                                                                    </TableBody>
+                                                                </Table>
+                                                        </TableContainer>
+                                                    ))}
                                                 </TableCell>
-                                                <TableCell align="center">
-                                                    {Presentation.EODMarks}
+                                                <TableCell>
+                                                    {Presentation.marks.map((marks) => (
+                                                        <TableContainer>
+                                                                <Table>
+                                                                    <TableBody>
+                                                                        <TableRow>
+                                                                            <TableCell align="center" style={{padding:"8px"}}>{marks.subKnowMarks}</TableCell>
+                                                                        </TableRow>
+                                                                    </TableBody>
+                                                                </Table>
+                                                        </TableContainer>
+                                                    ))}
                                                 </TableCell>
-                                                <TableCell align="center">
-                                                    {Presentation.timeMarks}
+                                                <TableCell>
+                                                    {Presentation.marks.map((marks) => (
+                                                        <TableContainer>
+                                                                <Table>
+                                                                    <TableBody>
+                                                                        <TableRow>
+                                                                            <TableCell align="center" style={{padding:"8px"}}>{marks.timeMarks}</TableCell>
+                                                                        </TableRow>
+                                                                    </TableBody>
+                                                                </Table>
+                                                        </TableContainer>
+                                                    ))}
                                                 </TableCell>
-                                                <TableCell align="center">
-                                                    {Presentation.orgMarks+Presentation.timeMarks+Presentation.EODMarks+Presentation.subKnowMarks}/10
+                                                <TableCell>
+                                                    {Presentation.marks.map((marks) => (
+                                                        <TableContainer>
+                                                                <Table>
+                                                                    <TableBody>
+                                                                        <TableRow>
+                                                                            <TableCell align="center" style={{padding:"8px"}}>{marks.orgMarks+marks.subKnowMarks+marks.EODMarks+marks.timeMarks}</TableCell>
+                                                                        </TableRow>
+                                                                    </TableBody>
+                                                                </Table>
+                                                        </TableContainer>
+                                                    ))}
                                                 </TableCell>
                                             </React.Fragment>
                                         )}
@@ -123,3 +190,7 @@ const StudentPresentation = (props) => {
 }
  
 export default StudentPresentation;
+
+
+
+

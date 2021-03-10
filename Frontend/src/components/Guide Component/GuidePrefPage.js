@@ -347,7 +347,7 @@ class GuidePrefPage extends Component {
       RepMarks.push(this.state.reportMarks[i]);
       Object.values(this.state.reportMarks[i]).forEach(element => {
         console.log(element);
-        if (element === "" || parseInt(element) > 3) {
+        if (element === "" || parseInt(element) > 3 || parseInt(element) < 0) {
           flag = false;
         }
       });
@@ -510,7 +510,7 @@ class GuidePrefPage extends Component {
       ImpMarks.push(this.state.implementationMarks[i]);
       Object.values(this.state.implementationMarks[i]).forEach(element => {
         console.log(element);
-        if (element === "" || parseInt(element) > 3) {
+        if (element === "" || parseInt(element) > 3 || parseInt(element) < 0) {
           flag = false;
         }
       });
@@ -742,10 +742,10 @@ class GuidePrefPage extends Component {
     }
     pMarks.map(pm => {
       if (
-        parseInt(pm.timeMarks) > 3 ||
-        parseInt(pm.orgMarks) > 2 ||
-        parseInt(pm.EODMarks) > 3 ||
-        parseInt(pm.subKnowMarks) > 2
+        parseInt(pm.timeMarks) > 3 || parseInt(pm.timeMarks) < 0 ||
+        parseInt(pm.orgMarks) > 2 || parseInt(pm.orgMarks) < 0 ||
+        parseInt(pm.EODMarks) > 3 || parseInt(pm.EODMarks) < 0 ||
+        parseInt(pm.subKnowMarks) > 2 || parseInt(pm.subKnowMarks) < 0
       )
         flag = false;
     });

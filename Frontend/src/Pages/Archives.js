@@ -10,7 +10,8 @@ import { withStyles, Grid, Card,Button } from "@material-ui/core";
 import ArchiveTable from "../components/ArchiveTable"
 import qs from "qs"
 
-let archData = null, dates = new Set(["All"]);
+let archData = null;
+let dates = null;
 
 const useStyles = theme => ({
 filterDiv:{
@@ -68,6 +69,7 @@ class AdminArchives extends Component {
       }
     })
       .then(res => {
+        dates=new Set(["All"])
         archData = res.data
         archData.forEach( grp => dates.add(grp.acadYear) )
         dates = [...dates]
