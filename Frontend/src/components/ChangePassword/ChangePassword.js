@@ -25,7 +25,7 @@ function Alert(props) {
 
 const useStyles = theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: "flex",
     flexDirection: "column",
     [theme.breakpoints.up("md")]: {
@@ -156,14 +156,14 @@ class ChangePassword extends Component {
         <div>
           <Navbar />
           <Grid container style={{margin:"10px 0px", paddingTop:"30px"}}>
-            <Grid item xs={5}>
-              <img style={{minWidth:"200px", width:"75%"}} src={vidyavihar} alt="Vidyavihar" />
+            <Grid item xs={2} />
+            <Grid item xs={4}>
+              <img style={{minWidth:"200px", width:"50%"}} src={vidyavihar} alt="Vidyavihar" />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
+              <img style={{minWidth:"200px", width:"50%"}} src={ayurvihar} alt="Ayurvihar" />
             </Grid>
-            <Grid item xs={5}>
-              <img style={{minWidth:"200px", width:"75%"}} src={ayurvihar} alt="Ayurvihar" />
-            </Grid>
+            <Grid item xs={2} />
           </Grid>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -196,7 +196,7 @@ class ChangePassword extends Component {
                   variant="h4"
                   style={{ marginTop: "15px", marginBottom: "15px" }}
                 >
-                  Change Password
+                  <b>Change Password</b>
                 </Typography>
                 <TextField
                   variant="outlined"
@@ -240,12 +240,14 @@ class ChangePassword extends Component {
                 </Button>
               </form>
             </div>
+            <br />
+            <br />
             <Grid container style={{marginTop:"20px"}}>
               <Grid item xs={12} md={6}>
                 <Typography style={{color:"#000"}}><b>KJ Somaiya Institute of Engineering and Information Technology</b></Typography>
               </Grid>
               <Grid item xs={12} md={6}>
-                <img src={trust} style={{margin:"10px 40% 0 40%", minWidth:"70px", width:"20%"}} />
+                <img src={trust} style={{margin:"10px 45% 0 45%", minWidth:"70px", width:"20%"}} />
               </Grid>
             </Grid>
           </Container>
