@@ -97,17 +97,17 @@ const useStyles = theme => ({
   },
   pmsTitle:{
     color:"#fff",
-    marginTop:"20px",
-    fontSize:"55px",
+    marginTop:"25px",
+    fontSize:"45px",
     fontWeight:"600",
     [theme.breakpoints.down("sm")]: {
       display:"none",
     },
     [theme.breakpoints.down("1280")]: {
-      fontSize: "45px"
+      fontSize: "40px"
     },
     [theme.breakpoints.down("1040")]: {
-      fontSize: "37px"
+      fontSize: "35px"
     }
   }
 });

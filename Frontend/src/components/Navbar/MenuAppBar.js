@@ -56,13 +56,7 @@ export default function MenuAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const pres_url = window.location.href;
-  if (
-    pres_url === "http://localhost:3000/cp@2707user" ||
-    pres_url ===
-      "https://project-management-system-ark.herokuapp.com/cp@2707user"
-  ) {
+  if (window.location.href.replace(window.location.origin,"") === "/cp@2707user"){
     return (
       <div className={classes.root}>
         <AppBar position="static" style={{ backgroundColor: "#000" }}>
