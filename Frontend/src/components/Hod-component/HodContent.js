@@ -106,7 +106,6 @@ class HodContent extends Component {
         console.log(err);
       });
   };
-
   render() {
     const { classes } = this.props;
     if (this.state.adData === null) {

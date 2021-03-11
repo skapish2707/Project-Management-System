@@ -117,7 +117,6 @@ class AdminArchives extends Component {
       }
     })
       .then(res => {
-        console.log("Archive deleted!!!!");
         dArchiveId = null;
         window.location.reload(false);
       })

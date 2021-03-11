@@ -34,7 +34,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   return (
-    <React.Fragment>
+    <React.Fragment key={row._id}>
       <TableRow className={classes.root}>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
@@ -65,10 +65,10 @@ function Row(props) {
                 <TableBody>
                  {members.map((mem) => (
                     <TableRow key={mem._id}>
-                      <TableCell component="th" scope="row">
+                      <TableCell key={mem.name} component="th" scope="row">
                         {mem.name}
                       </TableCell>
-                      <TableCell>{mem.email}</TableCell>
+                      <TableCell key={mem.name}>{mem.email}</TableCell>
                     </TableRow>
                   ))}                
                 </TableBody>
@@ -142,7 +142,6 @@ function Row(props) {
 
 export default function ArchiveTable(props) {
   const {archData} = props
-  console.log(archData)
   return (
     <React.Fragment>
     <TableContainer component={Paper}>
@@ -157,8 +156,8 @@ export default function ArchiveTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {archData.map((row, index) => (
-            <Row key={row._id}  row={archData[index]} />
+          {archData.map((row) => (
+            <Row key={row._id}  row={row} />
           ))}
         </TableBody>
       </Table>

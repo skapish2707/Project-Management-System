@@ -121,7 +121,6 @@ class ControlledExpansionPanels extends React.Component {
     if (this.state.shareEmail === "") {
       alert("Please enter and email address");
     } else {
-      console.log(this.state.shareEmail);
       this.setState({
         shareDialog: false
       });
@@ -249,7 +248,6 @@ class ControlledExpansionPanels extends React.Component {
     const Group = location.state.Group;
     const Gid = Group.id;
     let Ad = Group.addtionalDocuments;
-    console.log(Ad);
     //call axios
     if (this.state.adData === null) {
       this.checkData();
