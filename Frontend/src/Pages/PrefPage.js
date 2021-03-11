@@ -23,6 +23,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Footer from "../components/Footer/Footer";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -997,6 +998,7 @@ class ControlledExpansionPanels extends React.Component {
             })}
           </div>
           <div style={{ height: "150px" }}></div>
+          <Footer />
         </React.Fragment>
       );
     } else return <LinearProgress />;
