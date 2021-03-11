@@ -47,6 +47,7 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
+import Footer from "../Footer/Footer";
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
@@ -2603,6 +2604,7 @@ class GuidePrefPage extends Component {
               } else return null;
             })}
           </div>
+          <Footer />
         </React.Fragment>
       );
     } else return <LinearProgress />;

@@ -38,6 +38,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Footer from "../Footer/Footer";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -1009,6 +1010,7 @@ class HodPrefPage extends Component {
               } else return null;
             })}
           </div>
+          <Footer />
         </React.Fragment>
       );
     } else return <LinearProgress />;
