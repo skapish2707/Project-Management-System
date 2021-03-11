@@ -157,11 +157,8 @@ class AdminContent extends Component {
     this.setState({ prefDueDate: formatted_date });
     let a = new Date("2020-12-01");
     if (current_datetime < a) {
-      // console.log("success");
     } else if (current_datetime > a) {
-      // console.log("failed");
     }
-    // console.log(a);
   };
 
   //function to handle Academic Year

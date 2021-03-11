@@ -182,7 +182,6 @@ class AdminGroupsPage extends Component {
       }
     })
       .then(res => {
-        console.log("Member deleted!!!!");
         deleteMemberEmail = null;
         Groupid = null;
         window.location.reload(false);
@@ -330,7 +329,6 @@ class AdminGroupsPage extends Component {
         }
       })
         .then(res => {
-          console.log("Member Added Successfully!!!!!");
           Groupid = null;
           department = null;
           Gname = null;

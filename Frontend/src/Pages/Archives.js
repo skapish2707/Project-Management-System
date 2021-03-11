@@ -45,7 +45,7 @@ class AdminArchives extends Component {
     super(props);
     const token = localStorage.getItem("token");
     let loggedIn = true;
-    if (token === "admin") {
+    if (token === "admin" || token === "hod") {
       loggedIn = true;
     }
 
@@ -73,7 +73,6 @@ class AdminArchives extends Component {
         archData = res.data
         archData.forEach( grp => dates.add(grp.acadYear) )
         dates = [...dates]
-        console.log(dates)
         this.setState(
           {
             archiveData: res.data
@@ -168,8 +167,13 @@ class AdminArchives extends Component {
   render() {
     const { classes } = this.props;
 
-    if (this.state.user === "" && this.state.archiveData === null) {
+    if(this.state.user === ""){
       this.getStat();
+      return <LinearProgress />
+    }
+
+    if ( this.state.archiveData === null) {
+      
       this.getArchive();
       return <LinearProgress />;
     } 
@@ -186,7 +190,7 @@ class AdminArchives extends Component {
               <label><b>Academic Year:</b>&nbsp;&nbsp;</label>
               <select style={{padding:"5px",borderRadius:"4px", fontSize:"16px" }} id="f_acadYear" onChange = {this.filterContent}>
               {dates.map( d=>(
-                 <option value={d}>{d}</option>
+                 <option key={d} value={d}>{d}</option>
               ) ) }  
               </select>
               </Grid>
@@ -216,7 +220,7 @@ class AdminArchives extends Component {
             </Grid>            
           </div>
           <div className={classes.tableContainer}>
-          <ArchiveTable archData={this.state.archiveData}/> 
+            <ArchiveTable archData={this.state.archiveData}/> 
           </div>
         </React.Fragment>
       ) : (
