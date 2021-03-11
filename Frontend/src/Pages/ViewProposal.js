@@ -17,6 +17,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Footer from "../components/Footer/Footer"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,7 +73,12 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 650
-  }
+  },
+  title: {
+    flexGrow: 1,
+    textAlign: "left",
+    margin: theme.spacing(2)
+  },
 }));
 
 const ViewProposal = props => {
@@ -99,7 +107,15 @@ const ViewProposal = props => {
     const memberData = loadedData.members;
     const proposalData = loadedData.proposals;
     return (
+      <React.Fragment>
       <div key={loadedData.name} style={{ paddingBottom: "200px" }}>
+        <AppBar position="static" style={{ backgroundColor: "#b01a1a" }}>
+        <Toolbar>
+          <Typography variant="h5" className={classes.title}>
+            Project Management System
+          </Typography>
+        </Toolbar>
+      </AppBar>
         <div
           style={{
             width: "90%",
@@ -120,6 +136,7 @@ const ViewProposal = props => {
             variant="h4"
             style={{
               textAlign: "left",
+              padding:"8px 00",
               paddingLeft: "30px",
               boxShadow:
                 "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
@@ -178,6 +195,7 @@ const ViewProposal = props => {
             variant="h4"
             style={{
               textAlign: "left",
+              padding:"8px 00",
               paddingLeft: "30px",
               boxShadow:
                 "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
@@ -339,6 +357,8 @@ const ViewProposal = props => {
           })}
         </div>
       </div>
+      <Footer/>
+      </React.Fragment>
     );
   } else return <LinearProgress />;
 };
