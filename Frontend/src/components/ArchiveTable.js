@@ -125,7 +125,7 @@ function Row(props) {
                 <Grid item xs={12}><b>Result Expected:</b>&nbsp;&nbsp;{project.result}</Grid>
                 <Grid item xs={12} sm={6}>
                  <br/>
-                 <Button variant="outlined" size="small" color="primary" onClick={() => { window.open(`${SERVER_URL}/${project.attachPrints}`);}}>
+                 <Button variant="outlined" size="small" color="primary" onClick={() => { window.open(`${project.attachPrints}`);}}>
                    
                    Show Uploaded Document
                  </Button>

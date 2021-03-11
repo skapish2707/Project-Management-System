@@ -344,7 +344,7 @@ const ViewProposal = props => {
                         variant="outlined"
                         color="primary"
                         onClick={() => {
-                          window.open(`${SERVER_URL}/${proposal.attachPrints}`);
+                          window.open(`${proposal.attachPrints}`);
                         }}
                       >
                         Show Uploaded Document
