@@ -378,7 +378,7 @@ async function approve(groupId, proposalId, staff) {
 		group.proposals[i].approval.admin = true;
 		} else if (staff == "hod") {
 		group.proposals[i].approval.hod = true;
-		updateArchive(groupId)
+		// updateArchive(groupId)
 		}
 	} else {
 		if (staff == "admin") {

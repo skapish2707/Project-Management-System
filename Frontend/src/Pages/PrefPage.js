@@ -455,7 +455,7 @@ class ControlledExpansionPanels extends React.Component {
                                   color="primary"
                                   onClick={() => {
                                     window.open(
-                                      `${SERVER_URL}/${proposal.attachPrints}`
+                                      `${proposal.attachPrints}`
                                     );
                                   }}
                                 >
