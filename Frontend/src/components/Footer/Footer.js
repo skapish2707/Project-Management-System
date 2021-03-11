@@ -102,7 +102,7 @@ const Footer = () => {
           <Grid item xs={12} md={2}>
             <Grid container>
               <Grid item xs={12} className={classes.footer_images}>
-                <img src={somaiya_trust} />
+                <img src={somaiya_trust} alt="Somaiya Trust" />
               </Grid>
             </Grid>
           </Grid>

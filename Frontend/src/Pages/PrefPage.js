@@ -270,12 +270,9 @@ class ControlledExpansionPanels extends React.Component {
                 let implementation = group.implementation;
                 let report = group.report;
                 let members = group.members;
-                console.log(report);
-                console.log(implementation)
-                console.log(Presentations)
                 const handleCopyText = () => {
                   navigator.clipboard.writeText(
-                    `http://localhost:3000/viewProposal/${group.id}`
+                    window.location.origin+`/viewProposal/${group.id}`
                   );
                   this.shareDialogClose();
                 };
@@ -554,10 +551,9 @@ class ControlledExpansionPanels extends React.Component {
                                   Copy this Link to Share Proposals
                                   <br />
                                   <a
-                                    href={`http://localhost:3000/viewProposal/${group.id}`}
+                                    href={window.location.origin+`/viewProposal/${group.id}`}
                                     target="_blank"
-                                  >{`http://localhost:3000/viewProposal/
-                                    ${group.id}`}</a>
+                                  >{window.location.origin+`/viewProposal/${group.id}`}</a>
                                 </DialogContentText>
                               </DialogContent>
                               <DialogActions>

@@ -293,7 +293,7 @@ class HodPrefPage extends Component {
                 let Comments = group.comments;
                 const handleCopyText = () => {
                   navigator.clipboard.writeText(
-                    `http://localhost:3000/viewProposal/${group.id}`
+                    window.location.origin+`/viewProposal/${group.id}`
                   );
                   this.shareDialogClose();
                 };
@@ -562,10 +562,9 @@ class HodPrefPage extends Component {
                                   Copy this Link to Share Proposals
                                   <br />
                                   <a
-                                    href={`http://localhost:3000/viewProposal/${group.id}`}
+                                    href={window.location.origin+`/viewProposal/${group.id}`}
                                     target="_blank"
-                                  >{`http://localhost:3000/viewProposal/
-                                    ${group.id}`}</a>
+                                  >{window.location.origin+`/viewProposal/${group.id}`}</a>
                                 </DialogContentText>
                               </DialogContent>
                               <DialogActions>

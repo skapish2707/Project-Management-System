@@ -536,7 +536,10 @@ router.get("/excel", authenticateToken, async function (req, res) {
 	  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 	);
 	res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-	workbook = await dbm.excel(req.user.id);
+	if (req.user.type == "admin")
+			workbook = await dbm.excel(req.user.id);
+	else
+		workbook = await dbm.excel( req.user.admin )
 	await workbook.xlsx.write(res);
 	res.end();
   } catch (e) {
@@ -642,7 +645,10 @@ router.get("/submissionList", authenticateToken, async function (req, res) {
 	  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 	);
 	res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-	workbook = await dbm.submissionList(req.user.id);
+	if (req.user.type == "admin")
+			workbook = await dbm.submissionList(req.user.id);
+	else
+		workbook = await dbm.submissionList( req.user.admin )
 	await workbook.xlsx.write(res);
 	res.end();
   } catch (e) {
@@ -704,7 +710,7 @@ router.post("/genExcel",authenticateToken , async function(req,res){
 			// admin_id,f_acadYear,f_typeOfProject,f_category
 			workbook = await dbm.genExcel(req.user.id, req.body.f_acadYear, req.body.f_typeOfProject, req.body.f_category );
 		else
-			workbook = await dbm.genExcel( req.user.admin )
+			workbook = await dbm.genExcel( req.user.admin, req.body.f_acadYear, req.body.f_typeOfProject, req.body.f_category )
 
 		await workbook.xlsx.write(res) ;
 		res.end();
