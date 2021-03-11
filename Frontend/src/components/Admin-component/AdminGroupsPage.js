@@ -915,7 +915,7 @@ class AdminGroupsPage extends Component {
                                                 color="primary"
                                                 onClick={() => {
                                                   window.open(
-                                                    `${SERVER_URL}/${proposal.attachPrints}`
+                                                    `${proposal.attachPrints}`
                                                   );
                                                 }}
                                               >
@@ -942,7 +942,7 @@ class AdminGroupsPage extends Component {
                             </AccordionDetails>
                           </Accordion>
 
-                          {/* PRESENTATION ACCORDION */}
+                          {/* PRESENTATION ACCORDION 
                           <Accordion className={classes.accorStyle}>
                             <AccordionSummary
                               expandIcon={<ExpandMoreIcon />}
@@ -1023,7 +1023,7 @@ class AdminGroupsPage extends Component {
                                 })}
                               </div>
                             </AccordionDetails>
-                          </Accordion>
+                          </Accordion> */}
                         </div>
                       </React.Fragment>
                     </AccordionDetails>
