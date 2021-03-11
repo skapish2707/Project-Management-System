@@ -125,7 +125,6 @@ class AdminGuidePage extends Component {
       }
     })
       .then(res => {
-        console.log("Hod deleted!!!!");
         dHodId = null;
         window.location.reload(false);
       })
@@ -179,7 +178,6 @@ class AdminGuidePage extends Component {
         }
       })
         .then(res => {
-          console.log("HOD Assigned Successfully!!!!!");
           this.setState({
             hodName: "",
             hodEmail: "",
@@ -232,7 +230,6 @@ class AdminGuidePage extends Component {
         }
       })
         .then(res => {
-          console.log("submitted");
           this.setState({
             Loading: false,
             guideName: "",
@@ -288,7 +285,6 @@ class AdminGuidePage extends Component {
       }
     })
       .then(res => {
-        console.log("guide deleted!!!!");
         dguideEmail = null;
         dguideId = null;
         dguideName = null;
