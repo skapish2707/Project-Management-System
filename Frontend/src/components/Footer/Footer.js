@@ -53,6 +53,10 @@ const Footer = () => {
       <br />
       <br />
       <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <footer>
         <Grid container className={classes.root}>
           <Grid item xs={12} md={2}>

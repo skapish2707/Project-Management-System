@@ -45,7 +45,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   KeyboardDatePicker,
-  MuiPickersUtilsProvider
+  MuiPickersUtilsProvider,
+  DatePicker,
+  TimePicker,
+  DateTimePicker
 } from "@material-ui/pickers";
 import Footer from "../Footer/Footer";
 
@@ -159,7 +162,7 @@ class GuidePrefPage extends Component {
       openSuccess: false,
       openFailure: false,
       scheduleLoading: false,
-      dateTime: "",
+      dateTime: new Date(),
 
       weeklyLogMsg: "",
       weeklyLogDate: date,
@@ -584,6 +587,7 @@ class GuidePrefPage extends Component {
   };
 
   sche_pres = (e, id) => {
+    e.preventDefault()
     let dt = new Date(this.state.dateTime);
     this.setState({ scheduleLoading: true });
     axios({
@@ -601,6 +605,7 @@ class GuidePrefPage extends Component {
     })
       .then(res => {
         this.setState({ scheduleLoading: false });
+        window.location.reload()
       })
 
       .catch(function (err) {
@@ -609,8 +614,8 @@ class GuidePrefPage extends Component {
       });
   };
 
-  handleDateTimeChange = e => {
-    this.setState({ dateTime: e.target.value });
+  handleDateTimeChange = dt => {
+    this.setState({ dateTime: dt });
   };
 
   commentHandler = e => {
@@ -1238,7 +1243,7 @@ class GuidePrefPage extends Component {
                               this.sche_pres(e, Gid);
                             }}
                           >
-                            <Grid container>
+                            <Grid container style={{margin: "5px 15px 10px 0px", padding: "0px"}}>
                               <Grid item xs={3}></Grid>
                               <Grid
                                 item
@@ -1248,7 +1253,7 @@ class GuidePrefPage extends Component {
                                   backgroundColor: "#fff"
                                 }}
                               >
-                                <TextField
+                                {/* <TextField
                                   id="datetime-local"
                                   label="Next Presentation"
                                   type="datetime-local"
@@ -1262,7 +1267,16 @@ class GuidePrefPage extends Component {
                                     padding: "5px 20px",
                                     borderRadius: "2px"
                                   }}
-                                />
+                                /> */}
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                  <DateTimePicker
+                                  required
+                                  variant="inline"
+                                  inputVariant="outlined"
+                                  InputAdornmentProps={{ position: "start" }}
+                                  style={{ margin: "10px" }}
+                                  value={this.state.dateTime} onChange={this.handleDateTimeChange} />
+                                </MuiPickersUtilsProvider>
                               </Grid>
                               <Grid
                                 item

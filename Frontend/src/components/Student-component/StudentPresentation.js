@@ -52,12 +52,14 @@ const StudentPresentation = (props) => {
                                     <TableRow>
                                     <TableCell align="center">No.</TableCell>
                                     <TableCell align="center">Date</TableCell>
-                                    <TableCell align="center" style={{padding:"8px"}}>Roll No</TableCell>
+                                    <TableCell align="center">Time</TableCell>
+                                    {/* <TableCell align="center" style={{padding:"8px"}}>Roll No</TableCell>
                                     <TableCell align="center">Organisation</TableCell>
                                     <TableCell align="center">Subject Knowledge</TableCell>
                                     <TableCell align="center">Effectiveness of delivery</TableCell>
                                     <TableCell align="center">Time Management</TableCell>
-                                    <TableCell align="center">Marks</TableCell>
+                                    <TableCell align="center">Marks</TableCell> */}
+                                    <TableCell align="center">Status</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -65,7 +67,21 @@ const StudentPresentation = (props) => {
                                     <TableRow key={Presentation._id}>
                                         <TableCell align="center">{index+1}</TableCell>
                                         <TableCell align="center">{new Date(Presentation.scheduled_date).getDate()}/{new Date(Presentation.scheduled_date).getMonth()+1}/{new Date(Presentation.scheduled_date).getFullYear()}</TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">{Presentation.scheduled_date.split("T")[1].split(".")[0]}</TableCell>
+                                        {Presentation.marks.length === 0 ? (
+                                            <React.Fragment>
+                                                <TableCell align="center">
+                                                    <Typography color="error">Presentation not conducted</Typography>
+                                                </TableCell>
+                                            </React.Fragment>
+                                        ) : (
+                                            <React.Fragment>
+                                                <TableCell align="center"> 
+                                                    <Typography style={{color:"green"}}>Presentation conducted</Typography>
+                                                </TableCell>
+                                            </React.Fragment>
+                                        )}
+                                        {/* <TableCell>
                                             <TableContainer>
                                                     <Table>
                                                         <TableBody>
@@ -170,7 +186,7 @@ const StudentPresentation = (props) => {
                                                     ))}
                                                 </TableCell>
                                             </React.Fragment>
-                                        )}
+                                        )} */}
                                     </TableRow>
                                     ))}
                                 </TableBody>

@@ -123,9 +123,10 @@ async function addToDatabase(
 		admin_name: "by " + admin.name[0].toUpperCase() + admin.name.substring(1),
 		email: email,
 		password: password,
-		name: name
+		name: name,
+		link: process.env.HOST
 	};
-	else data = { admin_name: "", email: email, password: password, name: name };
+	else data = { admin_name: "", email: email, password: password, name: name, link: process.env.HOST  };
 	if (process.env.NODE_ENV == "production") sendmail(data, "registeration");
 	else saveLocallyForDevelopment(email, password);
 	const salt = bcrypt.genSaltSync(10);
@@ -429,7 +430,7 @@ async function forgetPassword(email) {
 		link: process.env.HOST + "/resetPassword/" + token
 	};
 	if (process.env.NODE_ENV == "production") sendmail(data, "forgetPassword");
-	else console.log(data);
+	else console.log("data");
 	return "Details to reset password has been mailed to this email please check your inbox";
 	}
 }
