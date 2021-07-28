@@ -865,9 +865,9 @@ async function deletearchive(admin_id, archive_id) {
 	}
 }
 
-async function weeklyMeetLog(gid, date, remark) {
+async function weeklyMeetLog(gid, date, weeklyMeetLog) {
 	grp = await Group.findById(gid);
-	grp.weeklyMeetLog.push({ scheduled_date: date, remark: remark });
+	grp.weeklyMeetLog.push(weeklyMeetLog);
 	await grp.save();
 }
 

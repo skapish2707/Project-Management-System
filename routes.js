@@ -553,15 +553,14 @@ router.post("/weeklyMeetLog", authenticateToken, async function (req, res) {
   if (req.user.type != "guide" && req.user.type != "hod")
 	return res.sendStatus(401);
   try {
-	await dbm.weeklyMeetLog(
-	  req.body.gid.trim(),
-	  req.body.date.trim(),
-	  req.body.remark.trim()
-	);
-	return res.sendStatus(200);
+		await dbm.weeklyMeetLog(
+		  req.body.gid.trim(),
+		  req.body.weeklyMeetLog
+		);
+		return res.sendStatus(200);
   } catch (e) {
-	console.log(e);
-	res.sendStatus(500);
+		console.log(e);
+		res.sendStatus(500);
   }
 });
 
