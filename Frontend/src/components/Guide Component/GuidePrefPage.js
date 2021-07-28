@@ -74,6 +74,7 @@ var date =
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+let logDate = date
 
 let repLength = 0;
 let impLength = 0;
@@ -163,16 +164,16 @@ class GuidePrefPage extends Component {
       openFailure: false,
       scheduleLoading: false,
       dateTime: new Date(),
-
-      weeklyLogMsg: "",
-      weeklyLogDate: date,
+      weeklyLog:{
+        weeklyLogData: [
+          { logMsg:"", taskMarks: "", levelMarks: "", workMarks: "", puncMarks: "" },
+          { logMsg:"", taskMarks: "", levelMarks: "", workMarks: "", puncMarks: "" },
+          { logMsg:"", taskMarks: "", levelMarks: "", workMarks: "", puncMarks: "" }
+        ],
+        weeklyLogDate: date,
+      },
       presentationMarks: [
-        {
-          orgMarks: "",
-          subKnowMarks: "",
-          EODMarks: "",
-          timeMarks: ""
-        },
+        { orgMarks: "", subKnowMarks: "", EODMarks: "", timeMarks: "" },
         { orgMarks: "", subKnowMarks: "", EODMarks: "", timeMarks: "" },
         { orgMarks: "", subKnowMarks: "", EODMarks: "", timeMarks: "" }
       ],
@@ -350,7 +351,6 @@ class GuidePrefPage extends Component {
     for (var i = 0; i < mem.length; i++) {
       RepMarks.push(this.state.reportMarks[i]);
       Object.values(this.state.reportMarks[i]).forEach(element => {
-        console.log(element);
         if (element === "" || parseInt(element) > 3 || parseInt(element) < 0) {
           flag = false;
         }
@@ -385,7 +385,53 @@ class GuidePrefPage extends Component {
         });
     }
   };
-
+  //WEEKLY LOG
+  weeklyMsgHandler = (e,index) => {
+    let message = e.target.value;
+    let weeklylog = [...this.state.weeklyLog.weeklyLogData];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        weeklylog[i].logMsg = message;
+        this.setState({ weeklyLog: {weeklyLogData: weeklylog, weeklyLogDate:logDate }});
+      }
+    }
+  };
+  handleTaskComp= (e, index) => {
+    let weeklylog = [...this.state.weeklyLog.weeklyLogData];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        weeklylog[i].taskMarks = e.target.value;
+        this.setState({ weeklyLog: {weeklyLogData: weeklylog, weeklyLogDate:logDate }});
+      }
+    }
+  };
+  handleLevelPrep= (e, index) => {
+    let weeklylog = [...this.state.weeklyLog.weeklyLogData];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        weeklylog[i].levelMarks = e.target.value;
+        this.setState({ weeklyLog: {weeklyLogData: weeklylog, weeklyLogDate:logDate }});
+      }
+    }
+  };
+  handleWorkTeam = (e, index) => {
+    let weeklylog = [...this.state.weeklyLog.weeklyLogData];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        weeklylog[i].workMarks = e.target.value;
+        this.setState({ weeklyLog: {weeklyLogData: weeklylog, weeklyLogDate:logDate }});
+      }
+    }
+  };
+  handlePuncAndReg= (e, index) => {
+    let weeklylog = [...this.state.weeklyLog.weeklyLogData];
+    for (var i = 0; i < 3; i++) {
+      if (i === index) {
+        weeklylog[i].puncMarks = e.target.value;
+        this.setState({ weeklyLog: {weeklyLogData: weeklylog, weeklyLogDate:logDate }});
+      }
+    }
+  };
   handleDeleteReport = (e, id) => {
     axios({
       method: "post",
@@ -422,13 +468,7 @@ class GuidePrefPage extends Component {
       });
   };
 
-  //WEEKLY LOG
-  weeklyMsgHandler = e => {
-    let message = e.target.value;
-    this.setState({
-      weeklyLogMsg: message
-    });
-  };
+  
 
   appendLeadingZeroes = n => {
     if (n <= 9) {
@@ -438,22 +478,43 @@ class GuidePrefPage extends Component {
   };
   handleweelyDateChange = date => {
     let current_datetime = date;
+    let WeeklyLog = this.state.weeklyLog
     let formatted_date =
       current_datetime.getFullYear() +
       "-" +
       this.appendLeadingZeroes(current_datetime.getMonth() + 1) +
       "-" +
       this.appendLeadingZeroes(current_datetime.getDate());
+    logDate = formatted_date
+    WeeklyLog.weeklyLogDate = formatted_date
     this.setState({
-      weeklyLogDate: formatted_date
+      weeklyLog: WeeklyLog
     });
   };
 
-  sendLog = gid => {
-    const { weeklyLogDate, weeklyLogMsg } = this.state;
-    if (weeklyLogMsg === "") {
-      alert("Please enter a remark");
+  sendLog = (gid,members) => {
+    const {weeklyLog} = this.state;
+    let flag = true
+    weeklyLog.weeklyLogData.map((element)=>{
+      if(element.logMsg === ""){
+        flag = false
+      }
+      else if(
+        parseInt(element.levelMarks) > 5 || parseInt(element.levelMarks) < 0 || element.levelMarks === "" ||
+        parseInt(element.puncMarks) > 5 || parseInt(element.puncMarks) < 0 || element.puncMarks === "" ||
+        parseInt(element.taskMarks) > 5 || parseInt(element.taskMarks) < 0 || element.workMarks === "" ||
+        parseInt(element.workMarks) > 5 || parseInt(element.workMarks) < 0 || element.taskMarks === ""
+      )
+        flag = false;
+    })
+    if (flag === false) {
+      alert("Please check entered values");
     } else {
+      let WeeklyLog = this.state.weeklyLog
+      for (var i = 0; i < members.length; i++) {
+        WeeklyLog.weeklyLogData[i].rollno = parseInt(members[i].rollno)
+      }
+      console.log(WeeklyLog)
       axios({
         method: "post",
         url: SERVER_URL + "/weeklyMeetLog",
@@ -461,8 +522,7 @@ class GuidePrefPage extends Component {
         withCredentials: true,
         data: qs.stringify({
           gid: gid,
-          date: weeklyLogDate,
-          remark: weeklyLogMsg
+          weeklyMeetLog: WeeklyLog
         }),
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -470,12 +530,18 @@ class GuidePrefPage extends Component {
         }
       })
         .then(res => {
-          window.location.reload();
           this.setState({
-            weeklyLogMsg: ""
+            weeklyLog: {
+              weeklyLogData: [
+                { logMsg:"", taskMarks: "", levelMarks: "", workMarks: "", puncMarks: "" },
+                { logMsg:"", taskMarks: "", levelMarks: "", workMarks: "", puncMarks: "" },
+                { logMsg:"", taskMarks: "", levelMarks: "", workMarks: "", puncMarks: "" }
+              ],
+              weeklyLogDate: date,
+            }      
           });
+          window.location.reload();
         })
-
         .catch(err => {
           console.log(err);
         });
@@ -2412,7 +2478,7 @@ class GuidePrefPage extends Component {
                         <Grid
                           item
                           xs={12}
-                          sm={3}
+                          sm={12}
                           style={{
                             textAlign: "left",
                             margin: "20px 0px 0px 0px"
@@ -2425,7 +2491,7 @@ class GuidePrefPage extends Component {
                         <Grid
                           item
                           xs={12}
-                          sm={8}
+                          sm={12}
                           style={{
                             backgroundColor: "#fff",
                             width: "100%",
@@ -2440,26 +2506,16 @@ class GuidePrefPage extends Component {
                                 variant="inline"
                                 inputVariant="outlined"
                                 format="yyyy/MM/dd"
-                                value={this.state.weeklyLogDate}
+                                value={this.state.weeklyLog.weeklyLogDate}
                                 InputAdornmentProps={{ position: "start" }}
                                 style={{ margin: "10px" }}
                                 onChange={this.handleweelyDateChange}
                               />
                             </MuiPickersUtilsProvider>
-                            <TextField
-                              type="text"
-                              id="logMsg"
-                              name="logMsg"
-                              label="Add log remark"
-                              variant="outlined"
-                              value={this.state.weeklyLogMsg}
-                              style={{ margin: "10px" }}
-                              onChange={this.weeklyMsgHandler}
-                            />
                             <Button
                               variant="contained"
                               color="primary"
-                              onClick={() => this.sendLog(Gid)}
+                              onClick={() => this.sendLog(Gid, members)}
                               style={{
                                 margin: "20px ",
                                 marginLeft: "50px"
@@ -2467,6 +2523,131 @@ class GuidePrefPage extends Component {
                             >
                               Add Log
                             </Button>
+                            <ThemeProvider theme={theme}>
+                                <TableContainer
+                                  style={{ backgroundColor: "#fff" }}
+                                  className={classes.tableContainer}
+                                  component={Paper}
+                                >
+                                  <Table
+                                    className={classes.table}
+                                    size="small"
+                                    aria-label="a dense table"
+                                  >
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell align="center">
+                                          Roll-No.
+                                        </TableCell>
+                                        <TableCell align="center" >
+                                          Remark
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Task Completion
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Level of preparation
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Working within a team
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          Punctuality and Regularity
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {members.map((member, index) => (
+                                        <TableRow key={member._id}>
+                                          <TableCell align="center">
+                                            {member.rollno}
+                                          </TableCell>
+                                          <TableCell align = "center" style={{width:"35%"}}>
+                                            <TextField
+                                              type="text"
+                                              id="logMsg"
+                                              name="logMsg"
+                                              label = "Remark"
+                                              variant="outlined"
+                                              size="small"
+                                              onChange={(e)=>{this.weeklyMsgHandler(e,index)}}
+                                              required
+                                              style={{width:"100%"}}
+                                            />
+                                          </TableCell> 
+                                          <TableCell align="center">
+                                            <TextField
+                                              type="number"
+                                              id="Task_Completion"
+                                              name="Task_Completion"
+                                              label="(5)"
+                                              variant="outlined"
+                                              size="small"
+                                              onChange={e => {
+                                                this.handleTaskComp(
+                                                  e,
+                                                  index
+                                                );
+                                              }}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <TextField
+                                              type="number"
+                                              id="Level_of_Prep"
+                                              name="Level_of_Prep"
+                                              label="(5)"
+                                              variant="outlined"
+                                              size="small"
+                                              onChange={e => {
+                                                this.handleLevelPrep(
+                                                  e,
+                                                  index
+                                                );
+                                              }}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <TextField
+                                              type="number"
+                                              id="Work_Team"
+                                              name="Work_Team"
+                                              label="(5)"
+                                              variant="outlined"
+                                              size="small"
+                                              onChange={e => {
+                                                this.handleWorkTeam(
+                                                  e,
+                                                  index
+                                                );
+                                              }}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <TextField
+                                              type="number"
+                                              id="Punc_and_Reg"
+                                              name="Punc_and_Reg"
+                                              label="(5)"
+                                              variant="outlined"
+                                              size="small"
+                                              onChange={e => {this.handlePuncAndReg(e,index)}}
+                                              // style={{ width: "40%" }}
+                                              required
+                                            />
+                                          </TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </ThemeProvider>
                           </form>
                         </Grid>
                         <Grid item xs={12} style={{ margin: "20px 0px" }}>
@@ -2485,7 +2666,7 @@ class GuidePrefPage extends Component {
                               </Grid>
                             </Grid>
                           </Card>
-                          {weeklyLog ? (
+                          {/* {weeklyLog ? (
                             weeklyLog.map(log => {
                               let wid = log._id;
                               return (
@@ -2522,7 +2703,7 @@ class GuidePrefPage extends Component {
                             })
                           ) : (
                             <Typography variant="h6">No logs Yet</Typography>
-                          )}
+                          )} */}
                         </Grid>
                       </Grid>
                     </Card>

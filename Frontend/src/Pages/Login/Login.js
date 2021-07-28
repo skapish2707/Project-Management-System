@@ -98,7 +98,22 @@ const useStyles = theme => ({
   pmsTitle:{
     color:"#fff",
     marginTop:"25px",
-    fontSize:"45px",
+    fontSize:"35px",
+    fontWeight:"600",
+    [theme.breakpoints.down("sm")]: {
+      display:"none",
+    },
+    [theme.breakpoints.down("1280")]: {
+      fontSize: "40px"
+    },
+    [theme.breakpoints.down("1040")]: {
+      fontSize: "35px"
+    }
+  },
+  pmsTitle2:{
+    color:"#fff",
+    marginTop:"15px",
+    fontSize:"30px",
     fontWeight:"600",
     [theme.breakpoints.down("sm")]: {
       display:"none",
@@ -290,7 +305,8 @@ class Login extends Component {
         <div className={classes.leftpaper}>
           <Grid container style={{height: "100%"}}>
             <Grid item xs={false} md={7} style={{backgroundImage:`url(${BG})`,backgroundSize: "cover"}}>
-            <Typography className={classes.pmsTitle}>Project Management System</Typography>
+              <Typography className={classes.pmsTitle}><b>KJ Somaiya Institute of Engineering and Information Technology</b></Typography>
+              <Typography className={classes.pmsTitle2}>Project Management System</Typography>
             </Grid>
             <Grid item xs={12} md={5}>
               <Grid container style={{margin:"10px 0px"}}>
@@ -369,11 +385,8 @@ class Login extends Component {
               <br />
               <br />
               <Grid container>
-                <Grid item xs={6}>
-                  <Typography style={{marginLeft:"10px"}}><b>KJ Somaiya Institute of Engineering and Information Technology</b></Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <img src={trust} style={{marginLeft:"40%", minWidth:"70px", width:"20%"}} />
+                <Grid item xs={12} style={{display:"flex", justifyContent:"center"}}>
+                  <img src={trust} style={{minWidth:"70px", width:"20%"}} />
                 </Grid>
               </Grid>
             </Grid>
