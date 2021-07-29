@@ -27,12 +27,13 @@ mongoose.connect(
 		console.log("Connected to database");
 		// Group.find({}, (err,data)=>{
 		//   data.forEach( (grp)=>{
-		//     grp.addedToArchive = false;
-		//     grp.save( (err)=>{
-		//       console.log(err)
-		//     } )
-		//   } )
+		//     	console.log(grp.weeklyMeetLog)
+		//     	// grp.weeklyMeetLog = []
+		//     	// grp.save(function(err){
+		//     	// 	if (err) throw err
+		//     	// })
 		// } )
+		// })
 		// User.find({$and: [ {type:{$ne:"admin"}} , {type:{$ne:"yami"}} ] }  , (err,data)=>{
 		//   data.forEach( (u)=>{
 		//     console.log(u.email , u.type)
@@ -42,8 +43,7 @@ mongoose.connect(
 		//   console.log(err)
 		// })
 	}
-	}
-);
+});
 
 function makePassword(length) {
 	var result = "";
@@ -712,16 +712,15 @@ async function submissionList(admin_id) {
 	members_hash = {}
 	grp.members.forEach( (mem)=>{
 		members_hash[mem.rollno] = {
-		rollno: mem.rollno,
-		name: mem.name,
-		report: 0,
-		presentation: 0,
-		implementation: 0,
-		attendance: Math.round((grp.weeklyMeetLog.length / 13) * 10),
-		total: 0
+			rollno: mem.rollno,
+			name: mem.name,
+			report: 0,
+			presentation: 0,
+			implementation: 0,
+			attendance: 0,
+			total: 0
 		}
 	} )
-
 	grp.report.forEach( (rep)=>{
 		members_hash[rep.rollno ].report = rep.orgAndWriting + rep.enggTheoryAnaly + rep.biblogrpahy + rep.spellAndGrammar + rep.diagrams
 	} )
@@ -745,7 +744,15 @@ async function submissionList(admin_id) {
 	//   grp.implementation.teamwork +
 	//   grp.implementation.pmf;
 
-	// attendance = Math.round((grp.weeklyMeetLog.length / 13) * 10);
+	grp.weeklyMeetLog.forEach( wml =>{
+		wml.weeklyLogData.forEach(w =>{
+			members_hash[w.rollno].attendance += (w.taskMarks+w.levelMarks+w.workMarks+w.puncMarks)
+		})
+	} )
+	Object.keys(members_hash).forEach( m => {
+		members_hash[m].attendance =  Math.round(members_hash[m].attendance/26)
+	})
+
 
 	grp.presentation.forEach(function (pre) {
 		pre.marks.forEach( (p)=>{
